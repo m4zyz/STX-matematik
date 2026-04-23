@@ -1,0 +1,242 @@
+:root {
+    --bg-color: #f4f7f6;
+    --text-color: #333;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: #ecf0f1;
+    --primary-color: #3498db;
+    --hover-bg: #34495e;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    display: flex;
+    background-color: var(--bg-color);
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    height: 100vh;
+    position: fixed;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 1.2rem;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--hover-bg);
+}
+
+/* Knappen til hvert niveau */
+.level-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--sidebar-text);
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.level-btn:hover {
+    background-color: var(--hover-bg);
+}
+
+.arrow {
+    font-size: 0.8rem;
+    transition: transform 0.3s;
+}
+
+/* Submenu - skjult som standard */
+.submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none; /* Skjuler emnerne */
+    background-color: #1a252f;
+}
+
+.submenu li a {
+    display: block;
+    padding: 10px 35px;
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.submenu li a:hover {
+    color: var(--primary-color);
+    background-color: #243342;
+}
+
+/* Når menuen er aktiv/åben */
+.level-container.active .submenu {
+    display: block;
+}
+
+.level-container.active .arrow {
+    transform: rotate(90deg); /* Drejer pilen når den er åben */
+}
+
+/* Indhold styling */
+.content {
+    margin-left: 260px;
+    padding: 40px;
+    width: calc(100% - 260px);
+    max-width: 900px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-left: 5px solid #bdc3c7;
+}
+
+.subtitle { color: #7f8c8d; margin-bottom: 30px; }
+
+/* Footer Styling */
+.site-footer {
+    margin-top: 60px; /* Giver god luft ned til footeren fra sidste note */
+    padding-top: 30px;
+    border-top: 1px solid #bdc3c7;
+    color: #7f8c8d;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.site-footer p {
+    margin: 5px 0;
+}
+
+/* Gør forbeholdet (disclaimer) lidt mere diskret */
+.site-footer .disclaimer {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: #95a5a6;
+    margin-bottom: 15px;
+}
+
+/* Links i bunden */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 25px; /* Skaber mellemrum mellem links */
+}
+
+.footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: var(--sidebar-bg);
+    text-decoration: underline;
+}
+
+pdf-info {
+    background-color: #e8f4fd;
+    border-left: 5px solid var(--primary-color);
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 5px;
+}
+
+.pdf-info h3 {
+    margin-top: 0;
+    color: #2980b9;
+    border-bottom: none;
+}
+
+.print-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.print-btn:hover {
+    background-color: #2980b9;
+}
+
+/* --- MAGIEN TIL PDF-DOWNLOAD --- */
+/* Disse regler gælder KUN når siden printes eller gemmes som PDF */
+@media print {
+    /* Skjul sidemenuen og print-knappen i PDF'en */
+    .sidebar, .print-btn, .level-btn {
+        display: none !important;
+    }
+
+    /* Gør hovedindholdet 100% bredt (fjern margin fra sidemenuen) */
+    .content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 0 !important;
+        max-width: none !important;
+    }
+
+    /* Gør baggrunden helt hvid for at spare på blæk og gøre det pænere */
+    body {
+        background-color: white !important;
+    }
+
+    /* Sørg for at bokse ikke knækker midt i overgangen mellem to sider i PDF'en */
+    .card {
+        page-break-inside: avoid;
+        border: 1px solid #ccc; /* Tilføjer en tynd kant til PDF'en for struktur */
+        box-shadow: none; /* Fjerner skygger i PDF'en */
+    }
+}
+
+/* Gør "Tilbage til forsiden" til en flot knap */
+.home-link {
+    display: block;
+    text-align: center;
+    background-color: #34495e; /* Mørk baggrundsfarve */
+    color: white !important;
+    padding: 12px;
+    margin: 20px;
+    border-radius: 5px;
+    text-decoration: none !important;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.home-link:hover {
+    background-color: var(--primary-color); /* Bliver lyseblå når musen holdes over */
+    transform: scale(1.02); /* Bliver en lille smule større */
+}
+
+
+/* --- Fremhæv den aktive side i menuen --- */
+.submenu li a.current-page {
+    color: var(--primary-color);
+    background-color: #243342;
+    font-weight: bold;
+    border-left: 3px solid var(--primary-color);
+    /* Vi trækker 3px fra den originale padding (35px), så teksten ikke rykker sig pga. borderen */
+    padding-left: 32px; 
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STX Matematik Noter</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <h2>STX Matematik</h2>
+        
+        <div class="level-container" id="menu-A">
+            <button class="level-btn">A-Niveau <span class="arrow">▶</span></button>
+            <ul class="submenu">
+                <li><a href="emner/A/integralregning.html">Integralregning</a></li>
+                <li><a href="emner/A/vektorer.html">Vektorer i rummet</a></li>
+            </ul>
+        </div>
+
+        <div class="level-container" id="menu-B">
+            <button class="level-btn">B-Niveau <span class="arrow">▶</span></button>
+            <ul class="submenu">
+                <li><a href="emner/B/andengradspolynomier.html">Andengradspolynomier</a></li>
+                <li><a href="emner/B/differentialregning.html">Differentialregning</a></li>
+            </ul>
+        </div>
+
+        <div class="level-container" id="menu-C">
+            <button class="level-btn">C-Niveau <span class="arrow">▶</span></button>
+            <ul class="submenu">
+                <li><a href="emner/C/lineaere-funktioner.html">Lineære funktioner</a></li>
+                <li><a href="emner/C/procentregning.html">Procentregning</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="content">
+        
+        <section id="forside" class="card">
+            <h2>Velkommen til STX Matematik</h2>
+            <p>Her finder du en komplet samling af teori, beviser og regneeksempler til matematik på STX (A, B og C-niveau).</p>
+            
+            <h3>Sådan bruger du siden</h3>
+            <ul>
+                <li>Brug <strong>menuen til venstre</strong> for at folde niveauerne ud og finde det emne, du søger.</li>
+                <li><strong>Grå bokse</strong> indeholder den generelle teori og formler.</li>
+                <li><strong>Grønne bokse</strong> viser konkrete regneeksempler trin-for-trin.</li>
+                <li><strong>Røde bokse</strong> gennemgår de matematiske beviser, du skal bruge til mundtlig eksamen.</li>
+            </ul>
+
+            <div class="pdf-info">
+                <h3>Vigtigt: Tag noterne med til eksamen!</h3>
+                <p>Da du ofte ikke har adgang til internettet under eksamen, er denne side bygget til, at du nemt kan downloade alle emner som PDF-filer.</p>
+                <p>Gå ind på det emne, du vil gemme, og tryk på knappen herunder (eller brug genvejen <code>Ctrl + P</code> / <code>Cmd + P</code>). Vælg derefter "Gem som PDF" som din printer.</p>
+                
+                <button class="print-btn" onclick="window.print()">Download siden som PDF</button>
+            </div>
+        </section>
+        
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <ul class="footer-links">
+                    <li><a href="#om">Om Siden</a></li>
+                    <li><a href="#kontakt">Kontakt</a></li>
+                    <li><a href="#kilder">Kilder & Links</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // 1. Sæt årstal i footeren
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    
+        // 2. Menu logik (Hukommelse for A, B og C)
+        document.querySelectorAll('.level-container').forEach(container => {
+            const menuId = container.id;
+            const btn = container.querySelector('.level-btn');
+    
+            container.classList.remove('active');
+    
+            const state = localStorage.getItem(menuId);
+            if (state === 'aaben') {
+                container.classList.add('active');
+            }
+    
+            btn.addEventListener('click', (e) => {
+                e.preventDefault(); 
+                const isActive = container.classList.toggle('active');
+                
+                if (isActive) {
+                    localStorage.setItem(menuId, 'aaben');
+                } else {
+                    localStorage.setItem(menuId, 'lukket');
+                }
+            });
+        });
+    
+        // --- NYT: 3. Fremhæv den side vi er på lige nu ---
+        // Hent navnet på den fil, vi kigger på (f.eks. "andengradspolynomier.html")
+        const currentPath = window.location.pathname;
+        const currentFile = currentPath.split('/').pop(); 
+    
+        // Gennemgå alle links i undermenuerne
+        document.querySelectorAll('.submenu a').forEach(link => {
+            const linkHref = link.getAttribute('href');
+            const linkFile = linkHref.split('/').pop(); // Henter filnavnet fra linket
+            
+            // Hvis linkets filnavn matcher den side vi er på, giv den klassen 'current-page'
+            if (linkFile === currentFile && currentFile !== '') {
+                link.classList.add('current-page');
+            }
+        });
+    </script>
+
+</body>
+</html>
