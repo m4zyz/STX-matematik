@@ -1,2 +1,2 @@
-Hjemmesiden er udviklet i samarbejde med AI, det er jeg ikke flov over at indrømme da jeg ikke selv kan finde ud af at kode i HTML og CSS, 
-men selve matematikken, beviserne og eksemplerne har jeg selv udregnet, bevist osv.
+Hjemmesiden er udviklet for STX gymnasie elever. På hjemmesiden finder man teori, beviser og eksempler på emner som man måder
+på matematik a,b,c niveau.
