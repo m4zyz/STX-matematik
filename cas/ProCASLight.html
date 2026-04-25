@@ -48,7 +48,7 @@
                 // 1. Hent rå værdi. Vi prøver både getValue og .value for at være sikre.
                 let rawInput = "";
                 try {
-                    rawInput = inputField.getValue('ascii-math');
+                    rawInput = inputField.getValue('latex');
                 } catch(e) {
                     rawInput = inputField.value;
                 }
@@ -80,7 +80,7 @@
                     } else {
                         // Kør Algebrite for funktioner
                         if (mode === 'diff') {
-                            result = Algebrite.run(`d(${clean})`);
+                            result = Algebrite.run(`d(${clean}, x)`);
                         } else {
                             result = Algebrite.run(`integral(${clean})`);
                         }
@@ -92,7 +92,7 @@
                     }
         
                     // 3. Flot visning via MathJax
-                    let finalLatex = Algebrite.run(`printlatex(${result})`).toString().replace(/"/g, '');
+                    let finalLatex = Algebrite.run(`latex(${result})`).toString().replace(/"/g, '');
                     if (mode === 'int') finalLatex += " + k";
         
                     resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
