@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formelsamling A-niveau - STX Matematik Noter</title>
+    <link rel="stylesheet" href="../../style.css">
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <section class="card">
+            <h2>Formelsamling - A-niveau</h2>
+            <p>Herunder finder du de relevante formelsamlinger for Matematik A-niveau. Du kan scrolle igennem dem her, og hvis din browser understøtter det, kan du bruge værktøjerne i toppen af PDF'en til at tegne og tage noter.</p>
+            
+            <hr style="margin: 30px 0; border: 1px solid #eee;">
+
+            <h3>1. Den officielle formelsamling</h3>
+            
+            <div style="width: 100%; height: 80vh; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 15px;">
+                <iframe src="formelsamlingA.pdf" width="100%" height="100%" style="border: none;">
+                    Din browser understøtter desværre ikke indlejrede PDF'er. <a href="formelsamlingA.pdf">Download PDF'en her i stedet</a>.
+                </iframe>
+            </div>
+            <br>
+            <a href="formelsamlingA.pdf" target="_blank" rel="noopener noreferrer" class="print-btn" style="text-decoration: none; display: inline-block;">Åbn Formelsamling 1 i ny fane</a>
+
+            <hr style="margin: 40px 0; border: 1px solid #eee;">
+
+            <h3>2. Ekstra formelsamling</h3>
+            <p>Her kan du læse den supplerende formelsamling.</p>
+
+            <div style="width: 100%; height: 80vh; border: 2px solid #ddd; border-radius: 8px; overflow: hidden; margin-top: 15px;">
+                <iframe src="formelsamlingA_ekstra.pdf" width="100%" height="100%" style="border: none;">
+                    Din browser understøtter desværre ikke indlejrede PDF'er. <a href="formelsamlingA_ekstra.pdf">Download PDF'en her i stedet</a>.
+                </iframe>
+            </div>
+            <br>
+            <a href="formelsamlingA_ekstra.pdf" target="_blank" rel="noopener noreferrer" class="print-btn" style="text-decoration: none; display: inline-block;">Åbn Formelsamling 2 i ny fane</a>
+
+        </section>
+        
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <ul class="footer-links">
+                    <li><a href="om.html">Om Siden</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="kilder.html">Kilder & Links</a></li>
+                    <li><a href="stoet.html">Støt mig</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

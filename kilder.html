@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kilder & Links - STX Matematik Noter</title>
+    <link rel="stylesheet" href="style.css">
+    <script>window.basePath = "";</script>
+    <script src="menu.js" defer></script>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <section class="card">
+            <h2>Kilder & Links</h2>
+            <p>Noterne tager udgangspunkt i det gældende pensum for Matematik A, B og C på STX. Udover disse noter findes der mange andre fantastiske ressourcer på nettet. Her er et par stykker:</p>
+            <ul>
+                <li><a href="https://uvm.dk/" target="_blank" rel="noopener noreferrer">Børne- og Undervisningsministeriet (UVM)</a> – For adgang til de officielle læreplaner og godkendte formelsamlinger.</li>
+                <li><a href="https://www.geogebra.org/" target="_blank" rel="noopener noreferrer">GeoGebra</a> – Gratis værktøj til funktioner, grafer og geometri.</li>
+                <li><a href="https://www.studieportalen.dk/" target="_blank" rel="noopener noreferrer">Studieportalen.dk</a> – Et stort forum, hvor du kan stille spørgsmål og få lektiehjælp.</li>
+            </ul>
+            <br>
+            <a href="index.html" class="print-btn" style="text-decoration: none; display: inline-block;">Gå tilbage til forsiden</a>
+        </section>
+        
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <ul class="footer-links">
+                    <li><a href="om.html">Om Siden</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="kilder.html">Kilder & Links</a></li>
+                    <li><a href="stoet.html">Støt mig</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

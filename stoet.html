@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Støt mig - STX Matematik Noter</title>
+    <link rel="stylesheet" href="style.css">
+    <script>window.basePath = "";</script>
+    <script src="menu.js" defer></script>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <section class="card">
+            <h2>Støt Projektet</h2>
+            <p>STX Matematik er 100% gratis at bruge og er bygget i min fritid med et ønske om at hjælpe andre gymnasieelever med at overleve matematikken.</p>
+            <p>Hvis siden har reddet din aflevering, hjulpet dig til en god karakter til eksamen, eller bare gjort hverdagen lidt nemmere, vil jeg sætte enormt stor pris på et lille bidrag. Det hjælper med at dække udgifterne til domæne, hosting og de mange timer, der lægges i at holde siden opdateret.</p>
+            
+            <hr style="margin: 30px 0; border: 1px solid #eee;">
+
+            <h3>Sådan kan du støtte:</h3>
+            
+            <p><strong>MobilePay:</strong><br>
+            Du kan sende et valgfrit beløb til mit MobilePay nummer: <strong>[Indsæt dit MobilePay nr. her]</strong> (Skriv gerne "STX" i kommentaren).</p>
+            
+            <p><strong>Buy Me a Coffee:</strong><br>
+            Du kan også støtte projektet ved at give en virtuel kop kaffe via knappen herunder:</p>
+            <a href="https://buymeacoffee.com/magnus314" target="_blank" rel="noopener noreferrer" class="print-btn" style="text-decoration: none; display: inline-block; background-color: #FFDD00; color: #000;">Giv en kop kaffe</a>
+
+            <hr style="margin: 30px 0; border: 1px solid #eee;">
+
+            <p>Tusind tak for din støtte – uanset om det er økonomisk eller blot ved at dele siden med dine klassekammerater!</p>
+            <br>
+            
+            <a href="index.html" onclick="lukAlleMenuer()" class="print-btn" style="text-decoration: none; display: inline-block;">Gå tilbage til forsiden</a>
+        </section>
+        
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <ul class="footer-links">
+                    <li><a href="om.html">Om Siden</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="kilder.html">Kilder & Links</a></li>
+                    <li><a href="stoet.html">Støt mig</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
