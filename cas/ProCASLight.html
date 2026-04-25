@@ -34,8 +34,11 @@
             </div>
         
             <div id="pro-result-box" style="display: none; background: #f9f9f9; border-left: 5px solid #3498db; padding: 20px; border-radius: 4px;">
-                <p style="margin: 0; color: #7f8c8d; font-size: 0.9rem;" id="result-label">Resultat:</p>
-                <div id="pro-result-display" style="font-size: 1.8rem; margin-top: 10px;"></div>
+                <p style="margin: 0 0 10px 0; color: #7f8c8d; font-size: 0.9rem;" id="result-label">Resultat:</p>
+                <math-field id="pro-result-display" 
+                    read-only 
+                    style="font-size: 1.8rem; width: 100%; border: none; background: transparent;">
+                </math-field>
             </div>
         </section>
         
@@ -79,36 +82,31 @@
         .replace(/ /g, '')
         .replace(/÷/g, '/');
 
-    try {
-        if (!clean || clean.trim() === "") throw new Error("Tomt felt");
+        try {
+    if (!clean || clean.trim() === "") throw new Error("Tomt felt");
 
-        let result;
+    let result;
 
-        if (mode === 'diff') {
-            result = nerdamer.diff(clean, 'x').toString();
-            label.textContent = "Afledt funktion f'(x):";
-        } else {
-            result = nerdamer.integrate(clean, 'x').toString();
-            label.textContent = "Ubestemt integral:";
-        }
-
-        // Konverter til LaTeX via nerdamer
-        let finalLatex = nerdamer(result).toTeX();
-        if (mode === 'int') finalLatex += " + k";
-
-        resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
-        resultBox.style.display = "block";
-
-        if (window.MathJax) MathJax.typesetPromise([resultDisplay]);
-
-    } catch (err) {
-        console.error("Fejl i CAS:", err, "| Input:", clean);
-        resultDisplay.innerHTML = `<p style="color:red;">
-            Kunne ikke beregne '<code>${clean}</code>'.<br>
-            <small>${err.message}</small>
-        </p>`;
-        resultBox.style.display = "block";
+    if (mode === 'diff') {
+        result = nerdamer.diff(clean, 'x').toString();
+        label.textContent = "Afledt funktion f'(x):";
+    } else {
+        result = nerdamer.integrate(clean, 'x').toString();
+        label.textContent = "Ubestemt integral:";
     }
+
+    let finalLatex = nerdamer(result).toTeX();
+    if (mode === 'int') finalLatex += " + k";
+
+    // ✅ Brug MathLive math-field til at rendere pænt
+    resultDisplay.setValue(finalLatex);
+    resultBox.style.display = "block";
+
+} catch (err) {
+    console.error("Fejl i CAS:", err, "| Input:", clean);
+    resultDisplay.setValue("\\text{Fejl: " + clean + "}");
+    resultBox.style.display = "block";
+}
 }
         </script>
     </main>
