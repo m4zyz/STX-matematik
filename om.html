@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Om Siden - STX Matematik Noter</title>
+    <link rel="stylesheet" href="style.css">
+    <script>window.basePath = "";</script>
+    <script src="menu.js" defer></script>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <section class="card">
+            <h2>Om Siden</h2>
+            <p>STX Matematik Noter er skabt med ét primært formål: at gøre matematikken mere overskuelig og tilgængelig for gymnasieelever. Uanset om du skal til mundtlig eksamen på A-niveau og mangler et specifikt bevis, eller du har brug for en genopfriskning af brøkregning på C-niveau, er målet at samle alt det nødvendige materiale ét sted.</p>
+            <p>Siden er designet til at være let at navigere i. Gennem brugen af farvekodede bokse adskilles den generelle teori hurtigt fra konkrete regneeksempler og dybdegående beviser. Husk, at siden fungerer bedst som et supplement til din egen undervisning og dine lærebøger.</p>
+            <br>
+            <a href="index.html" class="print-btn" style="text-decoration: none; display: inline-block;">Gå tilbage til forsiden</a>
+        </section>
+        
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <ul class="footer-links">
+                    <li><a href="om.html">Om Siden</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="kilder.html">Kilder & Links</a></li>
+                    <li><a href="stoet.html">Støt mig</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

@@ -3,40 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STX Matematik Noter</title>
+    <title>STX Matematik</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+        window.basePath = ""; // "Vi er allerede i hovedmappen!"
+    </script>
+    <script src="menu.js" defer></script>
 </head>
 <body>
 
-    <nav class="sidebar">
-        <h2>STX Matematik</h2>
-        
-        <div class="level-container" id="menu-A">
-            <button class="level-btn">A-Niveau <span class="arrow">▶</span></button>
-            <ul class="submenu">
-                <li><a href="emner/A/integralregning.html">Integralregning</a></li>
-                <li><a href="emner/A/vektorer.html">Vektorer i rummet</a></li>
-            </ul>
-        </div>
-
-        <div class="level-container" id="menu-B">
-            <button class="level-btn">B-Niveau <span class="arrow">▶</span></button>
-            <ul class="submenu">
-                <li><a href="emner/B/andengradspolynomier.html">Andengradspolynomier</a></li>
-                <li><a href="emner/B/differentialregning.html">Differentialregning</a></li>
-            </ul>
-        </div>
-
-        <div class="level-container" id="menu-C">
-            <button class="level-btn">C-Niveau <span class="arrow">▶</span></button>
-            <ul class="submenu">
-                <li><a href="emner/C/lineaere-funktioner.html">Lineære funktioner</a></li>
-                <li><a href="emner/C/procentregning.html">Procentregning</a></li>
-            </ul>
-        </div>
-    </nav>
+    <nav id="sidebar-menu" class="sidebar"></nav>
 
     <main class="content">
         
@@ -66,9 +45,10 @@
                 <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
                 <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
                 <ul class="footer-links">
-                    <li><a href="#om">Om Siden</a></li>
-                    <li><a href="#kontakt">Kontakt</a></li>
-                    <li><a href="#kilder">Kilder & Links</a></li>
+                    <li><a href="om.html">Om Siden</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="kilder.html">Kilder & Links</a></li>
+                    <li><a href="stoet.html">Støt mig</a></li>
                 </ul>
             </div>
         </footer>
@@ -79,46 +59,9 @@
         const yearEl = document.getElementById('currentYear');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
     
-        // 2. Menu logik (Hukommelse for A, B og C)
-        document.querySelectorAll('.level-container').forEach(container => {
-            const menuId = container.id;
-            const btn = container.querySelector('.level-btn');
-    
-            container.classList.remove('active');
-    
-            const state = localStorage.getItem(menuId);
-            if (state === 'aaben') {
-                container.classList.add('active');
-            }
-    
-            btn.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                const isActive = container.classList.toggle('active');
-                
-                if (isActive) {
-                    localStorage.setItem(menuId, 'aaben');
-                } else {
-                    localStorage.setItem(menuId, 'lukket');
-                }
-            });
-        });
-    
-        // --- NYT: 3. Fremhæv den side vi er på lige nu ---
-        // Hent navnet på den fil, vi kigger på (f.eks. "andengradspolynomier.html")
-        const currentPath = window.location.pathname;
-        const currentFile = currentPath.split('/').pop(); 
-    
-        // Gennemgå alle links i undermenuerne
-        document.querySelectorAll('.submenu a').forEach(link => {
-            const linkHref = link.getAttribute('href');
-            const linkFile = linkHref.split('/').pop(); // Henter filnavnet fra linket
-            
-            // Hvis linkets filnavn matcher den side vi er på, giv den klassen 'current-page'
-            if (linkFile === currentFile && currentFile !== '') {
-                link.classList.add('current-page');
-            }
-        });
+ 
     </script>
+
 
 </body>
 </html>

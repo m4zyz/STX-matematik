@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - STX Matematik Noter</title>
+    <link rel="stylesheet" href="style.css">
+    <script>window.basePath = "";</script>
+    <script src="menu.js" defer></script>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <section class="card">
+            <h2>Kontakt</h2>
+            <p>Har du fundet en stavefejl, en regnefejl, eller har du et forslag til et bevis, der mangler på siden? Så vil jeg meget gerne høre fra dig.</p>
+            <p>Siden vedligeholdes løbende, og alt feedback, der kan gøre noterne endnu skarpere, modtages med glæde.</p>
+            <p>Du kan kontakte mig via e-mail på: <a href="mailto:kontakt.stxmatematik@gmail.com">kontakt.stxmatematik@gmail.com</a></p>
+            <br>
+            <a href="index.html" class="print-btn" style="text-decoration: none; display: inline-block;">Gå tilbage til forsiden</a>
+        </section>
+        
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <ul class="footer-links">
+                    <li><a href="om.html">Om Siden</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="kilder.html">Kilder & Links</a></li>
+                    <li><a href="stoet.html">Støt mig</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
