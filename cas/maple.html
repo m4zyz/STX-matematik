@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maple Vejledning - STX Matematik</title>
+    <link rel="stylesheet" href="../style.css">
+    <script>window.basePath = "../";</script>
+    <script src="../menu.js" defer></script>
+</head>
+<body>
+    <nav id="sidebar-menu" class="sidebar"></nav>
+    <main class="content">
+        <header>
+            <h1>Maple</h1>
+            <p class="subtitle">Gym-pakken og beregninger</p>
+        </header>
+
+        <section class="card">
+            <h2>Vigtige pakker</h2>
+            <p>Start altid dine dokumenter med at indlæse Gym-pakken:</p>
+            <pre><code>with(Gym):</code></pre>
+        </section>
+
+        <section class="card">
+            <h2>Kommandoer</h2>
+            <table>
+                <tr>
+                    <th>Handling</th>
+                    <th>Kommando</th>
+                </tr>
+                <tr>
+                    <td>Løs ligning</td>
+                    <td>solve(f(x)=0, x)</td>
+                </tr>
+                <tr>
+                    <td>Regression</td>
+                    <td>LinReg(X, Y), ExpReg(X, Y) osv.</td>
+                </tr>
+                <tr>
+                    <td>Plot graf</td>
+                    <td>plot(f(x), x = -10..10)</td>
+                </tr>
+            </table>
+        </section>
+    </main>
+</body>
+</html>
