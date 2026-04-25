@@ -40,29 +40,31 @@
                 input.disabled = false;
         
                 // Vælg tilfældig opgavetype
-                const type = Math.floor(Math.random() * 3); // 0, 1 eller 2
-                const a = Math.floor(Math.random() * 9) + 2; // Tilfældigt tal 2-10
-                const n = Math.floor(Math.random() * 4) + 2; // Tilfældig eksponent 2-5
+                const type = Math.floor(Math.random() * 3); 
+                const a = Math.floor(Math.random() * 8) + 2; 
+                const n = Math.floor(Math.random() * 4) + 2; 
         
                 let questionText = "";
                 
-                if (type === 0) { // Lineær: ax + b
-                    const b = Math.floor(Math.random() * 20) + 1;
+                if (type === 0) {
+                    const b = Math.floor(Math.random() * 15) + 1;
                     questionText = `Hvad er den afledte funktion af \\( f(x) = ${a}x + ${b} \\)?`;
                     currentAnswer = a.toString();
-                } else if (type === 1) { // Potens: x^n
+                } else if (type === 1) {
                     questionText = `Hvad er den afledte funktion af \\( f(x) = x^{${n}} \\)?`;
-                    currentAnswer = `${n}x^{${n-1}}`.replace('^{1}', ''); // Fjern ^{1} hvis n=2
-                } else { // Polynomium: ax^n
+                    currentAnswer = `${n}x^{${n-1}}`.replace('^{1}', '');
+                } else {
                     questionText = `Hvad er den afledte funktion af \\( f(x) = ${a}x^{${n}} \\)?`;
                     currentAnswer = `${a * n}x^{${n-1}}`.replace('^{1}', '');
                 }
         
+                // Indsæt teksten i elementet
                 questionEl.innerHTML = questionText;
         
-                // Fortæl MathJax at den skal kigge på den nye tekst
-                if (window.MathJax) {
-                    MathJax.typesetPromise([questionEl]);
+                // --- DETTE ER FIXET ---
+                // Vi fortæller MathJax, at den skal køre igen på hele siden
+                if (window.MathJax && window.MathJax.typeset) {
+                    window.MathJax.typeset(); 
                 }
             }
         
@@ -72,11 +74,11 @@
                 const nextBtn = document.getElementById('next-btn');
                 const input = document.getElementById('quiz-answer');
         
-                // Formater det korrekte svar til sammenligning (fjerner LaTeX backslashes)
+                // Rens svar for sammenligning
                 const cleanCorrect = currentAnswer.replace(/\\/g, '').replace('{', '').replace('}', '').toLowerCase();
-                const cleanUser = userAns.replace(/\^/g, ''); // Gør det lidt mere tilgivende overfor x^2 vs x2
+                const cleanUser = userAns.replace(/\^/g, ''); 
         
-                if (userAns === cleanCorrect || userAns === currentAnswer.replace(/\\/g, '')) {
+                if (userAns === cleanCorrect || userAns === cleanCorrect.replace('^', '')) {
                     feedback.style.color = "#27ae60";
                     feedback.innerHTML = "Korrekt! Godt arbejdet. &#127881;";
                     input.disabled = true;
@@ -87,7 +89,6 @@
                 }
             }
         
-            // Start med en opgave når siden loader
             document.addEventListener('DOMContentLoaded', generateNewProblem);
         </script>
     </main>
