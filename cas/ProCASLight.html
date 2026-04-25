@@ -45,22 +45,22 @@
                 const resultDisplay = document.getElementById('pro-result-display');
                 const label = document.getElementById('result-label');
         
-                // 1. Hent rå LaTeX - det er her vi får den bedste data
-                let str = inputField.value; 
+                // 1. HENT INPUT SOM RÅ MATH (Dette virker bedst med Algebrite)
+                // Vi bruger 'ascii-math' men fjerner støj manuelt bagefter
+                let str = inputField.getValue('ascii-math'); 
         
-                // 2. Den Store Rense-maskine (Omdanner LaTeX til JS/Algebrite math)
-                str = str.replace(/\\frac{([^}]*)}{([^}]*)}/g, "($1)/($2)"); // Brøker
-                str = str.replace(/\\left/g, "");                             // Venstre parentes støj
-                str = str.replace(/\\right/g, "");                            // Højre parentes støj
-                str = str.replace(/{/g, "(").replace(/}/g, ")");              // Krøllede parenteser til runde
-                str = str.replace(/\\cdot/g, "*");                            // Gange-prik
-                str = str.replace(/\\times/g, "*");                           // Gange-kryds
-                str = str.replace(/\\/g, "");                                 // Fjern alle resterende backslashes (fx ved sin, cos)
-                str = str.replace(/ /g, "");                                  // Fjern mellemrum
+                // 2. RENSNING
+                str = str.replace(/·/g, "*")
+                         .replace(/÷/g, "/")
+                         .replace(/ans/g, ""); // Fjerner eventuelle "ans" rester
         
                 try {
+                    // Tjek om feltet er tomt
+                    if (!str || str.trim() === "") {
+                        throw new Error("Tomt felt");
+                    }
+        
                     let result = "";
-                    
                     if (mode === 'diff') {
                         result = Algebrite.run(`d(${str})`);
                         label.innerText = "Den afledte funktion f'(x):";
@@ -69,26 +69,24 @@
                         label.innerText = "Det ubestemte integral ∫ f(x) dx:";
                     }
         
-                    // Tjek om Algebrite gav op
-                    if (!result || result.toString() === "Stop" || result.toString() === str) {
-                        if (mode === 'int' && result.toString() === str) {
-                            // Hvis integralet er det samme som input, kunne den ikke løse det
-                            throw new Error("Kunne ikke integrere");
-                        }
+                    // 3. VISNING
+                    // Vi bruger Algebrite's interne LaTeX-generator
+                    let finalLatex = Algebrite.run(`printlatex(${result})`).toString().replace(/"/g, '');
+                    
+                    // Hvis det er et integral, så tilføj "+ k" manuelt til sidst for god orden
+                    if (mode === 'int' && !finalLatex.includes("Fejl")) {
+                        finalLatex += " + k";
                     }
         
-                    // 3. Formater til flot LaTeX visning
-                    const latexResult = Algebrite.run(`printlatex(${result})`).toString().replace(/"/g, '');
-                    
-                    resultDisplay.innerHTML = `\\[ ${latexResult} \\]`;
+                    resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
                     resultBox.style.display = "block";
                     
                     if (window.MathJax) {
                         MathJax.typesetPromise([resultDisplay]);
                     }
+        
                 } catch (err) {
-                    console.error("CAS Fejl:", err);
-                    resultDisplay.innerHTML = "<span style='color:red; font-size: 1rem;'>Kunne ikke beregne dette udtryk. Prøv et simplere format som fx x^2 + 2x.</span>";
+                    resultDisplay.innerHTML = "<p style='color:red;'>Kunne ikke beregne det indtastede. Prøv f.eks. x^2 + 2x</p>";
                     resultBox.style.display = "block";
                 }
             }

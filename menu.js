@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </h2>`;
 
     for (const [niveau, emner] of Object.entries(stxMenuData)) {
-        const menuId = "menu-" + niveau.charAt(0); 
+        const menuId = "menu-" + niveau.replace(/\s+/g, ''); 
 
         html += `
         <div class="level-container" id="${menuId}">
