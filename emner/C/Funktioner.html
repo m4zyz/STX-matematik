@@ -1,1420 +1,1183 @@
 <!DOCTYPE html>
-
 <html lang="da">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Funktioner - STX Matematik</title>
-
     <link rel="stylesheet" href="../../style.css">
-
+    
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
     <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
-
     <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
 
-
-
     <script>
-
         window.basePath = "../../";
-
     </script>
-
     <script src="../../menu.js" defer></script>
 
-
-
     <style>
-
         /* Indholdsfortegnelse */
-
         .toc-list {
-
             list-style: none;
-
             padding: 0;
-
             margin: 10px 0 0 0;
-
             columns: 2;
-
             column-gap: 30px;
-
         }
-
-
 
         .toc-list li {
-
             margin-bottom: 8px;
-
             break-inside: avoid;
-
         }
-
-
 
         .toc-list a {
-
             color: var(--primary-color);
-
             text-decoration: none;
-
             font-size: 0.95rem;
-
         }
-
-
 
         .toc-list a:hover {
-
             text-decoration: underline;
-
         }
-
-
 
         .toc-list .toc-num {
-
             color: #bdc3c7;
-
             font-size: 0.85rem;
-
             margin-right: 5px;
-
         }
-
-
 
         /* Sektionsskillelinjer */
-
         .section-divider {
-
             margin: 40px 0 18px 0;
-
             padding-bottom: 10px;
-
             border-bottom: 2px solid #bdc3c7;
-
         }
-
-
 
         .section-divider h2 {
-
             margin: 0 0 3px 0;
-
             font-size: 1.3rem;
-
             color: #2c3e50;
-
         }
-
-
 
         .section-divider p {
-
             margin: 0;
-
             font-size: 0.9rem;
-
             color: #7f8c8d;
-
             white-space: normal;
-
         }
-
-
 
         /* Tilbage til toppen */
-
         .back-to-top {
-
             display: inline-block;
-
             font-size: 0.85rem;
-
             color: #bdc3c7;
-
             text-decoration: none;
-
             margin-top: 8px;
-
         }
-
-
 
         .back-to-top:hover {
-
             color: var(--primary-color);
-
             text-decoration: underline;
-
         }
 
-
+        /* Regression Tabeller */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .data-table th, .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .data-table th {
+            background-color: #f4f7f6;
+            color: #2c3e50;
+        }
+        
+        /* Billed-pladsholder */
+        .img-placeholder {
+            background: #ecf0f1;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px dashed #bdc3c7;
+            color: #7f8c8d;
+            margin: 20px 0;
+        }
 
         @media (max-width: 600px) {
-
             .toc-list { columns: 1; }
-
+            .data-table { font-size: 0.85rem; }
         }
-
     </style>
-
 </head>
-
 <body>
-
-
 
     <nav id="sidebar-menu" class="sidebar"></nav>
 
-
-
     <main class="content">
-
         <header>
-
             <h1 id="top">Funktioner</h1>
-
             <p class="subtitle">C - niveau</p>
-
         </header>
 
-
-
-        <!-- INDHOLDSFORTEGNELSE -->
-
         <section class="card">
-
             <h2>Indholdsfortegnelse</h2>
-
             <ul class="toc-list">
-
                 <li><a href="#grundlag"><span class="toc-num">1.</span>Grundlæggende funktionsbegreb</a></li>
-
                 <li><a href="#logaritmer"><span class="toc-num">2.</span>Logaritmer</a></li>
-
                 <li><a href="#eksponent"><span class="toc-num">3.</span>Eksponentialfunktioner</a></li>
-
                 <li><a href="#potens"><span class="toc-num">4.</span>Potensfunktioner</a></li>
-
                 <li><a href="#proportion"><span class="toc-num">5.</span>Proportionalitet</a></li>
-
                 <li><a href="#sammensat"><span class="toc-num">6.</span>Sammensatte funktioner</a></li>
-
                 <li><a href="#invers"><span class="toc-num">7.</span>Inverse funktioner</a></li>
-
+                <li><a href="#opsparing"><span class="toc-num">8.</span>Opsparingsannuitet</a></li>
+                <li><a href="#gaeld"><span class="toc-num">9.</span>Gældsannuitet</a></li>
+                <li><a href="#regression"><span class="toc-num">10.</span>Regression</a></li>
+                <li><a href="#beviser"><span class="toc-num">11.</span>Beviser</a></li>
             </ul>
-
         </section>
-
-
-
-        <!-- ===================== -->
-
-        <!-- 1. GRUNDLAG           -->
-
-        <!-- ===================== -->
 
         <div id="grundlag" class="section-divider">
-
             <h2>1. Grundlæggende funktionsbegreb</h2>
-
             <p>Definition, notation og grafisk fremstilling</p>
-
         </div>
 
-
-
         <section class="card">
-
             <h2>Teori</h2>
+            <p>En funktion er en matematisk beskrivelse af et sammenhængen mellem <span class="tooltip">variabel<span class="tooltip-text">En variabel er et symbol f.eks. 'x', som repræsenterer en værdi, som kan ændre sig eller være ukendt i et ligning system.</span></span> Selve funktionsbegrebet er kendt siden folkeskolen. Når en variabel \( y \) er afhængig af en anden variabel \( x \), kalder man det, at \( y \) er en funktion af \( x \). Dette bliver normalt skrevet som \( f(x) \), og derfor må det også betyde, at \( y = f(x) \). Da \( y \) afhænger af variablen \( x \) siger man at \( y \) er den afhængige variabel, mens vi kalder \( x \) for den uafhængige variabel.</p>
 
-            <p>En funktion er en matematisk beskrivelse af et sammenhængen mellem <span class="tooltip">variabel<span class="tooltip-text">En variabel er et symbol f.eks. 'x', som repræsenterer en værdi, som kan ændre sig eller være ukendt i et ligning system.</span></span> Selve funktionsbegrebet er kendt siden folkeskolen. Når en variabel \( y \) er afhængig af en anden variabel \( x \), kalder man det, at \( y \) er en funktion af \( x \). Dette bliver normalt skrevet som \( f(x) \), og derfor må det også betyde, at \( y = f(x) \). Da \( y \) afhænger af variablen \( x \) siger man at \( y \) er den afhængige variabel, mens vi kalder \( x \) for den uafhængige variabel.
+<p>Et eksempel af hvordan man skriver en funktion op: \( y=f(x)=x+5 \), men da vi før sagde at \( y=f(x) \) behøver vi faktisk ikke mere at sætte \( y \) lig med funktionen \( f(x) \), så i dette tilfælde vil funktions eksemplet bare se: \( f(x)=x+5 \)</p>
 
-
-
-Et eksempel af hvordan man skriver en funktion op: \( y=f(x)=x+5 \), men da vi før sagde at \( y=f(x) \) behøver vi faktisk ikke mere at sætte \( y \) lig med funktionen \( f(x) \), så i dette tilfælde vil funktions eksemplet bare se: \( f(x)=x+5 \)
-
-
-
-Denne måde at skrive en funktion op på kalder vi for forskriften eller regneforskriften for funktionen \( f \). Til enhver x-værdi hører der altså kun én y-værdi, da vi kendertegner funktioner ved, at de til en værdi af \( x \) knytter netop én værdi af \( y \).
-
+<p>Denne måde at skrive en funktion op på kalder vi for forskriften eller regneforskriften for funktionen \( f \). Til enhver x-værdi hører der altså kun én y-værdi, da vi kendertegner funktioner ved, at de til en værdi af \( x \) knytter netop én værdi af \( y \).
 Dette ses i eksemplet hvor vi har funktionen \( f(x)=x+5 \). Her siger vi at \( x=10 \). Vi indsætter nu \( x=10 \) ind på \( x \)'s plads i \( f(x) \)
-
 $$ f(10)=10+5=15 $$
+Det vil sige at til x-værdien 10 hører y-værdien 15.</p>
 
-Det vil sige at til x-værdien 10 hører y-værdien 15.
+<p>En funktion kaldes typisk \( f \), mens den uafhængige variabel kaldes for \( x \). Man kan dog opleve at i opgaver vælger de at bruge andre bogstaver for en funktion og andre bogstaver for den uafhængige variabel. Et eksempel på det kunne være \( g(x) \) her er \( g \) funktionen og \( x \) er den uafhængige variabel. Et andet eksempel kunne være \( f(t) \) hvor funktionen er \( f \) men den uafhængige variabel nu er \( t \).</p>
 
-
-
-En funktion kaldes typisk \( f \), mens den uafhængige variabel kaldes for \( x \). Man kan dog opleve at i opgaver vælger de at bruge andre bogstaver for en funktion og andre bogstaver for den uafhængige variabel. Et eksempel på det kunne være \( g(x) \) her er \( g \) funktionen og \( x \) er den uafhængige variabel. Et andet eksempel kunne være \( f(t) \) hvor funktionen er \( f \) men den uafhængige variabel nu er \( t \).
-
-
-
-En funktion som \( f(x) \) kan også blive repræsenteret på en anden måde. Vi kan visuelt se en funktion vha. en graf. I en graf tegner vi punkterne med koordinaterne \( (x,y) \) ind i et koordinatsystem, hvor der så dannes en kurve. Denne kurve kalder vi grafen for \( f \).</p>
-
+<p>En funktion som \( f(x) \) kan også blive repræsenteret på en anden måde. Vi kan visuelt se en funktion vha. en graf. I en graf tegner vi punkterne med koordinaterne \( (x,y) \) ind i et koordinatsystem, hvor der så dannes en kurve. Denne kurve kalder vi grafen for \( f \).</p>
         </section>
 
-
-
         <section class="card example">
-
             <h2>Interaktiv Graf</h2>
-
             <p>Prøv selv at ændre funktionen i feltet herunder for at se, hvordan grafen ændrer sig.</p>
 
-
-
             <div style="text-align: center; margin-bottom: 20px; background: #f4f7f6; padding: 15px; border-radius: 8px;">
-
                 <label for="funktion-input" style="font-weight: bold; margin-right: 10px;">Skriv funktion: f(x) = </label>
-
                 <input type="text" id="funktion-input" value="x+5" style="padding: 8px; font-size: 16px; width: 200px; border: 1px solid #ccc; border-radius: 4px;">
-
             </div>
-
-
 
             <div id="interaktiv-graf" style="text-align: center;"></div>
 
-
-
             <div style="text-align: center; margin-top: 15px; font-size: 1.2rem; color: #2c3e50;">
-
                 <strong>Grafen viser:</strong> \( f(x) = \) <span id="funktion-visning">x+5</span>
-
             </div>
-
         </section>
 
-
-
         <section class="card">
-
             <h2>Skæringspunkter mellem grafer</h2>
-
             <p>Hvis man ender i den situation hvor vi har 2 forskellige funktioner, kan vi undersøge om graferne krydser hinanden. Hvis \( P(x_0,y_0) \) er skæringspunkt mellem graferne for to funktioner \( f \) og \( g \), så ligger punktet \( P \) både på grafen for \( f \) og grafen for \( g \). Dette kan vises ved:
-
 $$ f(x_0)=y_0 $$
-
 $$ g(x_0)=y_0 $$
-
-
 
 Udtrykkene på højre side af de to ligninger herover er ens, dvs. at
 
-
-
 $$ f(x_0)=y_0=g(x_0) $$
 
-
-
 Vi kan nu bestemme førstekoordinaterne til et skæringspunkt ved at løse ligningen:
-
 $$ f(x)=g(x) $$</p>
-
         </section>
 
-
-
         <section class="card example">
-
             <h2>Eksempel: Skæringspunkt mellem to grafer</h2>
-
             <p>Vi for givet to funktioner
-
 $$ f(x)=2x $$
-
 $$ g(x)=x+8 $$
 
-
-
 Vi vil bestemme grafernes skæringspunkt. Det gør vi ved at sætte de to funktioner lig med hinanden.
-
 $$
-
 \begin{gathered}
-
 f(x) = g(x) \\
-
 \Downarrow \\
-
 2x = x + 8 \\
-
 \Downarrow \\
-
 x=8 \\
-
 \end{gathered}
-
 $$
-
-
 
 Skæringspunktets førstekoordinat er \( x=8 \).
 
-
-
 Vi bestemmer nu andenkoordinaten ved at indsætte x-værdien i én af funktionerne. Det er ligegyldigt hvilken.
-
 $$
-
 \begin{gathered}
-
 g(8)=8+8 \\
-
 \Downarrow \\
-
 g(8) = 16 \\
-
 \end{gathered}
-
 $$
-
 Skæringspunktets koordinater er \( (8,16) \).</p>
-
         </section>
 
-
-
         <section class="card">
-
             <h2>Oversigt over funktionstyper</h2>
-
             <p>Her er en oversigt over de mest almindelige forskrifter og deres navne:</p>
 
-
-
             <table>
-
                 <thead>
-
                     <tr>
-
                         <th>Forskrift \( f(x) \)</th>
-
                         <th>Navn</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                     <tr>
-
                         <td>\( b \cdot a^x \)</td>
-
                         <td>eksponentialfunktion</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( b \cdot x^a \)</td>
-
                         <td>potensfunktion</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( ax + b \)</td>
-
                         <td>lineær funktion eller førstegradspolynomium</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( ax^2 + bx + c \)</td>
-
                         <td>andengradspolynomium</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( ax^3 + bx^2 + cx + d \)</td>
-
                         <td>tredjegradspolynomium</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( ax^4 + bx^3 + cx^2 + dx + e \)</td>
-
                         <td>fjerdegradspolynomium</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( a_nx^n + a_{n-1}x^{n-1} + ... + a_1x + a_0 \)</td>
-
                         <td>polynomium af n'te grad</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( \log(x) \)</td>
-
                         <td>titalslogaritmen</td>
-
                     </tr>
-
                     <tr>
-
                         <td>\( \ln(x) \)</td>
-
                         <td>den naturlige logaritme</td>
-
                     </tr>
-
                 </tbody>
-
             </table>
-
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
-
         </section>
-
-
-
-        <!-- ===================== -->
-
-        <!-- 2. LOGARITMER         -->
-
-        <!-- ===================== -->
 
         <div id="logaritmer" class="section-divider">
-
             <h2>2. Logaritmer</h2>
-
             <p>10-talslogaritmen og den naturlige logaritme</p>
-
         </div>
 
-
-
         <section class="card">
-
             <h2>10-talslogaritmen</h2>
-
             <p>Vi starter med log, som er logaritmefunktionen med grundtal 10, også kaldet 10-talslogaritmen.</p>
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Logaritmefunktionen log med grundtal 10</strong>
-
                 <p>Logaritmefunktionen \( \log \) med grundtal 10 er den funktion, der opfylder:</p>
-
                 <p>$$ \log(10^x) = x $$</p>
-
                 <p>$$ 10^{\log(x)} = x $$</p>
-
                 <p>hvor \( x > 0 \).</p>
-
             </div>
-
             <p>Det fremgår af definitionen, at der gælder følgende:</p>
-
             <p>$$ \log(10) = 1 \quad \text{og} \quad \log(1) = 0 $$</p>
-
+            <p><em>Se beviset for regnereglerne for logaritmer i <a href="#bevis1-1">bevis-sektionen</a>.</em></p>
         </section>
 
-
-
         <section class="card example">
-
             <h2>Grafisk fremstilling af log(x)</h2>
-
             <p>Herunder kan du se grafen for funktionen \( f(x) = \log(x) \). Grafen går gennem punktet (1,0), fordi \( \log(1)=0 \). Endvidere går grafen gennem punktet (10,1), fordi \( \log(10)=1 \).</p>
-
             <p>Vi vil desuden fremhæve, at 10-talslogaritmen er voksende i x-intervallet \( ]0 ; \infty[ \), og at y-aksen er asymptote til grafen. Det betyder, at grafen kommer tættere og tættere på den rette linje \( x = 0 \) uden nogensinde at røre den.</p>
-
-
 
             <div id="log-graf" style="text-align: center; margin: 20px 0;"></div>
 
-
-
             <p>Man kan kun tage logaritmen til positive tal. Derfor er definitionsmængden for 10-talslogaritmen de positive reelle tal, dvs. intervallet \( ]0 ; \infty[ \). Da ethvert reelt tal y kan fås som logaritmen til et tal x, er værdimængden alle de reelle tal, dvs. intervallet \( ]-\infty ; \infty[ \).</p>
-
         </section>
-
-
-
-        <section class="card proof">
-
-            <h2>Sætning 1.1: Regneregler for log</h2>
-
-            <p>For \( a > 0 \) og \( b > 0 \) samt et tal \( x \) gælder følgende regler:</p>
-
-            <ol>
-
-                <li>\( \log(a \cdot b) = \log(a) + \log(b) \)</li>
-
-                <li>\( \log(\frac{a}{b}) = \log(a) - \log(b) \)</li>
-
-                <li>\( \log(a^x) = x \cdot \log(a) \)</li>
-
-            </ol>
-
-            <p>Disse regler er fundamentale, når vi skal løse ligninger, hvor den ubekendte står i eksponenten, som f.eks. i \( a^x = k \).</p>
-
-        </section>
-
-
 
         <section class="card">
-
             <h2>Den naturlige logaritme</h2>
-
             <p>Nu ser vi på den logaritmefunktion, der betegnes \( \ln \) og kaldes den naturlige logaritmefunktion eller bare den naturlige logaritme.</p>
-
             <p>Inden for matematik er der tal, der har så stor betydning, at de har fået deres egen betegnelse. Et eksempel er tallet \( \pi \). Et andet eksempel er tallet \( e \), som er grundtallet for den naturlige logaritme. Tallet \( e \) er et irrationalt tal med en værdi på cirka 2,718.</p>
 
-
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Den naturlige logaritmefunktion</strong>
-
                 <p>Den naturlige logaritmefunktion med grundtal \( e \), der betegnes \( \ln \), er den funktion, der opfylder:</p>
-
                 <p>$$ \ln(e^x) = x $$</p>
-
                 <p>$$ e^{\ln(x)} = x $$</p>
-
                 <p>hvor \( x > 0 \).</p>
-
             </div>
-
             <p>Ligesom for 10-talslogaritmen gælder der:</p>
-
             <p>$$ \ln(e) = 1 \quad \text{og} \quad \ln(1) = 0 $$</p>
-
         </section>
-
-
 
         <section class="card example">
-
             <h2>Anvendelse i ligninger</h2>
-
             <p>Ligninger, hvor den ubekendte optræder som eksponent, kaldes eksponentielle ligninger. Disse kan løses ved at bruge enten \( \log \) eller \( \ln \). Det er i princippet ligegyldigt, hvilken man bruger, så længe man er konsekvent i sit regnestykke.</p>
-
             <p>Eksempel på løsning af \( a^x = k \):</p>
-
             <p>$$
-
             \begin{gathered}
-
             a^x = k \\
-
             \Downarrow \\
-
             \ln(a^x) = \ln(k) \\
-
             \Downarrow \\
-
             x \cdot \ln(a) = \ln(k) \\
-
             \Downarrow \\
-
             x = \frac{\ln(k)}{\ln(a)}
-
             \end{gathered}
-
             $$</p>
-
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
-
         </section>
-
-
-
-        <!-- ===================== -->
-
-        <!-- 3. EKSPONENTIALFUNKT. -->
-
-        <!-- ===================== -->
 
         <div id="eksponent" class="section-divider">
-
             <h2>3. Eksponentialfunktioner</h2>
-
             <p>Forskrift, egenskaber, vækstrate og fordoblingskonstant</p>
-
         </div>
 
-
-
         <section class="card">
-
             <h2>Definition</h2>
-
             <p>En variabelsammenhæng af typen \( y = b \cdot a^x \) kaldes en eksponentiel sammenhæng.</p>
 
-
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Eksponentialfunktion</strong>
-
                 <p>Funktionen \( f(x) \) kaldes en eksponentialfunktion, når den har forskriften:</p>
-
                 <p>$$ f(x) = b \cdot a^x $$</p>
-
                 <p>Bemærkning: I denne definition betegner \( a \) og \( b \) altid positive reelle tal. Det vil sige, at \( a > 0 \) og \( b > 0 \).</p>
-
             </div>
-
-
 
             <p>På samme måde som vi kan udføre lineær regression på lineære sammenhænge, kan vi benytte eksponentiel regression i de tilfælde, hvor der ser ud til at være en eksponentiel sammenhæng mellem to variable i et datasæt.</p>
-
+            <p><em>Se beviset for eksponentiel vækst i <a href="#bevis1-4">bevis-sektionen</a>, og beviset for bestemmelse af \( a \) og \( b \) i <a href="#bevis1-3">bevis-sektionen</a>.</em></p>
         </section>
 
-
-
         <section class="card">
-
             <h2>Egenskaber og Asymptoter</h2>
-
             <p>For at forstå eksponentialfunktioner er det vigtigt at kende deres grafiske egenskaber:</p>
-
             <ul>
-
                 <li>Grafen for \( f(x) = b \cdot a^x \) skærer altid y-aksen i punktet \( (0, b) \).</li>
-
                 <li>Grafen skærer aldrig x-aksen.</li>
-
                 <li>Definitionsmængden er alle reelle tal, og værdimængden er alle positive reelle tal.</li>
-
             </ul>
-
-
 
             <p>Konstanten \( a \) afgør, om funktionen er voksende eller aftagende:</p>
-
             <ul>
-
                 <li>Når \( a > 1 \), er funktionen voksende, og grafen går opad mod højre. Udtrykket \( b \cdot a^x \) nærmer sig 0, når x går mod minus uendelig.</li>
-
                 <li>Når \( 0 &lt; a &lt; 1 \), er funktionen aftagende, og grafen går nedad mod højre. Udtrykket \( b \cdot a^x \) nærmer sig 0, når x går mod plus uendelig.</li>
-
             </ul>
-
-
 
             <p>I begge tilfælde kommer grafen tættere og tættere på x-aksen, jo større eller mindre x bliver. Man siger derfor, at x-aksen er en <strong>asymptote</strong> til grafen.</p>
-
         </section>
-
-
-
-        <section class="card proof">
-
-            <h2>Sætning 1.3: Beregning af a og b ud fra to punkter</h2>
-
-            <p>To punkter på grafen for en eksponentialfunktion er nok til at fastlægge funktionen fuldkommen. Man kan bestemme \( a \) og \( b \) ved beregning, hvis man kender to punkter \( P(x_1, y_1) \) og \( Q(x_2, y_2) \).</p>
-
-            <p>Første beregning (at finde a):</p>
-
-            <p>$$ a = \sqrt[x_2 - x_1]{\frac{y_2}{y_1}} $$</p>
-
-            <p>Anden beregning (at finde b):</p>
-
-            <p>$$ b = \frac{y_1}{a^{x_1}} $$</p>
-
-        </section>
-
-
 
         <section class="card">
-
             <h2>Fremskrivningsfaktor og vækstrate</h2>
-
             <p>For en eksponentialfunktion gælder det generelt, at når den uafhængige variabel \( x \) vokser med en bestemt størrelse, vokser (eller aftager) den afhængige variabel \( y \) med en bestemt procent. Dette kaldes også for procent-procent-vækst.</p>
 
-
-
             <p>For funktionen \( f(x) = b \cdot a^x \) bruger vi følgende begreber:</p>
-
             <ul>
-
                 <li>Konstanten \( a \) kaldes for <strong>fremskrivningsfaktoren</strong>.</li>
-
                 <li>Tallet \( r = a - 1 \) kaldes for <strong>vækstraten</strong>.</li>
-
             </ul>
-
-
 
             <p>Betydningen af vækstraten ses på følgende måde: At gange en bestemt størrelse med en faktor \( a \) svarer til, at størrelsen ændres med en bestemt procent. Denne procent kan findes ved at omregne vækstraten \( r \) til procent.</p>
-
             <ul>
-
                 <li>Hvis \( 0 &lt; a &lt; 1 \), aftager funktionen, og vækstraten \( r \) er negativ.</li>
-
                 <li>Hvis \( a > 1 \), vokser funktionen, og vækstraten \( r \) er positiv.</li>
-
             </ul>
-
         </section>
 
-
-
         <section class="card">
-
             <h2>Fordobling og halvering</h2>
-
             <p>En helt speciel egenskab ved eksponentiel vækst er, at det tager lige lang tid for y-værdien at blive fordoblet (eller halveret), uanset hvor på grafen man starter.</p>
 
-
-
             <h3>Sætning 1.5: Fordoblingskonstant</h3>
-
             <p>For en voksende eksponentiel udvikling (\( a > 1 \)) fordobles y-værdien, hver gang x vokser med et bestemt tal. Dette tal kaldes fordoblingskonstanten \( T_2 \), og der gælder:</p>
-
             <p>$$ T_2 = \frac{\ln(2)}{\ln(a)} $$</p>
-
-
+            <p><em>Se beviset for fordoblingskonstanten i <a href="#bevis1-5">bevis-sektionen</a>.</em></p>
 
             <h3>Sætning 1.6: Halveringskonstant</h3>
-
             <p>For en aftagende eksponentiel udvikling (\( 0 &lt; a &lt; 1 \)) halveres y-værdien, hver gang x vokser med et bestemt tal. Dette tal kaldes halveringskonstanten \( T_{\frac{1}{2}} \), og der gælder:</p>
-
             <p>$$ T_{\frac{1}{2}} = \frac{\ln(\frac{1}{2})}{\ln(a)} $$</p>
-
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
-
         </section>
-
-
-
-        <!-- ===================== -->
-
-        <!-- 4. POTENSFUNKTIONER   -->
-
-        <!-- ===================== -->
 
         <div id="potens" class="section-divider">
-
             <h2>4. Potensfunktioner</h2>
-
             <p>Forskrift, egenskaber og procent-procent-vækst</p>
-
         </div>
 
-
-
         <section class="card">
-
             <h2>Definition</h2>
-
             <p>En variabelsammenhæng af typen \( y = b \cdot x^a \) kaldes en potenssammenhæng.</p>
 
-
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Potensfunktion</strong>
-
                 <p>Funktionen \( f(x) \) kaldes en potensfunktion, når den har forskriften:</p>
-
                 <p>$$ f(x) = b \cdot x^a $$</p>
-
                 <p>Bemærkning: For potensfunktioner skal \( b \) og \( x \) være positive tal (\( x > 0 \) og \( b > 0 \)). Konstanten \( a \) kan derimod være et hvilket som helst reelt tal, både positivt og negativt.</p>
-
             </div>
-
-
 
             <p>Ligesom med de andre funktionstyper kan vi benytte potensregression på et datasæt, hvis der ser ud til at være en potenssammenhæng mellem to variable.</p>
-
+            <p><em>Se beviset for beregning af \( a \) og \( b \) for potensfunktioner i <a href="#bevis1-7">bevis-sektionen</a>.</em></p>
         </section>
 
-
-
         <section class="card">
-
             <h2>Potensfunktioners egenskaber</h2>
-
             <p>For potensfunktioner er definitionsmængden altid de positive reelle tal, dvs. \( x > 0 \).</p>
-
             <p>Grafens udseende og funktionens egenskaber afhænger fuldstændig af værdien på eksponenten \( a \). Graferne har tre karakteristiske hovedformer og to specialtilfælde:</p>
 
-
-
             <ul>
-
                 <li><strong>Når \( a > 1 \):</strong> Funktionen er voksende. Grafen buer opad og bliver stejlere og stejlere (progressiv vækst).</li>
-
                 <li><strong>Når \( a = 1 \):</strong> Funktionen er en ret linje, da \( x^1 = x \). Forskriften er derved bare \( f(x) = b \cdot x \).</li>
-
-                <li><strong>Når \( 0 &lt; a &lt; 1 \):</strong> Funktionen er voksende. Grafen buer nedad og bliver fladere og fladere (degressiv vækst). Eksempelvis svarer \( a = 0.5 \) til kvadratrodsfunktionen.</li>
-
+                <li><strong>Når \( 0 &lt; a &lt; 1 \):</strong> Funktionen er voksende. Grafen buer nedad og bliver fladere og fladere (degressiv vækst). Eksempelvis svarer \( a = 0{,}5 \) til kvadratrodsfunktionen.</li>
                 <li><strong>Når \( a = 0 \):</strong> Funktionen er konstant, da \( x^0 = 1 \). Grafen er en vandret linje.</li>
-
                 <li><strong>Når \( a &lt; 0 \):</strong> Funktionen er aftagende. Grafen går nedad mod højre. Både x-aksen og y-aksen fungerer som asymptoter for grafen.</li>
-
             </ul>
-
         </section>
-
-
-
-        <section class="card proof">
-
-            <h2>Sætning 1.7: Beregning af a og b ud fra to punkter</h2>
-
-            <p>Kender man to punkter \( P(x_1, y_1) \) og \( Q(x_2, y_2) \) på grafen for en potensfunktion, kan man bestemme konstanterne \( a \) og \( b \) ved beregning.</p>
-
-
-
-            <p>Første beregning (at finde a):</p>
-
-            <p>$$ a = \frac{\log(y_2) - \log(y_1)}{\log(x_2) - \log(x_1)} $$</p>
-
-            <p>Formlen for \( a \) kan også skrives med den naturlige logaritme (\( \ln \)) i stedet for titalslogaritmen (\( \log \)):</p>
-
-            <p>$$ a = \frac{\ln(y_2) - \ln(y_1)}{\ln(x_2) - \ln(x_1)} $$</p>
-
-
-
-            <p>Anden beregning (at finde b):</p>
-
-            <p>$$ b = \frac{y_1}{x_1^a} $$</p>
-
-        </section>
-
-
 
         <section class="card">
-
             <h2>Potensvækst (Procent-procent-vækst)</h2>
-
             <p>Mens lineær vækst beskrives som plus-plus-vækst, og eksponentiel vækst beskrives som plus-procent-vækst, betegner man potensvækst som <strong>procent-procent-vækst</strong>.</p>
 
-
-
             <h3>Sætning 1.8: Potensvækst</h3>
-
             <p>For en potensfunktion gælder, at hvis den uafhængige variabel \( x \) bliver ganget med en faktor \( k \), bliver den afhængige variabel \( y \) ganget med faktoren \( k^a \).</p>
 
-
-
             <p>At gange en bestemt størrelse med en faktor svarer til, at størrelsen ændres med en bestemt procent. Deraf følger den primære regel for potensvækst:</p>
-
             <p><strong>Når den uafhængige variabel \( x \) vokser med en bestemt procent, vokser (eller aftager) den afhængige variabel \( y \) også med en bestemt procent.</strong></p>
-
             <p>Dette er utroligt brugbart i virkeligheden, når man f.eks. kan sige: "Hvis vi gør rebet 10 % tykkere, bliver det 25 % stærkere".</p>
-
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
-
         </section>
-
-
-
-        <!-- ===================== -->
-
-        <!-- 5. PROPORTIONALITET   -->
-
-        <!-- ===================== -->
 
         <div id="proportion" class="section-divider">
-
             <h2>5. Proportionalitet</h2>
-
             <p>Ligefrem og omvendt proportionalitet</p>
-
         </div>
 
-
-
         <section class="card">
-
             <h2>Ligefrem proportionalitet</h2>
-
             <p>Vi vil starte med at genopfriske det grundlæggende begreb omkring ligefrem proportionalitet (ofte bare kaldet proportionalitet).</p>
 
-
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Proportionalitet</strong>
-
                 <p>To variable \( y \) og \( x \) er proportionale, hvis der gælder:</p>
-
                 <p>$$ y = a \cdot x $$</p>
-
                 <p>Tallet \( a \) kaldes for proportionalitetsfaktoren.</p>
-
             </div>
-
-
 
             <p>Definitionen på proportionalitet kan også skrives ved at isolere \( a \), så man får:</p>
-
             <p>$$ \frac{y}{x} = a $$</p>
-
             <p>Dette betyder, at forholdet mellem \( y \) og \( x \) altid er konstant. Hvis \( x \) bliver dobbelt så stor, bliver \( y \) også dobbelt så stor.</p>
-
         </section>
 
-
-
         <section class="card">
-
             <h2>Omvendt proportionalitet</h2>
-
             <p>Vi vil nu behandle begrebet omvendt proportionalitet, som opfører sig stik modsat af ligefrem proportionalitet.</p>
 
-
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Omvendt proportionalitet</strong>
-
                 <p>To variable \( y \) og \( x \) er omvendt proportionale, hvis produktet af dem altid giver en konstant \( a \):</p>
-
                 <p>$$ x \cdot y = a $$</p>
-
             </div>
 
-
-
             <p>Denne definition kan også skrives om, så \( y \) er isoleret. Det giver to andre måder at skrive forskriften på:</p>
-
             <p>$$ y = \frac{a}{x} \quad \text{eller} \quad y = a \cdot x^{-1} $$</p>
-
-
 
             <p>Når \( y \) er omvendt proportional med \( x \), betyder definitionen, at \( y \) bliver halvt så stor, når \( x \) bliver dobbelt så stor. Tilsvarende bliver \( y \) tre gange så lille, når \( x \) bliver tre gange så stor.</p>
 
-
-
             <p>Da \( y = a \cdot x^{-1} \), er der ved omvendt proportionalitet faktisk tale om et specialtilfælde af en potensfunktion \( f(x) = b \cdot x^a \), hvor eksponenten er \( -1 \), og hvor \( b \) er proportionalitetsfaktoren \( a \).</p>
-
         </section>
-
-
 
         <section class="card example">
-
             <h2>Grafer for proportionalitet</h2>
-
             <p>Graferne for henholdsvis ligefrem og omvendt proportionalitet ser meget forskellige ud.</p>
-
             <ul>
-
                 <li>Grafen for <strong>ligefrem proportionalitet</strong> er en ret linje, der går gennem origo (0,0).</li>
-
                 <li>Grafen for <strong>omvendt proportionalitet</strong> er en kurve, der kaldes en hyperbel. Den vil aldrig røre akserne, da x- og y-aksen er asymptoter.</li>
-
             </ul>
-
             <p>Når det drejer sig om praktiske anvendelser i matematikopgaver, vil graferne normalt kun ligge i første kvadrant. Det vil sige der, hvor både \( x > 0 \) og \( y > 0 \).</p>
-
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
-
         </section>
-
-
-
-        <!-- ===================== -->
-
-        <!-- 6. SAMMENSATTE FUNKT. -->
-
-        <!-- ===================== -->
 
         <div id="sammensat" class="section-divider">
-
             <h2>6. Sammensatte funktioner</h2>
-
             <p>Indre og ydre funktion</p>
-
         </div>
 
-
-
         <section class="card">
-
             <h2>Hvad er en sammensat funktion?</h2>
-
             <p>I mange praktiske situationer afhænger en størrelse af en anden størrelse, som igen afhænger af en tredje. Forestil dig for eksempel en idrætsforening, der får et kommunalt tilskud. Tilskuddet afhænger af antallet af medlemmer i foreningen. Men antallet af medlemmer ændrer sig og afhænger af, hvilket årstal vi kigger på.</p>
-
             <p>Dermed afhænger tilskuddet indirekte af årstallet. Vi har foretaget en "kædereaktion", hvor to funktioner er sat ind i hinanden. Dette kaldes i matematikken for en sammensat funktion.</p>
 
-
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Sammensat funktion</strong>
-
                 <p>Funktionen \( y = f(g(x)) \) kaldes den sammensatte funktion af \( f \) og \( g \).</p>
-
                 <ul>
-
                     <li>\( u = g(x) \) kaldes for den <strong>indre funktion</strong>.</li>
-
                     <li>\( y = f(u) \) kaldes for den <strong>ydre funktion</strong>.</li>
-
                 </ul>
-
             </div>
 
-
-
             <p>Man kan tænke på det som en maskine i to trin: Først putter vi \( x \) ind i maskinen \( g \), som spytter et resultat ud. Dette resultat putter vi derefter direkte ind i maskinen \( f \).</p>
-
         </section>
 
-
-
         <section class="card example">
-
             <h2>Eksempel: At sammensætte to funktioner</h2>
-
             <p>Vi har givet to funktioner:</p>
-
             <p>$$ f(x) = 2x + 3 $$</p>
-
             <p>$$ g(x) = x^2 $$</p>
-
-
 
             <p>Vi ønsker at finde forskriften for den sammensatte funktion \( f(g(x)) \). Her er \( g(x) \) den indre funktion, så vi skal tage hele udtrykket for \( g(x) \) og sætte det ind på x's plads i \( f(x) \):</p>
 
-
-
             <p>$$ f(g(x)) = f(x^2) = 2 \cdot (x^2) + 3 = 2x^2 + 3 $$</p>
 
-
-
             <p><strong>Bemærk:</strong> Rækkefølgen er afgørende. Hvis vi i stedet beregnede \( g(f(x)) \), ville vi få:</p>
-
             <p>$$ g(f(x)) = g(2x + 3) = (2x + 3)^2 $$</p>
-
         </section>
 
-
-
         <section class="card example">
-
             <h2>Eksempel: Indre og ydre funktion</h2>
-
             <p>Ofte får vi givet en funktion, der allerede er sammensat, og vores opgave er at gennemskue, hvad der er den indre, og hvad der er den ydre funktion. Dette er især vigtigt, når vi senere skal lære at differentiere sammensatte funktioner.</p>
 
-
-
             <p>Vi ser på funktionen:</p>
-
             <p>$$ h(x) = \sqrt{2x + 5} $$</p>
 
-
-
             <p>For at skille den ad kigger vi på, hvad der sker med \( x \), hvis vi skulle regne det ud. Først ganger vi med 2 og lægger 5 til. Dette er den indre funktion:</p>
-
             <p>$$ g(x) = 2x + 5 $$</p>
 
-
-
             <p>Derefter tager vi kvadratroden af hele resultatet. Dette er den ydre funktion. Vi kalder det midlertidige resultat for \( u \):</p>
-
             <p>$$ f(u) = \sqrt{u} $$</p>
 
-
-
             <p>Kontrol: Hvis vi sætter \( g(x) \) ind i \( f(u) \), får vi \( f(g(x)) = \sqrt{2x + 5} \), hvilket stemmer overens med \( h(x) \).</p>
-
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
-
         </section>
-
-
-
-        <!-- ===================== -->
-
-        <!-- 7. INVERSE FUNKTIONER -->
-
-        <!-- ===================== -->
 
         <div id="invers" class="section-divider">
-
             <h2>7. Inverse funktioner</h2>
-
             <p>Den omvendte funktion og grafisk spejling</p>
-
         </div>
 
-
-
         <section class="card">
-
             <h2>Hvad betyder "invers"?</h2>
-
             <p>For alle funktioner gælder der en grundregel: Til en given x-værdi i funktionens definitionsmængde hører der præcis én y-værdi. To forskellige x-værdier kan dog godt give den samme y-værdi.</p>
-
             <p>Men i de tilfælde, hvor der til enhver given y-værdi <em>højst</em> hører én x-værdi, kan man regne baglæns fra y til x. Når det er muligt, kan man danne det, vi kalder den inverse (eller omvendte) funktion. Generelt gælder det, at funktioner, der er strengt voksende eller strengt aftagende overalt, altid har en invers funktion.</p>
 
-
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-
                 <strong>Definition: Invers (omvendt) funktion</strong>
-
                 <p>Hvis der om en funktion \( f \) gælder, at der til enhver y-værdi højst hører én x-værdi, er x også en funktion af y.</p>
-
                 <p>Denne funktion kaldes den inverse (eller omvendte) funktion til \( f \) og betegnes \( f^{-1} \).</p>
-
                 <p>Dette læses som "f i minus første" eller "den inverse funktion til f".</p>
-
             </div>
-
         </section>
-
-
 
         <section class="card example">
-
             <h2>Eksempel: At finde forskriften for en invers funktion</h2>
-
             <p>Hvis vi har en funktion, og vi ønsker at finde dens inverse forskrift, skal vi opstille ligningen \( y = f(x) \) og derefter isolere \( x \).</p>
-
             <p>Vi får givet funktionen:</p>
-
             <p>$$ f(x) = 2x - 6 $$</p>
-
             <p>Vi sætter funktionen lig med y og isolerer x trinvist:</p>
-
             <p>$$
-
             \begin{gathered}
-
             y = 2x - 6 \\
-
             \Downarrow \\
-
             y + 6 = 2x \\
-
             \Downarrow \\
-
             \frac{y + 6}{2} = x \\
-
             \Downarrow \\
-
-            x = 0.5y + 3
-
+            x = 0{,}5y + 3
             \end{gathered}
-
             $$</p>
-
             <p>Til sidst bytter vi formelt om på navnene x og y for at kunne skrive den nye funktion som en funktion af x. Den inverse funktion er derved:</p>
-
-            <p>$$ f^{-1}(x) = 0.5x + 3 $$</p>
-
+            <p>$$ f^{-1}(x) = 0{,}5x + 3 $$</p>
         </section>
 
-
-
         <section class="card">
-
             <h2>Klassiske inverse par</h2>
-
             <p>I matematikken er der flere funktioner, der hører uløseligt sammen som inverse par. De "ophæver" hinanden, når man bruger dem til at løse ligninger:</p>
-
             <ul>
-
                 <li>\( f(x) = x^2 \) og \( f^{-1}(x) = \sqrt{x} \) (dette gælder for \( x \ge 0 \)).</li>
-
                 <li>\( f(x) = 10^x \) og \( f^{-1}(x) = \log(x) \).</li>
-
                 <li>\( f(x) = e^x \) og \( f^{-1}(x) = \ln(x) \).</li>
-
             </ul>
-
         </section>
 
-
-
         <section class="card">
-
             <h2>Grafisk spejling og sammensætning</h2>
-
             <p>Når \( f \) er en funktion, og \( f^{-1} \) er den omvendte funktion, gælder det altid, at hvis man sætter den ene funktion ind i den anden, får man bare det oprindelige tal x tilbage. De ophæver altså fuldstændig hinanden:</p>
-
             <p>$$ f(f^{-1}(x)) = x \quad \text{og} \quad f^{-1}(f(x)) = x $$</p>
 
-
-
             <p>En anden utrolig vigtig egenskab er den grafiske. Det er altid sådan, at grafen for \( f \) og grafen for \( f^{-1} \) er hinandens præcise spejlbilleder. Spejlingsaksen er altid den rette diagonale linje med ligningen \( y = x \).</p>
-
-           
-
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
+        <div id="opsparing" class="section-divider">
+            <h2>8. Opsparingsannuitet</h2>
+            <p>Beregning af fremtidsværdi, ydelse, rente og antal terminer</p>
+        </div>
+
+        <section class="card">
+            <h2>Opsparingsannuitets-formlen</h2>
+            <p>Opsparingsannuitets-formlen bruges, når man regner på situationer, hvor der for eksempel indsættes et beløb hver måned på en opsparingskonto, som har en vis rente. Formlen ser således ud:</p>
+            <p>$$ A_n = b \cdot \frac{(1+r)^n - 1}{r} $$</p>
+            <p>Som vi kan se, indgår der fire størrelser: \( A_n \), \( b \), \( r \) og \( n \). \( b \) er det beløb du indbetaler hver termin, \( r \) er renten på din konto pr. termin, \( n \) er antal terminer (og antallet af indbetalinger) og \( A_n \) er det beløb du har på din konto efter \( n \) indbetalinger.</p>
+            <p>Vi vil her gennemgå eksempler på at finde alle fire størrelser.</p>
+        </section>
 
         <section class="card example">
-            <h2>Eksempel: [Beskriv eksemplet]</h2>
-            <p>Her kan du skrive dit regneeksempel trin for trin...</p>
+            <h2>Vi ønsker at finde An</h2>
+            <p>Du laver en opsparingsannuitet ved at foretage 10 indbetalinger på hver 2000 kr. i banken til 1,7 % i rente pr. termin. Hvor mange penge er der så på kontoen efter de 10 indbetalinger?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ A_n = b \cdot \frac{(1+r)^n - 1}{r} $$</p>
+            <p>$$ A_{10} = 2000 \cdot \frac{(1+0{,}017)^{10} - 1}{0{,}017} $$</p>
+            <p>$$ A_{10} = 2000 \cdot \frac{0{,}183612}{0{,}017} $$</p>
+            <p>$$ A_{10} = 21601{,}50 $$</p>
+            <p>Dvs., efter 10 indbetalinger er der 21.601,50 kr. på kontoen.</p>
         </section>
 
-        <section class="card proof">
-            <h2>Bevis: [Navn på beviset]</h2>
-            <p>Her kan du gennemgå beviset...</p>
+        <section class="card example">
+            <h2>Vi ønsker at finde b</h2>
+            <p>Efter 24 indbetalinger til en rente på 0,7 % pr. termin står der nu 50.000 kr. på bankbogen. Hvor stort et beløb blev der sat i banken ved hver indbetaling?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ A_n = b \cdot \frac{(1+r)^n - 1}{r} $$</p>
+            <p>$$ 50000 = b \cdot \frac{(1+0{,}007)^{24} - 1}{0{,}007} $$</p>
+            <p>$$ 50000 = b \cdot \frac{0{,}182244}{0{,}007} $$</p>
+            <p>$$ 50000 = b \cdot 26{,}0349 $$</p>
+            <p>$$ b = \frac{50000}{26{,}0349} = 1920{,}50 $$</p>
+            <p>Der blev altså sat 1.920,50 kr. i banken ved hver indbetaling.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Vi ønsker at finde r</h2>
+            <p>Du har 18 gange indbetalt 2500 kr. på en annuitetsopsparings konto, og nu står der 50.000 kr. på kontoen. Hvor stor har rentesatsen pr. termin været?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ A_n = b \cdot \frac{(1+r)^n - 1}{r} $$</p>
+            <p>$$ 50000 = 2500 \cdot \frac{(1+r)^{18} - 1}{r} $$</p>
+            <p>Denne type af ligning, hvor den ubekendte størrelse \( r \) indgår både i en parentesudregning i tælleren og som en størrelse i nævneren, kan ikke umiddelbart løses vha. en lommeregner. Her kunne man gætte sig frem, men det kan være meget besværligt. Derfor løses ligningen i et CAS-værktøj som TI-Nspire eller Maple, og vi får løsningen:</p>
+            <p>$$ r = 0{,}0122155 \cdot 100\% = 1{,}22\% $$</p>
+            <p>Rentesatsen pr. termin var altså 1,22 %.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Vi ønsker at finde n</h2>
+            <p>Du ønsker at spare 75.000 kr. sammen ved at lave en opsparingsannuitet på 3000 kr. pr. indbetaling til 1,2 % pr. termin. Hvor mange indbetalinger skal der foretages for at nå de 75.000 kr.?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ A_n = b \cdot \frac{(1+r)^n - 1}{r} $$</p>
+            <p>$$ 75000 = 3000 \cdot \frac{(1+0{,}012)^n - 1}{0{,}012} $$</p>
+            <p>Nu står \( n \) alene som eksponent i vores ligning. Løsning af ligninger af denne slags, kræver at man kender til logaritmer. Hvis man ikke gør det, kan ligningen dog også nemt løses med et CAS-program som TI-Nspire eller Maple, men her gennemgåes resten af regnestykket med logaritmeregneregler:</p>
+            <p>$$
+            \begin{gathered}
+            \frac{75000}{3000} = \frac{(1+0{,}012)^n - 1}{0{,}012} \\
+            \Downarrow \\
+            \frac{75000}{3000} \cdot 0{,}012 = (1{,}012)^n - 1 \\
+            \Downarrow \\
+            \frac{75000}{3000} \cdot 0{,}012 + 1 = (1{,}012)^n \\
+            \Downarrow \\
+            1{,}3 = (1{,}012)^n \\
+            \Downarrow \\
+            \log(1{,}3) = \log((1{,}012)^n) \\
+            \Downarrow \\
+            \log(1{,}3) = n \cdot \log(1{,}012) \\
+            \Downarrow \\
+            n = \frac{\log(1{,}3)}{\log(1{,}012)} = 21{,}99 \approx 22
+            \end{gathered}
+            $$</p>
+            <p>Der skal altså foretages 22 indbetalinger for at spare de 75.000 kr. sammen.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="gaeld" class="section-divider">
+            <h2>9. Gældsannuitet</h2>
+            <p>Beregning af lån, afdrag, rente og antal terminer</p>
+        </div>
+
+        <section class="card">
+            <h2>Gældsannuitets-formlen</h2>
+            <p>Gældsannuitets-formlen bruges, når man regner på situationer, hvor man for eksempel har taget et lån med renter, der skal betales tilbage over et vist antal terminer. Formlen ser således ud:</p>
+            <p>$$ G = y \cdot \frac{1 - (1+r)^{-n}}{r} $$</p>
+            <p>Der indgår fire størrelser i denne formel, \( G \), \( r \), \( y \) og \( n \). Derfor kaldes formlen også Gryn-formlen. \( G \) er lånets samlede beløb, \( r \) er renten hvormed lånet vokser, \( y \) er det beløb du afdrager hver termin, og \( n \) er antal terminer.</p>
+            <p>Vi vil nu gennemgå eksempler på, hvordan man finder hver af de fire størrelser, når man kender de tre andre.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Vi ønsker at finde G</h2>
+            <p>Du vil gerne optage et lån (eller købe en eller anden ting på afbetaling). Lånet skal afdrages over 12 terminer, og terminsrenten er 1,7 %. Du har kun råd til at afdrage 2000 kr. hver termin. Hvor stort et lån (eller hvor dyr en ting) har du råd til at optage?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ G = y \cdot \frac{1 - (1+r)^{-n}}{r} $$</p>
+            <p>$$ G = 2000 \cdot \frac{1 - (1+0{,}017)^{-12}}{0{,}017} $$</p>
+            <p>$$ G = 2000 \cdot \frac{0{,}183138}{0{,}017} $$</p>
+            <p>$$ G = 21545{,}68 $$</p>
+            <p>Du har altså råd til at optage et lån på 21.545,68 kr.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Vi ønsker at finde r</h2>
+            <p>Du har lånt 50.000 kr. i banken. Du har aftalt med banken, at lånet skal tilbagebetales over 36 terminer med 2000 kr. pr. termin. Hvor stor er rentesatsen i % pr. termin?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ G = y \cdot \frac{1 - (1+r)^{-n}}{r} $$</p>
+            <p>$$ 50000 = 2000 \cdot \frac{1 - (1+r)^{-36}}{r} $$</p>
+            <p>Denne type af ligning, hvor den ubekendte størrelse \( r \) indgår både i en parentesudregning i tælleren og som en størrelse i nævneren, kan ikke umiddelbart løses vha. en lommeregner. Her kunne man gætte sig frem, men det kan være meget besværligt. Derfor løses ligningen i et CAS-værktøj som TI-Nspire eller Maple, og vi får løsningen:</p>
+            <p>$$ r = 0{,}021211 \cdot 100\% = 2{,}12\% $$</p>
+            <p>Rentesatsen på dit lån er altså 2,12 %.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Vi ønsker at finde y</h2>
+            <p>Du har lånt 50.000 kr. i banken. Du har aftalt med banken, at lånet skal tilbagebetales over 24 terminer med en rentesats på 1,5 % pr. termin. Hvor meget skal du betale i ydelse hver termin?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ G = y \cdot \frac{1 - (1+r)^{-n}}{r} $$</p>
+            <p>$$ 50000 = y \cdot \frac{1 - (1+0{,}015)^{-24}}{0{,}015} $$</p>
+            <p>$$ 50000 = y \cdot \frac{0{,}300456}{0{,}015} $$</p>
+            <p>$$ 50000 = y \cdot 20{,}0304 $$</p>
+            <p>$$ y = \frac{50000}{20{,}0304} = 2496{,}21 $$</p>
+            <p>Du skal altså betale 2.496,21 kr hver termin, for at betale dit lån af.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Vi ønsker at finde n</h2>
+            <p>Du har lånt 75.000 kr. i banken til 1,2 % i rente pr. termin. Du har råd til at tilbagebetale 3000 kr. hver termin. Hvor lang tid tager det at afvikle lånet?</p>
+            <p>Vi opskriver formlen og indsætter de kendte størrelser:</p>
+            <p>$$ G = y \cdot \frac{1 - (1+r)^{-n}}{r} $$</p>
+            <p>$$ 75000 = 3000 \cdot \frac{1 - (1+0{,}012)^{-n}}{0{,}012} $$</p>
+            <p>Nu står \( n \) alene som eksponent i vores ligning. Løsning af ligninger af denne slags, kræver at man kender til logaritmer. Hvis man ikke gør det, kan ligningen dog også nemt løses med et CAS-program som TI-Nspire eller Maple, men her gennemgåes resten af regnestykket med logaritmeregneregler:</p>
+            <p>$$
+            \begin{gathered}
+            \frac{75000}{3000} = \frac{1 - (1+0{,}012)^{-n}}{0{,}012} \\
+            \Downarrow \\
+            \frac{75000}{3000} \cdot 0{,}012 = 1 - (1{,}012)^{-n} \\
+            \Downarrow \\
+            0{,}3 = 1 - (1{,}012)^{-n} \\
+            \Downarrow \\
+            (1{,}012)^{-n} = 1 - 0{,}3 \\
+            \Downarrow \\
+            \log((1{,}012)^{-n}) = \log(0{,}7) \\
+            \Downarrow \\
+            -n \cdot \log(1{,}012) = \log(0{,}7) \\
+            \Downarrow \\
+            -n = \frac{\log(0{,}7)}{\log(1{,}012)} \\
+            \Downarrow \\
+            -n = -29{,}9009 \\
+            \Downarrow \\
+            n = 29{,}9009
+            \end{gathered}
+            $$</p>
+            <p>Gælden vil altså være afbetalt på 30 terminer.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="regression" class="section-divider">
+            <h2>10. Regression</h2>
+            <p>At finde den bedste linje til et datasæt</p>
+        </div>
+
+        <section class="card">
+            <h2>Hvad er regression?</h2>
+            <p>På denne side vil vi gennemgå, hvad det vil sige at lave regression med udgangspunkt i lineær regression. Vi vil desuden gennemgå et eksempel på, hvordan man kan anvende lineær regression på data fra virkeligheden.</p>
+            <p>Tidligere, når vi har bestemt funktionsforskrifter for lineære, eksponentielle eller potensfunktioner, har vi kendt to punkter, som skulle ligge på funktionen. Der kunne vi bruge to-punktsformlerne til at bestemme forskrifterne. Når vi har mere end to punkter, kan vi ikke nødvendigvis finde en forskrift, hvor alle punkterne ligger på grafen for funktionen. I det tilfælde kan vi i stedet lave regression, som er en metode til at finde forskriften for den funktion, der beskriver alle punkterne bedst muligt.</p>
+            <p>I det følgende tager vi udgangspunkt i lineær regression, men princippet for at lave regression er det sammen for andre funktionstyper.</p>
+        </section>
+
+        <section class="card">
+            <h2>Den bedste rette linje</h2>
+            <p>På figuren nedenfor er indtegnet fem forskellige punkter.</p>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="210" x2="380" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="20" x2="40" y2="210" stroke="black" stroke-width="2"/>
+                    <circle cx="96" cy="146" r="5" fill="#3498db"/>
+                    <circle cx="153" cy="115" r="5" fill="#3498db"/>
+                    <circle cx="210" cy="130" r="5" fill="#3498db"/>
+                    <circle cx="266" cy="67" r="5" fill="#3498db"/>
+                    <circle cx="323" cy="83" r="5" fill="#3498db"/>
+                </svg>
+            </div>
+
+            <p>Hvis vi tegner en ret linje, der går gennem to af punkterne, kan vi se, at vi får nogen meget forskellige rette linjer alt afhængig af hvilke to punkter, vi vælger. På figuren nedenfor er der tegnet tre forskellige rette linjer, der hver især går gennem to af punkterne.</p>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="210" x2="380" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="20" x2="40" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="161" x2="380" y2="67" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="4"/>
+                    <line x1="40" y1="163" x2="380" y2="18" stroke="#f1c40f" stroke-width="1.5" stroke-dasharray="4"/>
+                    <line x1="40" y1="206" x2="380" y2="-3" stroke="#2ecc71" stroke-width="1.5" stroke-dasharray="4"/>
+                    <circle cx="96" cy="146" r="5" fill="#3498db"/>
+                    <circle cx="153" cy="115" r="5" fill="#3498db"/>
+                    <circle cx="210" cy="130" r="5" fill="#3498db"/>
+                    <circle cx="266" cy="67" r="5" fill="#3498db"/>
+                    <circle cx="323" cy="83" r="5" fill="#3498db"/>
+                </svg>
+            </div>
+
+            <p>Det er tydeligt, at de tre funktioner er forskellige og at ingen af dem er super gode til at beskrive alle punkterne på én gang. Hvis vi skal vælge én af de tre, er den blå funktion nok bedst, men vi kan gøre det bedre ved at lave regression. Vi bruger typisk et digitalt værktøj (f.eks. GeoGebra, Maple, TI-Nspire, Excel) til at lave selve regressionen. Nedenfor har vi brugt GeoGebra til at finde den rette linje, som beskriver alle fem punkter bedst på samme tid. Vi kalder det at finde den bedste rette linje, når vi laver lineær regression.</p>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="210" x2="380" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="20" x2="40" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="175" x2="380" y2="50" stroke="#2c3e50" stroke-width="2"/>
+                    <circle cx="96" cy="146" r="5" fill="#3498db"/>
+                    <circle cx="153" cy="115" r="5" fill="#3498db"/>
+                    <circle cx="210" cy="130" r="5" fill="#3498db"/>
+                    <circle cx="266" cy="67" r="5" fill="#3498db"/>
+                    <circle cx="323" cy="83" r="5" fill="#3498db"/>
+                </svg>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Hvad afgør om en ret linje er den bedste rette linje?</h2>
+            <p>Når man skal afgøre hvilken ret linje, der er bedst til at beskrive en række punkter, bruger vi den samlede lodrette afstand fra hvert punkt til linjen. På figuren nedenfor er disse afstande indtegnet med rød.</p>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="210" x2="380" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="20" x2="40" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="175" x2="380" y2="50" stroke="#2c3e50" stroke-width="2"/>
+                    <line x1="96" y1="154" x2="96" y2="146" stroke="#e74c3c" stroke-width="2"/>
+                    <line x1="153" y1="133" x2="153" y2="115" stroke="#e74c3c" stroke-width="2"/>
+                    <line x1="210" y1="112" x2="210" y2="130" stroke="#e74c3c" stroke-width="2"/>
+                    <line x1="266" y1="92" x2="266" y2="67" stroke="#e74c3c" stroke-width="2"/>
+                    <line x1="323" y1="71" x2="323" y2="83" stroke="#e74c3c" stroke-width="2"/>
+                    <circle cx="96" cy="146" r="5" fill="#3498db"/>
+                    <circle cx="153" cy="115" r="5" fill="#3498db"/>
+                    <circle cx="210" cy="130" r="5" fill="#3498db"/>
+                    <circle cx="266" cy="67" r="5" fill="#3498db"/>
+                    <circle cx="323" cy="83" r="5" fill="#3498db"/>
+                </svg>
+            </div>
+
+            <p>I praksis bruger vi altid et digitalt værktøj til at foretage regression, og vi behøver derfor ikke bekymre os meget om, hvordan man finder den linje, hvor afstandene er mindst. Når det digitale værktøj afgør det, er det summen af de kvadrerede afstande (altså afstandene i anden hver for sig og så lagt sammen), som det digitale værktøj forsøger at gøre så lille som muligt. Det kaldes mindste kvadraters metode.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Eksempel: Lineær regression</h2>
+            <p>Lad os se på, hvordan man kan lave lineær regression på noget data fra virkeligheden.</p>
+            <p>I tabellen nedenfor ses en opgørelse over, hvor mange milliarder kroner Danmark har brugt på at importere økologiske varer i en given årrække. Det ses f.eks., at Danmark i 2018 importerede økologiske varer for 4,43 milliarder kroner.</p>
+
+            <table class="data-table">
+                <tr>
+                    <th>Årstal</th>
+                    <td>2014</td>
+                    <td>2015</td>
+                    <td>2016</td>
+                    <td>2017</td>
+                    <td>2018</td>
+                    <td>2019</td>
+                </tr>
+                <tr>
+                    <th>Import (i mia. kr.)</th>
+                    <td>1,94</td>
+                    <td>2,40</td>
+                    <td>3,22</td>
+                    <td>3,86</td>
+                    <td>4,43</td>
+                    <td>4,82</td>
+                </tr>
+            </table>
+            <p style="font-size: 0.8rem; color: #7f8c8d; text-align: center;">(Kilde: Danmarks Statistik, https://www.statistikbanken.dk/oeko4)</p>
+
+            <p>Når vi skal lave lineær regression, skal vi finde den bedste rette linje til at beskrive datasættet. Det betyder altså, at vi skal finde den bedste lineære funktion til at beskrive, hvordan importen afhænger af årstallet. Forskriften for en lineær funktion er</p>
+            <p>$$ f(x) = a \cdot x + b $$</p>
+            <p>hvor vi i dette tilfælde vil lade \( f(x) \) være importen i mia. kr. (afhængig variabel) og \( x \) være antal år efter 2014 (uafhængig variabel). Det gør vi, fordi importen afhænger af årstallet.</p>
+
+            <p>Vi vælger at lade \( x \) være antal år efter 2014 i stedet for selve årstallet. Når vi ændrer det, ser tabellen således ud:</p>
+
+            <table class="data-table">
+                <tr>
+                    <th>År efter 2014</th>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <th>Import (i mia. kr.)</th>
+                    <td>1,94</td>
+                    <td>2,40</td>
+                    <td>3,22</td>
+                    <td>3,86</td>
+                    <td>4,43</td>
+                    <td>4,82</td>
+                </tr>
+            </table>
+
+            <p>Vi plotter tabellens værdier som punkter i et koordinatsystem. Det kaldes et punktplot, og det kan ses nedenfor.</p>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="210" x2="380" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="20" x2="40" y2="210" stroke="black" stroke-width="2"/>
+                    <text x="365" y="225" font-family="sans-serif" font-size="12">x (år)</text>
+                    <text x="5" y="30" font-family="sans-serif" font-size="12">y (mia)</text>
+                    <circle cx="40" cy="148" r="5" fill="#27ae60"/>
+                    <circle cx="108" cy="134" r="5" fill="#27ae60"/>
+                    <circle cx="176" cy="108" r="5" fill="#27ae60"/>
+                    <circle cx="244" cy="88" r="5" fill="#27ae60"/>
+                    <circle cx="312" cy="70" r="5" fill="#27ae60"/>
+                    <circle cx="380" cy="57" r="5" fill="#27ae60"/>
+                </svg>
+            </div>
+
+            <p>Vi kan se, at punkterne tilnærmelses ligger på en ret linje og ved at lave regression, kan vi finde den lineære funktion, der bedst beskriver punkterne.</p>
+
+            <div style="text-align: center; margin: 25px 0;">
+                <svg width="400" height="250" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="210" x2="380" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="40" y1="20" x2="40" y2="210" stroke="black" stroke-width="2"/>
+                    
+                    <line x1="40" y1="162" x2="380" y2="67" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="4"/>
+                    
+                    <line x1="40" y1="163" x2="380" y2="19" stroke="#f1c40f" stroke-width="1.5" stroke-dasharray="4"/>
+                    
+                    <line x1="40" y1="201" x2="380" y2="59" stroke="#2ecc71" stroke-width="1.5" stroke-dasharray="4"/>
+                    
+                    <circle cx="96" cy="146" r="5" fill="#3498db"/>
+                    <circle cx="153" cy="115" r="5" fill="#3498db"/>
+                    <circle cx="210" cy="130" r="5" fill="#3498db"/>
+                    <circle cx="266" cy="67" r="5" fill="#3498db"/>
+                    <circle cx="323" cy="83" r="5" fill="#3498db"/>
+                </svg>
+            </div>
+
+            <p>På figuren ovenfor er regressionslinjen tilføjet, og forskriften for den lineære funktion er givet ved</p>
+            <p>$$ f(x) = 0{,}6 \cdot x + 1{,}93 $$</p>
+            <p>hvor \( x \) er antal år efter 2014 og \( f(x) \) er importen af økologiske varer i mia. kr.</p>
+
+            <h3>Hvad fortæller konstanterne?</h3>
+            <p>Når vi laver regression ved hjælp af virkelig data, opstiller vi faktisk en matematisk model, som beskriver vores data. Derfor kan det være godt at overveje, hvad konstanterne i modellen fortæller os.</p>
+
+            <p>I eksemplet her, har vi en lineær model, der beskriver sammenhængen mellem importen af økologiske varer i mia. kr. (\( f(x) \)) og antallet af år efter 2014 (\( x \)). Funktionsforskriften for modellen er</p>
+            <p>$$ f(x) = 0{,}6 \cdot x + 1{,}93 $$</p>
+            <p>så vi ved, at \( a = 0{,}6 \) og \( b = 1{,}93 \).</p>
+
+            <p>Konstanten \( b \) fortæller os, at importen af økologiske varer var 1,93 milliarder kroner i år 2014 ifølge modellen, og konstanten \( a \) fortæller os, at importen af økologiske varer vokser med 0,6 milliarder kroner om året ifølge modellen.</p>
+            
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
 
+        <div id="beviser" class="section-divider">
+            <h2>11. Beviser</h2>
+            <p>Samlet oversigt over matematiske beviser i dette emne</p>
+        </div>
+
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis1-1">Bevis for sætning 1.1: Regneregler for log</a></li>
+                <li><a href="#bevis1-3">Bevis for sætning 1.3: Beregning af a og b i eksponentialfunktioner</a></li>
+                <li><a href="#bevis1-4">Bevis for sætning 1.4: Eksponentiel vækst</a></li>
+                <li><a href="#bevis1-5">Bevis for sætning 1.5: Fordoblingskonstant</a></li>
+                <li><a href="#bevis1-7">Bevis for sætning 1.7: Beregning af a og b for potensfunktioner</a></li>
+                <li><a href="#bevis1-8">Bevis for sætning 1.8: Potensvækst</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis1-1" class="card proof">
+            <h2>Bevis for sætning 1.1: Regneregler for log</h2>
+            <p>Vi sætter \( \alpha=\log(a) \) og \( \beta=\log(b) \).</p>
+            <p>Ifølge definitionen af 10-talslogaritmen så er \( a=10^{\alpha} \) og \( b=10^{\beta} \).</p>
+            <p>Vi kan nu bevise regneregel (1):</p>
+            <p>$$ \log(a\cdot b)=\log(10^{\alpha}\cdot 10^{\beta})=\log(10^{\alpha+\beta})=\alpha+\beta=\log(a)+\log(b) $$</p>
+            <p>Det andet lighedstegn er rigtigt ifølge en potensregneregel, og det tredje lighedstegn følger af, at \( \log(10^{x})=x \).</p>
+            <p>Dermed er regneregel (1) bevist.</p>
+            <p>For at bevise regneregel (2) benyttes, at \( a=\frac{a}{b}\cdot b \). Ved desuden at bruge regneregel (1) får vi:</p>
+            <p>$$ \log(a)=\log\left(\frac{a}{b}\cdot b\right)=\log\left(\frac{a}{b}\right)+\log(b) $$</p>
+            <p>Vi trækker nu \( \log(b) \) fra på begge sider af lighedstegnet og har dermed bevist regneregel (2):</p>
+            <p>$$ \log(a)-\log(b)=\log\left(\frac{a}{b}\right) $$</p>
+            <p>Regneregel (3) kan bevises således:</p>
+            <p>$$ \log(a^{x})=\log({(10^{\alpha})}^{x})=\log(10^{\alpha\cdot x})=\alpha\cdot x=\log(a)\cdot x $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <section id="bevis1-3" class="card proof">
+            <h2>Bevis for sætning 1.3: Beregning af a og b i \( f(x) = b \cdot a^x \) ud fra to punkter</h2>
+            <p>Da P og Q ligger på grafen, gælder:</p>
+            <p>$$ \begin{cases} y_2=b\cdot a^{x_2} \\ y_1=b\cdot a^{x_1} \end{cases} $$</p>
+            <p>Vi dividerer den første ligning med den sidste og får</p>
+            <p>$$
+            \begin{aligned}
+            \frac{y_2}{y_1}&=\frac{b\cdot a^{x_2}}{b\cdot a^{x_1}}\\
+            \frac{y_2}{y_1}&=\frac{a^{x_2}}{a^{x_1}}\\
+            \frac{y_2}{y_1}&=a^{x_2-x_1}\\
+            a^{x_2-x_1}&=\frac{y_2}{y_1}\\
+            a&=\sqrt[x_2-x_1]{\frac{y_2}{y_1}}
+            \end{aligned}
+            $$</p>
+            <p>Dermed har vi bestemt \( a \).</p>
+            <p>Da \( a \) nu er kendt, er \( b \) den eneste ubekendte i ligningerne. Vi vælger den sidste af ligningerne og isolerer \( b \):</p>
+            <p>$$
+            \begin{aligned}
+            y_1&=b\cdot a^{x_1}\\
+            b&=\frac{y_1}{a^{x_1}}
+            \end{aligned}
+            $$</p>
+            <p>Hermed er sætningen bevist. <span style="float: right; font-size: 1.5rem; margin-top: -5px;">&#9632;</span></p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <section id="bevis1-4" class="card proof">
+            <h2>Bevis for sætning 1.4: Eksponentiel vækst</h2>
+            <p>For en bestemt x-værdi \( x_1 \) fås y-værdien</p>
+            <p>$$ y_1=f(x_1)=b\cdot a^{x_1} $$</p>
+            <p>Lægges 1 til \( x_1 \), fås x-værdien \( x_2=x_1+1 \). Til x-værdien \( x_2 \) svarer y-værdien</p>
+            <p>$$ y_2=f(x_2)=b\cdot a^{x_2}=b\cdot a^{x_1+1}=b\cdot a^{x_1} \cdot a^1 = (b\cdot a^{x_1})\cdot a=y_1\cdot a $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <section id="bevis1-5" class="card proof">
+            <h2>Bevis for sætning 1.5: Fordoblingskonstant</h2>
+            <p>Betydningen af \( T_2 \) er illustreret på figuren herunder.</p>
+            
+            <div style="text-align: center; margin: 25px 0;">
+                <svg width="400" height="280" viewBox="0 0 400 280" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="210" x2="380" y2="210" stroke="black" stroke-width="2"/>
+                    <line x1="50" y1="20" x2="50" y2="220" stroke="black" stroke-width="2"/>
+                    <text x="380" y="225" font-family="sans-serif" font-size="14" font-style="italic">x</text>
+                    <text x="30" y="30" font-family="sans-serif" font-size="14" font-style="italic">y</text>
+
+                    <path d="M 50 190 Q 250 150 350 30" fill="transparent" stroke="#3498db" stroke-width="3"/>
+
+                    <line x1="150" y1="210" x2="150" y2="168" stroke="gray" stroke-dasharray="4"/>
+                    <line x1="50" y1="168" x2="150" y2="168" stroke="gray" stroke-dasharray="4"/>
+                    <circle cx="150" cy="168" r="4" fill="#e74c3c"/>
+                    <text x="145" y="230" font-family="sans-serif" font-size="14" font-style="italic">x</text>
+                    <text x="15" y="172" font-family="sans-serif" font-size="14" font-style="italic">f(x)</text>
+
+                    <line x1="290" y1="210" x2="290" y2="84" stroke="gray" stroke-dasharray="4"/>
+                    <line x1="50" y1="84" x2="290" y2="84" stroke="gray" stroke-dasharray="4"/>
+                    <circle cx="290" cy="84" r="4" fill="#e74c3c"/>
+                    <text x="275" y="230" font-family="sans-serif" font-size="14"><tspan font-style="italic">x</tspan> + T₂</text>
+                    <text x="5" y="88" font-family="sans-serif" font-size="14">2<tspan font-style="italic">f(x)</tspan></text>
+                    
+                    <path d="M 150 245 L 150 255 L 290 255 L 290 245" fill="transparent" stroke="black"/>
+                    <text x="210" y="270" font-family="sans-serif" font-size="14">T₂</text>
+                </svg>
+            </div>
+
+            <p>For ethvert x gælder:</p>
+            <p>$$
+            \begin{aligned}
+            f(x+T_2)&=2f(x)\\
+            b\cdot a^{x+T_2}&=2\cdot b\cdot a^{x}\\
+            b\cdot a^{x}a^{T_2}&=2\cdot b\cdot a^{x}\\
+            a^{T_2}&=2\\
+            \log(a^{T_2})&=\log(2)\\
+            T_2\cdot\log(a)&=\log(2)\\
+            T_2&=\frac{\log(2)}{\log(a)}
+            \end{aligned}
+            $$</p>
+            <p>Undervejs brugte vi regneregel (3) for \( \log \).</p>
+            <p>Ved at bruge \( \ln \) i stedet for \( \log \) får vi \( T_2=\frac{\ln(2)}{\ln(a)} \).</p>
+            <p>Undervejs i udregningerne havde vi \( a^{T_2}=2 \).</p>
+            <p>Af dette kan vi slutte, at \( a=\sqrt[T_2]{2} \).</p>
+            <p>Dermed er sætningen bevist. <span style="float: right; font-size: 1.5rem; margin-top: -5px;">&#9632;</span></p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <section id="bevis1-7" class="card proof">
+            <h2>Bevis for sætning 1.7: Beregning af a og b for potensfunktioner</h2>
+            <p>Kender man to punkter \( P(x_1, y_1) \) og \( Q(x_2, y_2) \) på grafen for en potensfunktion, kan man bestemme konstanterne \( a \) og \( b \) ved beregning.</p>
+            <p>Første beregning (at finde a):</p>
+            <p>$$ a = \frac{\log(y_2) - \log(y_1)}{\log(x_2) - \log(x_1)} $$</p>
+            <p>Formlen for \( a \) kan også skrives med den naturlige logaritme (\( \ln \)) i stedet for titalslogaritmen (\( \log \)):</p>
+            <p>$$ a = \frac{\ln(y_2) - \ln(y_1)}{\ln(x_2) - \ln(x_1)} $$</p>
+            <p>Anden beregning (at finde b):</p>
+            <p>$$ b = \frac{y_1}{x_1^a} $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <section id="bevis1-8" class="card proof">
+            <h2>Bevis for sætning 1.8: Potensvækst</h2>
+            <p>For en bestemt x-værdi \( x_1 \) fås y-værdien</p>
+            <p>$$ y_1=f(x_1)=b\cdot x_1^a $$</p>
+            <p>Ganges \( x_1 \) med faktoren \( F_x \), fås x-værdien \( x_2 = F_x \cdot x_1 \). Til x-værdien \( x_2 \) svarer y-værdien:</p>
+            <p>$$ y_2=f(x_2)=b\cdot x_2^a = b\cdot(F_x\cdot x_1)^a = b\cdot F_x^a\cdot x_1^a = F_x^a\cdot(b\cdot x_1^a) = F_x^a\cdot y_1 $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
         
         <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
 
-
-
         <footer class="site-footer">
-
             <div class="footer-content">
-
                 <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
-
                 <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
-
             </div>
-
         </footer>
 
     </main>
 
-
-
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
-
             const inputFelt = document.getElementById('funktion-input');
-
             const visningFelt = document.getElementById('funktion-visning');
-
             const grafBoks = '#interaktiv-graf';
 
-
-
             function tegnGraf(funktionString) {
-
                 try {
-
                     functionPlot({
-
                         target: grafBoks,
-
                         width: 500,
-
                         height: 350,
-
                         grid: true,
-
                         xAxis: { domain: [-10, 10] },
-
                         yAxis: { domain: [-10, 10] },
-
                         data: [{
-
                             fn: funktionString,
-
                             color: '#e74c3c',
-
                             graphType: 'polyline'
-
                         }]
-
                     });
-
                     visningFelt.textContent = funktionString;
-
                     if (window.MathJax) {
-
                         MathJax.typesetPromise([visningFelt]);
-
                     }
-
                 } catch (error) {}
-
             }
-
-
 
             tegnGraf(inputFelt.value);
 
-
-
             inputFelt.addEventListener('input', function() {
-
                 tegnGraf(inputFelt.value);
-
             });
-
         });
-
     </script>
-
-
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function() {
-
             functionPlot({
-
                 target: '#log-graf',
-
                 width: 500,
-
                 height: 350,
-
                 grid: true,
-
                 xAxis: { domain: [0, 12], label: 'x' },
-
                 yAxis: { domain: [-2, 2], label: 'y' },
-
                 data: [
-
                     {
-
                         fn: 'log(x)/log(10)',
-
                         color: '#3498db',
-
                         graphType: 'polyline'
-
                     }
-
                 ]
-
             });
-
         });
-
     </script>
 
-
-
 </body>
-
 </html>
