@@ -7,42 +7,40 @@
     <link rel="stylesheet" href="../style.css">
     <script>window.basePath = "../";</script>
     <script src="../menu.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/algebrite/1.4.0/algebrite.bundle.js"></script>
 </head>
 <body>
     <nav id="sidebar-menu" class="sidebar"></nav>
     <main class="content">
-        <header>
-            <h1>Maple</h1>
-            <p class="subtitle">Gym-pakken og beregninger</p>
-        </header>
-
         <section class="card">
-            <h2>Vigtige pakker</h2>
-            <p>Start altid dine dokumenter med at indlæse Gym-pakken:</p>
-            <pre><code>with(Gym):</code></pre>
+            <h2>CAS-Light: Differentiering & Integration</h2>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                <input type="text" id="cas-input" placeholder="Indtast f.eks. x^3 + 2x" style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <button onclick="calculateCAS('d')" style="padding: 10px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">f'(x)</button>
+                <button onclick="calculateCAS('i')" style="padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer;">∫ f(x) dx</button>
+            </div>
+            <div id="cas-result" style="padding: 15px; background: #f4f7f6; border-radius: 5px; font-family: 'Courier New', Courier, monospace; min-height: 20px;">
+                Resultat vises her...
+            </div>
         </section>
-
-        <section class="card">
-            <h2>Kommandoer</h2>
-            <table>
-                <tr>
-                    <th>Handling</th>
-                    <th>Kommando</th>
-                </tr>
-                <tr>
-                    <td>Løs ligning</td>
-                    <td>solve(f(x)=0, x)</td>
-                </tr>
-                <tr>
-                    <td>Regression</td>
-                    <td>LinReg(X, Y), ExpReg(X, Y) osv.</td>
-                </tr>
-                <tr>
-                    <td>Plot graf</td>
-                    <td>plot(f(x), x = -10..10)</td>
-                </tr>
-            </table>
-        </section>
+        
+        <script>
+            function calculateCAS(type) {
+                const input = document.getElementById('cas-input').value;
+                const resultDiv = document.getElementById('cas-result');
+                try {
+                    let res = "";
+                    if (type === 'd') {
+                        res = Algebrite.run(`d(${input})`).toString();
+                    } else {
+                        res = Algebrite.run(`integral(${input})`).toString();
+                    }
+                    resultDiv.innerHTML = "<strong>Resultat:</strong> " + res;
+                } catch (e) {
+                    resultDiv.innerHTML = "<span style='color:red;'>Fejl: Tjek din indtastning</span>";
+                }
+            }
+        </script>
     </main>
 </body>
 </html>

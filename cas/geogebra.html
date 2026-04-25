@@ -17,26 +17,32 @@
         </header>
 
         <section class="card">
-            <h2>Kommandoer i CAS</h2>
-            <table>
-                <tr>
-                    <th>Handling</th>
-                    <th>Kommando</th>
-                </tr>
-                <tr>
-                    <td>Løs ligning</td>
-                    <td>Beregn(f(x)=0) eller Løs(f(x)=0)</td>
-                </tr>
-                <tr>
-                    <td>Numerisk løsning</td>
-                    <td>Numerisk(f(x)=0)</td>
-                </tr>
-                <tr>
-                    <td>Regression</td>
-                    <td>Brug "Regneark" og værktøjet "To-variabel regressionsanalyse"</td>
-                </tr>
-            </table>
+            <h2>Interaktiv Graftegner</h2>
+            <p>Indtast en funktion for at se grafen (brug f.eks. x^2, sqrt(x) eller sin(x)):</p>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <input type="text" id="tool-graph-input" value="x^2" style="padding: 10px; width: 60%; border-radius: 5px; border: 1px solid #ccc;">
+            </div>
+            <div id="mini-geogebra" style="text-align: center;"></div>
         </section>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const input = document.getElementById('tool-graph-input');
+                function updateGraph() {
+                    try {
+                        functionPlot({
+                            target: '#mini-geogebra',
+                            width: 500,
+                            height: 350,
+                            grid: true,
+                            data: [{ fn: input.value, color: '#3498db' }]
+                        });
+                    } catch (err) { console.log("Fejl i indtastning"); }
+                }
+                input.addEventListener('input', updateGraph);
+                updateGraph();
+            });
+        </script>
 
         <section class="card">
             <h2>Tips til eksamen</h2>

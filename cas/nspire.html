@@ -11,43 +11,31 @@
 <body>
     <nav id="sidebar-menu" class="sidebar"></nav>
     <main class="content">
-        <header>
-            <h1>TI-Nspire</h1>
-            <p class="subtitle">Genveje og kommandoer</p>
-        </header>
-
         <section class="card">
-            <h2>Grundlæggende funktioner</h2>
-            <table>
-                <tr>
-                    <th>Handling</th>
-                    <th>Kommando / Genvej</th>
-                </tr>
-                <tr>
-                    <td>Definer funktion</td>
-                    <td>f(x):=ax+b</td>
-                </tr>
-                <tr>
-                    <td>Løs ligning</td>
-                    <td>solve(f(x)=0,x)</td>
-                </tr>
-                <tr>
-                    <td>Numerisk løsning</td>
-                    <td>nsolve(f(x)=0,x)</td>
-                </tr>
-                <tr>
-                    <td>Math-felt</td>
-                    <td>Ctrl + M</td>
-                </tr>
-            </table>
+            <h2>Test dig selv</h2>
+            <p>Hvad er den afledte funktion af \( f(x) = 5x^2 \)?</p>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="quiz-answer" placeholder="Dit svar..." style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+                <button onclick="checkQuiz()" style="padding: 10px; background: #2c3e50; color: white; border: none; border-radius: 5px; cursor: pointer;">Tjek svar</button>
+            </div>
+            <p id="quiz-feedback" style="margin-top: 10px; font-weight: bold;"></p>
         </section>
-
-        <section class="card">
-            <h2>Regression</h2>
-            <p>1. Åbn "Lister og regneark".<br>
-               2. Indtast data i to kolonner (navngiv dem f.eks. 'x' og 'y').<br>
-               3. Statistik > Statistiske beregninger > Vælg model (Lineær, Eksponentiel osv.).</p>
-        </section>
+        
+        <script>
+            function checkQuiz() {
+                const ans = document.getElementById('quiz-answer').value.replace(/\s+/g, '').toLowerCase();
+                const feedback = document.getElementById('quiz-feedback');
+                
+                // Vi tjekker om svaret er 10x
+                if (ans === "10x") {
+                    feedback.style.color = "#27ae60";
+                    feedback.innerHTML = "Korrekt! Godt arbejdet. &#127881;";
+                } else {
+                    feedback.style.color = "#e74c3c";
+                    feedback.innerHTML = "Ikke helt rigtigt. Husk reglen: \( n \cdot ax^{n-1} \). Prøv igen!";
+                }
+            }
+        </script>
     </main>
 </body>
 </html>
