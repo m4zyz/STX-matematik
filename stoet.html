@@ -3,10 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Støt mig - STX Matematik Noter</title>
+    <title>Støt mig - STX Matematik</title>
     <link rel="stylesheet" href="style.css">
     <script>window.basePath = "";</script>
     <script src="menu.js" defer></script>
+    
+    <style>
+        .support-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; /* Centrerer teksten og billedet lodret i forhold til hinanden */
+            margin-bottom: 40px; /* Giver god plads mellem MobilePay og Coffee */
+            gap: 20px; /* Sikrer at tekst og billede aldrig rører hinanden */
+        }
+        
+        .support-info {
+            flex: 1; /* Sørger for at teksten fylder den ledige plads til venstre */
+        }
+        
+        .support-qr {
+            flex-shrink: 0; /* Forhindrer at billedet bliver mast, hvis skærmen er lille */
+        }
+        
+        .support-qr img {
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Lægger en lille, pæn skygge bag QR-koden */
+            display: block; 
+        }
+        
+        /* Mobil-venligt: Hvis skærmen er meget smal (f.eks. en telefon), rykker vi QR-koden ned under teksten */
+        @media (max-width: 600px) {
+            .support-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .support-qr {
+                align-self: center;
+                margin-top: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -28,7 +64,7 @@
                     Du kan sende et valgfrit beløb til mit MobilePay nummer: <strong>4360RB</strong> (Skriv gerne "STX" i kommentaren).</p>
                 </div>
                 <div class="support-qr">
-                    <img src="mobilepay-qr.png" width="200px" alt="MobilePay QR">
+                    <img src="mobilepay-qr.png" width="200" alt="MobilePay QR">
                 </div>
             </div>
             
@@ -39,7 +75,7 @@
                     <a href="https://buymeacoffee.com/magnus314" target="_blank" rel="noopener noreferrer" class="print-btn" style="text-decoration: none; display: inline-block; background-color: #FFDD00; color: #000; border: none; font-weight: bold;">Giv en kop kaffe</a>
                 </div>
                 <div class="support-qr">
-                    <img src="buymeacoffee-qr.png" width="200px" alt="Buy Me a Coffee QR">
+                    <img src="buymeacoffee-qr.png" width="200" alt="Buy Me a Coffee QR">
                 </div>
             </div>
 
