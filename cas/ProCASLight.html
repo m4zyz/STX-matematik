@@ -10,6 +10,147 @@
     <script src="https://unpkg.com/nerdamer/nerdamer.core.js"></script>
     <script src="https://unpkg.com/nerdamer/Calculus.js"></script>
     <script src="https://unpkg.com/mathlive"></script>
+
+    <style>
+        /* ── Knapper ── */
+        .cas-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .cas-btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 14px 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: opacity 0.15s, transform 0.1s;
+        }
+        .cas-btn:hover  { opacity: 0.88; transform: translateY(-1px); }
+        .cas-btn:active { transform: translateY(0); }
+        .cas-btn--diff   { background: #3498db; color: white; }
+        .cas-btn--int    { background: #27ae60; color: white; }
+        .cas-btn--defint { background: #e67e22; color: white; }
+        .cas-btn--go     { background: #e67e22; color: white; padding: 10px 22px; min-width: unset; flex: unset; }
+
+        /* ── Grænser (bestemt integral) ── */
+        #bounds-row {
+            display: none;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            background: #fff8f0;
+            border: 2px solid #e67e22;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+        }
+        #bounds-row label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            color: #e67e22;
+            font-size: 1.1rem;
+        }
+        #bounds-row input {
+            width: 70px;
+            padding: 8px;
+            border: 2px solid #e67e22;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 1.1rem;
+            outline: none;
+        }
+        #bounds-row input:focus { border-color: #c0392b; }
+
+        /* ── Resultat ── */
+        #pro-result-box {
+            display: none;
+            background: #f4fbff;
+            border-left: 5px solid #3498db;
+            padding: 18px 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Trin-boks ── */
+        #steps-box { display: none; }
+
+        .steps-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3d5166 100%);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .steps-header h3 { margin: 0; font-size: 1.05rem; letter-spacing: 0.02em; }
+
+        .steps-body {
+            background: #f8f9fb;
+            border: 1px solid #dde2ea;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            padding: 20px;
+        }
+
+        /* ── Enkelt trin ── */
+        .step {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 14px;
+            background: white;
+            border-radius: 10px;
+            padding: 14px 16px;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+            animation: fadeInUp 0.3s ease both;
+        }
+        .step:last-child { margin-bottom: 0; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-badge {
+            width: 30px; height: 30px; min-width: 30px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 0.85rem;
+            color: white;
+        }
+        .step-badge--blue   { background: #3498db; }
+        .step-badge--green  { background: #27ae60; }
+        .step-badge--orange { background: #e67e22; }
+        .step-badge--check  { background: #16a085; font-size: 1rem; }
+
+        .step-content { flex: 1; min-width: 0; }
+        .step-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+        }
+        .step-explanation {
+            color: #636e7b;
+            font-size: 0.88rem;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        .step-math math-field {
+            --caret-color: transparent;
+            font-size: 1.2rem;
+            border: none !important;
+            background: transparent !important;
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <nav id="sidebar-menu" class="sidebar"></nav>
@@ -17,97 +158,360 @@
         <section class="card">
             <h2>Pro CAS-Light</h2>
             <p>Indtast din funktion herunder. Værktøjet viser automatisk det matematiske udtryk.</p>
-            
-            <div style="background: white; border: 2px solid #3498db; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+
+            <!-- Input -->
+            <div style="background: white; border: 2px solid #3498db; border-radius: 8px; padding: 15px; margin-bottom: 18px;">
                 <math-field id="pro-cas-input" style="font-size: 1.5rem; width: 100%; border: none; outline: none;">
                     x^3 + 2x
                 </math-field>
             </div>
-        
-            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <button onclick="proCalculate('diff')" style="flex: 1; padding: 15px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                    Afledt funktion f'(x)
-                </button>
-                <button onclick="proCalculate('int')" style="flex: 1; padding: 15px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
-                    Ubestemt Integral ∫
-                </button>
+
+            <!-- Knapper -->
+            <div class="cas-buttons">
+                <button class="cas-btn cas-btn--diff"   onclick="proCalculate('diff')">f'(x) &nbsp;Afledt</button>
+                <button class="cas-btn cas-btn--int"    onclick="proCalculate('int')">∫ Ubestemt integral</button>
+                <button class="cas-btn cas-btn--defint" onclick="toggleBestemt()">∫ₐᵇ Bestemt integral</button>
             </div>
-        
-            <div id="pro-result-box" style="display: none; background: #f9f9f9; border-left: 5px solid #3498db; padding: 20px; border-radius: 4px;">
-                <p style="margin: 0 0 10px 0; color: #7f8c8d; font-size: 0.9rem;" id="result-label">Resultat:</p>
-                <math-field id="pro-result-display" 
-                    read-only 
-                    style="font-size: 1.8rem; width: 100%; border: none; background: transparent;">
+
+            <!-- Grænser -->
+            <div id="bounds-row">
+                <label>a = <input type="number" id="bound-a" value="0" step="any"></label>
+                <label>b = <input type="number" id="bound-b" value="1" step="any"></label>
+                <button class="cas-btn cas-btn--go" onclick="proCalculate('defint')">Beregn ∫ₐᵇ</button>
+            </div>
+
+            <!-- Resultat -->
+            <div id="pro-result-box">
+                <p style="margin: 0 0 8px; color: #7f8c8d; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;" id="result-label">Resultat</p>
+                <math-field id="pro-result-display" read-only
+                    style="font-size: 2rem; width: 100%; border: none; background: transparent;">
                 </math-field>
             </div>
+
+            <!-- Trin for trin -->
+            <div id="steps-box">
+                <div class="steps-header">
+                    <span style="font-size:1.3rem;">📐</span>
+                    <h3>Trin for trin løsning</h3>
+                </div>
+                <div class="steps-body" id="steps-content"></div>
+            </div>
         </section>
-        
+
         <script>
-            function proCalculate(mode) {
-    const inputField = document.getElementById('pro-cas-input');
-    const resultBox = document.getElementById('pro-result-box');
-    const resultDisplay = document.getElementById('pro-result-display');
-    const label = document.getElementById('result-label');
+        let bestemtVisible = false;
 
-    if (typeof nerdamer === 'undefined') {
-        resultDisplay.innerHTML = `<p style="color:red;">CAS-biblioteket er ikke indlæst. Prøv at genindlæse siden.</p>`;
-        resultBox.style.display = "block";
-        return;
-    }
+        function toggleBestemt() {
+            bestemtVisible = !bestemtVisible;
+            document.getElementById('bounds-row').style.display = bestemtVisible ? 'flex' : 'none';
+        }
 
-    let rawInput = "";
-    try {
-        rawInput = inputField.getValue('latex');
-    } catch(e) {
-        rawInput = inputField.value || "";
-    }
+        /* ── LaTeX-rensning ── */
+        function latexToNerdamer(raw) {
+            return raw
+                .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
+                .replace(/\\sqrt\{([^{}]+)\}/g, 'sqrt($1)')
+                .replace(/\\left/g, '').replace(/\\right/g, '')
+                .replace(/\\cdot/g, '*').replace(/\\times/g, '*')
+                .replace(/\\pi/g, 'pi')
+                .replace(/\\sin/g, 'sin').replace(/\\cos/g, 'cos')
+                .replace(/\\tan/g, 'tan').replace(/\\ln/g, 'log')
+                .replace(/\^{([^{}]+)}/g, '^($1)')
+                .replace(/\{/g, '(').replace(/\}/g, ')')
+                .replace(/\\/g, '').replace(/ /g, '').replace(/÷/g, '/');
+        }
 
-    // LaTeX → nerdamer konvertering
-    let clean = rawInput
-        .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
-        .replace(/\\sqrt\{([^{}]+)\}/g, 'sqrt($1)')
-        .replace(/\\left/g, '')
-        .replace(/\\right/g, '')
-        .replace(/\\cdot/g, '*')
-        .replace(/\\times/g, '*')
-        .replace(/\\pi/g, 'pi')
-        .replace(/\\sin/g, 'sin')
-        .replace(/\\cos/g, 'cos')
-        .replace(/\\tan/g, 'tan')
-        .replace(/\\ln/g, 'log')
-        .replace(/\^{([^{}]+)}/g, '^($1)')
-        .replace(/\{/g, '(')
-        .replace(/\}/g, ')')
-        .replace(/\\/g, '')
-        .replace(/ /g, '')
-        .replace(/÷/g, '/');
+        /* ── Opret en read-only math-field ── */
+        function makeMF(latex) {
+            const mf = document.createElement('math-field');
+            mf.setAttribute('read-only', '');
+            return { el: mf, latex };
+        }
 
-        try {
-    if (!clean || clean.trim() === "") throw new Error("Tomt felt");
+        /* ── Tilføj ét trin ── */
+        function addStep(container, { num, title, explanation, latex, badgeClass }) {
+            const step = document.createElement('div');
+            step.className = 'step';
+            step.style.animationDelay = (num * 60) + 'ms';
 
-    let result;
+            const badge = document.createElement('div');
+            badge.className = 'step-badge ' + (badgeClass || 'step-badge--blue');
+            badge.textContent = typeof num === 'string' ? num : num;
 
-    if (mode === 'diff') {
-        result = nerdamer.diff(clean, 'x').toString();
-        label.textContent = "Afledt funktion f'(x):";
-    } else {
-        result = nerdamer.integrate(clean, 'x').toString();
-        label.textContent = "Ubestemt integral:";
-    }
+            const body = document.createElement('div');
+            body.className = 'step-content';
 
-    let finalLatex = nerdamer(result).toTeX();
-    if (mode === 'int') finalLatex += " + k";
+            const titleEl = document.createElement('div');
+            titleEl.className = 'step-title';
+            titleEl.textContent = title;
 
-    // ✅ Brug MathLive math-field til at rendere pænt
-    resultDisplay.setValue(finalLatex);
-    resultBox.style.display = "block";
+            const expEl = document.createElement('div');
+            expEl.className = 'step-explanation';
+            expEl.textContent = explanation;
 
-} catch (err) {
-    console.error("Fejl i CAS:", err, "| Input:", clean);
-    resultDisplay.setValue("\\text{Fejl: " + clean + "}");
-    resultBox.style.display = "block";
-}
-}
+            body.appendChild(titleEl);
+            body.appendChild(expEl);
+
+            if (latex) {
+                const mathWrap = document.createElement('div');
+                mathWrap.className = 'step-math';
+                const { el: mf } = makeMF(latex);
+                mathWrap.appendChild(mf);
+                body.appendChild(mathWrap);
+                // Set value after appended to DOM
+                requestAnimationFrame(() => { mf.value = latex; });
+            }
+
+            step.appendChild(badge);
+            step.appendChild(body);
+            container.appendChild(step);
+        }
+
+        /* ── Opdel i led (respekterer parenteser) ── */
+        function splitTerms(expr) {
+            const terms = [];
+            let depth = 0, cur = '';
+            for (let i = 0; i < expr.length; i++) {
+                const ch = expr[i];
+                if ('(['.includes(ch)) depth++;
+                else if (')]'.includes(ch)) depth--;
+                const prev = expr[i - 1] || '';
+                if (depth === 0 && (ch === '+' || ch === '-') && i > 0
+                    && prev !== '^' && prev !== '*' && prev !== 'e') {
+                    if (cur.trim()) terms.push(cur.trim());
+                    cur = ch;
+                } else { cur += ch; }
+            }
+            if (cur.trim()) terms.push(cur.trim());
+            return terms.filter(t => t && t !== '+');
+        }
+
+        /* ── Identificér regneregl for ét led ── */
+        function identifyRule(term, mode) {
+            const t = term.replace(/\s/g, '').replace(/^\+/, '');
+            const diff = mode === 'diff';
+
+            if (/^-?[0-9.]+$/.test(t))
+                return diff
+                    ? { name: 'Konstantreglen', exp: 'Afledning af en konstant er altid 0.' }
+                    : { name: 'Konstantreglen', exp: 'Integralet af en konstant a er a·x.' };
+
+            if (/^-?[0-9.]*\*?e\^x$/.test(t) || t === 'e^x' || t === '-e^x')
+                return diff
+                    ? { name: 'Eksponentiel­reglen', exp: 'Afledningen af eˣ er eˣ. Funktionen er sin egen afledte.' }
+                    : { name: 'Eksponentiel­reglen', exp: 'Integralet af eˣ er eˣ. Funktionen er sin egen stamfunktion.' };
+
+            if (/^-?[0-9.]*\*?sin\(x\)$/.test(t))
+                return diff
+                    ? { name: 'Sinusreglen', exp: 'Afledningen af sin(x) er cos(x).' }
+                    : { name: 'Sinusreglen', exp: 'Integralet af sin(x) er −cos(x).' };
+
+            if (/^-?[0-9.]*\*?cos\(x\)$/.test(t))
+                return diff
+                    ? { name: 'Cosinusreglen', exp: 'Afledningen af cos(x) er −sin(x).' }
+                    : { name: 'Cosinusreglen', exp: 'Integralet af cos(x) er sin(x).' };
+
+            if (/^-?[0-9.]*\*?(log|ln)\(x\)$/.test(t))
+                return diff
+                    ? { name: 'Logaritmereglen', exp: 'Afledningen af ln(x) er 1/x.' }
+                    : { name: 'Logaritmereglen', exp: 'Integralet af ln(x) er x·ln(x) − x (delvis integration).' };
+
+            if (t === 'x' || t === '-x')
+                return diff
+                    ? { name: 'Potensreglen (n = 1)', exp: 'd/dx(x¹) = 1·x⁰ = 1.' }
+                    : { name: 'Potensreglen (n = 1)', exp: '∫x dx = x²/2.' };
+
+            const lin = t.match(/^(-?[0-9.]+)\*?x$/);
+            if (lin)
+                return diff
+                    ? { name: 'Potensreglen + konstantfaktor', exp: `d/dx(${lin[1]}x) = ${lin[1]}.` }
+                    : { name: 'Potensreglen (n = 1)', exp: `∫${lin[1]}x dx = ${lin[1]}·x²/2.` };
+
+            const pow = t.match(/^(-?[0-9.]*)\*?x\^(-?[0-9.]+)$/);
+            if (pow) {
+                const n = parseFloat(pow[2]);
+                return diff
+                    ? { name: 'Potensreglen', exp: `d/dx(xⁿ) = n·xⁿ⁻¹, her med n = ${n} → ny eksponent: ${n - 1}.` }
+                    : { name: 'Potensreglen', exp: `∫xⁿ dx = xⁿ⁺¹/(n+1), her med n = ${n} → ny eksponent: ${n + 1}, divider med ${n + 1}.` };
+            }
+
+            return { name: 'Regneregler', exp: 'Anvender standard regneregler.' };
+        }
+
+        /* ── Generér trin ── */
+        function generateSteps(clean, mode, result, a, b) {
+            const container = document.getElementById('steps-content');
+            container.innerHTML = '';
+            document.getElementById('steps-box').style.display = 'block';
+
+            let n = 1;
+
+            // Udvidede led
+            let expanded = clean;
+            try { expanded = nerdamer.expand(clean).toString(); } catch(e) {}
+            const terms = splitTerms(expanded);
+
+            const inputLatex = nerdamer(clean).toTeX();
+
+            // Trin 1 – Præsentér opgaven
+            const opgaveLatex = mode === 'diff'
+                ? `f(x) = ${inputLatex}`
+                : mode === 'int'
+                    ? `\\int ${inputLatex} \\, dx`
+                    : `\\int_{${a}}^{${b}} ${inputLatex} \\, dx`;
+
+            addStep(container, {
+                num: n++, badgeClass: 'step-badge--blue',
+                title: 'Opgaven',
+                explanation: mode === 'diff'
+                    ? 'Vi skal finde den afledte funktion f\'(x).'
+                    : mode === 'int'
+                        ? 'Vi skal finde det ubestemte integral F(x).'
+                        : `Vi skal beregne det bestemte integral fra a = ${a} til b = ${b}.`,
+                latex: opgaveLatex
+            });
+
+            if (mode === 'diff' || mode === 'int') {
+                // Trin 2 – Sumregel (kun ved flere led)
+                if (terms.length > 1) {
+                    addStep(container, {
+                        num: n++, badgeClass: 'step-badge--blue',
+                        title: mode === 'diff' ? 'Sumreglen for differentiering' : 'Sumreglen for integration',
+                        explanation: mode === 'diff'
+                            ? 'Vi differentierer hvert led for sig: (f + g)′ = f′ + g′'
+                            : 'Vi integrerer hvert led for sig: ∫(f + g) dx = ∫f dx + ∫g dx',
+                        latex: null
+                    });
+                }
+
+                // Trin per led
+                terms.forEach(term => {
+                    try {
+                        const rule = identifyRule(term, mode);
+                        let termResult = mode === 'diff'
+                            ? nerdamer.diff(term, 'x').toString()
+                            : nerdamer.integrate(term, 'x').toString();
+
+                        const termLatex   = nerdamer(term).toTeX();
+                        const resultLatex = nerdamer(termResult).toTeX();
+
+                        const stepLatex = mode === 'diff'
+                            ? `\\frac{d}{dx}\\!\\left(${termLatex}\\right) = ${resultLatex}`
+                            : `\\int ${termLatex}\\, dx = ${resultLatex}`;
+
+                        addStep(container, {
+                            num: n++, badgeClass: 'step-badge--blue',
+                            title: rule.name,
+                            explanation: rule.exp,
+                            latex: stepLatex
+                        });
+                    } catch(e) { /* spring over problematiske led */ }
+                });
+
+            } else if (mode === 'defint') {
+                // Trin 2 – Find stamfunktionen
+                let antideriv;
+                try {
+                    antideriv = nerdamer.integrate(clean, 'x').toString();
+                    const antiderivLatex = nerdamer(antideriv).toTeX();
+
+                    addStep(container, {
+                        num: n++, badgeClass: 'step-badge--orange',
+                        title: 'Find stamfunktionen F(x)',
+                        explanation: 'Vi finder først det ubestemte integral (stamfunktionen) ved brug af potensreglen/regneregler.',
+                        latex: `F(x) = ${antiderivLatex}`
+                    });
+
+                    // Trin 3 – Analysens fundamentalsætning
+                    addStep(container, {
+                        num: n++, badgeClass: 'step-badge--orange',
+                        title: 'Analysens fundamentalsætning',
+                        explanation: `Vi indsætter de øvre og nedre grænser: [F(x)]_${a}^${b} = F(${b}) − F(${a})`,
+                        latex: `\\left[${antiderivLatex}\\right]_{${a}}^{${b}}`
+                    });
+                } catch(e) {}
+            }
+
+            // Afsluttende svar
+            const resultLatex = nerdamer(result.toString()).toTeX();
+            const svarLatex = mode === 'diff'
+                ? `f'(x) = ${resultLatex}`
+                : mode === 'int'
+                    ? `F(x) = ${resultLatex} + k`
+                    : `\\int_{${a}}^{${b}} f(x)\\,dx = ${resultLatex}`;
+
+            addStep(container, {
+                num: '✓', badgeClass: 'step-badge--check',
+                title: 'Svar',
+                explanation: mode === 'diff'
+                    ? 'Den afledte funktion:'
+                    : mode === 'int'
+                        ? 'Det ubestemte integral (husk integrationskonstanten k):'
+                        : 'Det bestemte integral er lig med:',
+                latex: svarLatex
+            });
+        }
+
+        /* ── Hovedfunktion ── */
+        function proCalculate(mode) {
+            const inputField   = document.getElementById('pro-cas-input');
+            const resultBox    = document.getElementById('pro-result-box');
+            const resultDisplay = document.getElementById('pro-result-display');
+            const label        = document.getElementById('result-label');
+
+            if (typeof nerdamer === 'undefined') {
+                alert('CAS-biblioteket er ikke indlæst – prøv at genindlæse siden.');
+                return;
+            }
+
+            let rawInput = '';
+            try { rawInput = inputField.getValue('latex'); }
+            catch(e) { rawInput = inputField.value || ''; }
+
+            const clean = latexToNerdamer(rawInput);
+
+            try {
+                if (!clean || !clean.trim()) throw new Error('Tomt felt');
+
+                let result, finalLatex;
+
+                if (mode === 'diff') {
+                    result     = nerdamer.diff(clean, 'x').toString();
+                    finalLatex = nerdamer(result).toTeX();
+                    label.textContent = "Afledt funktion f'(x)";
+                    resultBox.style.borderLeftColor = '#3498db';
+
+                } else if (mode === 'int') {
+                    result     = nerdamer.integrate(clean, 'x').toString();
+                    finalLatex = nerdamer(result).toTeX() + ' + k';
+                    label.textContent = 'Ubestemt integral';
+                    resultBox.style.borderLeftColor = '#27ae60';
+
+                } else if (mode === 'defint') {
+                    const a = parseFloat(document.getElementById('bound-a').value);
+                    const b = parseFloat(document.getElementById('bound-b').value);
+                    if (isNaN(a) || isNaN(b)) throw new Error('Ugyldige grænser');
+                    result     = nerdamer.defint(clean, a, b, 'x').toString();
+                    finalLatex = nerdamer(result).toTeX();
+                    label.textContent = `Bestemt integral fra ${a} til ${b}`;
+                    resultBox.style.borderLeftColor = '#e67e22';
+                    resultDisplay.value = finalLatex;
+                    resultBox.style.display = 'block';
+                    generateSteps(clean, 'defint', result, a, b);
+                    return;
+                }
+
+                resultDisplay.value = finalLatex;
+                resultBox.style.display = 'block';
+                generateSteps(clean, mode, result);
+
+            } catch(err) {
+                console.error('CAS fejl:', err, '| input:', clean);
+                resultDisplay.value = '\\text{Fejl — tjek dit udtryk}';
+                resultBox.style.display = 'block';
+                document.getElementById('steps-box').style.display = 'none';
+            }
+        }
         </script>
     </main>
 </body>
