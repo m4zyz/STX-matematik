@@ -11,7 +11,7 @@ const stxMenuData = {
         { title: "Integralregning", path: "emner/A/integralregning.html" }
     ],
     "B-Niveau": [
-        { title: "er du glad emil", path: "emner/B/integralregning.html" }
+        { title: "Differentialregning", path: "emner/B/differentialregning.html" }
     ],
     "C-Niveau": [
         { title: "Funktioner", path: "emner/C/Funktioner.html" }
