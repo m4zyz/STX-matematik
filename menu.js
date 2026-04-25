@@ -22,7 +22,7 @@ const stxMenuData = {
         { title: "C-niveau", path: "formelsamling/C/formelsamlingC.html" }
     ],
     "CAS": [
-        { title: "Test dig selv", path: "cas/Testdigselv.html" },
+        { title: "Matematik Træner", path: "cas/MatematikTræner.html" },
         { title: "GeoGebra", path: "cas/geogebra.html" },
         { title: "Maple", path: "cas/maple.html" }
     ],
