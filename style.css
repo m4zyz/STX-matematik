@@ -309,3 +309,11 @@ body {
         margin-bottom: 30px;
     }
 }
+
+        /* Responsiv matematik - tillader horisontal scroll på små skærme */
+        mjx-container[display="true"] {
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-width: 100%;
+            padding-bottom: 5px; /* Giver lidt plads, så en evt. scrollbar ikke dækker formlen */
+        }
