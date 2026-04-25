@@ -213,53 +213,83 @@ body {
     padding-left: 32px; 
 }
 
+/* --- Hamburger Knap (Skjult på desktop) --- */
+.hamburger-btn {
+    display: none; /* Skjult som standard */
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1000; /* Sørger for den altid ligger øverst */
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s;
+}
+
+.hamburger-btn:hover {
+    background-color: #2980b9;
+}
 
 /* =========================================
    RESPONSIVT DESIGN (Mobil & Tablet)
    ========================================= */
 @media (max-width: 800px) {
     body {
-        flex-direction: column; /* Stabler indholdet under hinanden i stedet for ved siden af */
+        flex-direction: column;
+        overflow-x: hidden; /* Forhindrer at skærmen kan rykkes til siden */
+    }
+
+    .hamburger-btn {
+        display: block; /* Vis hamburgerknappen på små skærme */
     }
 
     .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative; /* Gør at menuen ikke altid bliver på skærmen, men scroller med op */
-        padding: 10px 0;
-        border-bottom: 4px solid var(--primary-color); /* Lille detalje for at adskille menu og indhold */
+        width: 260px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: -260px; /* Skubbet helt ud af skærmen til venstre */
+        z-index: 999;
+        transition: left 0.3s ease; /* Blød slide-effekt når den åbnes */
+        box-shadow: 2px 0 15px rgba(0,0,0,0.5); /* Skygge så den træder frem */
     }
 
-    .sidebar h2 {
-        padding-top: 10px;
+    /* Denne klasse tilføjes via JavaScript, når man trykker på knappen */
+    .sidebar.mobile-open {
+        left: 0; /* Trækker menuen ind på skærmen */
     }
 
     .content {
         margin-left: 0;
         width: 100%;
-        padding: 20px 15px; /* Mindre kant på små skærme */
+        /* Ekstra plads i toppen (70px), så hamburgerknappen ikke skygger for din overskrift */
+        padding: 70px 15px 20px 15px; 
+        box-sizing: border-box;
     }
 
     .card {
-        padding: 20px 15px; /* Gør kasserne lidt strammere, så teksten får plads */
+        padding: 20px 15px;
     }
 
     .footer-links {
-        flex-wrap: wrap; /* Tillader linksene i bunden at hoppe ned på næste linje, hvis de mangler plads */
+        flex-wrap: wrap;
         gap: 15px;
     }
 }
 
-
 /* --- MAGIEN TIL PDF-DOWNLOAD --- */
 /* Disse regler gælder KUN når siden printes eller gemmes som PDF */
 @media print {
-    /* Skjul sidemenuen og print-knappen i PDF'en */
-    .sidebar, .print-btn, .level-btn, .home-link {
+    /* Skjul sidemenuen, knapper og hamburgerknap i PDF'en */
+    .sidebar, .print-btn, .level-btn, .home-link, .hamburger-btn {
         display: none !important;
     }
 
-    /* Gør hovedindholdet 100% bredt (fjern margin fra sidemenuen) */
     .content {
         margin-left: 0 !important;
         width: 100% !important;
@@ -267,17 +297,15 @@ body {
         max-width: none !important;
     }
 
-    /* Gør baggrunden helt hvid for at spare på blæk og gøre det pænere */
     body {
         background-color: white !important;
         display: block !important;
     }
 
-    /* Sørg for at bokse ikke knækker midt i overgangen mellem to sider i PDF'en */
     .card {
         page-break-inside: avoid;
-        border: 1px solid #ccc; /* Tilføjer en tynd kant til PDF'en for struktur */
-        box-shadow: none; /* Fjerner skygger i PDF'en */
+        border: 1px solid #ccc; 
+        box-shadow: none; 
         margin-bottom: 30px;
     }
 }

@@ -1,14 +1,11 @@
 // --- Indsæt Favicon (Fane-logo) automatisk på alle sider ---
 const faviconLink = document.createElement('link');
 faviconLink.rel = 'icon';
-// Font-size er sat op til 110, og y-positionen er justeret for at centrere den
 faviconLink.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.82em' font-size='110' font-family='Georgia, serif' fill='%233498db'>π</text></svg>";
 document.head.appendChild(faviconLink);
 // -----------------------------------------------------------
 
-
 // --- 1. DIT KARTOTEK OVER EMNER ---
-// Det er KUN herunder, du skal tilføje nye emner fremover!
 const stxMenuData = {
     "A-Niveau": [
         { title: "Integralregning", path: "emner/A/integralregning.html" }
@@ -30,10 +27,9 @@ const stxMenuData = {
 };
 
 // --- 2. MASKINRUMMET (Skal ikke ændres) ---
-// Denne funktion bygger automatisk menuen, når en side loader
 document.addEventListener('DOMContentLoaded', () => {
     const nav = document.getElementById('sidebar-menu');
-    if (!nav) return; // Hvis der ikke er en menu på siden, stop her.
+    if (!nav) return;
 
     let html = `<h2>
     <a href="${window.basePath}index.html" onclick="lukAlleMenuer()" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center; gap: 10px;">
@@ -42,9 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
 </h2>`;
 
-    // Kør igennem alle niveauerne
     for (const [niveau, emner] of Object.entries(stxMenuData)) {
-        const menuId = "menu-" + niveau.charAt(0); // Giver id'er som "menu-A"
+        const menuId = "menu-" + niveau.charAt(0); 
 
         html += `
         <div class="level-container" id="${menuId}">
@@ -52,8 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <ul class="submenu">
         `;
 
-        // Kør igennem alle emner og byg links. 
-        // window.basePath sørger for, at stien enten hedder "../A/" eller "emner/A/" alt efter hvor vi er.
         emner.forEach(emne => {
             html += `<li><a href="${window.basePath}${emne.path}">${emne.title}</a></li>`;
         });
@@ -64,27 +57,41 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    // Tilføj Forside-knappen i bunden (Ændret til sessionStorage.clear())
     html += `
     <div class="sidebar-footer">
         <a href="${window.basePath}index.html" class="home-link" onclick="sessionStorage.clear();">Forside</a>
     </div>
     `;
 
-    // Sæt hele denne kode ind i HTML'en
     nav.innerHTML = html;
 
     // --- 3. AKTIVER HUKOMMELSE OG FARVER ---
     aktiverMenuFunktioner();
+
+    // --- 4. HAMBURGER MENU TIL MOBIL ---
+    // Skaber knappen og lægger den ind på siden
+    const hamburger = document.createElement('button');
+    hamburger.className = 'hamburger-btn';
+    hamburger.innerHTML = '☰'; // Starter som en hamburger
+    document.body.appendChild(hamburger);
+
+    // Lytter efter klik på knappen
+    hamburger.addEventListener('click', () => {
+        nav.classList.toggle('mobile-open'); // Åbner/lukker menuen i CSS
+        
+        // Skifter ikon mellem hamburger og kryds
+        if (nav.classList.contains('mobile-open')) {
+            hamburger.innerHTML = '✖'; 
+        } else {
+            hamburger.innerHTML = '☰'; 
+        }
+    });
 });
 
 function aktiverMenuFunktioner() {
-    // Fold-ud og hukommelse
     document.querySelectorAll('.level-container').forEach(container => {
         const menuId = container.id;
         const btn = container.querySelector('.level-btn');
-        
-        // Ændret til sessionStorage
         const state = sessionStorage.getItem(menuId);
         
         if (state === 'aaben') container.classList.add('active');
@@ -92,13 +99,10 @@ function aktiverMenuFunktioner() {
         btn.addEventListener('click', (e) => {
             e.preventDefault(); 
             const isActive = container.classList.toggle('active');
-            
-            // Ændret til sessionStorage
             sessionStorage.setItem(menuId, isActive ? 'aaben' : 'lukket');
         });
     });
 
-    // Fremhæv den side vi er på lige nu
     const currentFile = window.location.pathname.split('/').pop(); 
     document.querySelectorAll('.submenu a').forEach(link => {
         const linkFile = link.getAttribute('href').split('/').pop(); 
@@ -107,19 +111,14 @@ function aktiverMenuFunktioner() {
         }
     });
 
-    // Sæt årstal i bunden (Hvis du også vil have JavaScript til at gøre dette centralt)
     const yearEl = document.getElementById('currentYear');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
 window.lukAlleMenuer = function() {
-    // 1. Fjerner 'active' klassen så de lukker visuelt her og nu
     const aktiveElementer = document.querySelectorAll('#sidebar-menu .active');
     aktiveElementer.forEach(el => {
         el.classList.remove('active');
     });
-
-    // 2. DET VIGTIGSTE: Vi rydder sessionStorage, så menuen "glemmer" 
-    // at bjælkerne var åbne, når den nye side indlæses.
     sessionStorage.clear(); 
 };
