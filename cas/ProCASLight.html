@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maple Vejledning - STX Matematik</title>
+    <title>CAS- STX Matematik</title>
     <link rel="stylesheet" href="../style.css">
     <script>window.basePath = "../";</script>
     <script src="../menu.js" defer></script>
@@ -45,30 +45,44 @@
                 const resultDisplay = document.getElementById('pro-result-display');
                 const label = document.getElementById('result-label');
         
-                // MathLive bruger LaTeX internt, så vi konverterer det til noget Algebrite forstår
+                // 1. Hent input som rå tekst i stedet for LaTeX
                 let rawInput = inputField.getValue('ascii-math');
                 
+                // 2. Rens input (fjerner de mest gængse MathLive-fejl)
+                rawInput = rawInput.replace(/\\left/g, '(')
+                                   .replace(/\\right/g, ')')
+                                   .replace(/cdot/g, '*')
+                                   .replace(/times/g, '*');
+        
                 try {
                     let result = "";
+                    
+                    // Algebrite beregning
                     if (mode === 'diff') {
-                        result = Algebrite.run(`d(${rawInput})`).toString();
+                        result = Algebrite.run(`d(${rawInput})`);
                         label.innerText = "Den afledte funktion f'(x):";
                     } else {
-                        result = Algebrite.run(`integral(${rawInput})`).toString();
+                        result = Algebrite.run(`integral(${rawInput})`);
                         label.innerText = "Det ubestemte integral ∫ f(x) dx:";
                     }
         
-                    // Vis resultatet med MathJax for det professionelle look
-                    resultDisplay.innerHTML = `\\( ${Algebrite.run(`printlatex(${result})`)} \\)`;
+                    if (result.toString() === "Stop") throw new Error("Ugyldigt udtryk");
+        
+                    // 3. Konverter resultat til flot LaTeX via Algebrite
+                    const latexResult = Algebrite.run(`printlatex(${result})`).toString();
+                    
+                    // Indsæt i display (fjern eventuelle citat-tegn fra Algebrite)
+                    resultDisplay.innerHTML = `\\[ ${latexResult.replace(/"/g, '')} \\]`;
                     
                     resultBox.style.display = "block";
                     
-                    // Opdater MathJax
-                    if (window.MathJax) {
+                    // 4. Opdater MathJax
+                    if (window.MathJax && window.MathJax.typesetPromise) {
                         MathJax.typesetPromise([resultDisplay]);
                     }
                 } catch (err) {
-                    resultDisplay.innerHTML = "<span style='color:red; font-size: 1rem;'>Fejl: Kunne ikke beregne udtrykket. Tjek parenteser.</span>";
+                    console.error(err);
+                    resultDisplay.innerHTML = "<span style='color:red; font-size: 1rem;'>Fejl: Kunne ikke beregne udtrykket. Prøv f.eks. 'x^2 + cos(x)'</span>";
                     resultBox.style.display = "block";
                 }
             }

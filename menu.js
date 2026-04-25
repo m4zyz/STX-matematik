@@ -23,7 +23,7 @@ const stxMenuData = {
     ],
     "CAS": [
         { title: "GeoGebra", path: "cas/geogebra.html" },
-        { title: "Maple", path: "cas/maple.html" }
+        { title: "Pro CAS-Light", path: "cas/ProCASLight.html" }
     ],
     "Spil": [
         { title: "Pi quiz", path: "spil/piquiz.html" },
