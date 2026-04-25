@@ -1,3 +1,12 @@
+// --- Indsæt Favicon (Fane-logo) automatisk på alle sider ---
+const faviconLink = document.createElement('link');
+faviconLink.rel = 'icon';
+// Font-size er sat op til 110, og y-positionen er justeret for at centrere den
+faviconLink.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.82em' font-size='110' font-family='Georgia, serif' fill='%233498db'>π</text></svg>";
+document.head.appendChild(faviconLink);
+// -----------------------------------------------------------
+
+
 // --- 1. DIT KARTOTEK OVER EMNER ---
 // Det er KUN herunder, du skal tilføje nye emner fremover!
 const stxMenuData = {
@@ -55,10 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    // Tilføj Forside-knappen i bunden
+    // Tilføj Forside-knappen i bunden (Ændret til sessionStorage.clear())
     html += `
     <div class="sidebar-footer">
-        <a href="${window.basePath}index.html" class="home-link" onclick="localStorage.clear();">Forside</a>
+        <a href="${window.basePath}index.html" class="home-link" onclick="sessionStorage.clear();">Forside</a>
     </div>
     `;
 
@@ -74,14 +83,18 @@ function aktiverMenuFunktioner() {
     document.querySelectorAll('.level-container').forEach(container => {
         const menuId = container.id;
         const btn = container.querySelector('.level-btn');
-        const state = localStorage.getItem(menuId);
+        
+        // Ændret til sessionStorage
+        const state = sessionStorage.getItem(menuId);
         
         if (state === 'aaben') container.classList.add('active');
 
         btn.addEventListener('click', (e) => {
             e.preventDefault(); 
             const isActive = container.classList.toggle('active');
-            localStorage.setItem(menuId, isActive ? 'aaben' : 'lukket');
+            
+            // Ændret til sessionStorage
+            sessionStorage.setItem(menuId, isActive ? 'aaben' : 'lukket');
         });
     });
 
@@ -106,16 +119,7 @@ window.lukAlleMenuer = function() {
         el.classList.remove('active');
     });
 
-    // 2. DET VIGTIGSTE: Vi rydder localStorage, så menuen "glemmer" 
+    // 2. DET VIGTIGSTE: Vi rydder sessionStorage, så menuen "glemmer" 
     // at bjælkerne var åbne, når den nye side indlæses.
-    localStorage.clear(); 
+    sessionStorage.clear(); 
 };
-
-
-// --- Indsæt Favicon (Fane-logo) automatisk på alle sider ---
-const faviconLink = document.createElement('link');
-faviconLink.rel = 'icon';
-// Font-size er sat op til 110, og y-positionen er justeret for at centrere den
-faviconLink.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.82em' font-size='110' font-family='Georgia, serif' fill='%233498db'>π</text></svg>";
-document.head.appendChild(faviconLink);
-// -----------------------------------------------------------
