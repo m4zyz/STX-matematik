@@ -317,3 +317,29 @@ body {
             max-width: 100%;
             padding-bottom: 5px; /* Giver lidt plads, så en evt. scrollbar ikke dækker formlen */
         }
+
+        /* ========================================= */
+/* RESPONSIVT DESIGN TIL SMÅ SKÆRME (MOBIL/TABLET) */
+/* ========================================= */
+
+/* 1. Responsiv matematik (tillader vandret scroll på lange formler) */
+mjx-container[display="true"] {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    padding-bottom: 5px; /* Forhindrer scrollbaren i at dække bunden af formlen */
+}
+
+/* 2. Responsive tabeller (tillader vandret scroll på brede skemaer) */
+table, .data-table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch; /* Giver en lækker og glidende scroll på iPhones/iPads */
+}
+
+/* 3. Responsive grafer (tvinger SVG-grafer til at holde sig inden for skærmen) */
+svg {
+    max-width: 100% !important;
+    height: auto !important;
+}
