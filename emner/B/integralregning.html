@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html lang="da">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Integralregning - STX Matematik</title>
+
+    <link rel="stylesheet" href="../../style.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+
+
+    <script>
+
+        window.basePath = "../../";
+
+    </script>
+
+    <script src="../../menu.js" defer></script>
+
+
+
+    <style>
+
+        /* Indholdsfortegnelse */
+
+        .toc-list {
+
+            list-style: none;
+
+            padding: 0;
+
+            margin: 10px 0 0 0;
+
+            columns: 2;
+
+            column-gap: 30px;
+
+        }
+
+
+
+        .toc-list li {
+
+            margin-bottom: 8px;
+
+            break-inside: avoid;
+
+        }
+
+
+
+        .toc-list a {
+
+            color: var(--primary-color);
+
+            text-decoration: none;
+
+            font-size: 0.95rem;
+
+        }
+
+
+
+        .toc-list a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+
+        .toc-list .toc-num {
+
+            color: #bdc3c7;
+
+            font-size: 0.85rem;
+
+            margin-right: 5px;
+
+        }
+
+
+
+        /* Sektionsskillelinjer */
+
+        .section-divider {
+
+            margin: 40px 0 18px 0;
+
+            padding-bottom: 10px;
+
+            border-bottom: 2px solid #bdc3c7;
+
+        }
+
+
+
+        .section-divider h2 {
+
+            margin: 0 0 3px 0;
+
+            font-size: 1.3rem;
+
+            color: #2c3e50;
+
+        }
+
+
+
+        .section-divider p {
+
+            margin: 0;
+
+            font-size: 0.9rem;
+
+            color: #7f8c8d;
+
+            white-space: normal;
+
+        }
+
+
+
+        /* Tilbage til toppen */
+
+        .back-to-top {
+
+            display: inline-block;
+
+            font-size: 0.85rem;
+
+            color: #bdc3c7;
+
+            text-decoration: none;
+
+            margin-top: 8px;
+
+        }
+
+
+
+        .back-to-top:hover {
+
+            color: var(--primary-color);
+
+            text-decoration: underline;
+
+        }
+
+
+
+        @media (max-width: 600px) {
+
+            .toc-list { columns: 1; }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+
+
+    <main class="content">
+
+        <header>
+
+            <h1 id="top">emil</h1>
+
+            <p class="subtitle">B - niveau</p>
+
+        </header>
+
+
+
+
+        <section class="card">
+
+            <h2>Teori:</h2>
+            <p>Her kan du skrive din teori</p>
+
+        </section>
+
+
+
+
+
+    
+
+
+        <section class="card example">
+            <h2>Eksempel: [Beskriv eksemplet]</h2>
+            <p>Her kan du skrive dit regneeksempel trin for trin...</p>
+        </section>
+
+        <section class="card proof">
+            <h2>Bevis: [Navn på beviset]</h2>
+            <p>Her kan du gennemgå beviset...</p>
+        </section>
+
+
+        
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+
+
+        <footer class="site-footer">
+
+            <div class="footer-content">
+
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const inputFelt = document.getElementById('funktion-input');
+
+            const visningFelt = document.getElementById('funktion-visning');
+
+            const grafBoks = '#interaktiv-graf';
+
+
+
+            function tegnGraf(funktionString) {
+
+                try {
+
+                    functionPlot({
+
+                        target: grafBoks,
+
+                        width: 500,
+
+                        height: 350,
+
+                        grid: true,
+
+                        xAxis: { domain: [-10, 10] },
+
+                        yAxis: { domain: [-10, 10] },
+
+                        data: [{
+
+                            fn: funktionString,
+
+                            color: '#e74c3c',
+
+                            graphType: 'polyline'
+
+                        }]
+
+                    });
+
+                    visningFelt.textContent = funktionString;
+
+                    if (window.MathJax) {
+
+                        MathJax.typesetPromise([visningFelt]);
+
+                    }
+
+                } catch (error) {}
+
+            }
+
+
+
+            tegnGraf(inputFelt.value);
+
+
+
+            inputFelt.addEventListener('input', function() {
+
+                tegnGraf(inputFelt.value);
+
+            });
+
+        });
+
+    </script>
+
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            functionPlot({
+
+                target: '#log-graf',
+
+                width: 500,
+
+                height: 350,
+
+                grid: true,
+
+                xAxis: { domain: [0, 12], label: 'x' },
+
+                yAxis: { domain: [-2, 2], label: 'y' },
+
+                data: [
+
+                    {
+
+                        fn: 'log(x)/log(10)',
+
+                        color: '#3498db',
+
+                        graphType: 'polyline'
+
+                    }
+
+                ]
+
+            });
+
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>
