@@ -45,56 +45,66 @@
                 const resultDisplay = document.getElementById('pro-result-display');
                 const label = document.getElementById('result-label');
         
-                // 1. Hent rå LaTeX fra feltet - det er den mest pålidelige kilde
-                let rawInput = inputField.value; 
+                // 1. Hent rå værdi. Vi prøver både getValue og .value for at være sikre.
+                let rawInput = "";
+                try {
+                    rawInput = inputField.getValue('ascii-math');
+                } catch(e) {
+                    rawInput = inputField.value;
+                }
         
-                // 2. Den "Aggressive" Renser
-                // Vi omdanner MathLive LaTeX til Algebrite-venlig kode
-                let cleanMath = rawInput
-                    .replace(/\\cdot/g, '*')      // Gange-prik
-                    .replace(/\\times/g, '*')     // Gange-kryds
-                    .replace(/\\frac{([^}]*)}{([^}]*)}/g, "($1)/($2)") // Brøker
-                    .replace(/\\left/g, '(')       // Parentes-støj
-                    .replace(/\\right/g, ')')      // Parentes-støj
-                    .replace(/{/g, '(')            // Krøllede parenteser
+                // 2. Aggressiv rensning af støj (fjerner LaTeX kommandoer og mærkelige tegn)
+                let clean = rawInput
+                    .replace(/\\left/g, '(')
+                    .replace(/\\right/g, ')')
+                    .replace(/\\cdot/g, '*')
+                    .replace(/\\times/g, '*')
+                    .replace(/{/g, '(')
                     .replace(/}/g, ')')
-                    .replace(/\\/g, '')            // Fjern alle backslashes (fx \sin -> sin)
-                    .replace(/ /g, '');            // Fjern mellemrum
+                    .replace(/\\/g, '')
+                    .replace(/ /g, '')
+                    .replace(/÷/g, '/');
         
                 try {
-                    if (!cleanMath || cleanMath.trim() === "") throw new Error("Tomt");
+                    if (!clean || clean.trim() === "") throw new Error("Tomt felt");
         
                     let result = "";
-                    if (mode === 'diff') {
-                        result = Algebrite.run("d(" + cleanMath + ")");
-                        label.innerText = "Den afledte funktion f'(x):";
-                    } else {
-                        result = Algebrite.run("integral(" + cleanMath + ")");
-                        label.innerText = "Det ubestemte integral ∫ f(x) dx:";
-                    }
-        
-                    // Tjek om Algebrite returnerede en fejl-streng
-                    if (result.toString().includes("Stop") || result.toString() === "") {
-                        throw new Error("Algebrite fejl");
-                    }
-        
-                    // 3. Generer flot LaTeX til visning
-                    let finalLatex = Algebrite.run("printlatex(" + result + ")").toString().replace(/"/g, '');
                     
+                    // Særlig håndtering af simple tal (konstanter)
+                    if (!isNaN(clean)) {
+                        if (mode === 'diff') {
+                            result = "0"; // Afledte af en konstant er altid 0
+                        } else {
+                            result = clean + "x"; // Integral af k er kx
+                        }
+                    } else {
+                        // Kør Algebrite for funktioner
+                        if (mode === 'diff') {
+                            result = Algebrite.run(`d(${clean})`);
+                        } else {
+                            result = Algebrite.run(`integral(${clean})`);
+                        }
+                    }
+        
+                    // Tjek for fejlbeskeder fra motoren
+                    if (result.toString().includes("Stop") || result.toString() === "undefined") {
+                        throw new Error("Beregning fejlede");
+                    }
+        
+                    // 3. Flot visning via MathJax
+                    let finalLatex = Algebrite.run(`printlatex(${result})`).toString().replace(/"/g, '');
                     if (mode === 'int') finalLatex += " + k";
         
-                    // Sæt ind i displayet
                     resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
                     resultBox.style.display = "block";
                     
-                    // Tving MathJax til at tegne
-                    if (window.MathJax && window.MathJax.typesetPromise) {
+                    if (window.MathJax) {
                         MathJax.typesetPromise([resultDisplay]);
                     }
         
                 } catch (err) {
-                    console.log("Input var:", cleanMath); // Se i konsollen hvad der gik galt
-                    resultDisplay.innerHTML = "<p style='color:red; font-size: 1rem;'>Kunne ikke beregne '" + cleanMath + "'. Prøv et mere simpelt format.</p>";
+                    console.error("Fejl i CAS:", err);
+                    resultDisplay.innerHTML = `<p style="color:red; font-size: 1rem;">Kunne ikke beregne '${clean}'.<br>Prøv f.eks. x^2 + 2x eller cos(x)</p>`;
                     resultBox.style.display = "block";
                 }
             }
