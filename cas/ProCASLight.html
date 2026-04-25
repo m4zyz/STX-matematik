@@ -45,48 +45,56 @@
                 const resultDisplay = document.getElementById('pro-result-display');
                 const label = document.getElementById('result-label');
         
-                // 1. HENT INPUT SOM RÅ MATH (Dette virker bedst med Algebrite)
-                // Vi bruger 'ascii-math' men fjerner støj manuelt bagefter
-                let str = inputField.getValue('ascii-math'); 
+                // 1. Hent rå LaTeX fra feltet - det er den mest pålidelige kilde
+                let rawInput = inputField.value; 
         
-                // 2. RENSNING
-                str = str.replace(/·/g, "*")
-                         .replace(/÷/g, "/")
-                         .replace(/ans/g, ""); // Fjerner eventuelle "ans" rester
+                // 2. Den "Aggressive" Renser
+                // Vi omdanner MathLive LaTeX til Algebrite-venlig kode
+                let cleanMath = rawInput
+                    .replace(/\\cdot/g, '*')      // Gange-prik
+                    .replace(/\\times/g, '*')     // Gange-kryds
+                    .replace(/\\frac{([^}]*)}{([^}]*)}/g, "($1)/($2)") // Brøker
+                    .replace(/\\left/g, '(')       // Parentes-støj
+                    .replace(/\\right/g, ')')      // Parentes-støj
+                    .replace(/{/g, '(')            // Krøllede parenteser
+                    .replace(/}/g, ')')
+                    .replace(/\\/g, '')            // Fjern alle backslashes (fx \sin -> sin)
+                    .replace(/ /g, '');            // Fjern mellemrum
         
                 try {
-                    // Tjek om feltet er tomt
-                    if (!str || str.trim() === "") {
-                        throw new Error("Tomt felt");
-                    }
+                    if (!cleanMath || cleanMath.trim() === "") throw new Error("Tomt");
         
                     let result = "";
                     if (mode === 'diff') {
-                        result = Algebrite.run(`d(${str})`);
+                        result = Algebrite.run("d(" + cleanMath + ")");
                         label.innerText = "Den afledte funktion f'(x):";
                     } else {
-                        result = Algebrite.run(`integral(${str})`);
+                        result = Algebrite.run("integral(" + cleanMath + ")");
                         label.innerText = "Det ubestemte integral ∫ f(x) dx:";
                     }
         
-                    // 3. VISNING
-                    // Vi bruger Algebrite's interne LaTeX-generator
-                    let finalLatex = Algebrite.run(`printlatex(${result})`).toString().replace(/"/g, '');
-                    
-                    // Hvis det er et integral, så tilføj "+ k" manuelt til sidst for god orden
-                    if (mode === 'int' && !finalLatex.includes("Fejl")) {
-                        finalLatex += " + k";
+                    // Tjek om Algebrite returnerede en fejl-streng
+                    if (result.toString().includes("Stop") || result.toString() === "") {
+                        throw new Error("Algebrite fejl");
                     }
         
+                    // 3. Generer flot LaTeX til visning
+                    let finalLatex = Algebrite.run("printlatex(" + result + ")").toString().replace(/"/g, '');
+                    
+                    if (mode === 'int') finalLatex += " + k";
+        
+                    // Sæt ind i displayet
                     resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
                     resultBox.style.display = "block";
                     
-                    if (window.MathJax) {
+                    // Tving MathJax til at tegne
+                    if (window.MathJax && window.MathJax.typesetPromise) {
                         MathJax.typesetPromise([resultDisplay]);
                     }
         
                 } catch (err) {
-                    resultDisplay.innerHTML = "<p style='color:red;'>Kunne ikke beregne det indtastede. Prøv f.eks. x^2 + 2x</p>";
+                    console.log("Input var:", cleanMath); // Se i konsollen hvad der gik galt
+                    resultDisplay.innerHTML = "<p style='color:red; font-size: 1rem;'>Kunne ikke beregne '" + cleanMath + "'. Prøv et mere simpelt format.</p>";
                     resultBox.style.display = "block";
                 }
             }
