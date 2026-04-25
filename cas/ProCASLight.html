@@ -45,44 +45,50 @@
                 const resultDisplay = document.getElementById('pro-result-display');
                 const label = document.getElementById('result-label');
         
-                // 1. Hent input som rå tekst i stedet for LaTeX
-                let rawInput = inputField.getValue('ascii-math');
-                
-                // 2. Rens input (fjerner de mest gængse MathLive-fejl)
-                rawInput = rawInput.replace(/\\left/g, '(')
-                                   .replace(/\\right/g, ')')
-                                   .replace(/cdot/g, '*')
-                                   .replace(/times/g, '*');
+                // 1. Hent rå LaTeX - det er her vi får den bedste data
+                let str = inputField.value; 
+        
+                // 2. Den Store Rense-maskine (Omdanner LaTeX til JS/Algebrite math)
+                str = str.replace(/\\frac{([^}]*)}{([^}]*)}/g, "($1)/($2)"); // Brøker
+                str = str.replace(/\\left/g, "");                             // Venstre parentes støj
+                str = str.replace(/\\right/g, "");                            // Højre parentes støj
+                str = str.replace(/{/g, "(").replace(/}/g, ")");              // Krøllede parenteser til runde
+                str = str.replace(/\\cdot/g, "*");                            // Gange-prik
+                str = str.replace(/\\times/g, "*");                           // Gange-kryds
+                str = str.replace(/\\/g, "");                                 // Fjern alle resterende backslashes (fx ved sin, cos)
+                str = str.replace(/ /g, "");                                  // Fjern mellemrum
         
                 try {
                     let result = "";
                     
-                    // Algebrite beregning
                     if (mode === 'diff') {
-                        result = Algebrite.run(`d(${rawInput})`);
+                        result = Algebrite.run(`d(${str})`);
                         label.innerText = "Den afledte funktion f'(x):";
                     } else {
-                        result = Algebrite.run(`integral(${rawInput})`);
+                        result = Algebrite.run(`integral(${str})`);
                         label.innerText = "Det ubestemte integral ∫ f(x) dx:";
                     }
         
-                    if (result.toString() === "Stop") throw new Error("Ugyldigt udtryk");
+                    // Tjek om Algebrite gav op
+                    if (!result || result.toString() === "Stop" || result.toString() === str) {
+                        if (mode === 'int' && result.toString() === str) {
+                            // Hvis integralet er det samme som input, kunne den ikke løse det
+                            throw new Error("Kunne ikke integrere");
+                        }
+                    }
         
-                    // 3. Konverter resultat til flot LaTeX via Algebrite
-                    const latexResult = Algebrite.run(`printlatex(${result})`).toString();
+                    // 3. Formater til flot LaTeX visning
+                    const latexResult = Algebrite.run(`printlatex(${result})`).toString().replace(/"/g, '');
                     
-                    // Indsæt i display (fjern eventuelle citat-tegn fra Algebrite)
-                    resultDisplay.innerHTML = `\\[ ${latexResult.replace(/"/g, '')} \\]`;
-                    
+                    resultDisplay.innerHTML = `\\[ ${latexResult} \\]`;
                     resultBox.style.display = "block";
                     
-                    // 4. Opdater MathJax
-                    if (window.MathJax && window.MathJax.typesetPromise) {
+                    if (window.MathJax) {
                         MathJax.typesetPromise([resultDisplay]);
                     }
                 } catch (err) {
-                    console.error(err);
-                    resultDisplay.innerHTML = "<span style='color:red; font-size: 1rem;'>Fejl: Kunne ikke beregne udtrykket. Prøv f.eks. 'x^2 + cos(x)'</span>";
+                    console.error("CAS Fejl:", err);
+                    resultDisplay.innerHTML = "<span style='color:red; font-size: 1rem;'>Kunne ikke beregne dette udtryk. Prøv et simplere format som fx x^2 + 2x.</span>";
                     resultBox.style.display = "block";
                 }
             }
