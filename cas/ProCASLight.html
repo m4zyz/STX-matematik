@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="../style.css">
     <script>window.basePath = "../";</script>
     <script src="../menu.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/algebrite/1.4.0/algebrite.bundle.js"></script>
+    <script src="https://unpkg.com/nerdamer/nerdamer.core.js"></script>
+    <script src="https://unpkg.com/nerdamer/Calculus.js"></script>
     <script src="https://unpkg.com/mathlive"></script>
 </head>
 <body>
@@ -45,9 +46,8 @@
     const resultDisplay = document.getElementById('pro-result-display');
     const label = document.getElementById('result-label');
 
-    // ✅ Tjek om Algebrite overhovedet er indlæst
-    if (typeof Algebrite === 'undefined') {
-        resultDisplay.innerHTML = `<p style="color:red;">Algebrite-biblioteket er ikke indlæst. Tjek internetforbindelsen.</p>`;
+    if (typeof nerdamer === 'undefined') {
+        resultDisplay.innerHTML = `<p style="color:red;">CAS-biblioteket er ikke indlæst. Prøv at genindlæse siden.</p>`;
         resultBox.style.display = "block";
         return;
     }
@@ -59,10 +59,10 @@
         rawInput = inputField.value || "";
     }
 
-    // ✅ Bedre LaTeX → Algebrite konvertering
+    // LaTeX → nerdamer konvertering
     let clean = rawInput
-        .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')  // \frac{a}{b} → (a)/(b)
-        .replace(/\\sqrt\{([^{}]+)\}/g, 'sqrt($1)')                // \sqrt{x} → sqrt(x)
+        .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')
+        .replace(/\\sqrt\{([^{}]+)\}/g, 'sqrt($1)')
         .replace(/\\left/g, '')
         .replace(/\\right/g, '')
         .replace(/\\cdot/g, '*')
@@ -72,8 +72,7 @@
         .replace(/\\cos/g, 'cos')
         .replace(/\\tan/g, 'tan')
         .replace(/\\ln/g, 'log')
-        .replace(/\\exp/g, 'exp')
-        .replace(/\^{([^{}]+)}/g, '^($1)')   // x^{2} → x^(2)
+        .replace(/\^{([^{}]+)}/g, '^($1)')
         .replace(/\{/g, '(')
         .replace(/\}/g, ')')
         .replace(/\\/g, '')
@@ -83,38 +82,30 @@
     try {
         if (!clean || clean.trim() === "") throw new Error("Tomt felt");
 
-        let result = "";
+        let result;
 
-        if (!isNaN(clean)) {
-            result = mode === 'diff' ? "0" : clean + "*x";
+        if (mode === 'diff') {
+            result = nerdamer.diff(clean, 'x').toString();
+            label.textContent = "Afledt funktion f'(x):";
         } else {
-            if (mode === 'diff') {
-                result = Algebrite.run(`d(${clean}, x)`);
-            } else {
-                // ✅ VIGTIGT: integral() skal have x som andet argument
-                result = Algebrite.run(`integral(${clean}, x)`);
-            }
+            result = nerdamer.integrate(clean, 'x').toString();
+            label.textContent = "Ubestemt integral:";
         }
 
-        if (!result || result.toString().includes("Stop") || result.toString() === "undefined") {
-            throw new Error("Motor returnerede: " + result);
-        }
-
-        let finalLatex = Algebrite.run(`latex(${result})`).toString().replace(/"/g, '');
+        // Konverter til LaTeX via nerdamer
+        let finalLatex = nerdamer(result).toTeX();
         if (mode === 'int') finalLatex += " + k";
 
-        label.textContent = mode === 'diff' ? "Afledt funktion f'(x):" : "Ubestemt integral:";
         resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
         resultBox.style.display = "block";
 
         if (window.MathJax) MathJax.typesetPromise([resultDisplay]);
 
     } catch (err) {
-        // ✅ Vis den RIGTIGE fejl i konsollen så du kan debugge
-        console.error("Fejl i CAS:", err, "| Renset input:", clean);
-        resultDisplay.innerHTML = `<p style="color:red; font-size: 1rem;">
+        console.error("Fejl i CAS:", err, "| Input:", clean);
+        resultDisplay.innerHTML = `<p style="color:red;">
             Kunne ikke beregne '<code>${clean}</code>'.<br>
-            <small>Fejl: ${err.message}</small>
+            <small>${err.message}</small>
         </p>`;
         resultBox.style.display = "block";
     }
