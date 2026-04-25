@@ -3,36 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Graftegner - STX Matematik</title>
+    <title>Graftegner - STX Matematik</title>
     <link rel="stylesheet" href="../style.css">
     
     <script src="https://unpkg.com/d3@7"></script>
     <script src="https://unpkg.com/function-plot/dist/function-plot.js"></script>
     <script src="https://unpkg.com/mathlive"></script>
-    <script src="https://unpkg.com/nerdamer/nerdamer.core.js"></script>
-    <script src="https://unpkg.com/nerdamer/Solve.js"></script>
 
     <script>window.basePath = "../";</script>
     <script src="../menu.js" defer></script>
 
     <style>
-        .graph-layout { display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
-        @media (max-width: 900px) { .graph-layout { grid-template-columns: 1fr; } }
-
-        .input-sidebar { background: #f8f9fb; border-radius: 12px; padding: 15px; border: 1px solid #dde2ea; }
-        .function-row { 
-            display: flex; align-items: center; gap: 10px; background: white; 
-            padding: 8px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #eee;
+        /* ── Layout ── */
+        .graph-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-        .function-row math-field { flex: 1; border: none; font-size: 1.1rem; }
-        
-        .color-dot { width: 12px; height: 12px; border-radius: 50%; }
-        
-        #plot-container { background: white; border-radius: 12px; border: 1px solid #dde2ea; min-height: 500px; position: relative; }
-        
-        .solver-info { 
-            margin-top: 15px; padding: 10px; background: #e8f4fd; 
-            border-radius: 8px; font-size: 0.9rem; color: #2c3e50; border-left: 4px solid #3498db;
+
+        #graph-display {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #dde2ea;
+            overflow: hidden;
+            min-height: 420px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ── Panel-faner ── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 12px;
+            background: #eef1f5;
+            padding: 4px;
+            border-radius: 8px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 8px 4px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #6b7a8d;
+            transition: background 0.15s, color 0.15s;
+        }
+        .tab-btn.active {
+            background: white;
+            color: #2c3e50;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        /* ── Funktions-rækker ── */
+        .function-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .function-row math-field {
+            flex: 1;
+            font-size: 1.15rem;
+            border: none;
+            outline: none;
+        }
+        .color-dot {
+            width: 14px; height: 14px; min-width: 14px;
+            border-radius: 50%;
+        }
+        .del-btn {
+            border: none; background: none; cursor: pointer;
+            font-size: 1.1rem; color: #c0c8d4; line-height: 1;
+            padding: 2px 4px;
+            transition: color 0.15s;
+        }
+        .del-btn:hover { color: #e74c3c; }
+
+        /* ── Punkter ── */
+        .point-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 8px 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .point-row input {
+            width: 70px;
+            padding: 6px 8px;
+            border: 1.5px solid #dde2ea;
+            border-radius: 6px;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+        .point-row input:focus { border-color: #9b59b6; }
+        .point-label {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            font-weight: 600;
+        }
+        .point-color-dot {
+            width: 12px; height: 12px; min-width: 12px;
+            border-radius: 50%;
+            background: #9b59b6;
+        }
+
+        /* ── Skæring ── */
+        .intersect-selects {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .intersect-select {
+            flex: 1;
+            min-width: 80px;
+            padding: 8px;
+            border: 1.5px solid #dde2ea;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            background: white;
+            cursor: pointer;
+        }
+        .intersect-select:focus { border-color: #e67e22; outline: none; }
+
+        #intersections-result {
+            margin-top: 10px;
+        }
+        .intersection-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        .intersection-dot {
+            width: 10px; height: 10px; min-width: 10px;
+            border-radius: 50%;
+            background: #e74c3c;
+        }
+        .no-intersect {
+            color: #95a5a6;
+            font-size: 0.88rem;
+            padding: 6px 0;
+        }
+
+        /* ── Knapper ── */
+        .add-btn {
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.88rem;
+            transition: opacity 0.15s;
+        }
+        .add-btn:hover { opacity: 0.85; }
+        .add-btn--func  { background: #3498db; color: white; }
+        .add-btn--point { background: #9b59b6; color: white; }
+        .add-btn--find  { background: #e67e22; color: white; }
+
+        .input-sidebar {
+            background: #f8f9fb;
+            border: 1px solid #dde2ea;
+            border-radius: 10px;
+            padding: 14px;
         }
     </style>
 </head>
@@ -40,129 +196,454 @@
     <nav id="sidebar-menu" class="sidebar"></nav>
     <main class="content">
         <header>
-            <h1>Pro Graftegner & Ligningsløser</h1>
-            <p class="subtitle">Tegn grafer, plot punkter (x,y) og løs f(x) = g(x)</p>
+            <h1>Interaktiv Graftegner</h1>
+            <p class="subtitle">Tegn grafer, afsæt punkter og find skæringspunkter</p>
         </header>
 
         <section class="card">
-            <div class="graph-layout">
+            <div class="graph-container">
+
+                <!-- ── Kontrol-panel ── -->
                 <div class="input-sidebar">
-                    <div id="function-list"></div>
-                    <button class="btn-small" onclick="addRow()" style="width:100%; margin-top:10px;">+ Tilføj udtryk</button>
-                    
-                    <div id="solver-results" class="solver-info" style="display:none;">
-                        <strong>Løsninger:</strong> <span id="solution-text"></span>
+
+                    <!-- Faner -->
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('tab-func', this)">📈 Funktioner</button>
+                        <button class="tab-btn"        onclick="switchTab('tab-points', this)">📍 Punkter</button>
+                        <button class="tab-btn"        onclick="switchTab('tab-intersect', this)">⚡ Skæring</button>
+                    </div>
+
+                    <!-- Fane 1: Funktioner -->
+                    <div class="tab-panel active" id="tab-func">
+                        <div id="function-list"></div>
+                        <button class="add-btn add-btn--func" onclick="addFunctionRow()">+ Tilføj funktion</button>
+                    </div>
+
+                    <!-- Fane 2: Punkter -->
+                    <div class="tab-panel" id="tab-points">
+                        <div id="points-list"></div>
+                        <button class="add-btn add-btn--point" onclick="addPointRow()">+ Tilføj punkt</button>
+                    </div>
+
+                    <!-- Fane 3: Skæringspunkter -->
+                    <div class="tab-panel" id="tab-intersect">
+                        <p style="font-size:0.88rem; color:#636e7b; margin: 0 0 10px;">
+                            Vælg to navngivne funktioner (f.eks. f(x) og g(x)) og find deres skæringspunkter numerisk.
+                        </p>
+                        <div class="intersect-selects">
+                            <select id="intersect-f1" class="intersect-select"></select>
+                            <span style="color:#7f8c8d; font-weight:600;">og</span>
+                            <select id="intersect-f2" class="intersect-select"></select>
+                        </div>
+                        <button class="add-btn add-btn--find" onclick="doFindIntersections()" style="width:100%; padding:10px;">
+                            Find skæringspunkter
+                        </button>
+                        <div id="intersections-result"></div>
                     </div>
                 </div>
 
-                <div id="plot-container">
-                    <div id="main-plot"></div>
+                <!-- ── Graf ── -->
+                <div id="graph-display">
+                    <div id="plot-area"></div>
                 </div>
+
             </div>
         </section>
 
         <script>
-            let rows = [
-                { id: 1, val: 'f(x)=x^2', color: '#3498db' },
-                { id: 2, val: 'g(x)=x+2', color: '#e74c3c' },
-                { id: 3, val: '(2,4)', color: '#2ecc71' }
-            ];
-            const colorPalette = ['#3498db', '#e74c3c', '#2ecc71', '#f1c40f', '#9b59b6'];
+        /* ════════════════════════════════════════════
+           DATA
+        ════════════════════════════════════════════ */
+        let functions = [
+            { id: 0, latex: 'f(x)=x^2',   color: '#3498db' },
+            { id: 1, latex: 'g(x)=2x+3',  color: '#e74c3c' }
+        ];
+        let userPoints = [];           // { id, x, y }
+        let intersectionMarkers = [];  // { x, y } – vises på grafen
 
-            function addRow() {
-                rows.push({ id: Date.now(), val: '', color: colorPalette[rows.length % colorPalette.length] });
-                render();
-            }
+        const FUNC_COLORS  = ['#3498db','#e74c3c','#27ae60','#f1c40f','#9b59b6','#e67e22'];
+        const POINT_COLORS = ['#8e44ad','#16a085','#d35400','#2980b9','#c0392b','#27ae60'];
 
-            function cleanMath(latex) {
-                return latex.replace(/\\left/g, "").replace(/\\right/g, "")
-                            .replace(/{/g, "(").replace(/}/g, ")")
-                            .replace(/\\cdot/g, "*").replace(/\\/g, "");
-            }
+        let currentXDomain = [-10, 10];
+        let plotInstance   = null;
 
-            function update() {
-                const plotData = [];
-                const definedFuncs = {};
-                let solutions = [];
+        /* ════════════════════════════════════════════
+           FANER
+        ════════════════════════════════════════════ */
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            btn.classList.add('active');
+        }
 
-                rows.forEach(row => {
-                    let raw = row.val.trim();
-                    if (!raw) return;
+        /* ════════════════════════════════════════════
+           LATEX-RENSNING
+        ════════════════════════════════════════════ */
+        function cleanLatex(latex) {
+            // Tag del efter '=' hvis der er et funktionsnavn (f(x)=...)
+            let clean = latex.includes('=') ? latex.split('=').slice(1).join('=') : latex;
+            clean = clean
+                .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '($1)/($2)')
+                .replace(/\\sqrt\{([^{}]*)\}/g, 'sqrt($1)')
+                .replace(/\\left/g,  '').replace(/\\right/g, '')
+                .replace(/\{/g, '(').replace(/\}/g, ')')
+                .replace(/\\cdot/g,  '*').replace(/\\times/g, '*')
+                .replace(/\\pi/g,    'PI')
+                .replace(/\\sin/g,   'sin').replace(/\\cos/g, 'cos')
+                .replace(/\\tan/g,   'tan').replace(/\\ln/g,  'log')
+                .replace(/\\/g, '');
+            return clean.trim();
+        }
 
-                    // 1. Tjek for Punkt (x,y)
-                    let pointMatch = raw.match(/^\(([^,]+),([^,]+)\)$/);
-                    if (pointMatch) {
-                        plotData.push({
-                            points: [[cleanMath(pointMatch[1]), cleanMath(pointMatch[2])]],
-                            fnType: 'points', graphType: 'scatter', color: row.color
-                        });
-                        return;
-                    }
+        /* Konverter til JS-evaluérbart udtryk (til numerisk rodfindig) */
+        function toJSFunc(exprStr) {
+            let s = exprStr
+                .replace(/\^/g,       '**')
+                .replace(/\bsin\b/g,  'Math.sin')
+                .replace(/\bcos\b/g,  'Math.cos')
+                .replace(/\btan\b/g,  'Math.tan')
+                .replace(/\bsqrt\b/g, 'Math.sqrt')
+                .replace(/\blog\b/g,  'Math.log')
+                .replace(/\babs\b/g,  'Math.abs')
+                .replace(/\bPI\b/g,   'Math.PI')
+                .replace(/\bpi\b/g,   'Math.PI');
+            return new Function('x', `try { return (${s}); } catch(e) { return NaN; }`);
+        }
 
-                    // 2. Tjek for Ligning f(x)=g(x)
-                    if (raw.includes('=') && (raw.startsWith('f(x)=') || raw.startsWith('g(x)=')) === false) {
-                        try {
-                            let sides = raw.split('=');
-                            // Vi prøver at erstatte funktionsnavne med deres definitioner
-                            let eq = cleanMath(raw);
-                            for (let name in definedFuncs) {
-                                eq = eq.replace(new RegExp(name + "\\(x\\)", "g"), "(" + definedFuncs[name] + ")");
-                            }
-                            let sol = nerdamer.solve(eq.replace('=', '-'), 'x').toString();
-                            solutions.push(`${raw} → x ≈ ${sol}`);
-                        } catch(e) {}
-                    }
+        /* ════════════════════════════════════════════
+           FUNKTIONS-RÆKKER
+        ════════════════════════════════════════════ */
+        function addFunctionRow() {
+            const id    = Date.now();
+            const color = FUNC_COLORS[functions.length % FUNC_COLORS.length];
+            functions.push({ id, latex: '', color });
+            renderFunctions();
+        }
 
-                    // 3. Definition af funktion f(x)=...
-                    let funcDef = raw.match(/^([a-z])\(x\)=(.*)/);
-                    if (funcDef) {
-                        let name = funcDef[1];
-                        let body = cleanMath(funcDef[2]);
-                        definedFuncs[name] = body;
-                        plotData.push({ fn: body, color: row.color });
-                    } else if (!raw.includes('=')) {
-                        plotData.push({ fn: cleanMath(raw), color: row.color });
-                    }
+        function removeFunctionRow(id) {
+            if (functions.length <= 1) return;
+            functions = functions.filter(f => f.id !== id);
+            renderFunctions();
+            updateGraph();
+        }
+
+        function renderFunctions() {
+            const list = document.getElementById('function-list');
+            list.innerHTML = '';
+
+            functions.forEach((func, index) => {
+                const row = document.createElement('div');
+                row.className = 'function-row';
+
+                const dot = document.createElement('div');
+                dot.className = 'color-dot';
+                dot.style.background = func.color;
+
+                const mf = document.createElement('math-field');
+                mf.value = func.latex;
+                mf.setAttribute('placeholder', `f(x) = ...`);
+                mf.addEventListener('input', e => {
+                    functions[index].latex = e.target.value;
+                    updateIntersectionSelects();
+                    updateGraph();
                 });
 
-                // Vis løsninger hvis de findes
-                const solBox = document.getElementById('solver-results');
-                if (solutions.length > 0) {
-                    solBox.style.display = 'block';
-                    document.getElementById('solution-text').innerText = solutions.join(', ');
-                } else {
-                    solBox.style.display = 'none';
+                const del = document.createElement('button');
+                del.className = 'del-btn';
+                del.innerHTML = '×';
+                del.onclick = () => removeFunctionRow(func.id);
+
+                row.appendChild(dot);
+                row.appendChild(mf);
+                row.appendChild(del);
+                list.appendChild(row);
+            });
+
+            updateIntersectionSelects();
+            updateGraph();
+        }
+
+        /* ════════════════════════════════════════════
+           PUNKTER
+        ════════════════════════════════════════════ */
+        function addPointRow() {
+            const id    = Date.now();
+            const color = POINT_COLORS[userPoints.length % POINT_COLORS.length];
+            userPoints.push({ id, x: '', y: '', color });
+            renderPoints();
+        }
+
+        function removePointRow(id) {
+            userPoints = userPoints.filter(p => p.id !== id);
+            renderPoints();
+            updateGraph();
+        }
+
+        function renderPoints() {
+            const list = document.getElementById('points-list');
+            list.innerHTML = '';
+
+            userPoints.forEach((pt, index) => {
+                const row = document.createElement('div');
+                row.className = 'point-row';
+
+                const dot = document.createElement('div');
+                dot.className = 'point-color-dot';
+                dot.style.background = pt.color;
+
+                const xLabel = document.createElement('span');
+                xLabel.className = 'point-label';
+                xLabel.textContent = 'x =';
+
+                const xInput = document.createElement('input');
+                xInput.type  = 'number';
+                xInput.value = pt.x;
+                xInput.step  = 'any';
+                xInput.placeholder = '0';
+                xInput.addEventListener('input', e => {
+                    userPoints[index].x = e.target.value;
+                    updateGraph();
+                });
+
+                const yLabel = document.createElement('span');
+                yLabel.className = 'point-label';
+                yLabel.textContent = 'y =';
+
+                const yInput = document.createElement('input');
+                yInput.type  = 'number';
+                yInput.value = pt.y;
+                yInput.step  = 'any';
+                yInput.placeholder = '0';
+                yInput.addEventListener('input', e => {
+                    userPoints[index].y = e.target.value;
+                    updateGraph();
+                });
+
+                const del = document.createElement('button');
+                del.className = 'del-btn';
+                del.innerHTML = '×';
+                del.onclick = () => removePointRow(pt.id);
+
+                row.appendChild(dot);
+                row.appendChild(xLabel);
+                row.appendChild(xInput);
+                row.appendChild(yLabel);
+                row.appendChild(yInput);
+                row.appendChild(del);
+                list.appendChild(row);
+            });
+        }
+
+        /* ════════════════════════════════════════════
+           SKÆRINGSPUNKTER – selects
+        ════════════════════════════════════════════ */
+        function getNamedFunctions() {
+            return functions.filter(f => /^[a-zA-Z]\(x\)\s*=/.test(f.latex.trim()));
+        }
+
+        function updateIntersectionSelects() {
+            const named = getNamedFunctions();
+            ['intersect-f1','intersect-f2'].forEach((selId, si) => {
+                const sel = document.getElementById(selId);
+                const prev = sel.value;
+                sel.innerHTML = '';
+                if (named.length === 0) {
+                    const opt = document.createElement('option');
+                    opt.textContent = '(ingen navngivne funktioner)';
+                    sel.appendChild(opt);
+                    return;
                 }
-
-                try {
-                    functionPlot({
-                        target: '#main-plot',
-                        width: document.getElementById('plot-container').clientWidth,
-                        height: 500,
-                        grid: true,
-                        data: plotData
-                    });
-                } catch (e) {}
-            }
-
-            function render() {
-                const list = document.getElementById('function-list');
-                list.innerHTML = '';
-                rows.forEach((row, idx) => {
-                    const div = document.createElement('div');
-                    div.className = 'function-row';
-                    div.innerHTML = `<div class="color-dot" style="background:${row.color}"></div>`;
-                    const mf = document.createElement('math-field');
-                    mf.value = row.val;
-                    mf.oninput = (e) => { rows[idx].val = e.target.value; update(); };
-                    div.appendChild(mf);
-                    list.appendChild(div);
+                named.forEach(f => {
+                    const opt = document.createElement('option');
+                    const name = f.latex.split('=')[0].trim(); // e.g. "f(x)"
+                    opt.value       = f.id;
+                    opt.textContent = name;
+                    if (String(f.id) === prev) opt.selected = true;
+                    sel.appendChild(opt);
                 });
-                update();
+                // Default: pre-select different functions in each dropdown
+                if (!prev && si === 1 && named.length > 1) {
+                    sel.selectedIndex = 1;
+                }
+            });
+        }
+
+        /* ════════════════════════════════════════════
+           NUMERISK RODFINDING (bisection)
+        ════════════════════════════════════════════ */
+        function findRootsNumerically(expr1, expr2, xMin, xMax) {
+            const STEPS = 3000;
+            const dx = (xMax - xMin) / STEPS;
+            const roots = [];
+
+            const f1 = toJSFunc(expr1);
+            const f2 = toJSFunc(expr2);
+            const diff = x => f1(x) - f2(x);
+
+            let prev = diff(xMin);
+
+            for (let i = 1; i <= STEPS; i++) {
+                const x = xMin + i * dx;
+                const curr = diff(x);
+
+                if (!isFinite(prev) || !isFinite(curr)) { prev = curr; continue; }
+
+                if (prev * curr < 0) {
+                    // Bisection – 60 iterationer giver ~10⁻¹⁸ præcision
+                    let lo = x - dx, hi = x;
+                    for (let j = 0; j < 60; j++) {
+                        const mid = (lo + hi) / 2;
+                        const fm = diff(mid);
+                        if (Math.abs(fm) < 1e-13) { lo = hi = mid; break; }
+                        if (diff(lo) * fm <= 0) hi = mid;
+                        else lo = mid;
+                    }
+                    const rx = (lo + hi) / 2;
+                    const ry = (f1(rx) + f2(rx)) / 2;
+
+                    if (!roots.some(r => Math.abs(r.x - rx) < 1e-5)) {
+                        roots.push({
+                            x: Math.round(rx * 100000) / 100000,
+                            y: Math.round(ry * 100000) / 100000
+                        });
+                    }
+                }
+                prev = curr;
+            }
+            return roots;
+        }
+
+        function doFindIntersections() {
+            const named = getNamedFunctions();
+            if (named.length < 2) {
+                document.getElementById('intersections-result').innerHTML =
+                    '<p class="no-intersect">Du skal have mindst 2 navngivne funktioner (f.eks. f(x)=... og g(x)=...).</p>';
+                return;
             }
 
-            window.onload = render;
-            window.onresize = update;
+            const id1 = parseInt(document.getElementById('intersect-f1').value);
+            const id2 = parseInt(document.getElementById('intersect-f2').value);
+            if (id1 === id2) {
+                document.getElementById('intersections-result').innerHTML =
+                    '<p class="no-intersect">Vælg to forskellige funktioner.</p>';
+                return;
+            }
+
+            const fn1 = functions.find(f => f.id === id1);
+            const fn2 = functions.find(f => f.id === id2);
+            if (!fn1 || !fn2) return;
+
+            const expr1 = cleanLatex(fn1.latex);
+            const expr2 = cleanLatex(fn2.latex);
+            const name1 = fn1.latex.split('=')[0].trim();
+            const name2 = fn2.latex.split('=')[0].trim();
+
+            // Søg lidt udenfor det synlige vindue
+            const xMin = currentXDomain[0] - 2;
+            const xMax = currentXDomain[1] + 2;
+
+            const roots = findRootsNumerically(expr1, expr2, xMin, xMax);
+
+            // Opdater markører på grafen
+            intersectionMarkers = roots;
+            updateGraph();
+
+            // Vis resultater
+            const container = document.getElementById('intersections-result');
+            if (roots.length === 0) {
+                container.innerHTML = `<p class="no-intersect">Ingen skæringspunkter fundet mellem ${name1} og ${name2} i det aktuelle vindue.</p>`;
+                return;
+            }
+
+            container.innerHTML = `<p style="font-size:0.82rem; color:#7f8c8d; margin:8px 0 6px;">
+                Fandt <strong>${roots.length}</strong> skæringspunkt${roots.length > 1 ? 'er' : ''} mellem ${name1} og ${name2}:
+            </p>`;
+
+            roots.forEach(pt => {
+                const item = document.createElement('div');
+                item.className = 'intersection-item';
+                item.innerHTML = `
+                    <div class="intersection-dot"></div>
+                    <span>(<strong>${pt.x}</strong>, <strong>${pt.y}</strong>)</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        /* ════════════════════════════════════════════
+           OPDATER GRAFEN
+        ════════════════════════════════════════════ */
+        function updateGraph() {
+            const plotData = [];
+
+            // Funktioner
+            functions.forEach(f => {
+                const cleaned = cleanLatex(f.latex);
+                if (!cleaned) return;
+                plotData.push({ fn: cleaned, color: f.color, graphType: 'polyline' });
+            });
+
+            // Bruger-punkter
+            const validPoints = userPoints.filter(p => p.x !== '' && p.y !== '');
+            if (validPoints.length > 0) {
+                // Gruppér per farve
+                const byColor = {};
+                validPoints.forEach(p => {
+                    if (!byColor[p.color]) byColor[p.color] = [];
+                    byColor[p.color].push([parseFloat(p.x), parseFloat(p.y)]);
+                });
+                Object.entries(byColor).forEach(([color, pts]) => {
+                    plotData.push({
+                        points: pts,
+                        fnType: 'points',
+                        graphType: 'scatter',
+                        color
+                    });
+                });
+            }
+
+            // Skæringspunkts-markører
+            if (intersectionMarkers.length > 0) {
+                plotData.push({
+                    points: intersectionMarkers.map(p => [p.x, p.y]),
+                    fnType: 'points',
+                    graphType: 'scatter',
+                    color: '#e74c3c'
+                });
+            }
+
+            if (plotData.length === 0) return;
+
+            try {
+                const width = document.getElementById('graph-display').clientWidth - 40;
+                plotInstance = functionPlot({
+                    target: '#plot-area',
+                    width:  Math.max(width, 300),
+                    height: 420,
+                    grid:   true,
+                    data:   plotData
+                });
+
+                // Spor aktuel x-akse for skæringsfinding
+                plotInstance.on('all:zoom', function() {
+                    try {
+                        currentXDomain = plotInstance.meta.xScale.domain();
+                    } catch(e) {}
+                });
+            } catch(e) {
+                console.warn('Graf-fejl:', e.message);
+            }
+        }
+
+        /* ════════════════════════════════════════════
+           INIT
+        ════════════════════════════════════════════ */
+        window.onload = () => {
+            renderFunctions();
+            renderPoints();
+            window.addEventListener('resize', updateGraph);
+        };
         </script>
     </main>
 </body>
