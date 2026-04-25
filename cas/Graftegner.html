@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graftegner - STX Matematik</title>
+    <link rel="stylesheet" href="../style.css">
+    
+    <script src="https://unpkg.com/d3@7"></script>
+    <script src="https://unpkg.com/function-plot/dist/function-plot.js"></script>
+    <script src="https://unpkg.com/mathlive"></script>
+
+    <script>window.basePath = "../";</script>
+    <script src="../menu.js" defer></script>
+
+    <style>
+        .graph-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .input-sidebar {
+            background: #f8f9fb;
+            border: 1px solid #dde2ea;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .function-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .function-row math-field {
+            flex: 1;
+            font-size: 1.2rem;
+            border: none;
+            outline: none;
+        }
+
+        .color-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+
+        #graph-display {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #dde2ea;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .add-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav id="sidebar-menu" class="sidebar"></nav>
+    <main class="content">
+        <header>
+            <h1>Interaktiv Graftegner</h1>
+            <p class="subtitle">Tegn flere grafer og definér funktioner med f(x)</p>
+        </header>
+
+        <section class="card">
+            <div class="graph-container">
+                <div class="input-sidebar">
+                    <h3>Funktioner</h3>
+                    <div id="function-list">
+                        </div>
+                    <button class="add-btn" onclick="addFunctionRow()">+ Tilføj funktion</button>
+                </div>
+
+                <div id="graph-display">
+                    <div id="plot-area"></div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            let functions = [
+                { id: 0, latex: 'f(x)=x^2', color: '#3498db' },
+                { id: 1, latex: 'g(x)=2x+3', color: '#e74c3c' }
+            ];
+            const colors = ['#3498db', '#e74c3c', '#27ae60', '#f1c40f', '#9b59b6', '#e67e22'];
+
+            function addFunctionRow() {
+                const id = Date.now();
+                const color = colors[functions.length % colors.length];
+                functions.push({ id, latex: '', color });
+                renderInputs();
+            }
+
+            function removeFunctionRow(id) {
+                if (functions.length <= 1) return;
+                functions = functions.filter(f => f.id !== id);
+                renderInputs();
+                updateGraph();
+            }
+
+            function renderInputs() {
+                const list = document.getElementById('function-list');
+                list.innerHTML = '';
+                
+                functions.forEach((func, index) => {
+                    const row = document.createElement('div');
+                    row.className = 'function-row';
+                    
+                    const colorCircle = document.createElement('div');
+                    colorCircle.className = 'color-indicator';
+                    colorCircle.style.background = func.color;
+
+                    const mf = document.createElement('math-field');
+                    mf.value = func.latex;
+                    mf.addEventListener('input', (e) => {
+                        functions[index].latex = e.target.value;
+                        updateGraph();
+                    });
+
+                    const delBtn = document.createElement('button');
+                    delBtn.innerHTML = '×';
+                    delBtn.style = "border:none; background:none; cursor:pointer; font-size:1.2rem; color:#ccc;";
+                    delBtn.onclick = () => removeFunctionRow(func.id);
+
+                    row.appendChild(colorCircle);
+                    row.appendChild(mf);
+                    row.appendChild(delBtn);
+                    list.appendChild(row);
+                });
+                updateGraph();
+            }
+
+            // Funktion til at rense f(x)= fra strengen så biblioteket kan læse den
+            function cleanLatex(latex) {
+                let clean = latex.split('=')[1] || latex.split('=')[0]; // Tag alt efter '='
+                
+                // Erstat de mest gængse LaTeX ting til ASCII-math
+                clean = clean.replace(/\\frac{([^}]*)}{([^}]*)}/g, "($1)/($2)")
+                             .replace(/\\left/g, "")
+                             .replace(/\\right/g, "")
+                             .replace(/{/g, "(")
+                             .replace(/}/g, ")")
+                             .replace(/\\cdot/g, "*")
+                             .replace(/\\pi/g, "PI")
+                             .replace(/\\/g, "");
+                return clean;
+            }
+
+            function updateGraph() {
+                const plotData = functions
+                    .map(f => {
+                        const cleaned = cleanLatex(f.latex);
+                        if (!cleaned || cleaned.trim() === "") return null;
+                        return {
+                            fn: cleaned,
+                            color: f.color,
+                            graphType: 'polyline'
+                        };
+                    })
+                    .filter(d => d !== null);
+
+                try {
+                    functionPlot({
+                        target: '#plot-area',
+                        width: document.getElementById('graph-display').clientWidth - 40,
+                        height: 400,
+                        grid: true,
+                        data: plotData
+                    });
+                } catch (e) {
+                    console.log("Fejl i tegning af graf");
+                }
+            }
+
+            window.onload = () => {
+                renderInputs();
+                window.addEventListener('resize', updateGraph);
+            };
+        </script>
+    </main>
+</body>
+</html>

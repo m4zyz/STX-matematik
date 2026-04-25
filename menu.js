@@ -22,7 +22,7 @@ const stxMenuData = {
         { title: "C-niveau", path: "formelsamling/C/formelsamlingC.html" }
     ],
     "CAS": [
-        { title: "GeoGebra", path: "cas/geogebra.html" },
+        { title: "Graftegner", path: "cas/Graftegner.html" },
         { title: "Pro CAS-Light", path: "cas/ProCASLight.html" }
     ],
     "Spil": [
