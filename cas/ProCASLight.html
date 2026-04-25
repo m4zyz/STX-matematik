@@ -40,74 +40,85 @@
         
         <script>
             function proCalculate(mode) {
-                const inputField = document.getElementById('pro-cas-input');
-                const resultBox = document.getElementById('pro-result-box');
-                const resultDisplay = document.getElementById('pro-result-display');
-                const label = document.getElementById('result-label');
-        
-                // 1. Hent rå værdi. Vi prøver både getValue og .value for at være sikre.
-                let rawInput = "";
-                try {
-                    rawInput = inputField.getValue('latex');
-                } catch(e) {
-                    rawInput = inputField.value;
-                }
-        
-                // 2. Aggressiv rensning af støj (fjerner LaTeX kommandoer og mærkelige tegn)
-                let clean = rawInput
-                    .replace(/\\left/g, '(')
-                    .replace(/\\right/g, ')')
-                    .replace(/\\cdot/g, '*')
-                    .replace(/\\times/g, '*')
-                    .replace(/{/g, '(')
-                    .replace(/}/g, ')')
-                    .replace(/\\/g, '')
-                    .replace(/ /g, '')
-                    .replace(/÷/g, '/');
-        
-                try {
-                    if (!clean || clean.trim() === "") throw new Error("Tomt felt");
-        
-                    let result = "";
-                    
-                    // Særlig håndtering af simple tal (konstanter)
-                    if (!isNaN(clean)) {
-                        if (mode === 'diff') {
-                            result = "0"; // Afledte af en konstant er altid 0
-                        } else {
-                            result = clean + "x"; // Integral af k er kx
-                        }
-                    } else {
-                        // Kør Algebrite for funktioner
-                        if (mode === 'diff') {
-                            result = Algebrite.run(`d(${clean}, x)`);
-                        } else {
-                            result = Algebrite.run(`integral(${clean})`);
-                        }
-                    }
-        
-                    // Tjek for fejlbeskeder fra motoren
-                    if (result.toString().includes("Stop") || result.toString() === "undefined") {
-                        throw new Error("Beregning fejlede");
-                    }
-        
-                    // 3. Flot visning via MathJax
-                    let finalLatex = Algebrite.run(`latex(${result})`).toString().replace(/"/g, '');
-                    if (mode === 'int') finalLatex += " + k";
-        
-                    resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
-                    resultBox.style.display = "block";
-                    
-                    if (window.MathJax) {
-                        MathJax.typesetPromise([resultDisplay]);
-                    }
-        
-                } catch (err) {
-                    console.error("Fejl i CAS:", err);
-                    resultDisplay.innerHTML = `<p style="color:red; font-size: 1rem;">Kunne ikke beregne '${clean}'.<br>Prøv f.eks. x^2 + 2x eller cos(x)</p>`;
-                    resultBox.style.display = "block";
-                }
+    const inputField = document.getElementById('pro-cas-input');
+    const resultBox = document.getElementById('pro-result-box');
+    const resultDisplay = document.getElementById('pro-result-display');
+    const label = document.getElementById('result-label');
+
+    // ✅ Tjek om Algebrite overhovedet er indlæst
+    if (typeof Algebrite === 'undefined') {
+        resultDisplay.innerHTML = `<p style="color:red;">Algebrite-biblioteket er ikke indlæst. Tjek internetforbindelsen.</p>`;
+        resultBox.style.display = "block";
+        return;
+    }
+
+    let rawInput = "";
+    try {
+        rawInput = inputField.getValue('latex');
+    } catch(e) {
+        rawInput = inputField.value || "";
+    }
+
+    // ✅ Bedre LaTeX → Algebrite konvertering
+    let clean = rawInput
+        .replace(/\\frac\{([^{}]+)\}\{([^{}]+)\}/g, '($1)/($2)')  // \frac{a}{b} → (a)/(b)
+        .replace(/\\sqrt\{([^{}]+)\}/g, 'sqrt($1)')                // \sqrt{x} → sqrt(x)
+        .replace(/\\left/g, '')
+        .replace(/\\right/g, '')
+        .replace(/\\cdot/g, '*')
+        .replace(/\\times/g, '*')
+        .replace(/\\pi/g, 'pi')
+        .replace(/\\sin/g, 'sin')
+        .replace(/\\cos/g, 'cos')
+        .replace(/\\tan/g, 'tan')
+        .replace(/\\ln/g, 'log')
+        .replace(/\\exp/g, 'exp')
+        .replace(/\^{([^{}]+)}/g, '^($1)')   // x^{2} → x^(2)
+        .replace(/\{/g, '(')
+        .replace(/\}/g, ')')
+        .replace(/\\/g, '')
+        .replace(/ /g, '')
+        .replace(/÷/g, '/');
+
+    try {
+        if (!clean || clean.trim() === "") throw new Error("Tomt felt");
+
+        let result = "";
+
+        if (!isNaN(clean)) {
+            result = mode === 'diff' ? "0" : clean + "*x";
+        } else {
+            if (mode === 'diff') {
+                result = Algebrite.run(`d(${clean}, x)`);
+            } else {
+                // ✅ VIGTIGT: integral() skal have x som andet argument
+                result = Algebrite.run(`integral(${clean}, x)`);
             }
+        }
+
+        if (!result || result.toString().includes("Stop") || result.toString() === "undefined") {
+            throw new Error("Motor returnerede: " + result);
+        }
+
+        let finalLatex = Algebrite.run(`latex(${result})`).toString().replace(/"/g, '');
+        if (mode === 'int') finalLatex += " + k";
+
+        label.textContent = mode === 'diff' ? "Afledt funktion f'(x):" : "Ubestemt integral:";
+        resultDisplay.innerHTML = "\\[ " + finalLatex + " \\]";
+        resultBox.style.display = "block";
+
+        if (window.MathJax) MathJax.typesetPromise([resultDisplay]);
+
+    } catch (err) {
+        // ✅ Vis den RIGTIGE fejl i konsollen så du kan debugge
+        console.error("Fejl i CAS:", err, "| Renset input:", clean);
+        resultDisplay.innerHTML = `<p style="color:red; font-size: 1rem;">
+            Kunne ikke beregne '<code>${clean}</code>'.<br>
+            <small>Fejl: ${err.message}</small>
+        </p>`;
+        resultBox.style.display = "block";
+    }
+}
         </script>
     </main>
 </body>
