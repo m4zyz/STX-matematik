@@ -33,13 +33,11 @@
                 const input = document.getElementById('quiz-answer');
                 const questionEl = document.getElementById('quiz-question');
                 
-                // Nulstil UI
                 feedback.innerHTML = "";
                 nextBtn.style.display = "none";
                 input.value = "";
                 input.disabled = false;
         
-                // Vælg tilfældig opgavetype
                 const type = Math.floor(Math.random() * 3); 
                 const a = Math.floor(Math.random() * 8) + 2; 
                 const n = Math.floor(Math.random() * 4) + 2; 
@@ -58,14 +56,18 @@
                     currentAnswer = `${a * n}x^{${n-1}}`.replace('^{1}', '');
                 }
         
-                // Indsæt teksten i elementet
+                // Skriv teksten ind
                 questionEl.innerHTML = questionText;
         
-                // --- DETTE ER FIXET ---
-                // Vi fortæller MathJax, at den skal køre igen på hele siden
-                if (window.MathJax && window.MathJax.typeset) {
-                    window.MathJax.typeset(); 
-                }
+                // Tving MathJax til at tegne formlen igen
+                // Vi bruger en lille timeout for at sikre, at HTML'en er landet i DOM'en
+                setTimeout(() => {
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        MathJax.typesetPromise([questionEl]).catch((err) => console.log(err));
+                    } else if (window.MathJax && window.MathJax.typeset) {
+                        MathJax.typeset();
+                    }
+                }, 10);
             }
         
             function checkQuiz() {
@@ -74,11 +76,14 @@
                 const nextBtn = document.getElementById('next-btn');
                 const input = document.getElementById('quiz-answer');
         
-                // Rens svar for sammenligning
-                const cleanCorrect = currentAnswer.replace(/\\/g, '').replace('{', '').replace('}', '').toLowerCase();
-                const cleanUser = userAns.replace(/\^/g, ''); 
+                // Rens det korrekte svar for alle LaTeX koder så vi kan sammenligne rent
+                const cleanCorrect = currentAnswer.replace(/\\/g, '').replace(/\{/g, '').replace(/\}/g, '').toLowerCase();
+                
+                // Lav en version af brugerens svar uden ^ for at være flink
+                const cleanUser = userAns.replace(/\^/g, '');
+                const cleanCorrectNoHat = cleanCorrect.replace(/\^/g, '');
         
-                if (userAns === cleanCorrect || userAns === cleanCorrect.replace('^', '')) {
+                if (userAns === cleanCorrect || cleanUser === cleanCorrectNoHat) {
                     feedback.style.color = "#27ae60";
                     feedback.innerHTML = "Korrekt! Godt arbejdet. &#127881;";
                     input.disabled = true;
@@ -89,6 +94,7 @@
                 }
             }
         
+            // Start første opgave
             document.addEventListener('DOMContentLoaded', generateNewProblem);
         </script>
     </main>
