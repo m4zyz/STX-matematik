@@ -14,7 +14,6 @@
     <script src="../menu.js" defer></script>
 
     <style>
-        /* ── Layout ── */
         .graph-container {
             display: flex;
             flex-direction: column;
@@ -32,7 +31,6 @@
             align-items: center;
         }
 
-        /* ── Funktions-rækker ── */
         .function-row {
             display: flex;
             flex-direction: column;
@@ -66,18 +64,16 @@
         }
         .del-btn:hover { color: #e74c3c; }
         
-        /* Visning af evaluerede værdier og fejl */
         .row-feedback {
             font-size: 0.85rem;
             margin-top: 4px;
             margin-left: 22px;
             color: #636e7b;
-            min-height: 1em; /* Undgå at elementet kollapser når det er tomt */
+            min-height: 1em; 
         }
         .row-error { color: #e74c3c; }
         .row-value { color: #27ae60; font-weight: bold; }
 
-        /* ── Knapper ── */
         .add-btn {
             border: none;
             padding: 8px 14px;
@@ -88,9 +84,9 @@
             transition: opacity 0.15s;
             width: 100%;
             margin-top: 5px;
+            background: #3498db; color: white;
         }
         .add-btn:hover { opacity: 0.85; }
-        .add-btn--func  { background: #3498db; color: white; }
 
         .input-sidebar {
             background: #f8f9fb;
@@ -112,7 +108,7 @@
             <div class="graph-container">
                 <div class="input-sidebar">
                     <div id="function-list"></div>
-                    <button class="add-btn add-btn--func" onclick="addExpressionRow()">+ Tilføj udtryk</button>
+                    <button class="add-btn" onclick="addExpressionRow()">+ Tilføj udtryk</button>
                 </div>
 
                 <div id="graph-display">
@@ -122,24 +118,18 @@
         </section>
 
         <script>
-        /* ════════════════════════════════════════════
-           DATA
-        ════════════════════════════════════════════ */
         let expressions = [
             { id: 0, latex: 'f(x)=x^2', color: '#3498db' },
             { id: 1, latex: 'g(x)=2x+3', color: '#e74c3c' },
-            { id: 2, latex: 'f(2)', color: '#27ae60' }, 
-            { id: 3, latex: 'f(x)=g(x)', color: '#f1c40f' } 
+            { id: 2, latex: 'f(x)=g(x)', color: '#f1c40f' } 
         ];
 
         const COLORS  = ['#3498db','#e74c3c','#27ae60','#f1c40f','#9b59b6','#e67e22', '#16a085', '#d35400'];
 
         let currentXDomain = [-10, 10];
         let plotInstance   = null;
+        let calcTimeout    = null; // Bruges til at forhindre at den mister fokus (Debounce)
 
-        /* ════════════════════════════════════════════
-           LATEX-RENSNING OG HJÆLPEFUNKTIONER
-        ════════════════════════════════════════════ */
         function cleanLatex(latex) {
             let clean = latex
                 .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '($1)/($2)')
@@ -163,14 +153,10 @@
                 .replace(/\bsqrt\b/g, 'Math.sqrt')
                 .replace(/\blog\b/g,  'Math.log')
                 .replace(/\babs\b/g,  'Math.abs')
-                .replace(/\bPI\b/g,   'Math.PI')
-                .replace(/\bpi\b/g,   'Math.PI');
+                .replace(/\bPI\b/g,   'Math.PI');
             return new Function('x', `try { return (${s}); } catch(e) { return NaN; }`);
         }
 
-        /* ════════════════════════════════════════════
-           NUMERISK RODFINDING (bisection)
-        ════════════════════════════════════════════ */
         function findRootsNumerically(expr1, expr2, xMin, xMax) {
             const STEPS = 2000;
             const dx = (xMax - xMin) / STEPS;
@@ -202,8 +188,8 @@
 
                     if (!roots.some(r => Math.abs(r.x - rx) < 1e-4)) {
                         roots.push({
-                            x: Math.round(rx * 10000) / 10000,
-                            y: Math.round(ry * 10000) / 10000
+                            x: Math.round(rx * 1000) / 1000,
+                            y: Math.round(ry * 1000) / 1000
                         });
                     }
                 }
@@ -212,52 +198,51 @@
             return roots;
         }
 
-        /* ════════════════════════════════════════════
-           UDFØR BEREGNINGER OG DEFINITIONER
-        ════════════════════════════════════════════ */
         function parseAndEvaluate() {
             let definedFunctions = {}; 
+            let definedByRow = {}; // Holder styr på, hvilken række der definerede funktionen
             let plotData = [];         
             let feedbackMap = {};      
             let intersectionPoints = [];
-
-            // 1. Find funktionsdefinitioner
-            expressions.forEach(expr => {
-                let raw = expr.latex.trim();
-                if (!raw) return;
-
-                let defMatch = raw.match(/^([a-zA-Z])\(x\)\s*=\s*(.+)$/);
-                if (defMatch) {
-                    let funcName = defMatch[1];
-                    let funcBody = cleanLatex(defMatch[2]);
-                    definedFunctions[funcName] = funcBody;
-                    plotData.push({ fn: funcBody, color: expr.color, graphType: 'polyline' });
-                    feedbackMap[expr.id] = { type: 'info', text: `Funktion ${funcName}(x) defineret` };
-                }
-            });
 
             function expandFunctions(mathString) {
                 let result = mathString;
                 for (let [name, body] of Object.entries(definedFunctions)) {
                     let regex = new RegExp(`${name}\\(([^)]+)\\)`, 'g');
                     result = result.replace(regex, (match, arg) => `(${body.replace(/\bx\b/g, `(${arg})`)})`);
-                    
                     let regex2 = new RegExp(`\\b${name}\\(x\\)`, 'g');
                     result = result.replace(regex2, `(${body})`);
                 }
                 return result;
             }
 
-            // 2. Håndter alt andet (punkter, ligninger, evalueringer)
+            // Gennemløber alt fra toppen af listen og ned
             expressions.forEach(expr => {
                 let raw = expr.latex.trim();
                 if (!raw) return;
-                
-                if (raw.match(/^([a-zA-Z])\(x\)\s*=\s*(.+)$/)) return;
 
                 let cleaned = cleanLatex(raw);
-                let expanded = expandFunctions(cleaned);
+                let defMatch = cleaned.match(/^([a-zA-Z])\(x\)=(.+)$/);
+                let isEquation = false;
 
+                if (defMatch) {
+                    let funcName = defMatch[1];
+                    let funcBody = defMatch[2];
+
+                    // Tjek om funktionen allerede blev defineret HØJERE OPPE i listen.
+                    // Hvis ja, så er det ikke en definition, men en ligning (f.eks. f(x)=g(x))
+                    if (definedFunctions[funcName] !== undefined && definedByRow[funcName] !== expr.id) {
+                        isEquation = true; 
+                    } else {
+                        definedFunctions[funcName] = funcBody;
+                        definedByRow[funcName] = expr.id;
+                        plotData.push({ fn: funcBody, color: expr.color, graphType: 'polyline' });
+                        feedbackMap[expr.id] = { type: 'info', text: `Funktion ${funcName}(x) defineret` };
+                        return; // Spring videre til næste række
+                    }
+                }
+
+                // Er det et punkt (x,y)?
                 let pointMatch = cleaned.match(/^\(([^,]+),([^,]+)\)$/);
                 if (pointMatch) {
                     let xValStr = expandFunctions(pointMatch[1]);
@@ -275,7 +260,8 @@
                     return;
                 }
 
-                if (cleaned.includes('=')) {
+                // Er det en ligning? (Altså indeholder = eller blev fanget som isEquation tidligere)
+                if (cleaned.includes('=') || isEquation) {
                     let parts = cleaned.split('=');
                     if (parts.length === 2) {
                         let leftExpanded = expandFunctions(parts[0]);
@@ -287,20 +273,23 @@
                         
                         if (roots.length > 0) {
                             roots.forEach(r => intersectionPoints.push(r));
-                            let rootStrs = roots.map(r => `(${r.x}, ${r.y})`);
-                            feedbackMap[expr.id] = { type: 'value', text: `Skæring(er): ${rootStrs.join(' ; ')}` };
+                            let rootStrs = roots.map(r => `x ≈ ${r.x} (y ≈ ${r.y})`);
+                            feedbackMap[expr.id] = { type: 'value', text: `Skæring: ${rootStrs.join(' ; ')}` };
                         } else {
-                            feedbackMap[expr.id] = { type: 'info', text: `Ingen skæringer fundet i vinduet` };
+                            feedbackMap[expr.id] = { type: 'info', text: `Ingen skæringer i vinduet` };
                         }
                     }
                     return;
                 }
 
+                // Bare en almindelig funktion (uden y=)
+                let expanded = expandFunctions(cleaned);
                 if (expanded.includes('x')) {
                      plotData.push({ fn: expanded, color: expr.color, graphType: 'polyline' });
                      return;
                 }
 
+                // Evaluering af f.eks. f(2)
                 try {
                     let evalStr = expanded.replace(/\^/g, '**')
                                            .replace(/\bsin\b/g, 'Math.sin')
@@ -309,12 +298,12 @@
                     let fn = new Function(`return ${evalStr}`);
                     let val = fn();
                     if (!isNaN(val)) {
-                        feedbackMap[expr.id] = { type: 'value', text: `= ${Math.round(val * 10000) / 10000}` };
+                        feedbackMap[expr.id] = { type: 'value', text: `= ${Math.round(val * 1000) / 1000}` };
                     } else {
                         throw new Error();
                     }
                 } catch(e) {
-                    feedbackMap[expr.id] = { type: 'error', text: 'Kunne ikke evaluere' };
+                    feedbackMap[expr.id] = { type: 'error', text: '...' };
                 }
             });
 
@@ -345,7 +334,6 @@
             renderExpressions();
         }
 
-        // Hovedfunktionen til at tegne HTML'en op. Kører kun én gang (eller når der tilføjes/fjernes rækker)
         function renderExpressions() {
             const list = document.getElementById('function-list');
             list.innerHTML = '';
@@ -364,11 +352,16 @@
                 const mf = document.createElement('math-field');
                 mf.value = expr.latex;
                 
-                // --- DETTE ER FIXET ---
-                // Når du skriver i feltet, opdaterer vi KUN udregningerne og grafen. Vi sletter IKKE felterne.
-                mf.addEventListener('input', e => {
-                    expr.latex = e.target.value;
-                    updateCalculations(); 
+                // --- DETTE ER FIXET MED DEBOUNCE ---
+                mf.addEventListener('input', () => {
+                    expr.latex = mf.value;
+                    
+                    // Nulstil ventetiden, hvis brugeren taster igen hurtigt
+                    clearTimeout(calcTimeout);
+                    // Vent 300 millisekunder efter sidste tastetryk med at opdatere grafen
+                    calcTimeout = setTimeout(() => {
+                        updateCalculations(); 
+                    }, 300);
                 });
 
                 const del = document.createElement('button');
@@ -383,7 +376,7 @@
 
                 const feedbackDiv = document.createElement('div');
                 feedbackDiv.className = 'row-feedback';
-                feedbackDiv.id = `feedback-${expr.id}`; // Giver den et ID, så vi kan opdatere den uden at slette feltet
+                feedbackDiv.id = `feedback-${expr.id}`; 
                 row.appendChild(feedbackDiv);
 
                 list.appendChild(row);
@@ -392,11 +385,9 @@
             updateCalculations();
         }
 
-        // Kører hver gang du trykker på en tast (i stedet for at genindlæse hele listen)
         function updateCalculations() {
             const { plotData, feedbackMap } = parseAndEvaluate();
 
-            // Opdater KUN feedback-teksterne
             expressions.forEach(expr => {
                 const fbDiv = document.getElementById(`feedback-${expr.id}`);
                 if (fbDiv) {
