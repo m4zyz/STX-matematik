@@ -14,7 +14,8 @@ const stxMenuData = {
         { title: "Differentialregning", path: "emner/B/differentialregning.html" }
     ],
     "C-Niveau": [
-        { title: "Funktioner", path: "emner/C/Funktioner.html" }
+        { title: "Funktioner", path: "emner/C/Funktioner.html" },
+        { title: "polynomier", path: "emner/C/polynomier.html" }
     ],
     "Formelsamlinger": [
         { title: "A-niveau", path: "formelsamling/A/formelsamlingA.html" },
