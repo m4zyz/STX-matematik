@@ -21,13 +21,8 @@ const stxMenuData = {
         { title: "B-niveau", path: "formelsamling/B/formelsamlingB.html" },
         { title: "C-niveau", path: "formelsamling/C/formelsamlingC.html" }
     ],
-    "CAS": [
-        { title: "Graftegner", path: "cas/Graftegner.html" },
-        { title: "Pro CAS-Light", path: "cas/ProCASLight.html" }
-    ],
     "Spil": [
         { title: "Pi quiz", path: "spil/piquiz.html" },
-        { title: "Matematik Træner", path: "spil/MatematikTræner.html" }
     ]
 };
 
