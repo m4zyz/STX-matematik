@@ -32,39 +32,10 @@
             align-items: center;
         }
 
-        /* ── Panel-faner ── */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 12px;
-            background: #eef1f5;
-            padding: 4px;
-            border-radius: 8px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 8px 4px;
-            border: none;
-            background: transparent;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #6b7a8d;
-            transition: background 0.15s, color 0.15s;
-        }
-        .tab-btn.active {
-            background: white;
-            color: #2c3e50;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-        }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-
         /* ── Funktions-rækker ── */
         .function-row {
             display: flex;
-            flex-direction: column; /* Ændret til column for at give plads til fejlbeskeder */
+            flex-direction: column;
             background: white;
             padding: 8px 10px;
             border-radius: 8px;
@@ -157,8 +128,8 @@
         let expressions = [
             { id: 0, latex: 'f(x)=x^2', color: '#3498db' },
             { id: 1, latex: 'g(x)=2x+3', color: '#e74c3c' },
-            { id: 2, latex: 'f(2)', color: '#27ae60' }, // Eksempel på evaluering
-            { id: 3, latex: 'f(x)=g(x)', color: '#f1c40f' } // Eksempel på skæring
+            { id: 2, latex: 'f(2)', color: '#27ae60' }, 
+            { id: 3, latex: 'f(x)=g(x)', color: '#f1c40f' } 
         ];
 
         const COLORS  = ['#3498db','#e74c3c','#27ae60','#f1c40f','#9b59b6','#e67e22', '#16a085', '#d35400'];
@@ -183,7 +154,6 @@
             return clean.trim();
         }
 
-        // Konverterer et matematisk udtryk (streng) til en JavaScript funktion
         function toJSFunc(exprStr) {
             let s = exprStr
                 .replace(/\^/g,       '**')
@@ -201,7 +171,6 @@
         /* ════════════════════════════════════════════
            NUMERISK RODFINDING (bisection)
         ════════════════════════════════════════════ */
-        // Finder skæringspunkter mellem expr1 og expr2
         function findRootsNumerically(expr1, expr2, xMin, xMax) {
             const STEPS = 2000;
             const dx = (xMax - xMin) / STEPS;
@@ -246,14 +215,13 @@
         /* ════════════════════════════════════════════
            UDFØR BEREGNINGER OG DEFINITIONER
         ════════════════════════════════════════════ */
-        // Denne funktion gennemgår alle input, definerer funktioner, evaluerer værdier og forbereder data til grafen
         function parseAndEvaluate() {
-            let definedFunctions = {}; // Gemmer funktioner som f.eks. { f: "x^2", g: "2*x+3" }
-            let plotData = [];         // Data der sendes til function-plot
-            let feedbackMap = {};      // Gemmer tekst/fejl der skal vises under hvert felt
+            let definedFunctions = {}; 
+            let plotData = [];         
+            let feedbackMap = {};      
             let intersectionPoints = [];
 
-            // 1. Gennemløb: Find og gem alle funktionsdefinitioner (f.eks. f(x)=x^2)
+            // 1. Find funktionsdefinitioner
             expressions.forEach(expr => {
                 let raw = expr.latex.trim();
                 if (!raw) return;
@@ -263,42 +231,33 @@
                     let funcName = defMatch[1];
                     let funcBody = cleanLatex(defMatch[2]);
                     definedFunctions[funcName] = funcBody;
-                    // Defineret funktion skal tegnes
                     plotData.push({ fn: funcBody, color: expr.color, graphType: 'polyline' });
                     feedbackMap[expr.id] = { type: 'info', text: `Funktion ${funcName}(x) defineret` };
                 }
             });
 
-            // Hjælpefunktion til at erstatte funktionskald (f(x) -> (x^2)) i et udtryk
             function expandFunctions(mathString) {
                 let result = mathString;
                 for (let [name, body] of Object.entries(definedFunctions)) {
-                    // Regex til at fange f(noget) - håndterer ikke indlejrede parenteser perfekt, men virker til simple tilfælde
                     let regex = new RegExp(`${name}\\(([^)]+)\\)`, 'g');
-                    result = result.replace(regex, (match, arg) => {
-                        // Erstat 'x' i funktionskroppen med argumentet
-                        return `(${body.replace(/\bx\b/g, `(${arg})`)})`;
-                    });
+                    result = result.replace(regex, (match, arg) => `(${body.replace(/\bx\b/g, `(${arg})`)})`);
                     
-                    // Erstat f(x) (når det står alene uden for eksplicitte parentes-argumenter evalueres, f.eks. i ligninger)
                     let regex2 = new RegExp(`\\b${name}\\(x\\)`, 'g');
                     result = result.replace(regex2, `(${body})`);
                 }
                 return result;
             }
 
-            // 2. Gennemløb: Håndter alt andet (ligninger, evalueringer, punkter)
+            // 2. Håndter alt andet (punkter, ligninger, evalueringer)
             expressions.forEach(expr => {
                 let raw = expr.latex.trim();
                 if (!raw) return;
                 
-                // Spring over funktionsdefinitioner, de er håndteret
                 if (raw.match(/^([a-zA-Z])\(x\)\s*=\s*(.+)$/)) return;
 
                 let cleaned = cleanLatex(raw);
                 let expanded = expandFunctions(cleaned);
 
-                // --- Er det et punkt (x,y)? ---
                 let pointMatch = cleaned.match(/^\(([^,]+),([^,]+)\)$/);
                 if (pointMatch) {
                     let xValStr = expandFunctions(pointMatch[1]);
@@ -316,14 +275,12 @@
                     return;
                 }
 
-                // --- Er det en ligning? f(x) = g(x) eller x^2 = 4 ---
                 if (cleaned.includes('=')) {
                     let parts = cleaned.split('=');
                     if (parts.length === 2) {
                         let leftExpanded = expandFunctions(parts[0]);
                         let rightExpanded = expandFunctions(parts[1]);
                         
-                        // Find skæringer
                         const xMin = currentXDomain[0] - 2;
                         const xMax = currentXDomain[1] + 2;
                         let roots = findRootsNumerically(leftExpanded, rightExpanded, xMin, xMax);
@@ -339,15 +296,12 @@
                     return;
                 }
 
-                // --- Er det bare en funktion (y= underforstået)? f.eks. x^2 ---
                 if (expanded.includes('x')) {
                      plotData.push({ fn: expanded, color: expr.color, graphType: 'polyline' });
                      return;
                 }
 
-                // --- Så må det være et udtryk, der skal evalueres (f.eks. f(2) eller 2+2) ---
                 try {
-                    // Kør det udvidede udtryk (hvor f(2) er blevet til (2)^2)
                     let evalStr = expanded.replace(/\^/g, '**')
                                            .replace(/\bsin\b/g, 'Math.sin')
                                            .replace(/\bcos\b/g, 'Math.cos')
@@ -364,13 +318,12 @@
                 }
             });
 
-            // Tilføj skæringspunkter til plottet
             if (intersectionPoints.length > 0) {
                 plotData.push({
                     points: intersectionPoints.map(p => [p.x, p.y]),
                     fnType: 'points',
                     graphType: 'scatter',
-                    color: '#2c3e50' // Mørk grå/blå til skæringspunkter
+                    color: '#2c3e50' 
                 });
             }
 
@@ -392,14 +345,12 @@
             renderExpressions();
         }
 
+        // Hovedfunktionen til at tegne HTML'en op. Kører kun én gang (eller når der tilføjes/fjernes rækker)
         function renderExpressions() {
             const list = document.getElementById('function-list');
             list.innerHTML = '';
             
-            // Beregn hvad der skal tegnes og vises af feedback
-            const { plotData, feedbackMap } = parseAndEvaluate();
-
-            expressions.forEach((expr, index) => {
+            expressions.forEach((expr) => {
                 const row = document.createElement('div');
                 row.className = 'function-row';
 
@@ -412,9 +363,12 @@
 
                 const mf = document.createElement('math-field');
                 mf.value = expr.latex;
+                
+                // --- DETTE ER FIXET ---
+                // Når du skriver i feltet, opdaterer vi KUN udregningerne og grafen. Vi sletter IKKE felterne.
                 mf.addEventListener('input', e => {
-                    expressions[index].latex = e.target.value;
-                    renderExpressions(); // Gen-evaluer og opdater graf+feedback ved hvert tastetryk
+                    expr.latex = e.target.value;
+                    updateCalculations(); 
                 });
 
                 const del = document.createElement('button');
@@ -427,17 +381,34 @@
                 rowContent.appendChild(del);
                 row.appendChild(rowContent);
 
-                // Vis feedback hvis det findes
                 const feedbackDiv = document.createElement('div');
                 feedbackDiv.className = 'row-feedback';
-                if (feedbackMap[expr.id]) {
-                    feedbackDiv.textContent = feedbackMap[expr.id].text;
-                    if (feedbackMap[expr.id].type === 'error') feedbackDiv.classList.add('row-error');
-                    if (feedbackMap[expr.id].type === 'value') feedbackDiv.classList.add('row-value');
-                }
+                feedbackDiv.id = `feedback-${expr.id}`; // Giver den et ID, så vi kan opdatere den uden at slette feltet
                 row.appendChild(feedbackDiv);
 
                 list.appendChild(row);
+            });
+
+            updateCalculations();
+        }
+
+        // Kører hver gang du trykker på en tast (i stedet for at genindlæse hele listen)
+        function updateCalculations() {
+            const { plotData, feedbackMap } = parseAndEvaluate();
+
+            // Opdater KUN feedback-teksterne
+            expressions.forEach(expr => {
+                const fbDiv = document.getElementById(`feedback-${expr.id}`);
+                if (fbDiv) {
+                    fbDiv.className = 'row-feedback'; 
+                    if (feedbackMap[expr.id]) {
+                        fbDiv.textContent = feedbackMap[expr.id].text;
+                        if (feedbackMap[expr.id].type === 'error') fbDiv.classList.add('row-error');
+                        if (feedbackMap[expr.id].type === 'value') fbDiv.classList.add('row-value');
+                    } else {
+                        fbDiv.textContent = '';
+                    }
+                }
             });
 
             updateGraph(plotData);
@@ -456,7 +427,6 @@
                     data:   plotData
                 });
 
-                // Gem zoom-niveau for rodfinding
                 plotInstance.on('all:zoom', function() {
                     try {
                         currentXDomain = plotInstance.meta.xScale.domain();
@@ -469,7 +439,7 @@
 
         window.onload = () => {
             renderExpressions();
-            window.addEventListener('resize', () => renderExpressions());
+            window.addEventListener('resize', () => updateCalculations());
         };
         </script>
     </main>
