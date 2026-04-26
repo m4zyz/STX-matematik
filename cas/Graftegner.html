@@ -64,13 +64,18 @@
         /* ── Funktions-rækker ── */
         .function-row {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column; /* Ændret til column for at give plads til fejlbeskeder */
             background: white;
             padding: 8px 10px;
             border-radius: 8px;
             margin-bottom: 8px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .function-row-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
         }
         .function-row math-field {
             flex: 1;
@@ -89,85 +94,17 @@
             transition: color 0.15s;
         }
         .del-btn:hover { color: #e74c3c; }
-
-        /* ── Punkter ── */
-        .point-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: white;
-            padding: 8px 10px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-        }
-        .point-row input {
-            width: 70px;
-            padding: 6px 8px;
-            border: 1.5px solid #dde2ea;
-            border-radius: 6px;
-            font-size: 1rem;
-            text-align: center;
-            outline: none;
-            transition: border-color 0.15s;
-        }
-        .point-row input:focus { border-color: #9b59b6; }
-        .point-label {
+        
+        /* Visning af evaluerede værdier og fejl */
+        .row-feedback {
             font-size: 0.85rem;
-            color: #7f8c8d;
-            font-weight: 600;
+            margin-top: 4px;
+            margin-left: 22px;
+            color: #636e7b;
+            min-height: 1em; /* Undgå at elementet kollapser når det er tomt */
         }
-        .point-color-dot {
-            width: 12px; height: 12px; min-width: 12px;
-            border-radius: 50%;
-            background: #9b59b6;
-        }
-
-        /* ── Skæring ── */
-        .intersect-selects {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 10px;
-        }
-        .intersect-select {
-            flex: 1;
-            min-width: 80px;
-            padding: 8px;
-            border: 1.5px solid #dde2ea;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            background: white;
-            cursor: pointer;
-        }
-        .intersect-select:focus { border-color: #e67e22; outline: none; }
-
-        #intersections-result {
-            margin-top: 10px;
-        }
-        .intersection-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            background: white;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-            font-size: 0.9rem;
-            color: #2c3e50;
-        }
-        .intersection-dot {
-            width: 10px; height: 10px; min-width: 10px;
-            border-radius: 50%;
-            background: #e74c3c;
-        }
-        .no-intersect {
-            color: #95a5a6;
-            font-size: 0.88rem;
-            padding: 6px 0;
-        }
+        .row-error { color: #e74c3c; }
+        .row-value { color: #27ae60; font-weight: bold; }
 
         /* ── Knapper ── */
         .add-btn {
@@ -178,11 +115,11 @@
             font-weight: bold;
             font-size: 0.88rem;
             transition: opacity 0.15s;
+            width: 100%;
+            margin-top: 5px;
         }
         .add-btn:hover { opacity: 0.85; }
         .add-btn--func  { background: #3498db; color: white; }
-        .add-btn--point { background: #9b59b6; color: white; }
-        .add-btn--find  { background: #e67e22; color: white; }
 
         .input-sidebar {
             background: #f8f9fb;
@@ -197,56 +134,19 @@
     <main class="content">
         <header>
             <h1>Interaktiv Graftegner</h1>
-            <p class="subtitle">Tegn grafer, afsæt punkter og find skæringspunkter</p>
+            <p class="subtitle">Alt-i-én: Tegn grafer, evaluer udtryk, find skæringer og definer funktioner</p>
         </header>
 
         <section class="card">
             <div class="graph-container">
-
-                <!-- ── Kontrol-panel ── -->
                 <div class="input-sidebar">
-
-                    <!-- Faner -->
-                    <div class="tabs">
-                        <button class="tab-btn active" onclick="switchTab('tab-func', this)">Funktioner</button>
-                        <button class="tab-btn"        onclick="switchTab('tab-points', this)">Punkter</button>
-                        <button class="tab-btn"        onclick="switchTab('tab-intersect', this)">Skæring</button>
-                    </div>
-
-                    <!-- Fane 1: Funktioner -->
-                    <div class="tab-panel active" id="tab-func">
-                        <div id="function-list"></div>
-                        <button class="add-btn add-btn--func" onclick="addFunctionRow()">+ Tilføj funktion</button>
-                    </div>
-
-                    <!-- Fane 2: Punkter -->
-                    <div class="tab-panel" id="tab-points">
-                        <div id="points-list"></div>
-                        <button class="add-btn add-btn--point" onclick="addPointRow()">+ Tilføj punkt</button>
-                    </div>
-
-                    <!-- Fane 3: Skæringspunkter -->
-                    <div class="tab-panel" id="tab-intersect">
-                        <p style="font-size:0.88rem; color:#636e7b; margin: 0 0 10px;">
-                            Vælg to navngivne funktioner (f.eks. f(x) og g(x)) og find deres skæringspunkter numerisk.
-                        </p>
-                        <div class="intersect-selects">
-                            <select id="intersect-f1" class="intersect-select"></select>
-                            <span style="color:#7f8c8d; font-weight:600;">og</span>
-                            <select id="intersect-f2" class="intersect-select"></select>
-                        </div>
-                        <button class="add-btn add-btn--find" onclick="doFindIntersections()" style="width:100%; padding:10px;">
-                            Find skæringspunkter
-                        </button>
-                        <div id="intersections-result"></div>
-                    </div>
+                    <div id="function-list"></div>
+                    <button class="add-btn add-btn--func" onclick="addExpressionRow()">+ Tilføj udtryk</button>
                 </div>
 
-                <!-- ── Graf ── -->
                 <div id="graph-display">
                     <div id="plot-area"></div>
                 </div>
-
             </div>
         </section>
 
@@ -254,36 +154,23 @@
         /* ════════════════════════════════════════════
            DATA
         ════════════════════════════════════════════ */
-        let functions = [
-            { id: 0, latex: 'f(x)=x^2',   color: '#3498db' },
-            { id: 1, latex: 'g(x)=2x+3',  color: '#e74c3c' }
+        let expressions = [
+            { id: 0, latex: 'f(x)=x^2', color: '#3498db' },
+            { id: 1, latex: 'g(x)=2x+3', color: '#e74c3c' },
+            { id: 2, latex: 'f(2)', color: '#27ae60' }, // Eksempel på evaluering
+            { id: 3, latex: 'f(x)=g(x)', color: '#f1c40f' } // Eksempel på skæring
         ];
-        let userPoints = [];           // { id, x, y }
-        let intersectionMarkers = [];  // { x, y } – vises på grafen
 
-        const FUNC_COLORS  = ['#3498db','#e74c3c','#27ae60','#f1c40f','#9b59b6','#e67e22'];
-        const POINT_COLORS = ['#8e44ad','#16a085','#d35400','#2980b9','#c0392b','#27ae60'];
+        const COLORS  = ['#3498db','#e74c3c','#27ae60','#f1c40f','#9b59b6','#e67e22', '#16a085', '#d35400'];
 
         let currentXDomain = [-10, 10];
         let plotInstance   = null;
 
         /* ════════════════════════════════════════════
-           FANER
-        ════════════════════════════════════════════ */
-        function switchTab(id, btn) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        /* ════════════════════════════════════════════
-           LATEX-RENSNING
+           LATEX-RENSNING OG HJÆLPEFUNKTIONER
         ════════════════════════════════════════════ */
         function cleanLatex(latex) {
-            // Tag del efter '=' hvis der er et funktionsnavn (f(x)=...)
-            let clean = latex.includes('=') ? latex.split('=').slice(1).join('=') : latex;
-            clean = clean
+            let clean = latex
                 .replace(/\\frac\{([^{}]*)\}\{([^{}]*)\}/g, '($1)/($2)')
                 .replace(/\\sqrt\{([^{}]*)\}/g, 'sqrt($1)')
                 .replace(/\\left/g,  '').replace(/\\right/g, '')
@@ -296,7 +183,7 @@
             return clean.trim();
         }
 
-        /* Konverter til JS-evaluérbart udtryk (til numerisk rodfindig) */
+        // Konverterer et matematisk udtryk (streng) til en JavaScript funktion
         function toJSFunc(exprStr) {
             let s = exprStr
                 .replace(/\^/g,       '**')
@@ -312,168 +199,11 @@
         }
 
         /* ════════════════════════════════════════════
-           FUNKTIONS-RÆKKER
-        ════════════════════════════════════════════ */
-        function addFunctionRow() {
-            const id    = Date.now();
-            const color = FUNC_COLORS[functions.length % FUNC_COLORS.length];
-            functions.push({ id, latex: '', color });
-            renderFunctions();
-        }
-
-        function removeFunctionRow(id) {
-            if (functions.length <= 1) return;
-            functions = functions.filter(f => f.id !== id);
-            renderFunctions();
-            updateGraph();
-        }
-
-        function renderFunctions() {
-            const list = document.getElementById('function-list');
-            list.innerHTML = '';
-
-            functions.forEach((func, index) => {
-                const row = document.createElement('div');
-                row.className = 'function-row';
-
-                const dot = document.createElement('div');
-                dot.className = 'color-dot';
-                dot.style.background = func.color;
-
-                const mf = document.createElement('math-field');
-                mf.value = func.latex;
-                mf.setAttribute('placeholder', `f(x) = ...`);
-                mf.addEventListener('input', e => {
-                    functions[index].latex = e.target.value;
-                    updateIntersectionSelects();
-                    updateGraph();
-                });
-
-                const del = document.createElement('button');
-                del.className = 'del-btn';
-                del.innerHTML = '×';
-                del.onclick = () => removeFunctionRow(func.id);
-
-                row.appendChild(dot);
-                row.appendChild(mf);
-                row.appendChild(del);
-                list.appendChild(row);
-            });
-
-            updateIntersectionSelects();
-            updateGraph();
-        }
-
-        /* ════════════════════════════════════════════
-           PUNKTER
-        ════════════════════════════════════════════ */
-        function addPointRow() {
-            const id    = Date.now();
-            const color = POINT_COLORS[userPoints.length % POINT_COLORS.length];
-            userPoints.push({ id, x: '', y: '', color });
-            renderPoints();
-        }
-
-        function removePointRow(id) {
-            userPoints = userPoints.filter(p => p.id !== id);
-            renderPoints();
-            updateGraph();
-        }
-
-        function renderPoints() {
-            const list = document.getElementById('points-list');
-            list.innerHTML = '';
-
-            userPoints.forEach((pt, index) => {
-                const row = document.createElement('div');
-                row.className = 'point-row';
-
-                const dot = document.createElement('div');
-                dot.className = 'point-color-dot';
-                dot.style.background = pt.color;
-
-                const xLabel = document.createElement('span');
-                xLabel.className = 'point-label';
-                xLabel.textContent = 'x =';
-
-                const xInput = document.createElement('input');
-                xInput.type  = 'number';
-                xInput.value = pt.x;
-                xInput.step  = 'any';
-                xInput.placeholder = '0';
-                xInput.addEventListener('input', e => {
-                    userPoints[index].x = e.target.value;
-                    updateGraph();
-                });
-
-                const yLabel = document.createElement('span');
-                yLabel.className = 'point-label';
-                yLabel.textContent = 'y =';
-
-                const yInput = document.createElement('input');
-                yInput.type  = 'number';
-                yInput.value = pt.y;
-                yInput.step  = 'any';
-                yInput.placeholder = '0';
-                yInput.addEventListener('input', e => {
-                    userPoints[index].y = e.target.value;
-                    updateGraph();
-                });
-
-                const del = document.createElement('button');
-                del.className = 'del-btn';
-                del.innerHTML = '×';
-                del.onclick = () => removePointRow(pt.id);
-
-                row.appendChild(dot);
-                row.appendChild(xLabel);
-                row.appendChild(xInput);
-                row.appendChild(yLabel);
-                row.appendChild(yInput);
-                row.appendChild(del);
-                list.appendChild(row);
-            });
-        }
-
-        /* ════════════════════════════════════════════
-           SKÆRINGSPUNKTER – selects
-        ════════════════════════════════════════════ */
-        function getNamedFunctions() {
-            return functions.filter(f => /^[a-zA-Z]\(x\)\s*=/.test(f.latex.trim()));
-        }
-
-        function updateIntersectionSelects() {
-            const named = getNamedFunctions();
-            ['intersect-f1','intersect-f2'].forEach((selId, si) => {
-                const sel = document.getElementById(selId);
-                const prev = sel.value;
-                sel.innerHTML = '';
-                if (named.length === 0) {
-                    const opt = document.createElement('option');
-                    opt.textContent = '(ingen navngivne funktioner)';
-                    sel.appendChild(opt);
-                    return;
-                }
-                named.forEach(f => {
-                    const opt = document.createElement('option');
-                    const name = f.latex.split('=')[0].trim(); // e.g. "f(x)"
-                    opt.value       = f.id;
-                    opt.textContent = name;
-                    if (String(f.id) === prev) opt.selected = true;
-                    sel.appendChild(opt);
-                });
-                // Default: pre-select different functions in each dropdown
-                if (!prev && si === 1 && named.length > 1) {
-                    sel.selectedIndex = 1;
-                }
-            });
-        }
-
-        /* ════════════════════════════════════════════
            NUMERISK RODFINDING (bisection)
         ════════════════════════════════════════════ */
+        // Finder skæringspunkter mellem expr1 og expr2
         function findRootsNumerically(expr1, expr2, xMin, xMax) {
-            const STEPS = 3000;
+            const STEPS = 2000;
             const dx = (xMax - xMin) / STEPS;
             const roots = [];
 
@@ -490,22 +220,21 @@
                 if (!isFinite(prev) || !isFinite(curr)) { prev = curr; continue; }
 
                 if (prev * curr < 0) {
-                    // Bisection – 60 iterationer giver ~10⁻¹⁸ præcision
                     let lo = x - dx, hi = x;
-                    for (let j = 0; j < 60; j++) {
+                    for (let j = 0; j < 50; j++) {
                         const mid = (lo + hi) / 2;
                         const fm = diff(mid);
-                        if (Math.abs(fm) < 1e-13) { lo = hi = mid; break; }
+                        if (Math.abs(fm) < 1e-12) { lo = hi = mid; break; }
                         if (diff(lo) * fm <= 0) hi = mid;
                         else lo = mid;
                     }
                     const rx = (lo + hi) / 2;
                     const ry = (f1(rx) + f2(rx)) / 2;
 
-                    if (!roots.some(r => Math.abs(r.x - rx) < 1e-5)) {
+                    if (!roots.some(r => Math.abs(r.x - rx) < 1e-4)) {
                         roots.push({
-                            x: Math.round(rx * 100000) / 100000,
-                            y: Math.round(ry * 100000) / 100000
+                            x: Math.round(rx * 10000) / 10000,
+                            y: Math.round(ry * 10000) / 10000
                         });
                     }
                 }
@@ -514,109 +243,211 @@
             return roots;
         }
 
-        function doFindIntersections() {
-            const named = getNamedFunctions();
-            if (named.length < 2) {
-                document.getElementById('intersections-result').innerHTML =
-                    '<p class="no-intersect">Du skal have mindst 2 navngivne funktioner (f.eks. f(x)=... og g(x)=...).</p>';
-                return;
-            }
+        /* ════════════════════════════════════════════
+           UDFØR BEREGNINGER OG DEFINITIONER
+        ════════════════════════════════════════════ */
+        // Denne funktion gennemgår alle input, definerer funktioner, evaluerer værdier og forbereder data til grafen
+        function parseAndEvaluate() {
+            let definedFunctions = {}; // Gemmer funktioner som f.eks. { f: "x^2", g: "2*x+3" }
+            let plotData = [];         // Data der sendes til function-plot
+            let feedbackMap = {};      // Gemmer tekst/fejl der skal vises under hvert felt
+            let intersectionPoints = [];
 
-            const id1 = parseInt(document.getElementById('intersect-f1').value);
-            const id2 = parseInt(document.getElementById('intersect-f2').value);
-            if (id1 === id2) {
-                document.getElementById('intersections-result').innerHTML =
-                    '<p class="no-intersect">Vælg to forskellige funktioner.</p>';
-                return;
-            }
+            // 1. Gennemløb: Find og gem alle funktionsdefinitioner (f.eks. f(x)=x^2)
+            expressions.forEach(expr => {
+                let raw = expr.latex.trim();
+                if (!raw) return;
 
-            const fn1 = functions.find(f => f.id === id1);
-            const fn2 = functions.find(f => f.id === id2);
-            if (!fn1 || !fn2) return;
-
-            const expr1 = cleanLatex(fn1.latex);
-            const expr2 = cleanLatex(fn2.latex);
-            const name1 = fn1.latex.split('=')[0].trim();
-            const name2 = fn2.latex.split('=')[0].trim();
-
-            // Søg lidt udenfor det synlige vindue
-            const xMin = currentXDomain[0] - 2;
-            const xMax = currentXDomain[1] + 2;
-
-            const roots = findRootsNumerically(expr1, expr2, xMin, xMax);
-
-            // Opdater markører på grafen
-            intersectionMarkers = roots;
-            updateGraph();
-
-            // Vis resultater
-            const container = document.getElementById('intersections-result');
-            if (roots.length === 0) {
-                container.innerHTML = `<p class="no-intersect">Ingen skæringspunkter fundet mellem ${name1} og ${name2} i det aktuelle vindue.</p>`;
-                return;
-            }
-
-            container.innerHTML = `<p style="font-size:0.82rem; color:#7f8c8d; margin:8px 0 6px;">
-                Fandt <strong>${roots.length}</strong> skæringspunkt${roots.length > 1 ? 'er' : ''} mellem ${name1} og ${name2}:
-            </p>`;
-
-            roots.forEach(pt => {
-                const item = document.createElement('div');
-                item.className = 'intersection-item';
-                item.innerHTML = `
-                    <div class="intersection-dot"></div>
-                    <span>(<strong>${pt.x}</strong>, <strong>${pt.y}</strong>)</span>
-                `;
-                container.appendChild(item);
+                let defMatch = raw.match(/^([a-zA-Z])\(x\)\s*=\s*(.+)$/);
+                if (defMatch) {
+                    let funcName = defMatch[1];
+                    let funcBody = cleanLatex(defMatch[2]);
+                    definedFunctions[funcName] = funcBody;
+                    // Defineret funktion skal tegnes
+                    plotData.push({ fn: funcBody, color: expr.color, graphType: 'polyline' });
+                    feedbackMap[expr.id] = { type: 'info', text: `Funktion ${funcName}(x) defineret` };
+                }
             });
+
+            // Hjælpefunktion til at erstatte funktionskald (f(x) -> (x^2)) i et udtryk
+            function expandFunctions(mathString) {
+                let result = mathString;
+                for (let [name, body] of Object.entries(definedFunctions)) {
+                    // Regex til at fange f(noget) - håndterer ikke indlejrede parenteser perfekt, men virker til simple tilfælde
+                    let regex = new RegExp(`${name}\\(([^)]+)\\)`, 'g');
+                    result = result.replace(regex, (match, arg) => {
+                        // Erstat 'x' i funktionskroppen med argumentet
+                        return `(${body.replace(/\bx\b/g, `(${arg})`)})`;
+                    });
+                    
+                    // Erstat f(x) (når det står alene uden for eksplicitte parentes-argumenter evalueres, f.eks. i ligninger)
+                    let regex2 = new RegExp(`\\b${name}\\(x\\)`, 'g');
+                    result = result.replace(regex2, `(${body})`);
+                }
+                return result;
+            }
+
+            // 2. Gennemløb: Håndter alt andet (ligninger, evalueringer, punkter)
+            expressions.forEach(expr => {
+                let raw = expr.latex.trim();
+                if (!raw) return;
+                
+                // Spring over funktionsdefinitioner, de er håndteret
+                if (raw.match(/^([a-zA-Z])\(x\)\s*=\s*(.+)$/)) return;
+
+                let cleaned = cleanLatex(raw);
+                let expanded = expandFunctions(cleaned);
+
+                // --- Er det et punkt (x,y)? ---
+                let pointMatch = cleaned.match(/^\(([^,]+),([^,]+)\)$/);
+                if (pointMatch) {
+                    let xValStr = expandFunctions(pointMatch[1]);
+                    let yValStr = expandFunctions(pointMatch[2]);
+                    try {
+                        let fnX = new Function(`return ${xValStr.replace(/\^/g, '**')}`);
+                        let fnY = new Function(`return ${yValStr.replace(/\^/g, '**')}`);
+                        let x = fnX();
+                        let y = fnY();
+                        plotData.push({ points: [[x, y]], fnType: 'points', graphType: 'scatter', color: expr.color });
+                        feedbackMap[expr.id] = { type: 'info', text: `Punkt (${Math.round(x*100)/100}, ${Math.round(y*100)/100})` };
+                    } catch (e) {
+                         feedbackMap[expr.id] = { type: 'error', text: 'Ugyldigt punkt' };
+                    }
+                    return;
+                }
+
+                // --- Er det en ligning? f(x) = g(x) eller x^2 = 4 ---
+                if (cleaned.includes('=')) {
+                    let parts = cleaned.split('=');
+                    if (parts.length === 2) {
+                        let leftExpanded = expandFunctions(parts[0]);
+                        let rightExpanded = expandFunctions(parts[1]);
+                        
+                        // Find skæringer
+                        const xMin = currentXDomain[0] - 2;
+                        const xMax = currentXDomain[1] + 2;
+                        let roots = findRootsNumerically(leftExpanded, rightExpanded, xMin, xMax);
+                        
+                        if (roots.length > 0) {
+                            roots.forEach(r => intersectionPoints.push(r));
+                            let rootStrs = roots.map(r => `(${r.x}, ${r.y})`);
+                            feedbackMap[expr.id] = { type: 'value', text: `Skæring(er): ${rootStrs.join(' ; ')}` };
+                        } else {
+                            feedbackMap[expr.id] = { type: 'info', text: `Ingen skæringer fundet i vinduet` };
+                        }
+                    }
+                    return;
+                }
+
+                // --- Er det bare en funktion (y= underforstået)? f.eks. x^2 ---
+                if (expanded.includes('x')) {
+                     plotData.push({ fn: expanded, color: expr.color, graphType: 'polyline' });
+                     return;
+                }
+
+                // --- Så må det være et udtryk, der skal evalueres (f.eks. f(2) eller 2+2) ---
+                try {
+                    // Kør det udvidede udtryk (hvor f(2) er blevet til (2)^2)
+                    let evalStr = expanded.replace(/\^/g, '**')
+                                           .replace(/\bsin\b/g, 'Math.sin')
+                                           .replace(/\bcos\b/g, 'Math.cos')
+                                           .replace(/\bPI\b/g, 'Math.PI');
+                    let fn = new Function(`return ${evalStr}`);
+                    let val = fn();
+                    if (!isNaN(val)) {
+                        feedbackMap[expr.id] = { type: 'value', text: `= ${Math.round(val * 10000) / 10000}` };
+                    } else {
+                        throw new Error();
+                    }
+                } catch(e) {
+                    feedbackMap[expr.id] = { type: 'error', text: 'Kunne ikke evaluere' };
+                }
+            });
+
+            // Tilføj skæringspunkter til plottet
+            if (intersectionPoints.length > 0) {
+                plotData.push({
+                    points: intersectionPoints.map(p => [p.x, p.y]),
+                    fnType: 'points',
+                    graphType: 'scatter',
+                    color: '#2c3e50' // Mørk grå/blå til skæringspunkter
+                });
+            }
+
+            return { plotData, feedbackMap };
         }
 
         /* ════════════════════════════════════════════
-           OPDATER GRAFEN
+           UI OG RENDERING
         ════════════════════════════════════════════ */
-        function updateGraph() {
-            const plotData = [];
+        function addExpressionRow() {
+            const id = Date.now();
+            const color = COLORS[expressions.length % COLORS.length];
+            expressions.push({ id, latex: '', color });
+            renderExpressions();
+        }
 
-            // Funktioner
-            functions.forEach(f => {
-                const cleaned = cleanLatex(f.latex);
-                if (!cleaned) return;
-                plotData.push({ fn: cleaned, color: f.color, graphType: 'polyline' });
+        function removeExpressionRow(id) {
+            expressions = expressions.filter(e => e.id !== id);
+            renderExpressions();
+        }
+
+        function renderExpressions() {
+            const list = document.getElementById('function-list');
+            list.innerHTML = '';
+            
+            // Beregn hvad der skal tegnes og vises af feedback
+            const { plotData, feedbackMap } = parseAndEvaluate();
+
+            expressions.forEach((expr, index) => {
+                const row = document.createElement('div');
+                row.className = 'function-row';
+
+                const rowContent = document.createElement('div');
+                rowContent.className = 'function-row-content';
+
+                const dot = document.createElement('div');
+                dot.className = 'color-dot';
+                dot.style.background = expr.color;
+
+                const mf = document.createElement('math-field');
+                mf.value = expr.latex;
+                mf.addEventListener('input', e => {
+                    expressions[index].latex = e.target.value;
+                    renderExpressions(); // Gen-evaluer og opdater graf+feedback ved hvert tastetryk
+                });
+
+                const del = document.createElement('button');
+                del.className = 'del-btn';
+                del.innerHTML = '×';
+                del.onclick = () => removeExpressionRow(expr.id);
+
+                rowContent.appendChild(dot);
+                rowContent.appendChild(mf);
+                rowContent.appendChild(del);
+                row.appendChild(rowContent);
+
+                // Vis feedback hvis det findes
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'row-feedback';
+                if (feedbackMap[expr.id]) {
+                    feedbackDiv.textContent = feedbackMap[expr.id].text;
+                    if (feedbackMap[expr.id].type === 'error') feedbackDiv.classList.add('row-error');
+                    if (feedbackMap[expr.id].type === 'value') feedbackDiv.classList.add('row-value');
+                }
+                row.appendChild(feedbackDiv);
+
+                list.appendChild(row);
             });
 
-            // Bruger-punkter
-            const validPoints = userPoints.filter(p => p.x !== '' && p.y !== '');
-            if (validPoints.length > 0) {
-                // Gruppér per farve
-                const byColor = {};
-                validPoints.forEach(p => {
-                    if (!byColor[p.color]) byColor[p.color] = [];
-                    byColor[p.color].push([parseFloat(p.x), parseFloat(p.y)]);
-                });
-                Object.entries(byColor).forEach(([color, pts]) => {
-                    plotData.push({
-                        points: pts,
-                        fnType: 'points',
-                        graphType: 'scatter',
-                        color
-                    });
-                });
-            }
+            updateGraph(plotData);
+        }
 
-            // Skæringspunkts-markører
-            if (intersectionMarkers.length > 0) {
-                plotData.push({
-                    points: intersectionMarkers.map(p => [p.x, p.y]),
-                    fnType: 'points',
-                    graphType: 'scatter',
-                    color: '#e74c3c'
-                });
-            }
-
-            if (plotData.length === 0) return;
+        function updateGraph(plotData) {
+            if (!plotData || plotData.length === 0) return;
 
             try {
-                const width = document.getElementById('graph-display').clientWidth - 40;
+                const width = document.getElementById('graph-display').clientWidth;
                 plotInstance = functionPlot({
                     target: '#plot-area',
                     width:  Math.max(width, 300),
@@ -625,7 +456,7 @@
                     data:   plotData
                 });
 
-                // Spor aktuel x-akse for skæringsfinding
+                // Gem zoom-niveau for rodfinding
                 plotInstance.on('all:zoom', function() {
                     try {
                         currentXDomain = plotInstance.meta.xScale.domain();
@@ -636,13 +467,9 @@
             }
         }
 
-        /* ════════════════════════════════════════════
-           INIT
-        ════════════════════════════════════════════ */
         window.onload = () => {
-            renderFunctions();
-            renderPoints();
-            window.addEventListener('resize', updateGraph);
+            renderExpressions();
+            window.addEventListener('resize', () => renderExpressions());
         };
         </script>
     </main>
