@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funktioner af to variable - STX Matematik A</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { pointer-events: none; }
+
+        @media (max-width: 600px) { .toc-list { columns: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Funktioner af to variable</h1>
+            <p class="subtitle">A - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#koordinatsystemer"><span class="toc-num">1.</span>Koordinatsystemer, vektorer og geometri i 3D</a></li>
+                <li><a href="#flader"><span class="toc-num">2.</span>Funktioner af to variable og flader</a></li>
+                <li><a href="#partielle"><span class="toc-num">3.</span>Partielle afledede</a></li>
+                <li><a href="#gradient"><span class="toc-num">4.</span>Gradient og tangentplan</a></li>
+                <li><a href="#stationaere"><span class="toc-num">5.</span>Stationære punkter</a></li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Introduktion</h2>
+            <p>Et eksempel på en funktion af to variable er $z = x^2 + y^2$.</p>
+            <p>For ethvert koordinatsæt $(x, y)$ er der en funktionsværdi $z = x^2 + y^2$. For eksempel er funktionsværdien svarende til $(x, y) = (3, 7)$ lig med $z = 3^2 + 7^2 = 9 + 49 = 58$.</p>
+            <p>Grafen for funktionen er samlingen af punkter $(x, y, z)$, hvor $z = x^2 + y^2$. Et af punkterne på grafen er $(3, 7, 58)$. Et sådant punkt eksisterer i 3D, dvs. et rum med tre koordinatakser, der står vinkelret på hinanden. For at kunne arbejde med punktmængder i 3D kan det være nyttigt at have kendskab til 3D-vektorer.</p>
+        </section>
+
+        <div id="koordinatsystemer" class="section-divider">
+            <h2>1. Koordinatsystemer, vektorer og geometri i 3D</h2>
+            <p>Udvidelse af vektorregning og geometri til det tredimensionale rum.</p>
+        </div>
+
+        <section class="card">
+            <h2>Koordinatsystem i 3D</h2>
+            <p>I 3D arbejder vi i et koordinatsystem med tre akser: x-aksen, y-aksen og z-aksen. Koordinatsystemets begyndelsespunkt betegnes ofte med $O$. Et punkt har tre koordinater: $P(x, y, z)$.</p>
+            <p>Et punkt som $P(2, 3, 5)$ tegnes lettest ved at følge vejen: 2 ud ad x-aksen, 3 hen langs y-aksen, 5 op langs z-aksen. Punktet kan også opfattes som et hjørne i en kasse.</p>
+            
+            <p>Hvert par af akser frembringer en plan, der betegnes henholdsvis xy-planen, yz-planen og xz-planen. De tre planer kan også beskrives ved ligningerne $z=0$, $x=0$ og $y=0$. Andre vigtige planer er $x=a$ (hvor alle punkter har samme x-koordinat), $y=a$ og $z=a$.</p>
+        </section>
+
+        <section class="card">
+            <h2>Vektorer i 3D</h2>
+            <p>En vektor i 3D er et koordinatsæt med tre koordinater:</p>
+            <p>$$ \vec{a} = \begin{pmatrix} a_1 \\ a_2 \\ a_3 \end{pmatrix} $$</p>
+            <p>En geometrisk repræsentant for $\vec{a}$ kan tegnes ud fra ethvert punkt $A$ som en pil. Lettest er det at tegne repræsentanten, der starter i $O$.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Addition og multiplikation med et tal</strong>
+                <p>Givet to vektorer $\vec{a}$ og $\vec{b}$ samt et tal $k$. Da er summen og skalarmultiplikationen defineret ved:</p>
+                <p>$$ \vec{a} + \vec{b} = \begin{pmatrix} a_1 + b_1 \\ a_2 + b_2 \\ a_3 + b_3 \end{pmatrix} \quad \text{og} \quad k\vec{a} = \begin{pmatrix} k a_1 \\ k a_2 \\ k a_3 \end{pmatrix} $$</p>
+            </div>
+            
+            <p>Den modsatte vektor af $\vec{a}$ er $-\vec{a} = \begin{pmatrix} -a_1 \\ -a_2 \\ -a_3 \end{pmatrix}$. Nulvektoren er $\vec{o} = \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Længden af en vektor</strong>
+                <p>Længden $|\vec{v}|$ af en vektor defineres ved hjælp af Pythagoras' sætning i 3D:</p>
+                <p>$$ |\vec{v}| = \sqrt{v_1^2 + v_2^2 + v_3^2} $$</p>
+            </div>
+
+            <h3>Prikprodukt (skalarprodukt)</h3>
+            <p>For to vektorer $\vec{a}$ og $\vec{b}$ defineres prikproduktet som:</p>
+            <p>$$ \vec{a} \cdot \vec{b} = a_1 b_1 + a_2 b_2 + a_3 b_3 $$</p>
+            <p>Ligesom i 2D gælder der, at vinklen $v$ mellem de to vektorer opfylder $\cos(v) = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| |\vec{b}|}$. Ortogonalsætningen gælder også: To vektorer er ortogonale (vinkelrette), netop når deres prikprodukt er 0.</p>
+        </section>
+
+        <section class="card">
+            <h2>Planens og kuglens ligning</h2>
+            <p>I 3D bestemmer et punkt $P_0(x_0, y_0, z_0)$ og en normalvektor $\vec{n} = \begin{pmatrix} a \\ b \\ c \end{pmatrix} \neq \vec{o}$ en plan $\alpha$. Et punkt $P(x,y,z)$ tilhører planen, netop når $\overrightarrow{P_0 P} \bot \vec{n}$. Dette giver planens ligning:</p>
+            <p>$$ a(x - x_0) + b(y - y_0) + c(z - z_0) = 0 $$</p>
+            <p>For en kugle med centrum i $C(a, b, c)$ og radius $r$, vil ethvert punkt $P(x,y,z)$ på kuglen have afstanden $r$ til centrum. Dette giver kuglens ligning:</p>
+            <p>$$ (x - a)^2 + (y - b)^2 + (z - c)^2 = r^2 $$</p>
+        </section>
+
+        <div id="flader" class="section-divider">
+            <h2>2. Funktioner af to variable og flader</h2>
+            <p>At fortolke f(x, y) som et 3D-landskab med højdekurver og snit.</p>
+        </div>
+
+        <section class="card">
+            <h2>Definitionsmængde og flader</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Definitionsmængde</strong>
+                <p>En funktion $f(x, y)$ af to variable angiver for hver værdi af $x$ og $y$ et tal $z = f(x, y)$. Her er $x$ og $y$ uafhængige variable, og $z$ er en afhængig variabel.</p>
+                <p>De uafhængige variable $x$ og $y$ kan være begrænset til et område i xy-planen. Dette område udgør definitionsmængden.</p>
+            </div>
+            <p>Koordinatsættet $(x, y, f(x, y))$ kan afsættes som et punkt i et 3D-koordinatsystem. Samlingen af disse punkter udgør funktionens graf, som danner en <strong>flade</strong>. Fladens ligning er $z = f(x, y)$.</p>
+
+            <h3>Niveaukurver</h3>
+            <p>For en funktion af to variable interesserer vi os ofte for de punkter, der giver samme "højde" $z = a$. I matematik kaldes disse kurver for niveaukurver (svarende til højdekurver på et landkort).</p>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Niveaukurve</strong>
+                <p>Ved en niveaukurve for en funktion $f(x, y)$ forstås mængden af punkter i xy-planen, der opfylder $f(x, y) = a$, hvor $a$ er en konstant.</p>
+            </div>
+            
+            <p>En niveaukurve er i bund og grund skæringskurven mellem planen med ligningen $z = a$ og fladen med ligningen $z = f(x, y)$, projiceret ned i xy-planen.</p>
+
+            <div class="svg-container">
+                <div id="graf-niveaukurver"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Niveaukurver for $f(x,y) = x^2 + y^2$ (en paraboloide). Farverne viser kurver for højderne $z=1$ (blå), $z=4$ (grøn) og $z=9$ (rød).</p>
+            </div>
+
+            <h3>Snitkurver</h3>
+            <p>I stedet for at skære fladen horisontalt med planen $z = a$, kan man skære den lodret med planerne $x = a$ eller $y = a$.</p>
+            <ul>
+                <li>Skæring med planen $y = a$ giver en <strong>snitkurve i x-retningen</strong>, $z = f(x, a)$.</li>
+                <li>Skæring med planen $x = a$ giver en <strong>snitkurve i y-retningen</strong>, $z = f(a, y)$.</li>
+            </ul>
+        </section>
+
+        <div id="partielle" class="section-divider">
+            <h2>3. Partielle afledede</h2>
+            <p>Differentiation med hensyn til én variabel ad gangen.</p>
+        </div>
+
+        <section class="card">
+            <h2>Den partielle afledede</h2>
+            <p>Vi ser på en funktion $f(x, y)$. Snitfunktionerne $g(x) = f(x, y_0)$ og $h(y) = f(x_0, y)$ er funktioner af kun én variabel. Hvis disse er differentiable, angiver deres afledede tangenthældningerne for de respektive snitkurver.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Den partielle afledede af f</strong>
+                <p>Den partielle afledede af $f$ med hensyn til $x$ defineres som $\frac{d}{dx}(f(x, y))$ hvor $y$ holdes konstant. Dette betegnes $f_x'(x,y)$ eller $\frac{\partial f}{\partial x}$.</p>
+                <p>Den partielle afledede af $f$ med hensyn til $y$ defineres som $\frac{d}{dy}(f(x, y))$ hvor $x$ holdes konstant. Dette betegnes $f_y'(x,y)$ eller $\frac{\partial f}{\partial y}$.</p>
+            </div>
+        </section>
+
+        <div id="gradient" class="section-divider">
+            <h2>4. Gradient og tangentplan</h2>
+            <p>At finde den stejleste stigning og den plan, der tangerer fladen bedst.</p>
+        </div>
+
+        <section class="card">
+            <h2>Gradienten</h2>
+            <p>Vi går i det følgende ud fra, at funktionen er "pæn", hvilket betyder, at den har snitfunktioner, der kan differentieres flere gange.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Gradienten</strong>
+                <p>Gradienten $\nabla f(x,y)$ for en funktion $f(x,y)$ er en vektor defineret ved:</p>
+                <p>$$ \nabla f(x,y) = \begin{pmatrix} f_x'(x,y) \\ f_y'(x,y) \end{pmatrix} $$</p>
+                <p>Tegnet $\nabla$ læses: "nabla".</p>
+            </div>
+            
+            <p>Gradienten angiver retningen for fladens stejleste stigning. Et eksempel kunne være et økonomisk scenarie, hvor retningen for den stejleste værdistigning angives ved $\nabla q = (0.63, 390.63)$. Dette betyder, at en investeringsforøgelse på 1 kr. giver en værdistigning på 0,63 kr., mens en forøgelse af arbejdsindsatsen på 1 time giver en værdistigning på 390,63 kr.</p>
+        </section>
+
+        <section class="card">
+            <h2>Tangentplanen</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Tangentplanen</strong>
+                <p>En flade er givet ved ligningen $z = f(x,y)$. Tangentplanen til fladen i et punkt $P_0(x_0, y_0, f(x_0, y_0))$ er defineret ved ligningen:</p>
+                <p>$$ z = z_0 + p \cdot (x - x_0) + q \cdot (y - y_0) $$</p>
+                <p>hvor $z_0 = f(x_0,y_0)$, $p = f_x'(x_0,y_0)$ og $q = f_y'(x_0,y_0)$.</p>
+            </div>
+            
+            <p>Ligningen for en tangentplan kan omskrives til formen $a(x - x_0) + b(y - y_0) + c(z - z_0) = 0$:</p>
+            <p>$$ p \cdot (x - x_0) + q \cdot (y - y_0) - (z - z_0) = 0 $$</p>
+            <p>Heraf ses direkte, at $\vec{n} = \begin{pmatrix} p \\ q \\ -1 \end{pmatrix} = \begin{pmatrix} f_x'(x_0,y_0) \\ f_y'(x_0,y_0) \\ -1 \end{pmatrix}$ er en normalvektor til tangentplanen.</p>
+        </section>
+
+        <div id="stationaere" class="section-divider">
+            <h2>5. Stationære punkter</h2>
+            <p>Nødvendige og tilstrækkelige betingelser for ekstrema og saddelpunkter.</p>
+        </div>
+
+        <section class="card">
+            <h2>Definition af stationært punkt i 3D</h2>
+            <p>For en funktion $f(x)$ af én variabel er de mulige ekstremumspunkter bestemt af $f'(x) = 0$. For en funktion $f(x, y)$ af to variable er mulige ekstremumspunkter $P(x_0, y_0, f(x_0, y_0))$ bestemt ved, at tangentplanen i punktet er vandret (dvs. parallel med xy-planen).</p>
+
+            <p>For en vandret tangentplan er normalvektoren parallel med z-aksen. Det betyder, at både første- og andenkoordinaten i normalvektoren $\vec{n}$ må være lig med 0.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Stationært punkt</strong>
+                <p>For en "pæn" funktion $f(x, y)$ er et punkt $(x_0, y_0, f(x_0, y_0))$ et stationært punkt, netop når:</p>
+                <p>$$ f_x'(x_0,y_0) = 0 \quad \text{og} \quad f_y'(x_0,y_0) = 0 $$</p>
+            </div>
+            
+            <p><strong>Sætning 4.1: Nødvendig betingelse</strong><br>
+            Hvis $f(x, y)$ har et maksimum eller et minimum i et punkt, skal det være et stationært punkt. Ekstrema skal altså udelukkende findes blandt de stationære punkter.</p>
+        </section>
+
+        <section class="card">
+            <h2>Tilstrækkelige betingelser for ekstrema (Arten af et stationært punkt)</h2>
+            <p>For at afgøre arten af det stationære punkt (om det er lokalt minimum, lokalt maksimum eller et saddelpunkt), skal vi benytte de partielle afledede af 2. orden. Vi definerer følgende tre størrelser:</p>
+            <ul>
+                <li>$r = f_{xx}''(x,y) = \frac{\partial}{\partial x}(f_x'(x,y))$</li>
+                <li>$s = f_{xy}''(x,y) = \frac{\partial}{\partial y}(f_x'(x,y))$</li>
+                <li>$t = f_{yy}''(x,y) = \frac{\partial}{\partial y}(f_y'(x,y))$</li>
+            </ul>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 4.3: Arten af et stationært punkt, to variable</strong>
+                <p>Antag, at $P(x_1, y_1, f(x_1,y_1))$ er et stationært punkt for $f(x, y)$. Da gælder:</p>
+                <ul>
+                    <li>Hvis $rt - s^2 > 0$, er $P$ et ekstremumspunkt. 
+                        <ul>
+                            <li>Er $r > 0$, er punktet et <strong>minimumspunkt</strong>.</li>
+                            <li>Er $r < 0$, er punktet et <strong>maksimumspunkt</strong>.</li>
+                        </ul>
+                    </li>
+                    <li>Hvis $rt - s^2 < 0$, er $P$ et <strong>saddelpunkt</strong>.</li>
+                    <li>Hvis $rt - s^2 = 0$, er sagen ikke afgjort.</li>
+                </ul>
+            </div>
+
+            <p>Et saddelpunkt har den egenskab, at der gennem punktet går både snitkurver med lokalt minimum og snitkurver med lokalt maksimum. Det minder formmæssigt om en ridders saddel.</p>
+
+            <div class="svg-container">
+                <div id="graf-saddelpunkt"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Niveaukurver for $f(x,y) = x^2 - y^2$. Her udgør origo $(0,0)$ et saddelpunkt. Krydset (grå) i midten markerer højde $z=0$, mens blå er højden $z=-1$ og rød er $z=1$.</p>
+            </div>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // 1. Niveaukurver for z = x^2 + y^2 (Paraboloide minimum)
+                functionPlot({
+                    target: '#graf-niveaukurver',
+                    disableZoom: true,
+                    width: document.getElementById('graf-niveaukurver').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-4, 4] },
+                    yAxis: { domain: [-4, 4] },
+                    data: [
+                        { fnType: 'implicit', fn: 'x^2 + y^2 - 1', color: '#3498db' }, // z=1
+                        { fnType: 'implicit', fn: 'x^2 + y^2 - 4', color: '#2ecc71' }, // z=4
+                        { fnType: 'implicit', fn: 'x^2 + y^2 - 9', color: '#e74c3c' }  // z=9
+                    ]
+                });
+
+                // 2. Niveaukurver for z = x^2 - y^2 (Saddelpunkt)
+                functionPlot({
+                    target: '#graf-saddelpunkt',
+                    disableZoom: true,
+                    width: document.getElementById('graf-saddelpunkt').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-3, 3] },
+                    yAxis: { domain: [-3, 3] },
+                    data: [
+                        { fnType: 'implicit', fn: 'x^2 - y^2 + 1', color: '#3498db' }, // z=-1
+                        { fnType: 'implicit', fn: 'x^2 - y^2 - 1', color: '#e74c3c' }, // z=1
+                        { fnType: 'implicit', fn: 'x^2 - y^2', color: '#95a5a6' }      // z=0 (Asymptoterne)
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>
