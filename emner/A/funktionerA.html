@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funktioner A - STX Matematik A</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        .back-to-top { display: inline-block; font-size: 0.85rem; color: #bdc3c7; text-decoration: none; margin-top: 8px; }
+        .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
+
+        .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+
+        @media (max-width: 600px) { .toc-list { columns: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Funktioner og Trigonometri</h1>
+            <p class="subtitle">A - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#invers"><span class="toc-num">1.</span>Invers funktion</a></li>
+                <li><a href="#trigonometri"><span class="toc-num">2.</span>Trigonometriske funktioner</a></li>
+                <li><a href="#harmonisk"><span class="toc-num">3.</span>Harmoniske svingninger</a></li>
+                <li><a href="#forskydning"><span class="toc-num">4.</span>Parallelforskydning af grafer</a></li>
+                <li><a href="#beviser"><span class="toc-num">5.</span>Beviser</a></li>
+            </ul>
+        </section>
+
+        <div id="invers" class="section-divider">
+            <h2>1. Invers funktion</h2>
+            <p>Operationer der ophæver hinanden, og grafernes spejling</p>
+        </div>
+
+        <section class="card">
+            <h2>Kvadratrod og i anden</h2>
+            <p>Vi forudsætter her, at $x \ge 0$. I så fald har ligningen $x^2 = 16$ kun løsningen $x = 4$, og ligningen $x^2 = 81$ har kun løsningen $x = 9$.</p>
+            <p>Mere generelt gælder, at når $a \ge 0$ og $x \ge 0$, så er $x^2 = a$ ensbetydende med, at $x = \sqrt{a}$. At tage kvadratroden er den inverse (omvendte) operation af at sætte i anden.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Invers funktion for $x^2$</strong>
+                <p>For $x \ge 0$ er $f^{-1}(x) = \sqrt{x}$ den inverse funktion til funktionen $f(x) = x^2$.</p>
+                <p>Grafen for $f^{-1}(x)$ tegnes ved at spejle grafen for $f(x)$ i den rette linje med ligningen $y = x$.</p>
+            </div>
+
+            <div class="svg-container">
+                <div id="graf-invers-kvadrat"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: $f(x) = x^2$ | Grøn: $f^{-1}(x) = \sqrt{x}$ | Rød: Spejlingslinjen $y = x$</p>
+            </div>
+
+            <p><strong>Bemærkning:</strong> Hvis funktionen $f$ skal have en invers funktion, må der til enhver y-værdi højst høre én x-værdi. Hvis vi tillod negative x-værdier, ville $y = x^2$ for enhver positiv y-værdi have to tilhørende x-værdier (f.eks. både $x = 4$ og $x = -4$ giver $y = 16$). Derfor begrænser vi os til $x \ge 0$.</p>
+        </section>
+
+        <section class="card">
+            <h2>Eksponential- og logaritmefunktioner</h2>
+            <p>Ifølge definitionen af den naturlige logaritmefunktion gælder:</p>
+            <p>$$\ln(x) = y \quad \Leftrightarrow \quad x = e^y$$</p>
+            <p>Definitionen fortæller, at ligningen $\ln(x) = 5$ har én løsning, nemlig $x = e^5$. Mere generelt løser man ligningen $\ln(x) = a$ ved at tage den naturlige eksponentialfunktion på begge sider. De to er nemlig inverse operationer, og der gælder $e^{\ln(a)} = a$ og $\ln(e^a) = a$.</p>
+
+            <div class="svg-container">
+                <div id="graf-invers-exp"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: $f(x) = e^x$ | Grøn: $f^{-1}(x) = \ln(x)$ | Rød: Spejlingslinjen $y = x$</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="trigonometri" class="section-divider">
+            <h2>2. Trigonometriske funktioner</h2>
+            <p>Radianer, enhedscirklen og de periodiske funktioner</p>
+        </div>
+
+        <section class="card">
+            <h2>Radian</h2>
+            <p>I trekantsberegning bruges vinkler oftest i grader, men for de trigonometriske funktioner cosinus og sinus bruger vi primært enheden <strong>radian</strong>. Radian defineres ud fra enhedscirklen (en cirkel med radius 1).</p>
+            
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Radiantal</strong>
+                <p>En vinkels radiantal er lig med længden af den cirkelbue, vinklen spænder over i en cirkel med radius 1.</p>
+            </div>
+
+            <p>Da omkredsen af enhedscirklen er $2\pi \cdot 1 = 2\pi$, svarer en hel cirkel ($360^\circ$) til $2\pi$ radianer.</p>
+
+            <figure style="text-align: center; margin: 30px 0;">
+                [attachment_0](attachment)
+                <figcaption style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Enhedscirklen med vinkler i både grader og radianer.</figcaption>
+            </figure>
+
+            <p>Ved omregning mellem grader og radian benyttes disse to simple formler:</p>
+            <ul>
+                <li>Gradtal $v$ omsat til radiantal $x$: $$x = \frac{v}{360} \cdot 2\pi \text{ radian}$$</li>
+                <li>Radiantal $x$ omsat til gradtal $v$: $$v = \frac{x}{2\pi} \cdot 360 \text{ grader}$$</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>De periodiske grafer for sin og cos</h2>
+            <p>En forøgelse af x-værdien med $2\pi$ svarer på enhedscirklen til en hel omgang, hvor man ender i præcis samme retningspunkt. Derfor gælder der:</p>
+            <p>$$\cos(x) = \cos(x + p \cdot 2\pi)$$</p>
+            <p>$$\sin(x) = \sin(x + p \cdot 2\pi)$$</p>
+            <p>hvor $p$ er et vilkårligt helt tal. Denne egenskab betyder, at funktionerne "gentager sig selv" efter et interval på $2\pi$. Funktionerne kaldes periodiske med perioden $2\pi$.</p>
+
+            <div class="svg-container">
+                <div id="graf-trig"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: $\sin(x)$ | Rød: $\cos(x)$</p>
+            </div>
+            
+            <h3>Differentialkvotient af cos og sin</h3>
+            <p>Funktionerne er differentiable overalt. Ved differentiation af de trigonometriske funktioner (når $x$ er i radianer) gælder:</p>
+            <p>$$\cos'(x) = -\sin(x)$$</p>
+            <p>$$\sin'(x) = \cos(x)$$</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="harmonisk" class="section-divider">
+            <h2>3. Harmoniske svingninger</h2>
+            <p>Fysiske modeller beskrevet af trigonometri</p>
+        </div>
+
+        <section class="card">
+            <h2>Matematikken bag bølger og svingninger</h2>
+            <p>Mange fænomener i virkeligheden kan beskrives som bølger eller svingninger – fra tidevand og temperaturudsving til lyd og penduler. Disse kan ofte modelleres af en harmonisk svingning.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Harmonisk svingning</strong>
+                <p>En harmonisk svingning beskrives ved formlen:</p>
+                <p>$$y = A \cdot \sin(\omega \cdot t + \phi)$$</p>
+                <ul>
+                    <li><strong>$t$:</strong> Den uafhængige variabel (ofte tiden).</li>
+                    <li><strong>$A$:</strong> Amplituden (svingningens maksimale udsving fra midten).</li>
+                    <li><strong>$\omega$:</strong> Vinkelhastigheden.</li>
+                    <li><strong>$\phi$:</strong> Begyndelsesfasen eller faseforskydningen.</li>
+                </ul>
+            </div>
+            <p>Ud fra vinkelhastigheden kan man bestemme frekvensen $f = \frac{\omega}{2\pi}$ og svingningstiden (perioden) $T = \frac{2\pi}{\omega}$.</p>
+            
+            <div class="svg-container">
+                <div id="graf-harmonisk"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Eksempel på harmonisk svingning: $y = 3 \cdot \sin(2 \cdot t + 1)$</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="forskydning" class="section-divider">
+            <h2>4. Parallelforskydning af grafer</h2>
+            <p>At rykke en funktion i koordinatsystemet</p>
+        </div>
+
+        <section class="card">
+            <h2>At forskyde med en vektor</h2>
+            <p>Parablen, der er graf for $f(x) = a \cdot x^2$, føres ved en parallelforskydning på stykket $h$ i x-aksens retning og stykket $k$ i y-aksens retning over i parablen $g(x) = a \cdot (x - h)^2 + k$. Dette gælder generelt for alle funktionstyper.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 1.2: Parallelforskydning af grafer</strong>
+                <p>Grafen for funktionen $g(x) = f(x - h) + k$ fremkommer af grafen for funktionen $f(x)$ ved en parallelforskydning på stykket $h$ i x-aksens retning og stykket $k$ i y-aksens retning.</p>
+            </div>
+            <p>At "forskyde grafen stykket $h$ i x-aksens retning og stykket $k$ i y-aksens retning" kaldes også matematisk for at "forskyde grafen efter vektor $\binom{h}{k}$".</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="beviser" class="section-divider">
+            <h2>5. Beviser</h2>
+            <p>Samlet oversigt over matematiske beviser i dette emne</p>
+        </div>
+
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis-radian">Bevis for omregningsformlen mellem grader og radianer</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis-radian" class="card proof">
+            <h2>Bevis for omregningsformlen mellem grader og radianer</h2>
+            <p>Vi ønsker at vise sammenhængen mellem en vinkel $v$ målt i grader og samme vinkel $x$ målt i radianer.</p>
+            
+            <p>En hel cirkel svarer til $360^\circ$.<br>
+            Omkredsen på enhedscirklen (hvor radius $r = 1$) er givet ved formlen for cirklens omkreds:</p>
+            <p>$$O = 2 \cdot \pi \cdot r = 2 \cdot \pi \cdot 1 = 2\pi$$</p>
+
+            <p>Dermed svarer en fuld cirkel i radianer til $2\pi$. Forholdet mellem en vilkårlig vinkel og hele cirklen må være det samme, uanset om vi måler i grader eller radianer. Vi kan derfor opstille følgende ligning for forholdet:</p>
+            
+            <p>$$\frac{v}{360} = \frac{x}{2\pi}$$</p>
+
+            <p>Vi isolerer nu $x$ (vinklen i radianer) ved at gange med $2\pi$ på begge sider af lighedstegnet:</p>
+            <p>$$x = \frac{v}{360} \cdot 2\pi$$</p>
+
+            <p>Og for at finde gradtallet, kan vi tilsvarende isolere $v$ ved at gange med $360$ på begge sider i det oprindelige forhold:</p>
+            <p>$$v = \frac{x}{2\pi} \cdot 360$$</p>
+
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // 1. Invers graf: x^2 og sqrt(x)
+                functionPlot({
+                    target: '#graf-invers-kvadrat',
+                    width: document.getElementById('graf-invers-kvadrat').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-1, 10] },
+                    yAxis: { domain: [-1, 10] },
+                    data: [
+                        { fn: 'x^2', color: '#3498db' },
+                        { fn: 'sqrt(x)', color: '#27ae60' },
+                        { fn: 'x', color: '#e74c3c' }
+                    ]
+                });
+
+                // 2. Invers graf: e^x og ln(x)
+                functionPlot({
+                    target: '#graf-invers-exp',
+                    width: document.getElementById('graf-invers-exp').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-3, 6] },
+                    yAxis: { domain: [-3, 6] },
+                    data: [
+                        { fn: 'exp(x)', color: '#3498db' },
+                        { fn: 'log(x)', color: '#27ae60' }, // function-plot bruger log for ln
+                        { fn: 'x', color: '#e74c3c' }
+                    ]
+                });
+
+                // 3. Trigonometriske funktioner
+                functionPlot({
+                    target: '#graf-trig',
+                    width: document.getElementById('graf-trig').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-7, 7] }, // ca. -2pi til 2pi
+                    yAxis: { domain: [-2, 2] },
+                    data: [
+                        { fn: 'sin(x)', color: '#3498db' },
+                        { fn: 'cos(x)', color: '#e74c3c' }
+                    ]
+                });
+
+                // 4. Harmonisk Svingning
+                functionPlot({
+                    target: '#graf-harmonisk',
+                    width: document.getElementById('graf-harmonisk').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [0, 10] },
+                    yAxis: { domain: [-4, 4] },
+                    data: [
+                        { fn: '3 * sin(2*x + 1)', color: '#9b59b6' }
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>

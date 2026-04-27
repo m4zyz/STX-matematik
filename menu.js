@@ -8,13 +8,14 @@ document.head.appendChild(faviconLink);
 // --- 1. DIT KARTOTEK OVER EMNER ---
 const stxMenuData = {
     "A-Niveau": [
-        { title: "Integralregning", path: "emner/A/integralregning.html" }
+        { title: "Integralregning", path: "emner/A/integralregning.html" },
+        { title: "Funktioner A", path: "emner/A/funktionerA.html" }
     ],
     "B-Niveau": [
         { title: "Differentialregning", path: "emner/B/differentialregning.html" }
     ],
     "C-Niveau": [
-        { title: "Funktioner", path: "emner/C/Funktioner.html" },
+        { title: "Funktioner C", path: "emner/C/Funktioner.html" },
         { title: "polynomier", path: "emner/C/polynomier.html" }
     ],
     "Formelsamlinger": [
