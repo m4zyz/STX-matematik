@@ -36,10 +36,10 @@
         .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
         .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
 
-        .back-to-top { display: inline-block; font-size: 0.85rem; color: #bdc3c7; text-decoration: none; margin-top: 8px; }
-        .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
-
         .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { pointer-events: none; }
 
         @media (max-width: 600px) { .toc-list { columns: 1; } }
     </style>
@@ -118,7 +118,7 @@
             <p>Da omkredsen af enhedscirklen er $2\pi \cdot 1 = 2\pi$, svarer en hel cirkel ($360^\circ$) til $2\pi$ radianer.</p>
 
             <figure style="text-align: center; margin: 30px 0;">
-                [attachment_0](attachment)
+                
                 <figcaption style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Enhedscirklen med vinkler i både grader og radianer.</figcaption>
             </figure>
 
@@ -154,7 +154,7 @@
 
         <section class="card">
             <h2>Matematikken bag bølger og svingninger</h2>
-            <p>Mange fænomener i virkeligheden kan beskrives som bølger eller svingninger – fra tidevand og temperaturudsving til lyd og penduler. Disse kan ofte modelleres af en harmonisk svingning.</p>
+            <p>Mange fænomener i virkeligheden kan beskrives som bølger eller svingninger - fra tidevand og temperaturudsving til lyd og penduler. Disse kan ofte modelleres af en harmonisk svingning.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Definition: Harmonisk svingning</strong>
@@ -243,6 +243,7 @@
                 // 1. Invers graf: x^2 og sqrt(x)
                 functionPlot({
                     target: '#graf-invers-kvadrat',
+                    disableZoom: true,
                     width: document.getElementById('graf-invers-kvadrat').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
@@ -258,6 +259,7 @@
                 // 2. Invers graf: e^x og ln(x)
                 functionPlot({
                     target: '#graf-invers-exp',
+                    disableZoom: true,
                     width: document.getElementById('graf-invers-exp').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
@@ -273,6 +275,7 @@
                 // 3. Trigonometriske funktioner
                 functionPlot({
                     target: '#graf-trig',
+                    disableZoom: true,
                     width: document.getElementById('graf-trig').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
@@ -287,6 +290,7 @@
                 // 4. Harmonisk Svingning
                 functionPlot({
                     target: '#graf-harmonisk',
+                    disableZoom: true,
                     width: document.getElementById('graf-harmonisk').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,

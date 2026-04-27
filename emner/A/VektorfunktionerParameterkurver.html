@@ -37,6 +37,9 @@
         .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
 
         .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { pointer-events: none; }
 
         @media (max-width: 600px) { .toc-list { columns: 1; } }
     </style>
@@ -251,13 +254,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // RETTELSE: function-plot v1 kræver graphType: 'polyline' for alle
-                // parametriske kurver (fnType: 'parametric'). Uden denne nøgle
-                // tegnes intet, selvom fnType er sat korrekt.
-
                 // 1. Dobbeltpunkt graf
                 functionPlot({
                     target: '#graf-dobbeltpunkt',
+                    disableZoom: true,
                     width: document.getElementById('graf-dobbeltpunkt').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
@@ -276,6 +276,7 @@
                 // 2. Cykloiden
                 functionPlot({
                     target: '#graf-cykloide',
+                    disableZoom: true,
                     width: document.getElementById('graf-cykloide').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
@@ -294,6 +295,7 @@
                 // 3. Parabel som parameterkurve
                 const parabelInstance = functionPlot({
                     target: '#graf-parabel',
+                    disableZoom: true,
                     width: document.getElementById('graf-parabel').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
@@ -309,7 +311,7 @@
                     }]
                 });
 
-                // Brændpunkt tegnes manuelt med D3 (annotations understøtter ikke punktmarkering)
+                // Brændpunkt tegnes manuelt med D3
                 const xS = parabelInstance.meta.xScale;
                 const yS = parabelInstance.meta.yScale;
                 const pc = d3.select('#graf-parabel svg .content');
@@ -320,11 +322,12 @@
                 pc.append('text')
                     .attr('x', xS(0.25) + 8).attr('y', yS(0) - 8)
                     .attr('fill', '#e67e22').attr('font-size', '12px').attr('font-family', 'sans-serif')
-                    .text('Brændpunkt F(¼, 0)');
+                    .text('Brændpunkt F(0.25, 0)');
 
                 // 4. Logaritmisk Spiral
                 functionPlot({
                     target: '#graf-spiral',
+                    disableZoom: true,
                     width: document.getElementById('graf-spiral').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
