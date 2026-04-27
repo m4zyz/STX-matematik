@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tal - STX Matematik A</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        @media (max-width: 600px) { .toc-list { columns: 1; } }
+    </style>
+</head>
+<body>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Tal</h1>
+            <p class="subtitle">A - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#udvikling"><span class="toc-num">1.</span>Udvikling af talbegrebet</a></li>
+                <li><a href="#tallinjen"><span class="toc-num">2.</span>Tallinjen og talmængder</a></li>
+                <li><a href="#decimalbroeker"><span class="toc-num">3.</span>Decimalbrøker</a></li>
+                <li><a href="#potenser"><span class="toc-num">4.</span>Udvidelse af potenser</a></li>
+                <li><a href="#overslag"><span class="toc-num">5.</span>Overslagsregning</a></li>
+            </ul>
+        </section>
+
+        <div id="udvikling" class="section-divider">
+            <h2>1. Udvikling af talbegrebet</h2>
+            <p>Fra naturlige tal til kvadratrødder af negative tal.</p>
+        </div>
+
+        <section class="card">
+            <h2>De naturlige tal</h2>
+            <p>At holde styr på, om det antal får, der kommer hjem, er det samme som det antal, der gik ud, kræver ikke tal. Det er nok at lægge en sten i lommen for hvert får, der går ud, og tage en sten op af lommen for hvert får, der vender hjem: Er der ingen sten tilovers, og mangler der ingen sten, er de to antal det samme.</p>
+            <p>Men ved hjælp af tal og tællekunst er det meget lettere: At "tælle op" svarer til at "lægge en sten i lommen", og at "tælle op" en gang til svarer til at "tage en sten op af lommen". Ender de to optællinger ved samme tal, er der kommet lige så mange får hjem, som der gik ud.</p>
+
+            <p>Når de naturlige tal 1, 2, 3, 4, 5, ... først er skabt, kan de studeres. Nogle tal springer i øjnene, fordi de kan deles med 2. Det er de <strong>lige tal</strong>. De tal, der ikke er lige, kan ikke deles med 2. Det er de <strong>ulige tal</strong>.</p>
+            
+            <p>Ethvert tal $n$ deler de naturlige tal i $n$ delmængder, der hver for sig har uendelig mange elementer:</p>
+            <ul>
+                <li>$R_0$: de tal, der er delelige med $n$, og derfor giver resten 0 ved division med $n$.</li>
+                <li>$R_1$: de tal, der giver resten 1 ved division med $n$.</li>
+                <li>...</li>
+                <li>$R_{n - 1}$: de tal, der giver resten $n - 1$ ved division med $n$.</li>
+            </ul>
+
+            <p>For eksempel er de fem delmængder for tallet 5 følgende:</p>
+            <p>
+                $R_0 = \{5, 10, 15, 20, 25, \dots\}$<br>
+                $R_1 = \{1, 6, 11, 16, 21, \dots\}$<br>
+                $R_2 = \{2, 7, 12, 17, 22, \dots\}$<br>
+                $R_3 = \{3, 8, 13, 18, 23, \dots\}$<br>
+                $R_4 = \{4, 9, 14, 19, 24, \dots\}$
+            </p>
+
+            <h3>Primtal og kvadrattal</h3>
+            <p>Der er tal $p$, der kun kan deles med 1 og tallet $p$ selv. Det er <strong>primtallene</strong>. De første otte primtal er 2, 3, 5, 7, 11, 13, 17, 19. Ifølge Euklid er der uendeligt mange primtal.</p>
+            <p>Primtallene er byggesten for de naturlige tal: Ethvert naturligt tal $n$ kan skrives unikt som et produkt af primtal:</p>
+            <p>$$n = p_1^{r_1} \cdot p_2^{r_2} \cdot \dots \cdot p_k^{r_k}$$</p>
+            
+            <p>Andre vigtige talmængder er <strong>kvadrattallene</strong> (1, 4, 9, 16, 25...) og <strong>kubiktallene</strong> (1, 8, 27, 64, 125...).</p>
+            <p>Ethvert naturligt tal $n$ giver desuden anledning til en endelig delmængde af de naturlige tal bestående af resterne ved division med $n$:</p>
+            <p>$$\mathbb{Z}_n = \{0, 1, 2, 3, \dots, n - 1\}$$</p>
+        </section>
+
+        <section class="card">
+            <h2>De rationale tal</h2>
+            <p>I samarbejde og handel opstår der behov for at arbejde med dele af helheder, dvs. brøkerne $\frac{p}{q}$, hvor $p$ og $q$ er naturlige tal. Både de naturlige tal og brøkerne er <strong>rationale tal</strong>.</p>
+            <p>På Pythagoras’ tid var grækerne sikre på, at de rationale tal var tilstrækkelige til ethvert praktisk eller teoretisk formål. De havde verdensopfattelsen "alt er tal". Men så opstod der et problem: Hvad er længden $d$ af diagonalen i et kvadrat med siden 1?</p>
+
+            
+
+            <p>Ved at benytte Pythagoras’ sætning kunne pythagoræerne bevise, at $d^2 = 2$. Det lykkedes dem ikke at bestemme det eksakte rationale tal, som $d$ var lig med, og det blev i forlængelse heraf bevist, at $d$ simpelthen <em>ikke</em> kan være en brøk. Det var et alvorligt slag mod opfattelsen af tal som det grundlæggende for alt i verden.</p>
+        </section>
+
+        <section class="card">
+            <h2>Kvadratrødder af negative tal</h2>
+            <p>Senere i historien (1500-tallet) lykkedes det Gerolamo Cardano at finde en formel for en løsning til en 3. gradsligning. Hvis ligningen skrives på formen $x^3 + px - q = 0$, er løsningen givet ved:</p>
+            <p>$$x = \sqrt[3]{\frac{1}{2}\left( \sqrt{q^2 + \frac{4}{27}p^3} + q \right)} - \sqrt[3]{\frac{1}{2}\left( \sqrt{q^2 + \frac{4}{27}p^3} - q \right)}$$</p>
+
+            <p>For ligningen $x^3 - 15x - 4 = 0$ fører formlen til udregningen:</p>
+            <p>$$x = \sqrt[3]{\frac{1}{2}\left( \sqrt{-484} + 4 \right)} - \sqrt[3]{\frac{1}{2}\left( \sqrt{-484} - 4 \right)} = 4$$</p>
+
+            <p>Undervejs benyttes blandt andet $\sqrt{-484} = \sqrt{-1 \cdot 22^2} = 22 \cdot \sqrt{-1}$. Regning med kvadratrødder af negative tal fører her frem til det reelle tal 4. Selvom det virkede som et mysterium, stod én ting fast: $x = 4$ er vitterligt en løsning til $4^3 - 15 \cdot 4 - 4 = 0$. Dette banede vejen for de komplekse tal.</p>
+
+            <h3>Kaos i talverdenen</h3>
+            <p>Manglen på geometrisk eller fysisk betydning af negative tal og $\sqrt{-1}$ skabte meget modstand. Hvis $-1$ fortolkes som gæld, er en formue på $-1$ mindre end en formue på $0$. En regneregel siger, at $\frac{-1}{1} = \frac{1}{-1}$. Men det giver jo ingen logisk mening, mente mange, for så påstår man, at:</p>
+            <p>$$ \frac{\text{mindre}}{\text{større}} = \frac{\text{større}}{\text{mindre}} $$</p>
+            <p>Så længe man holdt fast i at forstå tal udelukkende som fysiske genstande, forblev negative tal og kvadratrødder af dem et stort og uforståeligt problem.</p>
+        </section>
+
+        <div id="tallinjen" class="section-divider">
+            <h2>2. Tallinjen og talmængder</h2>
+            <p>Hvordan kommer der orden på tallene?</p>
+        </div>
+
+        <section class="card">
+            <h2>Tallinjen</h2>
+            <p>Efter år 1700 fik de negative tal og $0$ samt en stor hob af andre tal liv og betydning vha. <strong>tallinjen</strong>. Tallinjen er en orienteret linje med et nulpunkt og en enhed.</p>
+
+            
+
+            <p>Sammenhængen mellem tal og tallinjen er, at der til ethvert punkt på tallinjen svarer et tal, og at der til ethvert tal svarer et punkt på tallinjen.</p>
+            
+            <p>Mængden af alle tal, der er rødder i polynomier med rationale koefficienter, kaldes <strong>algebraiske tal</strong>. Både brøker $\frac{p}{q}$ og rødder som $\sqrt[n]{m}$ er algebraiske.</p>
+            <p>Tal, der <em>ikke</em> er algebraiske, kaldes <strong>transcendente tal</strong>. Herunder finder vi berømte tal som $\pi$ og $e$. Det blev bevist i 1882 af Lindemann, at $\pi$ ikke er algebraisk.</p>
+        </section>
+
+        <section class="card">
+            <h2>Grundlæggende talmængder</h2>
+            
+            
+            <p>De matematiske talmængder udvider hinanden systematisk:</p>
+            <ul>
+                <li><strong>De naturlige tal ($\mathbb{N}$):</strong> $\{1, 2, 3, 4, 5, \dots\}$</li>
+                <li><strong>De hele tal ($\mathbb{Z}$):</strong> $\{\dots, -3, -2, -1, 0, 1, 2, 3, \dots\}$</li>
+                <li><strong>De rationale tal ($\mathbb{Q}$):</strong> Alle brøker $\frac{p}{q}$, hvor $p$ er et helt tal og $q$ er et naturligt tal.</li>
+                <li><strong>De reelle tal ($\mathbb{R}$):</strong> Alle tal på tallinjen.</li>
+                <li><strong>De irrationale tal:</strong> De reelle tal, der <em>ikke</em> er rationale (f.eks. $\sqrt{2}$ og $\pi$).</li>
+            </ul>
+        </section>
+
+        <div id="decimalbroeker" class="section-divider">
+            <h2>3. Decimalbrøker</h2>
+            <p>Positionssystemet og periodiske decimaler.</p>
+        </div>
+
+        <section class="card">
+            <h2>Fra brøk til decimaler</h2>
+            <p>Vores talsystem er et positionssystem med grundtallet 10. Et tal som 59,23714 betyder:</p>
+            <p>$$5 \cdot 10^1 + 9 + 2 \cdot 10^{-1} + 3 \cdot 10^{-2} + 7 \cdot 10^{-3} + 1 \cdot 10^{-4} + 4 \cdot 10^{-5}$$</p>
+
+            <p>Dette er et rationalt tal, idet det kan skrives som brøken $\frac{5923714}{100000}$. Men for at omfatte *alle* rationale tal, må vi se på periodiske decimalbrøker.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: En periodisk decimalbrøk</strong>
+                <p>En periodisk decimalbrøk er en decimalbrøk, som har en streng af decimaler, der fra et bestemt punkt gentager sig selv i det uendelige. Strengen kaldes perioden.</p>
+            </div>
+
+            <p><strong>Sætning 6.1:</strong> Ethvert rationalt tal kan fremstilles som en periodisk decimalbrøk, og enhver periodisk decimalbrøk er et rationalt tal.</p>
+
+            <h3>Omskrivning af periodisk decimalbrøk til brøk</h3>
+            <p>Vi ser på tallet $t = 3{,}145732732732\dots$, som har perioden 732. Vi kan skrive dette som en brøk ved at gange med potenser af 10:</p>
+            <p>$$10^6 \cdot t = 3145732{,}732732\dots$$</p>
+            <p>$$10^3 \cdot t = 3145{,}732732\dots$$</p>
+            <p>Vi trækker nu ligningerne fra hinanden:</p>
+            <p>$$999000 \cdot t = 3142587$$</p>
+            <p>$$t = \frac{3142587}{999000}$$</p>
+            <p>Dermed er det vist, at den uendelige periodiske decimalbrøk er et rationalt tal.</p>
+
+            <p>De <strong>irrationale tal</strong> (som $\sqrt{2}$ og $\pi$) er kendetegnet ved, at de har uendeligt mange decimaler, som <em>aldrig</em> ender i et periodisk mønster. De kan forstås som grænseværdien af en følge af rationale tal (endelige decimalbrøker), der kommer tættere og tættere på tallet.</p>
+        </section>
+
+        <div id="potenser" class="section-divider">
+            <h2>4. Udvidelse af potenser</h2>
+            <p>At regne med negative og brøk-eksponenter.</p>
+        </div>
+
+        <section class="card">
+            <h2>Fra heltal til reelle potenser</h2>
+            <p>Når $n$ er et naturligt tal, betyder $a^n$, at $a$ ganges med sig selv $n$ gange. To basale potensregler er:</p>
+            <p>$$a^{n+1} = a \cdot a^n \quad \text{og} \quad a^m \cdot a^n = a^{m+n}$$</p>
+
+            <p>Når vi går et skridt frem i potenserne, ganger vi med $a$. Går vi et skridt tilbage, dividerer vi med $a$. Dette gør det muligt at definere potenser med $0$ og negative eksponenter logisk:</p>
+            <p>$$a^0 = \frac{a^1}{a} = 1$$</p>
+            <p>$$a^{-1} = \frac{a^0}{a} = \frac{1}{a}$$</p>
+            <p>$$a^{-n} = \frac{1}{a^n}$$</p>
+
+            <p>Udvidelsen til brøker (rationale eksponenter) kræver, at regnereglerne stadig gælder. Eksempelvis må $a^{1/2}$ opfylde:</p>
+            <p>$$a^{1/2} \cdot a^{1/2} = a^{1/2 + 1/2} = a^1 = a$$</p>
+            <p>Dette er netop definitionen på en kvadratrod, så $a^{1/2} = \sqrt{a}$. Generelt gælder det for brøk-eksponenter:</p>
+            <p>$$a^{p/q} = \sqrt[q]{a^p}$$</p>
+
+            <p>Når eksponenten er et irrationalt tal som $\sqrt{2}$ eller $\pi$, defineres værdien som grænseværdien for de tilsvarende potenser af rationale tal, der nærmer sig eksponenten.</p>
+        </section>
+
+        <div id="overslag" class="section-divider">
+            <h2>5. Overslagsregning</h2>
+            <p>Hurtige beregninger i hovedet.</p>
+        </div>
+
+        <section class="card">
+            <h2>At vurdere om resultatet er rimeligt</h2>
+            <p>For at undgå overraskelser, f.eks. ved kasseapparatet, er det vigtigt at kunne afrunde og foretage hurtige overslag.</p>
+            <p>Hvis vi har en indkøbskurv med priserne (i kr.): 10,50; 23,25; 4,75; 7,45; 31,99; 12,85; 36,60; 52,00; 18,70; 9,75, kan vi lynhurtigt runde dem af og lægge dem sammen:</p>
+            <p>
+                $10,50 \approx 10$<br>
+                $23,25 \approx 25 \rightarrow$ Sum: 35<br>
+                $4,75 \approx 5 \rightarrow$ Sum: 40<br>
+                $7,45 \approx 10 \rightarrow$ Sum: 50<br>
+                $31,99 \approx 30 \rightarrow$ Sum: 80<br>
+                $12,85 \approx 10 \rightarrow$ Sum: 90<br>
+                $36,60 \approx 40 \rightarrow$ Sum: 130<br>
+                $52,00 \approx 50 \rightarrow$ Sum: 180<br>
+                $18,70 \approx 20 \rightarrow$ Sum: 200<br>
+                $9,75 \approx 10 \rightarrow$ Sum: 210
+            </p>
+            <p>Overslaget giver 210 kr. Den præcise pris er 207,84 kr. Overslagsregning er vigtig på alle områder, hvor der regnes matematiske modeller, til netop at stille det helt fundamentale spørgsmål: "Er resultatet rimeligt?".</p>
+        </section>
+
+    </main>
+</body>
+</html>

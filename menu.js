@@ -12,7 +12,8 @@ const stxMenuData = {
         { title: "Differentialligninger", path: "emner/A/Differentialligninger.html" },
         { title: "Vektorfunktioner og parameterkurver", path: "emner/A/VektorfunktionerParameterkurver.html" },
         { title: "Funktioner af to variable", path: "emner/A/Funktionertovariable.html" },
-        { title: "Sandsynlighedsregning", path: "emner/A/Sandsynlighedsregning.html" }
+        { title: "Sandsynlighedsregning", path: "emner/A/Sandsynlighedsregning.html" },
+        { title: "Tal", path: "emner/A/Tal.html" }
     ],
     "B-Niveau": [
         { title: "Differentialregning", path: "emner/B/differentialregning.html" },
