@@ -10,7 +10,8 @@ const stxMenuData = {
     "A-Niveau": [
         { title: "Integralregning", path: "emner/A/integralregning.html" },
         { title: "Funktioner A", path: "emner/A/funktionerA.html" },
-        { title: "Differentialligninger", path: "emner/A/Differentialligninger.html" }
+        { title: "Differentialligninger", path: "emner/A/Differentialligninger.html" },
+        { title: "Vektorfunktioner og parameterkurver", path: "emner/A/VektorfunktionerParameterkurver.html" }
     ],
     "B-Niveau": [
         { title: "Differentialregning", path: "emner/B/differentialregning.html" }

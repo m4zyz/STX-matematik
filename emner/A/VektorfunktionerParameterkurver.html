@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vektorfunktioner og parameterkurver - STX Matematik A</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+
+        @media (max-width: 600px) { .toc-list { columns: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Vektorfunktioner og parameterkurver</h1>
+            <p class="subtitle">A - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#intro"><span class="toc-num">1.</span>Vektorfunktion, parameterfremstilling og banekurve</a></li>
+                <li><a href="#hastighed"><span class="toc-num">2.</span>Hastighed og differentialkvotient</a></li>
+                <li><a href="#tangent"><span class="toc-num">3.</span>Tangentvektor, tangent og tangentligning</a></li>
+                <li><a href="#acceleration"><span class="toc-num">4.</span>Acceleration</a></li>
+                <li><a href="#dobbeltpunkter"><span class="toc-num">5.</span>Dobbeltpunkter og tangenter i dobbeltpunkter</a></li>
+                <li><a href="#anvendelser"><span class="toc-num">6.</span>Anvendelser</a></li>
+            </ul>
+        </section>
+
+        <div id="intro" class="section-divider">
+            <h2>1. Vektorfunktion, parameterfremstilling, parameterkurve og banekurve</h2>
+            <p>Hvordan vi beskriver partiklers bevægelse i planen.</p>
+        </div>
+
+        <section class="card">
+            <h2>Definition af vektorfunktion</h2>
+            <p>Når vi studerer en partikels bevægelse i et 2D-koordinatsystem, viser det sig nyttigt at betragte partiklens position $P_t$ som udpeget af punktets stedvektor:</p>
+            <p>$$ \overrightarrow{OP}(t) = \begin{pmatrix} x(t) \\ y(t) \end{pmatrix} $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Vektorfunktion</strong>
+                <p>Når der til ethvert tal $t$ er knyttet en vektor $\vec{r}(t) = \begin{pmatrix} x(t) \\ y(t) \end{pmatrix}$, siges $\vec{r}(t)$ eller $\vec{r}$ at være en vektorfunktion.</p>
+            </div>
+
+            <p>Funktionerne $x(t)$ og $y(t)$ kaldes koordinatfunktionerne. Mængden af punkter $P_t$ bestemt ved, at $\overrightarrow{OP}(t) = \vec{r}(t)$, udgør grafen for $\vec{r}(t)$. Grafen for $\vec{r}(t)$ kaldes også en <strong>parameterkurve</strong>.</p>
+            <p>Vektorfunktionen $\vec{r}(t)$ siges at være en parameterfremstilling for kurven.</p>
+            <p>Hvis vi ønsker at præcisere, at $\vec{r}(t)$ beskriver, hvordan en partikel $P$ bevæger sig i en plan, er $\vec{r}(t)$ partiklens stedvektor, $x(t)$ og $y(t)$ er partiklens stedkoordinater, parameterkurven er partiklens banekurve, og parameteren $t$ er tiden.</p>
+
+            <p>I arbejdet med vektorfunktioner er det flydende, om man opfatter en vektorfunktion som en beskrivelse af en partikels bevægelse eller en parameterfremstilling for en kurve. Derfor er sprogbrugen som regel flydende. Man kan tale om en partikels, et objekts eller et punkts bevægelse.</p>
+        </section>
+
+        <div id="hastighed" class="section-divider">
+            <h2>2. Hastighed for partikels bevægelse og differentialkvotient for vektorfunktion</h2>
+            <p>Bestemmelse af hastighed når partiklen ikke bevæger sig på en ret linje.</p>
+        </div>
+
+        <section class="card">
+            <h2>Gennemsnitshastighed og momentanhastighed</h2>
+            <p>Vi ser på en partikel, der bevæger sig i planen. Til ethvert tidspunkt befinder partiklen sig i et punkt $P(x, y)$, hvis stedvektor til tidspunktet $t$ er $\vec{r}(t) = \overrightarrow{OP} = \begin{pmatrix} x(t) \\ y(t) \end{pmatrix}$.</p>
+            <p>For at finde partiklens hastighed, må vi starte med dens gennemsnitshastighed i et tidsinterval $[t; t + h]$. Den faktiske ændring af partiklens position i tidsrummet er givet ved vektoren $\Delta \vec{r} = \vec{r}(t + h) - \vec{r}(t)$.</p>
+            <p>Den gennemsnitlige positionsændring pr. tidsenhed (gennemsnitshastigheden) er derfor:</p>
+            <p>$$ \frac{\Delta \vec{r}}{h} = \frac{\vec{r}(t + h) - \vec{r}(t)}{h} $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Partiklens hastighed ved bevægelse i planen</strong>
+                <p>Hvis en partikels bevægelse i planen er beskrevet ved en stedvektor $\vec{r}(t)$, er partiklens hastighed $\vec{v}(t)$ til tidspunktet $t$ defineret ved:</p>
+                <p>$$ \frac{\Delta \vec{r}}{h} = \frac{\vec{r}(t + h) - \vec{r}(t)}{h} \to \vec{v}(t) \quad \text{når} \quad h \to 0 $$</p>
+                <p>Vi skriver også $\vec{r}'(t) = \vec{v}(t)$.</p>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 3.1: En partikels hastighed</strong>
+                <p>Hvis en partikels bevægelse i planen er beskrevet ved en stedvektor $\vec{r}(t) = \begin{pmatrix} x(t) \\ y(t) \end{pmatrix}$, er partiklens hastighed givet ved:</p>
+                <p>$$ \vec{v}(t) = \vec{r}'(t) = \begin{pmatrix} x'(t) \\ y'(t) \end{pmatrix} $$</p>
+            </div>
+            <p><em>Bevis for sætning 3.1:</em> Ved at bruge regnereglerne for vektorer indser vi, at grænseværdien af brøken tager grænseværdien for hver koordinatfunktion isoleret. Da $\frac{x(t+h)-x(t)}{h} \to x'(t)$, gælder resultatet direkte for vektoren.</p>
+        </section>
+
+        <div id="tangent" class="section-divider">
+            <h2>3. Tangentvektor, tangent og tangentligning</h2>
+            <p>Geometrisk fortolkning af hastighedsvektoren.</p>
+        </div>
+
+        <section class="card">
+            <h2>Tangentvektoren</h2>
+            <p>Det virker rimeligt at opfatte $\vec{r}'(t)$ som retningsvektor for tangenten til banekurven i punktet $P_t$, hvor $\overrightarrow{OP_t} = \vec{r}(t)$.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Tangentvektor</strong>
+                <p>Tangentvektoren i punktet $P_t$ på banekurven for $\vec{r}(t)$ er $\vec{r}'(t)$. Tangenten til banekurven i punktet $P_t$ på banekurven er linjen gennem $P_t$ med $\vec{r}'(t)$ som retningsvektor.</p>
+            </div>
+
+            <h3>Vandrette og lodrette tangenter</h3>
+            <p>At kende punkter for vandrette og lodrette tangenter giver stor viden om banekurvens form:</p>
+            <ul>
+                <li>Kurven har en <strong>vandret tangent</strong>, når $y'(t) = 0$ (og $x'(t) \neq 0$).</li>
+                <li>Kurven har en <strong>lodret tangent</strong>, når $x'(t) = 0$ (og $y'(t) \neq 0$).</li>
+            </ul>
+        </section>
+
+        <div id="acceleration" class="section-divider">
+            <h2>4. Acceleration</h2>
+            <p>Den afledte funktion af hastigheden.</p>
+        </div>
+
+        <section class="card">
+            <h2>Accelerationsvektoren</h2>
+            <p>Hastighedsfunktionen for en bevægelse er $\vec{v}(t) = \vec{r}'(t) = \begin{pmatrix} x'(t) \\ y'(t) \end{pmatrix}$. Accelerationen er defineret som den hastighed, hvormed hastigheden ændrer sig.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Acceleration</strong>
+                <p>Accelerationen $\vec{a}(t)$ for en partikel med stedvektor $\vec{r}(t)$ er defineret som $\vec{a}(t) = \vec{v}'(t)$, hvor $\vec{v}(t)$ er hastighedsvektoren.</p>
+            </div>
+
+            <p>Ved differentiation af hastighedsvektoren får vi følgende sætning:</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 3.2: En partikels acceleration</strong>
+                <p>Hvis en partikels bevægelse i planen er beskrevet ved en stedvektor $\vec{r}(t)$, er partiklens acceleration $\vec{a}(t)$ givet ved:</p>
+                <p>$$ \vec{a}(t) = \vec{v}'(t) = \vec{r}''(t) = \begin{pmatrix} x''(t) \\ y''(t) \end{pmatrix} $$</p>
+            </div>
+        </section>
+
+        <div id="dobbeltpunkter" class="section-divider">
+            <h2>5. Dobbeltpunkter og tangenter i dobbeltpunkter</h2>
+            <p>Når en partikel krydser sin egen bane.</p>
+        </div>
+
+        <section class="card">
+            <h2>Definition af et dobbeltpunkt</h2>
+            <p>Nogle plane bevægelser har den egenskab, at der er et punkt på banekurven, hvor punktet befinder sig to gange på turen. Der er således to forskellige værdier af $t$, hvor punktet befinder sig der, hvor banekurven skærer sig selv.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Dobbeltpunkt</strong>
+                <p>Et dobbeltpunkt på en banekurve er et punkt på kurven, der svarer til to forskellige værdier af parameteren $t$.</p>
+            </div>
+            
+            <p>Dobbeltpunkter kan bestemmes ved at finde to tider, $t_1$ og $t_2$, hvor $\vec{r}(t_1) = \vec{r}(t_2)$. I dette punkt vil partiklen typisk have to forskellige hastighedsvektorer, og dermed har dobbeltpunktet to forskellige tangenter, hvis vinkel man kan udregne vha. formlen for vinklen mellem to vektorer.</p>
+
+            <div class="svg-container">
+                <div id="graf-dobbeltpunkt"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Banekurve med et markant dobbeltpunkt omkring origo.</p>
+            </div>
+        </section>
+
+        <div id="anvendelser" class="section-divider">
+            <h2>6. Anvendelser</h2>
+            <p>Cirkelbevægelse, cykloide, parabel og logaritmisk spiral.</p>
+        </div>
+
+        <section class="card">
+            <h2>Den jævne cirkelbevægelse</h2>
+            <p>En jævn cirkelbevægelse er en bevægelse på en cirkel med konstant fart. At farten er konstant, svarer til, at vinklen ændrer sig med konstant hastighed.</p>
+            <p>Vi betragter en jævn cirkelbevægelse i en cirkel, der har centrum i $(0, 0)$ og radius $r$. Denne bevægelse er givet ved:</p>
+            <p>$$ \vec{r}(t) = \begin{pmatrix} r \cdot \cos(\omega \cdot t) \\ r \cdot \sin(\omega \cdot t) \end{pmatrix} $$</p>
+            <p>Her er $t$ tiden, og $\omega$ er vinkelhastigheden, der er bestemt ved $\omega = \frac{2\pi}{T}$, hvor $T$ er omløbstiden.</p>
+
+            <p>For den jævne cirkelbevægelse gælder, at hastighedsvektoren udledes ved at differentiere indholdet:</p>
+            <p>$$ \vec{v}(t) = \vec{r}'(t) = \begin{pmatrix} -r \cdot \omega \cdot \sin(\omega \cdot t) \\ r \cdot \omega \cdot \cos(\omega \cdot t) \end{pmatrix} = \omega \cdot \widehat{\vec{r}}(t) $$</p>
+            <p>Accelerationen findes ligeledes:</p>
+            <p>$$ \vec{a}(t) = \vec{v}'(t) = \begin{pmatrix} -r \cdot \omega^2 \cdot \cos(\omega \cdot t) \\ -r \cdot \omega^2 \cdot \sin(\omega \cdot t) \end{pmatrix} = -\omega^2 \cdot \vec{r}(t) $$</p>
+            <p>Vi ser således, at hastighedsvektoren er en tværvektor til stedvektoren, og at accelerationsvektoren er modsat rettet stedvektoren (ind mod centrum).</p>
+        </section>
+
+        <section class="card">
+            <h2>Cykloiden</h2>
+            <p>Et punkt befinder sig på et hjul med radius 1, der triller hen ad en ret linje. Den kurve, punktet beskriver, kaldes en cykloide. En parameterfremstilling for cykloiden er:</p>
+            <p>$$ \begin{pmatrix} x(t) \\ y(t) \end{pmatrix} = \begin{pmatrix} t - \sin(t) \\ 1 - \cos(t) \end{pmatrix} $$</p>
+
+            <p>Punktets hastighedsvektor er $\vec{v}(t) = \begin{pmatrix} 1 - \cos(t) \\ \sin(t) \end{pmatrix}$. I punkter, hvor kurven har en vandret tangent, er $y'(t) = 0$, hvilket giver $t = \pi, 3\pi, 5\pi, ...$. Disse t-værdier giver kurvens maksimumspunkter (med højde $y = 2$). For $t = 0, 2\pi, 4\pi, ...$ bliver både $x'$ og $y'$ lig 0, og kurven slår et "knæk" (spids) på x-aksen uden en defineret tangentvektor.</p>
+
+            <div class="svg-container">
+                <div id="graf-cykloide"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En cykloide tegnet i intervallet fra $-2\pi$ til $4\pi$. Spidserne rammer x-aksen præcis hvor hjulet rører underlaget.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Parabel som parameterkurve og brændpunkt</h2>
+            <p>En parabel kan opstilles som en vektorfunktion. Eksempelvis banekurven givet ved $\vec{r}(t) = \begin{pmatrix} t^2 \\ t \end{pmatrix}$, som svarer til ligningen $x = y^2$ (en liggende parabel).</p>
+            <p>En parabel har et unikt geometrisk punkt kaldet <strong>brændpunktet</strong>. Hvis vi betragter en parabel, har en lysstråle, der udgår fra brændpunktet og rammer parablen, den egenskab, at den bliver kastet tilbage parallelt med parablens symmetriakse. Indfaldsvinkel og udfaldsvinkel fra tangenten er altså lig hinanden. Dette udnyttes i parabolantenner og billygter.</p>
+
+            <div class="svg-container">
+                <div id="graf-parabel"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Banekurven for $\vec{r}(t) = \begin{pmatrix} t^2 \\ t \end{pmatrix}$. Parablens brændpunkt befinder sig i $(0.25, 0)$.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Logaritmisk spiral</h2>
+            <p>Logaritmiske spiraler er givet ved parameterkurver af typen:</p>
+            <p>$$ \vec{r}(t) = e^{b \cdot t} \cdot \begin{pmatrix} \cos(a \cdot t) \\ \sin(a \cdot t) \end{pmatrix} $$</p>
+
+            <p>For en spiral med $a=1$, $\vec{r}(t) = e^{b \cdot t} \begin{pmatrix} \cos(t) \\ \sin(t) \end{pmatrix}$, kan man differentiere og benytte skalarproduktet til at udlede vinklen $v$ mellem retningsvektoren til punktet $\vec{r}(t)$ og tangentens retningsvektor $\vec{r}'(t)$. Matematikken viser, at:</p>
+            <p>$$ \cos(v) = \frac{\vec{r}(t) \cdot \vec{r}'(t)}{|\vec{r}(t)| \cdot |\vec{r}'(t)|} = \frac{b}{\sqrt{b^2 + 1}} $$</p>
+            <p>Dette er et afgørende kendetegn ved en logaritmisk spiral: <strong>Vinklen mellem stedvektoren og tangenten er konstant i alle punkter på kurven.</strong></p>
+
+            <div class="svg-container">
+                <div id="graf-spiral"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En logaritmisk spiral. Vinklen mellem tråden ind mod origo og tangenten er konstant.</p>
+            </div>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // 1. Dobbeltpunkt graf
+                functionPlot({
+                    target: '#graf-dobbeltpunkt',
+                    width: document.getElementById('graf-dobbeltpunkt').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-2, 4] },
+                    yAxis: { domain: [-3, 3] },
+                    data: [
+                        { fnType: 'parametric', x: 't^2 - 1', y: 't^3 - 3*t', range: [-2.5, 2.5], color: '#e74c3c' }
+                    ]
+                });
+
+                // 2. Cykloiden
+                functionPlot({
+                    target: '#graf-cykloide',
+                    width: document.getElementById('graf-cykloide').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-7, 13] }, // Lidt mere end -2pi til 4pi
+                    yAxis: { domain: [-0.5, 3] },
+                    data: [
+                        { fnType: 'parametric', x: 't - sin(t)', y: '1 - cos(t)', range: [-3 * Math.PI, 5 * Math.PI], color: '#3498db' }
+                    ]
+                });
+
+                // 3. Parabel som parameterkurve
+                functionPlot({
+                    target: '#graf-parabel',
+                    width: document.getElementById('graf-parabel').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-1, 5] },
+                    yAxis: { domain: [-3, 3] },
+                    data: [
+                        { fnType: 'parametric', x: 't^2', y: 't', range: [-3, 3], color: '#27ae60' }
+                    ],
+                    annotations: [{ x: 0.25, y: 0, text: 'Brændpunkt (F)' }]
+                });
+
+                // 4. Logaritmisk Spiral
+                functionPlot({
+                    target: '#graf-spiral',
+                    width: document.getElementById('graf-spiral').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-10, 10] },
+                    yAxis: { domain: [-10, 10] },
+                    data: [
+                        { fnType: 'parametric', x: 'exp(0.15*t) * cos(t)', y: 'exp(0.15*t) * sin(t)', range: [-20, 20], color: '#9b59b6' }
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>
