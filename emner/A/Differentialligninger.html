@@ -456,6 +456,7 @@
                   const dx = (L / 2) * Math.cos(theta);
                   const dy = (L / 2) * Math.sin(theta);
                   lineData.push({
+                    fnType: 'points',       // PÅKRÆVET: fortæller function-plot at bruge punktlister
                     graphType: 'polyline',
                     points: [
                       [x - dx, y - dy],
@@ -478,13 +479,13 @@
                     yAxis: { domain: [-2, 6] },
                     data: [
                         { fn: '2.5*exp(x-1) - x - 1', color: '#3498db' }, // Løsningskurven
-                        { fn: '3.5*x - 1.5', color: '#27ae60' }          // Tangenten
+                        { fn: '3.5*x - 1.5', color: '#27ae60' }           // Tangenten
                     ],
                     annotations: [{ x: 1, text: 'P(1,2)' }]
                 });
 
                 // 2. Graf til Hældningsfelt (y' = -y + x)
-                // Genererer linjeelementerne i scriptet for at overholde bibliotekets standard
+                // Rettelse: fnType: 'points' var manglende — uden det tegner function-plot ingenting
                 const fieldData = generateSlopeFieldData(0.2, 0.5, -4, 4, -4, 4);
                 functionPlot({
                     target: '#graf-haeldningsfelt',
@@ -493,11 +494,13 @@
                     grid: true,
                     xAxis: { domain: [-4, 4] },
                     yAxis: { domain: [-4, 4] },
-                    data: fieldData // Passerer præ-genererede linjeelementer
+                    data: fieldData
                 });
 
                 // 3. Graf til Logistisk vækst
-                functionPlot({
+                // Rettelse: annotations understøtter ikke brugerdefineret farve/stippling,
+                // så den røde stiplede linje tegnes manuelt med D3 efter rendering.
+                const logInstance = functionPlot({
                     target: '#graf-logistisk',
                     width: document.getElementById('graf-logistisk').parentElement.clientWidth - 40,
                     height: 350,
@@ -505,10 +508,31 @@
                     xAxis: { domain: [-2, 12] },
                     yAxis: { domain: [-1, 6] },
                     data: [
-                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // Bæreevne M = 5, S-formet
-                    ],
-                    annotations: [{ y: 5, text: 'Bæreevne (M)', fnType: 'horizontal' }]
+                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // M = 5, S-formet
+                    ]
                 });
+
+                // Tilføj rød stiplet linje ved y = 5 (bæreevnen) via D3
+                const yScale = logInstance.meta.yScale;
+                const xScale = logInstance.meta.xScale;
+                const content = d3.select('#graf-logistisk svg .content');
+
+                content.append('line')
+                    .attr('x1', xScale(-2))
+                    .attr('y1', yScale(5))
+                    .attr('x2', xScale(12))
+                    .attr('y2', yScale(5))
+                    .attr('stroke', 'red')
+                    .attr('stroke-width', 2)
+                    .attr('stroke-dasharray', '8,5');
+
+                content.append('text')
+                    .attr('x', xScale(8.5))
+                    .attr('y', yScale(5) - 7)
+                    .attr('fill', 'red')
+                    .attr('font-size', '12px')
+                    .attr('font-family', 'sans-serif')
+                    .text('Bæreevne (M = 5)');
 
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
