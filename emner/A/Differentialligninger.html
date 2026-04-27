@@ -11,7 +11,8 @@
     <script>
     MathJax = {
       tex: {
-        inlineMath: [['$', '$']]
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
       }
     };
     </script>
@@ -68,6 +69,8 @@
             pointer-events: none; 
         }
 
+        .proof { margin-bottom: 30px; }
+
         @media (max-width: 600px) {
             .toc-list { columns: 1; }
             .data-table { font-size: 0.85rem; }
@@ -106,8 +109,10 @@
 
         <section class="card">
             <h2>Fra almindelige ligninger til differentialligninger</h2>
-            <p>At løse en almindelig ligning som for eksempel $x^2 - 3x - 4 = 0$ drejer sig om at finde de talværdier for den ubekendte $x$, der gør ligningen sand.</p>
+            <p>At løse en almindelig ligning som for eksempel $x^2-3x-4=0$ drejer sig om at finde de talværdier for den ubekendte $x$, der gør ligningen sand.</p>
             <p>Når der er tale om at løse en differentialligning, drejer det sig om at finde forskriften for de <em>funktioner</em>, der gør ligningen sand for alle $x$.</p>
+            
+            
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Definition: Differentialligning</strong>
@@ -119,10 +124,10 @@
                 </ul>
             </div>
 
-            <p>Differentialligningerne $f'(x) = \frac{6}{x}$ og $\frac{d^2y}{dx^2} = k$ fra eksemplerne i bogen er af en simpel type, der umiddelbart kan løses ved hjælp af stamfunktionsbestemmelse. Andre typer kræver helt andre løsningsmetoder.</p>
+            <p>Differentialligningerne $f'(x)=\frac{6}{x}$ og $\frac{d^2y}{dx^2}=k$ fra eksemplerne i bogen er af en simpel type, der umiddelbart kan løses ved hjælp af stamfunktionsbestemmelse. Andre typer kræver helt andre løsningsmetoder.</p>
             
-            <p>Der findes en række måder at skrive differentialkvotienten for $y = f(x)$ på:</p>
-            <p>$$y' = f'(x) = \left( f(x) \right)' = \frac{dy}{dx} = \frac{d}{dx}\left( f(x) \right)$$</p>
+            <p>Der findes en række måder at skrive differentialkvotienten for $y=f(x)$ på:</p>
+            <p>$$y'=f'(x)=\left(f(x)\right)'=\frac{dy}{dx}=\frac{d}{dx}\left(f(x)\right)$$</p>
         </section>
 
         <div id="proeve" class="section-divider">
@@ -134,18 +139,18 @@
             <h2>Eksempel: At gøre prøve</h2>
             <p>Det kan i nogle tilfælde være svært at løse en given differentialligning fra bunden. Ofte er det lettere at se efter, om en given funktion er en løsning. Dette kaldes at <em>gøre prøve</em>.</p>
             
-            <p><strong>Opgave:</strong> Undersøg, om funktionen $f(x) = \sqrt{x^2 + 3}$ er en løsning til differentialligningen:</p>
-            <p>$$\frac{dy}{dx} = \frac{x}{y}, \quad y > 0$$</p>
+            <p><strong>Opgave:</strong> Undersøg, om funktionen $f(x)=\sqrt{x^2+3}$ er en løsning til differentialligningen:</p>
+            <p>$$\frac{dy}{dx}=\frac{x}{y}, \quad y>0$$</p>
 
-            <p><strong>Løsning:</strong> Vi gør prøve ved at indsætte $y = f(x) = \sqrt{x^2 + 3}$ i henholdsvis venstresiden og højresiden af differentialligningen og se efter, om det giver det samme.</p>
+            <p><strong>Løsning:</strong> Vi gør prøve ved at indsætte $y=f(x)=\sqrt{x^2+3}$ i henholdsvis venstresiden og højresiden af differentialligningen og se efter, om det giver det samme.</p>
             
             <p><strong>Venstresiden (differentierer):</strong></p>
-            <p>$$ \frac{dy}{dx} = f'(x) = \left( \sqrt{x^2 + 3} \right)' = \frac{1}{2\sqrt{x^2 + 3}} \cdot 2x = \frac{x}{\sqrt{x^2 + 3}} $$</p>
+            <p>$$\frac{dy}{dx}=f'(x)=\left(\sqrt{x^2+3}\right)'=\frac{1}{2\sqrt{x^2+3}}\cdot 2x=\frac{x}{\sqrt{x^2+3}}$$</p>
 
             <p><strong>Højresiden (indsætter):</strong></p>
-            <p>$$ \frac{x}{y} = \frac{x}{f(x)} = \frac{x}{\sqrt{x^2 + 3}} $$</p>
+            <p>$$\frac{x}{y}=\frac{x}{f(x)}=\frac{x}{\sqrt{x^2+3}}$$</p>
 
-            <p>Da venstresiden er præcis lig med højresiden, er $f(x) = \sqrt{x^2 + 3}$ en løsning til differentialligningen.</p>
+            <p>Da venstresiden er præcis lig med højresiden, er $f(x)=\sqrt{x^2+3}$ en løsning til differentialligningen.</p>
         </section>
 
         <div id="tangent" class="section-divider">
@@ -155,23 +160,23 @@
 
         <section class="card">
             <h2>Tangenthældninger fra differentialligningen</h2>
-            <p>I mange 1. ordens differentialligninger er $\frac{dy}{dx}$ udtrykt ved $x$ og $y$. Det kan benyttes til at bestemme ligningen for en tangent til en løsningskurve $y = f(x)$ i et givet punkt $(x_0, f(x_0))$, selv om man slet ikke kender en forskrift for funktionen $f(x)$! Dette lader sig gøre, da tangenthældningen i punktet netop er $\frac{dy}{dx} = f'(x_0)$, som kan udregnes ved hjælp af udtrykket i $x$ og $y$.</p>
+            <p>I mange 1. ordens differentialligninger er $\frac{dy}{dx}$ udtrykt ved $x$ og $y$. Det kan benyttes til at bestemme ligningen for en tangent til en løsningskurve $y=f(x)$ i et givet punkt $(x_0,f(x_0))$, selv om man slet ikke kender en forskrift for funktionen $f(x)$! Dette lader sig gøre, da tangenthældningen i punktet netop er $\frac{dy}{dx}=f'(x_0)$, som kan udregnes ved hjælp af udtrykket i $x$ og $y$.</p>
         </section>
 
         <section class="card example">
-            <h2>Eksempel: Tangentligning ud fra $y' = x + y$</h2>
-            <p>Vi betragter differentialligningen $\frac{dy}{dx} = x + y$. Det oplyses, at grafen for en bestemt partikulær løsning $f(x)$ går gennem punktet $P(1, 2)$. Vi ønsker at bestemme en ligning for tangenten til grafen for $f$ i punktet $P$.</p>
+            <h2>Eksempel: Tangentligning ud fra $y'=x+y$</h2>
+            <p>Vi betragter differentialligningen $\frac{dy}{dx}=x+y$. Det oplyses, at grafen for en bestemt partikulær løsning $f(x)$ går gennem punktet $P(1,2)$. Vi ønsker at bestemme en ligning for tangenten til grafen for $f$ i punktet $P$.</p>
             
             <p>Tangenthældningen i $P$ er:</p>
-            <p>$$f'(1) = 1 + 2 = 3$$</p>
+            <p>$$f'(1)=1+2=3$$</p>
             
-            <p>Ligningen for denne tangent findes med standardformlen $y - y_0 = a(x - x_0)$:</p>
-            <p>$$y - 2 = 3(x - 1) \quad \Leftrightarrow \quad y = 3x - 1$$</p>
+            <p>Ligningen for denne tangent findes med standardformlen $y-y_0=a(x-x_0)$:</p>
+            <p>$$y-2=3(x-1) \quad \Leftrightarrow \quad y=3x-1$$</p>
 
             <p>Tangenten fortæller os, hvor stejl løsningskurven er i punktet $P$. Vi kan derfor få et indtryk af, hvordan løsningskurven kan se ud i nærheden af $P$.</p>
             <div class="svg-container">
                 <div id="graf-tangent"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En skitseret løsningskurve gennem $P(1,2)$ og tangenten $y = 3x - 1$ (grøn).</p>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En skitseret løsningskurve gennem $P(1,2)$ og tangenten $y=3x-1$ (grøn).</p>
             </div>
         </section>
 
@@ -182,21 +187,24 @@
 
         <section class="card">
             <h2>Hvad er et linjeelement?</h2>
-            <p>Ved et linjeelement forstås et talsæt $(x_0, y_0 ; a)$. Navnet kommer af, at $(x_0, y_0)$ opfattes som koordinater for et punkt $P$, og $a$ opfattes som hældningen for et lille linjestykke, der går gennem $P$.</p>
+            <p>Ved et linjeelement forstås et talsæt $(x_0,y_0;a)$. Navnet kommer af, at $(x_0,y_0)$ opfattes som koordinater for et punkt $P$, og $a$ opfattes som hældningen for et lille linjestykke, der går gennem $P$.</p>
             
-            <p>Grafen for en løsning $f(x)$ til en differentialligning siges at gå gennem linjeelementet $(x_0, y_0 ; a)$, hvis:</p>
-            <p>$$f(x_0) = y_0 \quad \text{og} \quad f'(x_0) = a$$</p>
+            <p>Grafen for en løsning $f(x)$ til en differentialligning siges at gå gennem linjeelementet $(x_0,y_0;a)$, hvis:</p>
+            <p>$$f(x_0)=y_0 \quad \text{og} \quad f'(x_0)=a$$</p>
             <p>At en løsningskurve går gennem et linjeelement, betyder altså, at linjeelementet <em>tangerer</em> kurven i det givne punkt.</p>
         </section>
 
         <section class="card example">
             <h2>Hældningsfelt</h2>
             <p>Tegner man et stort antal linjeelementer hørende til en given differentialligning af 1. orden, har man et <strong>hældningsfelt</strong> hørende til differentialligningen.</p>
-            <p>Hældningsfelter er bl.a. interessante, fordi man ofte - uden at løse den givne differentialligning - kan danne sig et indtryk af løsningskurverne.</p>
+            
+            
+            
+            <p>Hældningsfelter er bl.a. interessante, fordi man ofte uden at løse den givne differentialligning kan danne sig et indtryk af løsningskurverne.</p>
 
             <div class="svg-container">
                 <div id="graf-haeldningsfelt"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Et matematisk præcist hældningsfelt for differentialligningen $y' = -y + x$.</p>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Et matematisk præcist hældningsfelt for differentialligningen $y'=-y+x$.</p>
             </div>
         </section>
 
@@ -208,49 +216,52 @@
         <section class="card">
             <h2>Tre fundamentale væksthypoteser</h2>
             <p>Vi minder om, at hvis $y(t)$ er en differentiabel funktion, hvor $t$ betegner tiden, er $y'(t)$ væksthastigheden til tidspunktet $t$.</p>
-            <p>Når man skal opstille en model, er det i many tilfælde lettere at tage udgangspunkt i en hypotese vedrørende væksthastigheden end funktionen selv. Hypoteserne drejer sig ofte om, hvordan $y'$ afhænger af $y$. Tre klassiske hypoteser fører til disse ligninger:</p>
+            <p>Når man skal opstille en model, er det i mange tilfælde lettere at tage udgangspunkt i en hypotese vedrørende væksthastigheden end funktionen selv. Hypoteserne drejer sig ofte om, hvordan $y'$ afhænger af $y$. Tre klassiske hypoteser fører til disse ligninger:</p>
             <ol>
-                <li>$y'$ er en konstant (Lineær vækst). Løsningen er $y(t) = k \cdot t + c$.</li>
+                <li>$y'$ er en konstant (Lineær vækst). Løsningen er $y(t)=k\cdot t+c$.</li>
                 <li>$y'$ er proportional med $y$ (Uhæmmet eksponentiel vækst).</li>
                 <li>$y'$ er en lineært aftagende funktion af $y$ (Modellen dæmpes over tid).</li>
             </ol>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.1: Løsning af differentialligningen y' = k ⋅ y</strong>
-                <p>Differentialligningen $y' = k \cdot y$ har den fuldstændige løsning:</p>
-                <p>$$y(t) = c \cdot e^{k \cdot t}$$</p>
+                <strong>Sætning 2.1 / 8.1: Løsning af differentialligningen $y'=k\cdot y$</strong>
+                <p>Differentialligningen $y'=k\cdot y$ har den fuldstændige løsning:</p>
+                <p>$$y(t)=c\cdot e^{k\cdot t}$$</p>
                 <p>hvor $c$ er et tal.</p>
             </div>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.2: Løsning af differentialligningen y' = b - a ⋅ y</strong>
-                <p>Differentialligningen $y' = b - a \cdot y$ (hvor $a > 0$) har den fuldstændige løsning:</p>
-                <p>$$y(t) = \frac{b}{a} + c \cdot e^{-a \cdot t}$$</p>
+                <strong>Sætning 2.2 / 8.2: Løsning af differentialligningen $y'=b-a\cdot y$</strong>
+                <p>Differentialligningen $y'=b-a\cdot y$ (hvor $a>0$) har den fuldstændige løsning:</p>
+                <p>$$y(t)=\frac{b}{a}+c\cdot e^{-a\cdot t}$$</p>
                 <p>hvor $c$ er et tal. For enhver løsning gælder, at $f(t)$ nærmer sig værdien $\frac{b}{a}$, når $t$ går mod uendelig.</p>
             </div>
         </section>
 
         <section class="card example">
             <h2>Logistisk vækst</h2>
-            <p>I stedet for at se på væksthastigheden $y'(t)$ for funktionen $y(t)$ er det nogle gange nyttigt at tage udgangspunkt i den <strong>relative væksthastighed</strong> $\frac{y'(t)}{y(t)}$. En antagelse om, at den relative væksthastighed er konstant, fører til differentialligningen $y' = k \cdot y$.</p>
+            <p>I stedet for at se på væksthastigheden $y'(t)$ for funktionen $y(t)$ er det nogle gange nyttigt at tage udgangspunkt i den <strong>relative væksthastighed</strong> $\frac{y'(t)}{y(t)}$. En antagelse om, at den relative væksthastighed er konstant, fører til differentialligningen $y'=k\cdot y$.</p>
             
-            <p>Vi vil nu se nærmere på den hypotese, at den relative væksthastighed $\frac{y'}{y}$ aftager lineært med $y$: $\frac{y'}{y} = b - a \cdot y$, hvor $a$ og $b$ er positive tal, og $y > 0$.</p>
+            <p>Vi vil nu se nærmere på den hypotese, at den relative væksthastighed $\frac{y'}{y}$ aftager lineært med $y$: $\frac{y'}{y}=b-a\cdot y$, hvor $a$ og $b$ er positive tal, og $y>0$.</p>
             <p>En lille omskrivning giver:</p>
-            <p>$$y' = y \cdot (b - a \cdot y)$$</p>
-            <p>Eller ved at sætte $M = \frac{b}{a}$:</p>
-            <p>$$y' = a \cdot y \cdot (M - y)$$</p>
+            <p>$$y'=y\cdot (b-a\cdot y)$$</p>
+            <p>Eller ved at sætte $M=\frac{b}{a}$:</p>
+            <p>$$y'=a\cdot y\cdot (M-y)$$</p>
             
-            <p>De to sidste ligninger kaldes <strong>logistiske differentialligninger</strong>. De er vigtige, for i many tilfælde fører de til en rimelig beskrivelse af bl.a. enkeltindividers og populationers vækst, logistisk vækst.</p>
+            <p>De to sidste ligninger kaldes <strong>logistiske differentialligninger</strong>. De er vigtige, for i mange tilfælde fører de til en rimelig beskrivelse af bl.a. enkeltindividers og populationers vækst, logistisk vækst.</p>
+            
+            [attachment_0](attachment)
+            
             <p>Ligningerne udtrykker, at væksthastigheden $y'(t)$ er proportional med produktet af størrelsen $y(t)$ og den afstand, der er mellem $y(t)$ og en øvre grænse $M$. I hypotesen er der altså indbygget en dæmpning af væksten. I biologiske sammenhænge kaldes den øvre grænse $M$ for <strong>bæreevnen</strong>.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.3b: Løsning af den logistiske differentialligning 2</strong>
-                <p>Den logistiske differentialligning $y' = a \cdot y \cdot (M - y)$ har den fuldstændige løsning:</p>
-                <p>$$y(t) = 0 \text{ og } y(t) = \frac{M}{1 + c \cdot e^{-a \cdot M \cdot t}}$$</p>
+                <strong>Sætning 2.3b / 8.3b: Løsning af den logistiske differentialligning</strong>
+                <p>Den logistiske differentialligning $y'=a\cdot y\cdot (M-y)$ har den fuldstændige løsning:</p>
+                <p>$$y(t)=0 \text{ og } y(t)=\frac{M}{1+c\cdot e^{-a\cdot M\cdot t}}$$</p>
                 <p>hvor $c$ er et tal.</p>
             </div>
             
-            <p>For enhver løsning gælder y(t) $\to M$, når t $\to \infty$. I området $0 < y < M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
+            <p>For enhver løsning gælder $y(t) \to M$, når $t \to \infty$. I området $0<y<M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
 
             <div class="svg-container">
                 <div id="graf-logistisk"></div>
@@ -265,35 +276,37 @@
 
         <section class="card">
             <h2>Definition og metode</h2>
-            <p>Differentialligninger af 1. orden, der kan skrives på formen $\frac{dy}{dx} = h(x) \cdot g(y)$, kaldes <strong>separable differentialligninger</strong>.</p>
+            <p>Differentialligninger af 1. orden, der kan skrives på formen $\frac{dy}{dx}=h(x)\cdot g(y)$, kaldes <strong>separable differentialligninger</strong>.</p>
             
             <p>Metoden går ud på at omskrive ligningen, så vi behandler symbolet $\frac{dy}{dx}$ som en brøk og separerer (adskiller) de variable. Det smarte er bl.a., at man i nogle sammenhænge kan behandle $\frac{dy}{dx}$ som en brøk:</p>
 
-            <p>$$
+            <p>
+            $$
             \begin{aligned}
-            \frac{dy}{dx} &= h(x) \cdot g(y) \\
-            \frac{1}{g(y)} \cdot \frac{dy}{dx} &= h(x) \\
-            \frac{1}{g(y)} dy &= h(x) dx \\
-            \int \frac{1}{g(y)} dy &= \int h(x) dx
+            \frac{dy}{dx}&=h(x)\cdot g(y) \\
+            \frac{1}{g(y)}\cdot \frac{dy}{dx}&=h(x) \\
+            \frac{1}{g(y)}dy&=h(x)dx \\
+            \int \frac{1}{g(y)}dy&=\int h(x)dx
             \end{aligned}
-            $$</p>
+            $$
+            </p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.4: Separation af de variable</strong>
                 <p>Antag, at funktionen $h$ er kontinuert, og at funktionen $g$ er kontinuert og forskellig fra 0.</p>
-                <p>Da gælder: $y = f(x)$ er løsning til $\frac{dy}{dx} = h(x) \cdot g(y)$ netop når:</p>
-                <p>$$\int \frac{1}{g(y)} dy = \int h(x) dx$$</p>
+                <p>Da gælder: $y=f(x)$ er løsning til $\frac{dy}{dx}=h(x)\cdot g(y)$ netop når:</p>
+                <p>$$\int \frac{1}{g(y)}dy=\int h(x)dx$$</p>
             </div>
         </section>
 
         <div id="lineaere" class="section-divider">
             <h2>7. Lineære differentialligninger af 1. orden</h2>
-            <p>Lineære differentialligninger er ligninger af typen y' + a(x)y = b(x)</p>
+            <p>Lineære differentialligninger er ligninger af typen $y'+a(x)y=b(x)$</p>
         </div>
 
         <section class="card">
             <h2>Homogene og inhomogene ligninger</h2>
-            <p>Ligningen $y' + a(x) \cdot y = b(x)$ siges at være homogen, hvis $b(x)$ er nulfunktionen. I modsat fald kaldes ligningen inhomogen.</p>
+            <p>Ligningen $y'+a(x)\cdot y=b(x)$ siges at være homogen, hvis $b(x)$ er nulfunktionen. I modsat fald kaldes ligningen inhomogen.</p>
 
             <table class="data-table">
                 <thead>
@@ -308,63 +321,63 @@
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>$y' + y = x$</td>
+                        <td>$y'+y=x$</td>
                         <td>1</td>
                         <td>$x$</td>
                         <td>Inhomogen</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>$y' - 2y = 2$</td>
+                        <td>$y'-2y=2$</td>
                         <td>-2</td>
                         <td>2</td>
                         <td>Inhomogen</td>
                     </tr>
                     <tr>
                         <td>3</td>
-                        <td>$y' - \frac{1}{x}y = 4x^2$</td>
-                        <td>$- \frac{1}{x}$</td>
+                        <td>$y'-\frac{1}{x}y=4x^2$</td>
+                        <td>$-\frac{1}{x}$</td>
                         <td>$4x^2$</td>
                         <td>Inhomogen</td>
                     </tr>
                     <tr>
                         <td>4</td>
-                        <td>$y' + 2xy = 0$</td>
+                        <td>$y'+2xy=0$</td>
                         <td>$2x$</td>
                         <td>0</td>
                         <td>Homogen</td>
                     </tr>
                     <tr>
                         <td>5</td>
-                        <td>$y' + \frac{2x}{x^2 - 5}y = 0$</td>
-                        <td>$\frac{2x}{x^2 - 5}$</td>
+                        <td>$y'+\frac{2x}{x^2-5}y=0$</td>
+                        <td>$\frac{2x}{x^2-5}$</td>
                         <td>0</td>
                         <td>Homogen</td>
                     </tr>
                     <tr>
                         <td>6</td>
-                        <td>$y' = - 3y + e^x$</td>
+                        <td>$y'=-3y+e^x$</td>
                         <td>3</td>
                         <td>$e^x$</td>
                         <td>Inhomogen</td>
                     </tr>
                     <tr>
                         <td>7</td>
-                        <td>$y' = \cos(x) - y$</td>
+                        <td>$y'=\cos(x)-y$</td>
                         <td>1</td>
                         <td>$\cos(x)$</td>
                         <td>Inhomogen</td>
                     </tr>
                     <tr>
                         <td>8</td>
-                        <td>$y' = \cos(x)y$</td>
+                        <td>$y'=\cos(x)y$</td>
                         <td>$-\cos(x)$</td>
                         <td>0</td>
                         <td>Homogen</td>
                     </tr>
                     <tr>
                         <td>9</td>
-                        <td>$y' = - \cos(x)y + e^{\sin(x)}$</td>
+                        <td>$y'=-\cos(x)y+e^{\sin(x)}$</td>
                         <td>$\cos(x)$</td>
                         <td>$e^{\sin(x)}$</td>
                         <td>Inhomogen</td>
@@ -375,9 +388,9 @@
             <p>Det er underforstået, at $a(x)$ ikke er nulfunktionen.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.5: Løsning af den lineære differentialligning af 1. orden</strong>
-                <p>Den lineære differentialligning of 1. orden $y' + a(x) \cdot y = b(x)$ har den fuldstændige løsning:</p>
-                <p>$$y(x) = e^{-A(x)} \cdot \int b(x) \cdot e^{A(x)} dx + c \cdot e^{-A(x)}$$</p>
+                <strong>Sætning 2.5 / 8.4: Løsning af den lineære differentialligning af 1. orden</strong>
+                <p>Den lineære differentialligning of 1. orden $y'+a(x)\cdot y=b(x)$ har den fuldstændige løsning:</p>
+                <p>$$y(x)=e^{-A(x)}\cdot \int b(x)\cdot e^{A(x)} dx+c\cdot e^{-A(x)}$$</p>
                 <p>hvor $A(x)$ er en stamfunktion til funktionen $a(x)$, og $c$ er et tal.</p>
             </div>
             <p>Panserformlen kan umiddelbart se vanskelig ud, men ofte er den ikke så svær at bruge i praksis.</p>
@@ -390,10 +403,10 @@
 
         <section class="card">
             <h2>At oversætte tekst til matematik</h2>
-            <p>Det er ofte vigtigt at kunne opstille 1. ordens differentialligninger ud fra en sproglig beskrivelse af et fænomen. Fælles for de klassiske eksempler (afkøling, populationsvækst etc.) er, at den sproglige beskrivelse giver en oplysning om væksthastigheden, som netop er lig differentialkvotienten. Desuden kan oplysningen "… er proportional med …" oversættes til "… er lig en konstant gange …". Ved at udnytte dette kan den sproglige beskrivelse oversættes til en 1. ordens differentialligning.</p>
+            <p>Det er ofte vigtigt at kunne opstille 1. ordens differentialligninger ud fra en sproglig beskrivelse af et fænomen. Fælles for de klassiske eksempler (afkøling, populationsvækst etc.) er, at den sproglige beskrivelse giver en oplysning om væksthastigheden, som netop er lig differentialkvotienten. Desuden kan oplysningen "er proportional med" oversættes til "er lig en konstant gange". Ved at udnytte dette kan den sproglige beskrivelse oversættes til en 1. ordens differentialligning.</p>
             
             <p>Vi minder om et konkret eksempel på et vækstproblem: For en bestemt population er væksthastigheden af populationen proportional med populationens størrelse. Ud fra denne beskrivelse opstillede vi differentialligningen:</p>
-            <p>$$N'(t) = k \cdot N(t)$$</p>
+            <p>$$N'(t)=k\cdot N(t)$$</p>
             <p>hvor $N(t)$ betegner antallet af individer i populationen til tiden $t$, og $k$ er en proportionalitetsfaktor.</p>
         </section>
 
@@ -405,35 +418,146 @@
         <section class="card">
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-separabel">Bevis for Sætning 2.1 (Eksponentiel vækst $y'=k \cdot y$) ved separation af variable</a></li>
+                <li><a href="#bevis-eksponentiel">Bevis for Sætning 8.1: $y'=k\cdot y$</a></li>
+                <li><a href="#bevis-forskudt">Bevis for Sætning 8.2: $y'=b-a\cdot y$</a></li>
+                <li><a href="#bevis-logistisk1">Bevis for Sætning 8.3a: Logistisk vækst 1</a></li>
+                <li><a href="#bevis-logistisk2">Bevis for Sætning 8.3b: Logistisk vækst 2</a></li>
+                <li><a href="#bevis-lineaer">Bevis for Sætning 8.4: Lineær differentialligning (Panserformlen)</a></li>
             </ul>
         </section>
 
-        <section id="bevis-separabel" class="card proof">
-            <h2>Bevis for Sætning 2.1 ($y'=k \cdot y$) ved separation af variable</h2>
-            <p>Vi ønsker at vise, at løsningen til differentialligningen $y' = k \cdot y$ er $y(t) = c \cdot e^{k \cdot t}$. Vi benytter metoden for separation af de variable (Sætning 2.4).</p>
+        <section id="bevis-eksponentiel" class="card proof">
+            <h2>Bevis for Sætning 8.1: Løsning af differentialligningen $y'=k\cdot y$</h2>
+            <p>Vi vil bevise, at differentialligningen $y'=k\cdot y$ har den fuldstændige løsning $y(t)=c\cdot e^{k t}$.</p>
             
-            <p>Der gælder $y'= \frac{dy}{dt}$. Differentialligningen kan skrives:</p>
-            <p>$$\frac{dy}{dt} = k \cdot y$$</p>
+            <p><strong>1) Gøre prøve:</strong><br>
+            Ved at gøre prøve ses, at $y(t)=c\cdot e^{kt}$ er en løsning til $y'=k\cdot y$. Vi udregner $y'(t) = c \cdot k \cdot e^{kt} = k \cdot (c \cdot e^{kt}) = k \cdot y(t)$.</p>
+            
+            <p><strong>2) Bevis for at enhver løsning er på denne form:</strong><br>
+            Vi antager nu, at funktionen $y=y(t)$ er en løsning, dvs. $y'=k\cdot y$. Vi skal vise, at $y(t)$ kan skrives på formen $y(t)=c\cdot e^{kt}$.</p>
+            
+            <p>Vi indfører en hjælpefunktion $z=z(t)=y(t)\cdot e^{-kt}$, og vi finder differentialkvotienten for denne funktion vha. produktreglen:</p>
+            <p>
+            $$
+            \begin{aligned}
+            z' &= y'\cdot e^{-kt} + y\cdot (-k\cdot e^{-kt}) \\
+            &= y'\cdot e^{-kt} - k\cdot y\cdot e^{-kt} \\
+            &= k\cdot y\cdot e^{-kt} - k\cdot y\cdot e^{-kt} \\
+            &= 0
+            \end{aligned}
+            $$
+            </p>
+            <p>hvor vi ved det næstsidste lighedstegn har udnyttet antagelsen om, at $y(t)$ er en løsning ($y'=k\cdot y$).</p>
+            
+            <p>Da $z'(t)=0$, er $z(t)$ en konstant funktion. Vi får derfor:</p>
+            <p>$$z(t)=c \quad \Leftrightarrow \quad y(t)\cdot e^{-kt}=c \quad \Leftrightarrow \quad y(t)=c\cdot e^{kt}$$</p>
+            
+            <p>Dette viser, at en vilkårlig løsning $y(t)$ kan skrives på formen $y(t)=c\cdot e^{k t}$. Dermed er sætningen bevist.</p>
 
-            <p>Først omskriver vi ligningen, så vi separerer (adskiller) de variable ved at samle alt med y på den ene side af lighedstegnet og alt med t (tiden) på den anden side:</p>
-            <p>$$\frac{1}{y} \frac{dy}{dt} = k$$</p>
+            <p><em>(Alternativt bevis: Sætningen kan også bevises ved at adskille (separere) de variable og integrere begge sider som angivet i Sætning 2.4).</em></p>
 
-            <p>Derefter omskriver vi til et udtryk i dy og dt og integrerer på begge sider:</p>
-            <p>$$\int \frac{1}{y} dy = \int k dt$$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
 
-            <p>Vi differentierer VS og HS hver for sig:</p>
-            <p>VS: $\int \frac{1}{y} dy = \ln|y|$</p>
-            <p>HS: $\int k dt = k \cdot t + k_1$, hvor $k_1$ er et tal.</p>
-            <p>Altså gælder:</p>
-            <p>$$\ln|y| = k \cdot t + k_1$$</p>
+        <section id="bevis-forskudt" class="card proof">
+            <h2>Bevis for Sætning 8.2: Løsning af differentialligningen $y'=b-a\cdot y$</h2>
+            <p>Vi vil bevise, at ligningen $y'=b-a\cdot y$ (hvor $a>0$) har den fuldstændige løsning $y(t)=\frac{b}{a}+c\cdot e^{-at}$.</p>
+            
+            <p><strong>1) Gøre prøve:</strong><br>
+            Ved at indsætte funktionen i ligningen bekræftes det, at $y(t)=\frac{b}{a}+c\cdot e^{-at}$ er en løsning.</p>
+            
+            <p><strong>2) Bevis for fuldstændig løsning:</strong><br>
+            Vi antager, at funktionen $y=y(t)$ er en vilkårlig løsning ($y'=b-a\cdot y$). Vi vil vise formen for $y(t)$.</p>
+            <p>Vi indfører hjælpefunktionen $z=z(t)=b-a\cdot y(t)$, og finder den afledte:</p>
+            <p>$$z' = -a\cdot y' = -a\cdot (b-a\cdot y) = -a\cdot z$$</p>
+            <p>Det fremgår nu, at $z=z(t)$ er en løsning til differentialligningen $z'=-a\cdot z$. Ifølge den foregående sætning (8.1) gælder derfor $z(t)=c_1\cdot e^{-at}$. Vi får så:</p>
+            <p>
+            $$
+            \begin{aligned}
+            z(t) &= c_1\cdot e^{-at} \\
+            b-a\cdot y(t) &= c_1\cdot e^{-at} \\
+            \frac{b}{a} - \frac{c_1}{a}\cdot e^{-at} &= y(t) \\
+            \frac{b}{a} + c\cdot e^{-at} &= y(t)
+            \end{aligned}
+            $$
+            </p>
+            <p>hvor $c$ blot er en omdøbning af konstanten $-\frac{c_1}{a}$. Dermed er sætningen bevist.</p>
 
-            <p>Vi tager nu eksponentialfunktionen på begge sider for at isolere $y$:</p>
-            <p>$$e^{\ln|y|} = e^{k \cdot t + k_1}$$</p>
-            <p>$$|y| = e^{k \cdot t} \cdot e^{k_1}$$</p>
-            <p>Da $|y|$ må være positiv, kan vi omskrive y til formen $y(t) = c \cdot e^{k \cdot t}$, hvor $c$ er et tal.</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
 
-            <p>Hermed er sætningen bevist.</p>
+        <section id="bevis-logistisk1" class="card proof">
+            <h2>Bevis for Sætning 8.3a: Løsning af den logistiske differentialligning 1</h2>
+            <p>Vi betragter $y'=y\cdot (b-a\cdot y) = a\cdot y\cdot \left(\frac{b}{a}-y\right)$.</p>
+
+            <p><strong>1) Gøre prøve:</strong><br>
+            Ved indsættelse ses, at $y(t)=0$ og $y(t)=\frac{\frac{b}{a}}{1+c\cdot e^{-bt}}$ begge er løsninger.</p>
+
+            <p><strong>2) Bevis for formen:</strong><br>
+            Det kan bevises, at nulfunktionen er den eneste løsning, der antager værdien $0$. For enhver anden løsning $y(t)$, må der gælde at $y(t) \ne 0$ for alle $t$. Vi lader $y(t)$ være en sådan løsning og indfører hjælpefunktionen $z=z(t)=\frac{1}{y(t)}$.</p>
+            <p>Vi finder differentialkvotienten vha. kædereglen:</p>
+            <p>
+            $$
+            \begin{aligned}
+            z' &= -\frac{1}{y^2}\cdot y' \\
+               &= -\frac{1}{y^2}(y\cdot (b-a\cdot y)) \\
+               &= -\frac{1}{y}(b-a\cdot y) \\
+               &= -b\cdot \frac{1}{y} + a \\
+               &= -b\cdot z + a
+            \end{aligned}
+            $$
+            </p>
+            <p>Dette betyder, at $z(t)$ er en løsning til differentialligningen $z'=a-b\cdot z$. Ifølge Sætning 8.2 gælder der så: $z(t)=\frac{a}{b}+c_1\cdot e^{-bt}$. Vi isolerer nu $y(t)$:</p>
+            <p>
+            $$
+            \begin{aligned}
+            \frac{1}{y(t)} &= \frac{a}{b} + c_1\cdot e^{-bt} \\
+            y(t) &= \frac{1}{\frac{a}{b}+c_1\cdot e^{-bt}} \\
+            y(t) &= \frac{\frac{b}{a}}{1+c_1\cdot \frac{b}{a}\cdot e^{-bt}} \\
+            y(t) &= \frac{\frac{b}{a}}{1+c\cdot e^{-bt}}
+            \end{aligned}
+            $$
+            </p>
+            <p>hvor $c=c_1\cdot \frac{b}{a}$. Dette fuldfører beviset.</p>
+
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-logistisk2" class="card proof">
+            <h2>Bevis for Sætning 8.3b: Løsning af den logistiske differentialligning 2</h2>
+            <p>Den logistiske differentialligning på formen $y'=a\cdot y\cdot (M-y)$ har løsningen $y(t)=\frac{M}{1+c\cdot e^{-a M t}}$.</p>
+            <p><strong>Bevis:</strong><br>
+            Sætningen følger simpelthen af Sætning 8.3a ved substitution. Vi definerer $M=\frac{b}{a}$, hvilket er ækvivalent med at $b=a\cdot M$. Ved at indsætte $b=a\cdot M$ i løsningen fra 8.3a får vi præcis udtrykket for $y(t)$ ovenfor.</p>
+
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-lineaer" class="card proof">
+            <h2>Bevis for Sætning 8.4: Den lineære differentialligning af 1. orden (Panserformlen)</h2>
+            <p>Vi vil løse ligningen $y'+a(x)\cdot y=b(x)$. Fuldstændig løsning er givet ved panserformlen.</p>
+            
+            <p><strong>1) Gøre prøve:</strong><br>
+            Ved direkte indsættelse kan det bekræftes, at funktionen passer i ligningen.</p>
+            
+            <p><strong>2) Udledning:</strong><br>
+            Vi antager at $y(x)$ er en løsning. Vi undersøger hjælpefunktionen $z=z(x)=y(x)\cdot e^{A(x)}$, hvor $A(x)$ er en stamfunktion til $a(x)$, det vil sige $A'(x)=a(x)$.</p>
+            <p>Vi differentierer $z$ vha. produktreglen:</p>
+            <p>
+            $$
+            \begin{aligned}
+            z' &= y'\cdot e^{A(x)} + y\cdot e^{A(x)}\cdot A'(x) \\
+               &= y'\cdot e^{A(x)} + a(x)\cdot y\cdot e^{A(x)} \\
+               &= (y'+a(x)\cdot y)e^{A(x)} \\
+               &= b(x)\cdot e^{A(x)}
+            \end{aligned}
+            $$
+            </p>
+            <p>I sidste trin udnyttede vi antagelsen $y'+a(x)\cdot y=b(x)$. Vi integrerer nu på begge sider for at finde $z(x)$:</p>
+            <p>$$z(x)=\int b(x)\cdot e^{A(x)}dx + c$$</p>
+            <p>Da vi ved at $z(x)=y(x)\cdot e^{A(x)}$, kan vi isolere $y(x)$ ved at multiplicere med $e^{-A(x)}$ på begge sider:</p>
+            <p>$$y(x)=\left(\int b(x)\cdot e^{A(x)}dx + c\right)e^{-A(x)}$$</p>
+            <p>Ganger vi udtrykket ind i parentesen får vi netop panserformlen. Hermed er beviset fuldført.</p>
+
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
         </section>
 
@@ -491,7 +615,6 @@
                 });
 
                 // 2. Graf til Hældningsfelt (y' = -y + x)
-                // Rettelse: fnType: 'points' var manglende - uden det tegner function-plot ingenting
                 const fieldData = generateSlopeFieldData(0.2, 0.5, -4, 4, -4, 4);
                 functionPlot({
                     target: '#graf-haeldningsfelt',
@@ -505,8 +628,6 @@
                 });
 
                 // 3. Graf til Logistisk vækst
-                // Rettelse: annotations understøtter ikke brugerdefineret farve/stippling,
-                // så den røde stiplede linje tegnes manuelt med D3 efter rendering.
                 const logInstance = functionPlot({
                     target: '#graf-logistisk',
                     disableZoom: true,
