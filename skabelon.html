@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[SIDENS TITEL] - STX Matematik</title>
+    <title>[SIDENS TITEL] - STX Matematik A</title>
     
     <link rel="stylesheet" href="../../style.css">
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
+      }
+    };
+    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
     <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
@@ -40,22 +48,28 @@
         .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
         .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
 
-        /* Tilbage til toppen */
-        .back-to-top {
-            display: inline-block;
-            font-size: 0.85rem;
-            color: #bdc3c7;
-            text-decoration: none;
-            margin-top: 8px;
-        }
-        .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
-
         /* Tabeller */
         .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         .data-table th { background-color: #f4f7f6; color: #2c3e50; }
         
-        /* Billed-pladsholder */
+        /* Billed- og graf-container */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { 
+            pointer-events: none; 
+        }
+
+        /* Billed-pladsholder (hvis du skal indsætte rigtige billeder senere) */
         .img-placeholder {
             background: #ecf0f1;
             padding: 40px;
@@ -64,7 +78,14 @@
             border: 2px dashed #bdc3c7;
             color: #7f8c8d;
             margin: 20px 0;
+            font-style: italic;
         }
+
+        .proof { margin-bottom: 30px; }
+        
+        /* Tilbage til toppen link */
+        .back-to-top { display: inline-block; font-size: 0.85rem; color: #bdc3c7; text-decoration: none; margin-top: 8px; }
+        .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
 
         @media (max-width: 600px) {
             .toc-list { columns: 1; }
@@ -87,58 +108,122 @@
             <ul class="toc-list">
                 <li><a href="#emne1"><span class="toc-num">1.</span>[Emne 1]</a></li>
                 <li><a href="#emne2"><span class="toc-num">2.</span>[Emne 2]</a></li>
-                <li><a href="#beviser"><span class="toc-num">3.</span>Beviser</a></li>
+                <li><a href="#tabel-eksempel"><span class="toc-num">3.</span>[Emne med tabel]</a></li>
+                <li><a href="#graf-eksempel"><span class="toc-num">4.</span>[Emne med graf]</a></li>
+                <li><a href="#beviser"><span class="toc-num">5.</span>Beviser</a></li>
             </ul>
         </section>
 
         <div id="emne1" class="section-divider">
             <h2>1. [Emne 1 Titel]</h2>
-            <p>[Kort beskrivelse af emnet]</p>
+            <p>[Kort beskrivelse eller underoverskrift til sektionen]</p>
         </div>
 
         <section class="card">
-            <h2>[Underoverskrift]</h2>
-            <p>Her kan du skrive din tekst. Brug <code>\( ... \)</code> til matematik inde i teksten, og <code>$$ ... $$</code> til store formler.</p>
+            <h2>[Underoverskrift for afsnittet]</h2>
+            <p>Her kan du skrive din tekst. Brug <code>$ ... $</code> til matematik inde i teksten, f.eks. $f(x) = ax + b$, og brug <code>$$ ... $$</code> til store centrerede formler:</p>
             
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition / Sætning: [Navn]</strong>
-                <p>Brug denne boks til at fremhæve vigtige formler eller definitioner.</p>
-            </div>
-        </section>
+            <p>$$ \int_a^b f(x) dx = F(b) - F(a) $$</p>
 
-        <section class="card example">
-            <h2>Eksempel: [Titel på eksempel]</h2>
-            <p>Vis et regneeksempel trin for trin:</p>
-            <p>$$
-            \begin{gathered}
-            2x + 4 = 10 \\
-            \Downarrow \\
-            2x = 6 \\
-            \Downarrow \\
-            x = 3
-            \end{gathered}
-            $$</p>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition / Sætning: [Navn på sætning]</strong>
+                <p>Brug denne boks til at fremhæve vigtige definitioner, regler eller formler.</p>
+                <ul>
+                    <li><strong>Punkt 1:</strong> [Beskrivelse]</li>
+                    <li><strong>Punkt 2:</strong> [Beskrivelse]</li>
+                </ul>
+            </div>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
+        <div id="emne2" class="section-divider">
+            <h2>2. [Emne 2 Titel]</h2>
+            <p>[Kort beskrivelse]</p>
+        </div>
+
+        <section class="card example">
+            <h2>Eksempel: [Titel på eksempel]</h2>
+            <p>Dette er en sektion velegnet til at gennemgå et regneeksempel.</p>
+            <p><strong>Opgave:</strong> [Beskriv opgaven her]</p>
+            <p><strong>Løsning:</strong></p>
+            <p>$$ \frac{dy}{dx} = \dots $$</p>
+            <p>Konklusion på eksemplet skrives her.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="tabel-eksempel" class="section-divider">
+            <h2>3. [Tabel Eksempel]</h2>
+            <p>Hvordan man opsætter pæne datatabeller</p>
+        </div>
+
+        <section class="card">
+            <h2>[Overskrift til tabel]</h2>
+            <p>Her er en standardtabel, der automatisk tilpasser sig:</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 10%;">Nr.</th>
+                        <th style="width: 45%;">[Kolonne 1]</th>
+                        <th style="width: 45%;">[Kolonne 2]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center;">1</td>
+                        <td>[Data]</td>
+                        <td>[Data]</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">2</td>
+                        <td>[Data]</td>
+                        <td>[Data]</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="graf-eksempel" class="section-divider">
+            <h2>4. [Graf Eksempel]</h2>
+            <p>Sådan indsættes dynamiske grafer</p>
+        </div>
+
+        <section class="card">
+            <h2>[Overskrift til graf]</h2>
+            <p>Nedenfor vises en graf genereret med JavaScript (function-plot). ID'et `graf-1` skal matche det i scriptet i bunden.</p>
+            
+            <div class="svg-container">
+                <div id="graf-1"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">[Figurtekst til grafen her]</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
 
         <div id="beviser" class="section-divider">
-            <h2>3. Beviser</h2>
+            <h2>5. Beviser</h2>
             <p>Samlet oversigt over matematiske beviser i dette emne</p>
         </div>
 
         <section class="card">
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis1">Bevis for [Sætning 1]</a></li>
+                <li><a href="#bevis-1">Bevis for Sætning X.X: [Navn på sætning]</a></li>
             </ul>
         </section>
 
-        <section id="bevis1" class="card proof">
-            <h2>Bevis for [Sætning 1]</h2>
-            <p>Her kan du gennemgå beviset.</p>
+        <section id="bevis-1" class="card proof">
+            <h2>Bevis for Sætning X.X: [Navn på sætning]</h2>
+            <p>Vi vil bevise, at [Påstand der skal bevises].</p>
             
+            <p><strong>1) Trin 1:</strong><br>
+            [Forklaring og ligninger]</p>
             <p>$$ a^2 + b^2 = c^2 $$</p>
+            
+            <p><strong>2) Trin 2:</strong><br>
+            [Forklaring og ligninger]</p>
+            
+            <p>Dermed er sætningen bevist.</p>
 
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
             <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
@@ -158,7 +243,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // functionPlot({ ... });
+            try {
+                // Skabelon til en standard graf
+                functionPlot({
+                    target: '#graf-1', // Skal matche id'et på den <div> hvor grafen skal vises
+                    disableZoom: true,
+                    width: document.getElementById('graf-1').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-5, 5] },
+                    yAxis: { domain: [-5, 5] },
+                    data: [
+                        { fn: 'x^2', color: '#3498db' }, // Eksempel: f(x) = x^2
+                        // Du kan tilføje flere funktioner her med et komma imellem
+                        // { fn: '2x + 1', color: '#e74c3c' }
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
     </script>
 
