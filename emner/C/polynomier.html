@@ -50,25 +50,40 @@
         }
         .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
 
-        /* Tabeller */
-        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
-        
-        /* Billed-pladsholder */
-        .img-placeholder {
-            background: #ecf0f1;
-            padding: 40px;
-            text-align: center;
+        /* Parabel Grid (Til figur 205) */
+        .parabola-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        .parabola-box {
+            background: #f8f9fb;
+            border: 1px solid #dde2ea;
             border-radius: 8px;
-            border: 2px dashed #bdc3c7;
-            color: #7f8c8d;
-            margin: 20px 0;
+            padding: 15px;
+            text-align: center;
+        }
+        .parabola-box p {
+            margin: 10px 0 0 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Billed-container til grafer og SVG */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
         @media (max-width: 600px) {
             .toc-list { columns: 1; }
-            .data-table { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -101,7 +116,8 @@
 
         <section class="card">
             <h2>Hvad er et polynomium?</h2>
-            <p>En vigtig type funktioner er de såkaldte polynomier. Ordet polynomium betyder "mange led". Herunder er de ordnet efter stigende grad:</p>
+            <p>En vigtig type funktioner er de såkaldte polynomier. Ordet polynomium betyder "mange led". Disse funktioner, deres grafer samt de tilhørende ligninger er et centralt emne i matematikken.</p>
+            <p>Herunder er de ordnet efter stigende grad:</p>
 
             <ul>
                 <li><strong>Nulte grad:</strong> En konstant funktion, dvs. en funktion af formen \( f(x) = k \). Grafen er en ret linje parallel med førsteaksen.</li>
@@ -110,6 +126,13 @@
                 <li><strong>Tredje grad:</strong> \( f(x) = a \cdot x^3 + b \cdot x^2 + c \cdot x + d \quad (a \neq 0) \).</li>
             </ul>
             <p>Herefter kommer fjerdegradspolynomier, femtegradspolynomier osv.</p>
+            
+            <p>Nedenstående figur viser grafen for fire forskellige polynomier af grad 0, 1, 2 og 3.</p>
+            <div class="svg-container">
+                <div id="poly-grad-graf" style="margin: 0 auto;"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: Grad 0 | Rød: Grad 1 | Grøn: Grad 2 | Gul: Grad 3</p>
+            </div>
+
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
@@ -120,9 +143,15 @@
 
         <section class="card">
             <h2>Den grundlæggende andengradsligning</h2>
-            <p>Lad os se på en simpel problemstilling: Bestem siden i et kvadrat, så arealet bliver \( 25 \text{ cm}^2 \).</p>
-            <p>Siden i et kvadrat kaldes \( x \). Opgaven kan derfor oversættes til at løse ligningen: \( x^2 = 25 \).</p>
-            <p>Ligningen har løsningerne \( x = 5 \) eller \( x = -5 \). Tallet \( x = -5 \) har dog ingen interesse som løsning til den praktiske opgave, da en sidelængde ikke kan være negativ.</p>
+            <p>Lad os se på tre varianter af den samme andengradsligning:</p>
+            <ol>
+                <li>Bestem siden i et kvadrat, så arealet bliver \( 25 \text{ cm}^2 \).</li>
+                <li>Siden i et kvadrat kaldes \( x \). Bestem \( x \), så arealet bliver \( 25 \text{ cm}^2 \).</li>
+                <li>Løs ligningen: \( x^2 = 25 \).</li>
+            </ol>
+            
+            <p><strong>Løsning til 1 og 2:</strong> Det er oplagt, at den eneste løsning er, at hver side \( x \) i kvadratet skal være 5 cm lang. Der gælder jo, at \( 5^2 = 25 \). Intet andet positivt tal end 5 kan give 25, når det opløftes i anden.</p>
+            <p><strong>Løsning til 3:</strong> Ligningen har løsningerne \( x = 5 \) eller \( x = -5 \). Tallet \( x = -5 \) har dog ingen interesse som løsning til den praktiske opgave, da en sidelængde ikke kan være negativ.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.1: Løsning af grundlæggende andengradsligning</strong>
@@ -132,9 +161,9 @@
                     <li>Hvis \( p = 0 \), har ligningen kun én løsning, nemlig \( x = 0 \).</li>
                     <li>Hvis \( p > 0 \), har ligningen to løsninger, en positiv \( x = \sqrt{p} \) og en negativ \( x = -\sqrt{p} \).</li>
                 </ul>
-                <p>Når \( p \ge 0 \), kan de to sidste svar sammenfattes til \( x = \pm\sqrt{p} \).</p>
+                <p>Når \( p \ge 0 \), kan de to sidste svar sammenfattes til \( x = \pm\sqrt{p} \), idet \( \pm\sqrt{0} = 0 \).</p>
             </div>
-            <p><strong>Vigtigt faktum:</strong> Når man udregner \( x^2 \), kan resultatet ikke blive negativt. Dette får ofte betydning, når man løser andengradsligninger.</p>
+            <p><strong>Et vigtigt faktum:</strong> Når man udregner \( x^2 \), kan resultatet ikke blive negativt. Dette gælder både når x er positiv, negativ og 0. Dette faktum får ofte betydning, når man løser andengradsligninger.</p>
         </section>
 
         <section class="card">
@@ -143,7 +172,8 @@
                 <strong>Definition: Andengradsligning</strong>
                 <p>En ligning af formen \( a \cdot x^2 + b \cdot x + c = 0 \), hvor \( a \neq 0 \), kaldes en andengradsligning.</p>
             </div>
-            <p>Hvis man skal løse en andengradsligning uden hjælpemidler, benytter man diskriminantformlen.</p>
+            
+            <p>Hvis man skal løse en andengradsligning uden hjælpemidler (som f.eks. et CAS-værktøj), benytter man følgende sætning:</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.2: Diskriminantformlen</strong>
@@ -155,11 +185,12 @@
                     <li>Hvis \( d > 0 \), giver formlen <strong>to</strong> løsninger: \( x = \frac{-b \pm \sqrt{d}}{2a} \).</li>
                 </ul>
             </div>
+            <p>Der er altså tre muligheder for antallet af løsninger til en andengradsligning. Der kan være to løsninger, én løsning eller ingen løsning.</p>
             <p><em>Se beviset for diskriminantformlen i bevis-sektionen nederst på siden.</em></p>
         </section>
 
         <section class="card example">
-            <h2>Eksempel: Et praktisk problem</h2>
+            <h2>Eksempel: Et vanskeligere problem</h2>
             <p>Bestem siderne i et rektangel, hvor længden er \( 4 \text{ cm} \) større end bredden, og hvor arealet er \( 12 \text{ cm}^2 \).</p>
             <p>Bredden kaldes \( x \). Længden er derfor \( x + 4 \).</p>
             <p>Vi opstiller ligningen:</p>
@@ -170,60 +201,154 @@
             x^2 + 4x - 12 &=& 0 &
             \end{array}
             $$</p>
-            <p>Løses denne med diskriminantformlen (eller et CAS-værktøj), får vi \( x = -6 \) eller \( x = 2 \). Den negative løsning har ingen praktisk interesse. Svaret er altså, at bredden skal være \( 2 \text{ cm} \). Længden må så være \( 2 + 4 = 6 \text{ cm} \).</p>
+            <p>Løses denne ligning, får vi \( x = -6 \) eller \( x = 2 \). Den negative løsning har ingen praktisk interesse. Svaret er altså, at bredden skal være \( 2 \text{ cm} \). Længden må så være \( 2 + 4 = 6 \text{ cm} \).</p>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
         <div id="gyldnesnit" class="section-divider">
             <h2>3. Det gyldne snit</h2>
-            <p>En berømt geometrisk anvendelse af andengradsligninger</p>
+            <p>En berømt geometrisk opgave</p>
         </div>
 
         <section class="card">
-            <h2>Det gyldne snits ligning</h2>
+            <h2>Forholdet i det gyldne snit</h2>
             <p>En berømt geometrisk opgave lyder således: Tegn et linjestykke AB, og del det op således, at forholdet mellem den store del og den lille del er det samme som forholdet mellem hele linjestykket og den store del.</p>
 
-            <div class="img-placeholder">
-                [Her kan du indsætte en illustration af linjestykket AB opdelt i x og y]
+            <div class="svg-container">
+                <svg width="100%" max-width="500" viewBox="0 0 500 100" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="50" y1="50" x2="450" y2="50" stroke="#2c3e50" stroke-width="3"/>
+                    <line x1="50" y1="40" x2="50" y2="60" stroke="#2c3e50" stroke-width="3"/>
+                    <line x1="297" y1="40" x2="297" y2="60" stroke="#e74c3c" stroke-width="3"/>
+                    <line x1="450" y1="40" x2="450" y2="60" stroke="#2c3e50" stroke-width="3"/>
+                    
+                    <text x="45" y="30" font-family="sans-serif" font-weight="bold" font-size="16">A</text>
+                    <text x="292" y="30" font-family="sans-serif" font-weight="bold" fill="#e74c3c" font-size="16">P</text>
+                    <text x="445" y="30" font-family="sans-serif" font-weight="bold" font-size="16">B</text>
+                    
+                    <text x="170" y="80" font-family="sans-serif" font-style="italic" font-size="16">x (store del)</text>
+                    <text x="340" y="80" font-family="sans-serif" font-style="italic" font-size="16">y (lille del)</text>
+                    
+                    <path d="M 50 65 Q 50 75 173 75 T 297 65" fill="none" stroke="#7f8c8d" stroke-width="1.5"/>
+                    <path d="M 297 65 Q 297 75 373 75 T 450 65" fill="none" stroke="#7f8c8d" stroke-width="1.5"/>
+                </svg>
             </div>
 
             <p>Betingelserne i opgaven kan udtrykkes ved ligningen \( \frac{x}{y} = \frac{x+y}{x} \).</p>
             <p>For at gøre regningerne lettere vælger vi en længdeenhed, så \( y = 1 \). Vi indsætter det i ligningen:</p>
             <p>$$ x = \frac{x + 1}{x} $$</p>
-            <p>Vi ganger med \( x \) på begge sider og rykker alt over på venstre side:</p>
-            <p>$$ x^2 - x - 1 = 0 $$</p>
-            <p>Vi er hermed nået frem til den berømte andengradsligning for det gyldne snit. Den har løsningerne \( x = \frac{1 \pm \sqrt{5}}{2} \).</p>
-            <p>Her er det kun den positive løsning, der har interesse. Den betegnes ofte med det græske bogstav \( \Phi \) (stort phi):</p>
+            <p>Gang med \( x \) på begge sider: \( x^2 = x + 1 \).</p>
+            <p>Vi er hermed nået frem til en berømt andengradsligning: \( x^2 - x - 1 = 0 \).</p>
+            <p>Denne ligning har løsningerne \( x = \frac{1 \pm \sqrt{5}}{2} \).</p>
+            <p>Her er det kun den positive løsning, der har interesse. Den betegnes ofte med det græske bogstav \( \Phi \) (stort phi), dvs.</p>
             <p>$$ \Phi = \frac{1 + \sqrt{5}}{2} \approx 1{,}618 $$</p>
-            <p>Man siger, at punktet deler linjestykket i det gyldne snits forhold. Talmæssigt betyder det, at den store del er ca. 1,6 gange så lang som den lille del.</p>
+            <p>Man siger, at punktet P deler linjestykket AB i det gyldne snits forhold. Talmæssigt betyder det, at AP er ca. 1,6 gange så lang som PB.</p>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
         <div id="parabler" class="section-divider">
             <h2>4. Parabler</h2>
-            <p>Egenskaber for andengradspolynomiets graf</p>
+            <p>Egenskaber, skæringer og symmetri</p>
         </div>
 
         <section class="card">
-            <h2>Skæring med første- og andenaksen</h2>
-            <p>Løsningerne til andengradsligningen \( a \cdot x^2 + b \cdot x + c = 0 \) svarer til parablens skæringspunkter med førsteaksen (x-aksen). Disse kaldes også for funktionens nulpunkter.</p>
+            <h2>Parablens skæring med koordinatakserne</h2>
+            <p>Vi fremhæver nogle væsentlige egenskaber ved parabler. På figuren nedenfor er der tegnet seks forskellige parabler. Løsningerne til andengradsligningen svarer til parablens skæringspunkter med førsteaksen.</p>
+
+            <div class="parabola-grid">
+                <div class="parabola-box">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
+                        <path d="M 20 20 Q 50 140 80 20" fill="none" stroke="#3498db" stroke-width="2"/>
+                        <circle cx="35" cy="50" r="3" fill="#e74c3c"/><circle cx="65" cy="50" r="3" fill="#e74c3c"/>
+                    </svg>
+                    <p>a > 0, d > 0<br><span style="font-weight:normal; font-size:0.8rem;">2 skæringer</span></p>
+                </div>
+                <div class="parabola-box">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
+                        <path d="M 20 -10 Q 50 110 80 -10" fill="none" stroke="#3498db" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="3" fill="#e74c3c"/>
+                    </svg>
+                    <p>a > 0, d = 0<br><span style="font-weight:normal; font-size:0.8rem;">1 skæring</span></p>
+                </div>
+                <div class="parabola-box">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
+                        <path d="M 20 -40 Q 50 80 80 -40" fill="none" stroke="#3498db" stroke-width="2"/>
+                    </svg>
+                    <p>a > 0, d < 0<br><span style="font-weight:normal; font-size:0.8rem;">0 skæringer</span></p>
+                </div>
+                <div class="parabola-box">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
+                        <path d="M 20 80 Q 50 -40 80 80" fill="none" stroke="#27ae60" stroke-width="2"/>
+                        <circle cx="35" cy="50" r="3" fill="#e74c3c"/><circle cx="65" cy="50" r="3" fill="#e74c3c"/>
+                    </svg>
+                    <p>a < 0, d > 0<br><span style="font-weight:normal; font-size:0.8rem;">2 skæringer</span></p>
+                </div>
+                <div class="parabola-box">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
+                        <path d="M 20 110 Q 50 -10 80 110" fill="none" stroke="#27ae60" stroke-width="2"/>
+                        <circle cx="50" cy="50" r="3" fill="#e74c3c"/>
+                    </svg>
+                    <p>a < 0, d = 0<br><span style="font-weight:normal; font-size:0.8rem;">1 skæring</span></p>
+                </div>
+                <div class="parabola-box">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
+                        <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
+                        <path d="M 20 140 Q 50 20 80 140" fill="none" stroke="#27ae60" stroke-width="2"/>
+                    </svg>
+                    <p>a < 0, d < 0<br><span style="font-weight:normal; font-size:0.8rem;">0 skæringer</span></p>
+                </div>
+            </div>
+
             <ul>
-                <li><strong>d > 0:</strong> Parablen har to skæringspunkter med førsteaksen.</li>
-                <li><strong>d = 0:</strong> Parablen berører førsteaksen i ét punkt.</li>
-                <li><strong>d < 0:</strong> Parablen skærer slet ikke førsteaksen.</li>
+                <li><strong>d > 0:</strong> Parablen skærer førsteaksen i to punkter. Funktionen har to nulpunkter.</li>
+                <li><strong>d = 0:</strong> Parablen rører førsteaksen i netop ét punkt. Funktionen har kun ét nulpunkt.</li>
+                <li><strong>d < 0:</strong> Parablen har ingen punkter fælles med førsteaksen. Funktionen har ingen nulpunkter.</li>
             </ul>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.3: Parablens skæring med andenaksen</strong>
-                <p>Parablen, som er graf for \( f(x) = a \cdot x^2 + b \cdot x + c \), skærer altid andenaksen (y-aksen) i punktet \( (0, c) \).</p>
-                <p><em>Bevis:</em> Indsættes 0 på x's plads, fås \( f(0) = a \cdot 0^2 + b \cdot 0 + c = c \).</p>
+                <p>Parablen, som er graf for \( f(x) = a \cdot x^2 + b \cdot x + c \), skærer andenaksen i punktet \( (0, c) \).</p>
             </div>
+            <p>Når man indsætter 0 på x’s plads, fås \( y = f(0) = 0 + 0 + c = c \).</p>
         </section>
 
         <section class="card">
-            <h2>Parablens toppunkt og symmetri</h2>
-            <p>Parablen er symmetrisk omkring en lodret linje gennem dens vendepunkt, kaldet toppunktet \( T \).</p>
-            
+            <h2>Parablens toppunkt</h2>
+            <p>Figuren herunder viser en parabel. På figuren er det såkaldte toppunkt \( T \) markeret. Førstekoordinaten til toppunktet betegnes med \( x_T \).</p>
+            <p>Parablen er symmetrisk omkring den lodrette linje \( x = x_T \) gennem toppunktet. Denne linje kaldes parablens symmetriakse.</p>
+
+            <div class="svg-container">
+                <svg width="100%" max-width="400" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="220" x2="280" y2="220" stroke="black" stroke-width="2"/>
+                    <line x1="150" y1="20" x2="150" y2="220" stroke="black" stroke-width="1" stroke-dasharray="4"/>
+                    
+                    <path d="M 50 20 Q 150 320 250 20" fill="none" stroke="#e67e22" stroke-width="3"/>
+                    
+                    <line x1="90" y1="220" x2="90" y2="128" stroke="#7f8c8d" stroke-dasharray="4"/>
+                    <line x1="210" y1="220" x2="210" y2="128" stroke="#7f8c8d" stroke-dasharray="4"/>
+                    <line x1="90" y1="128" x2="210" y2="128" stroke="#7f8c8d" stroke-dasharray="4"/>
+                    
+                    <circle cx="90" cy="128" r="4" fill="#2c3e50"/>
+                    <circle cx="210" cy="128" r="4" fill="#2c3e50"/>
+                    <circle cx="150" cy="170" r="5" fill="#e74c3c"/> <text x="145" y="195" font-family="sans-serif" font-weight="bold" fill="#e74c3c">T</text>
+                    <text x="140" y="240" font-family="sans-serif" font-style="italic">x_T</text>
+                    <text x="65" y="240" font-family="sans-serif" font-style="italic">x_T - h</text>
+                    <text x="195" y="240" font-family="sans-serif" font-style="italic">x_T + h</text>
+                </svg>
+            </div>
+
+            <p>Da grafen er symmetrisk, betragter vi to x-værdier, der ligger lige langt fra \( x_T \), nemlig stykket \( h \) til højre og venstre for \( x_T \). For disse punkter gælder: \( f(x_T - h) = f(x_T + h) \).</p>
+
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.5: Parablens symmetri og toppunkt</strong>
                 <p>En parabel, som er graf for funktionen \( f(x) = ax^2 + bx + c \), er symmetrisk omkring den lodrette linje \( x = -\frac{b}{2a} \).</p>
@@ -232,18 +357,19 @@
         </section>
 
         <section class="card">
-            <h2>Faktorisering og Toppunktsform</h2>
+            <h2>Andengradspolynomiets faktorisering og Toppunktsform</h2>
+            <p>En parabels ligning kan udtrykkes på andre måder end den klassiske form. Det kan gøres, så nulpunkterne optræder direkte i ligningen, eller så toppunktets koordinater optræder direkte.</p>
             
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.6: Andengradspolynomiets faktorisering</strong>
                 <p>Hvis et andengradspolynomium \( p(x) = a \cdot x^2 + b \cdot x + c \) med positiv diskriminant har nulpunkterne \( x_1 \) og \( x_2 \), kan forskriften skrives på formen:</p>
                 <p>$$ p(x) = a \cdot (x - x_1)(x - x_2) $$</p>
-                <p>Dette gælder også for \( d = 0 \), hvor \( x_1 = x_2 \).</p>
             </div>
+            <p><em>Bemærkning: Faktoriseringen gælder også, hvis d = 0. Her bliver \( x_1 = x_2 \) og \( p(x) = a \cdot (x - x_1)^2 \). Se beviset i bunden.</em></p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.7: Parablens ligning på toppunktsform</strong>
-                <p>Hvis en parabel har toppunkt i \( (h, k) \), så kan forskriften for \( f \) skrives på formen:</p>
+                <p>Hvis en parabel, der er graf for funktionen \( f(x) = a \cdot x^2 + b \cdot x + c \), har toppunkt i \( (h, k) \), så kan forskriften for \( f \) skrives på formen:</p>
                 <p>$$ f(x) = a \cdot (x - h)^2 + k $$</p>
             </div>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
@@ -251,25 +377,28 @@
 
         <div id="hoejeregrad" class="section-divider">
             <h2>5. Polynomier af grad større end 2</h2>
-            <p>Tredje-, fjerde- og femtegradspolynomier og deres rødder</p>
+            <p>Polynomiers rødder for tredje- og fjerdegradspolynomier</p>
         </div>
 
         <section class="card">
             <h2>Polynomiers rødder</h2>
-            <p>En rod \( x \) i et polynomium \( f(x) \) er en løsning til ligningen \( f(x) = 0 \).</p>
-            <p>For andengradsligninger har vi diskriminantformlen. For ligninger af femte grad eller højere er det bevist, at det er matematisk umuligt at finde en generel løsningsformel. Vi vil derfor normalt bruge et CAS-værktøj.</p>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: En rod i et polynomium</strong>
+                <p>En rod \( x \) i et polynomium \( f(x) \) er en løsning til ligningen \( f(x) = 0 \).</p>
+            </div>
+            <p>For andengradsligninger har vi diskriminantformlen. For ligninger af femte grad eller højere er det matematisk bevist, at det er umuligt at finde en generel løsningsformel. Når vi skal løse ligninger af grad højere end to, vil vi derfor normalt bruge et CAS-værktøj.</p>
 
+            <p>Det er svært at få øje på et system i mængden af rødder. Men man kan bevise følgende:</p>
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.8: Antal rødder i et polynomium</strong>
-                <p>Et polynomium \( p(x) \) af grad \( n \) har <strong>højst</strong> \( n \) rødder. Eller anderledes udtrykt: En n-tegradsligning har højst n løsninger.</p>
+                <p>Et polynomium \( p(x) \) af grad \( n \) har højst \( n \) rødder. Eller anderledes udtrykt: En n-tegradsligning har højst n løsninger.</p>
             </div>
 
+            <p>I ligninger af ulige grad er der altid mindst én løsning. Kun ligninger af lige grad (som 2., 4., og 6. grad) kan være helt uden løsninger.</p>
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.9: Polynomium af ulige grad</strong>
-                <p>Et n-tegradspolynomium har mindst én rod, hvis \( n \) er et ulige tal (f.eks. grad 3, 5, 7).</p>
+                <p>Et n-tegradspolynomium har mindst én rod, hvis \( n \) er ulige.</p>
             </div>
-            
-            <p>Man kan bevise, at ethvert polynomium af højere grad end 2 kan faktoriseres i et antal faktorer af formen \( x - r \) og et antal faktorer af formen \( ax^2 + bx + c \). I faktorerne \( x - r \) svarer r-værdierne til rødderne i polynomiet.</p>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
@@ -288,7 +417,7 @@
 
         <section id="bevis2-2" class="card proof">
             <h2>Bevis for sætning 2.2: Diskriminantformlen</h2>
-            <p>I dette bevis indgår der to "gode ideer". Vi starter med standardligningen for et andengradspolynomium:</p>
+            <p>I dette bevis indgår der to "gode ideer". Vi har ligningen:</p>
             <p>$$ ax^2 + bx + c = 0 $$</p>
             
             <p><strong>Den første gode idé:</strong> Gang med \( 4a \) på begge sider af lighedstegnet:</p>
@@ -297,17 +426,19 @@
 
             <p><strong>Den anden gode idé:</strong> Læg \( d = b^2 - 4ac \) til på begge sider:</p>
             <p>$$ 4a^2x^2 + 4abx + 4ac + b^2 - 4ac = b^2 - 4ac $$</p>
-            <p>På venstre side går \( 4ac \) og \( -4ac \) ud med hinanden. Højre side er lig med \( d \):</p>
+            <p>På venstre side går \( 4ac \) og \( -4ac \) ud. Højre side er blot \( d \):</p>
             <p>$$ 4a^2x^2 + 4abx + b^2 = d $$</p>
 
-            <p>Venstre side kan nu omskrives ved hjælp af første kvadratsætning (kvadratet på en toleddet størrelse):</p>
+            <p>Venstre side er kvadratet på en toleddet størrelse (\( (x+y)^2 = x^2+y^2+2xy \)):</p>
             <p>$$ (2ax + b)^2 = d $$</p>
 
-            <p>Nu kan vi se, hvad diskriminanten \( d \) betyder. På venstre side står der en parentes opløftet i anden, hvilket betyder, at venstresiden aldrig kan blive negativ. Deraf følger delkonklusionen: Der er ingen løsninger, hvis diskriminanten \( d \) er negativ.</p>
+            <p>Nu kan vi se, hvad diskriminanten \( d \) betyder. På venstre side står der en parentes opløftet i anden, dvs. venstresiden kan aldrig blive negativ.</p>
+            <p><strong>Delkonklusion:</strong> Der er ingen løsninger, hvis diskriminanten \( d \) er negativ.</p>
 
-            <p>Vi forudsætter nu, at diskriminanten \( d \) ikke er negativ (\( d \ge 0 \)). Vi kan da tage kvadratroden på begge sider:</p>
+            <p>Vi forudsætter nu, at \( d \) ikke er negativ. I dette tilfælde kan vi regne videre og tage kvadratroden på begge sider:</p>
             <p>$$
             \begin{aligned}
+            (2ax + b)^2 &= d \\
             2ax + b &= \pm \sqrt{d} \\
             2ax &= -b \pm \sqrt{d} \\
             x &= \frac{-b \pm \sqrt{d}}{2a}
@@ -321,7 +452,7 @@
         <section id="bevis2-6" class="card proof">
             <h2>Bevis for sætning 2.6: Andengradspolynomiets faktorisering</h2>
             <p>Vi vil bevise, at \( a \cdot x^2 + b \cdot x + c = a \cdot (x - x_1)(x - x_2) \).</p>
-            <p>Vi starter med højre side og ganger parenteserne sammen:</p>
+            <p>Vi starter med at gange parenteserne sammen på højre side:</p>
             <p>$$
             \begin{aligned}
             a \cdot (x - x_1)(x - x_2) &= a \cdot (x^2 - x_1x - xx_2 + x_1x_2) \\
@@ -329,26 +460,26 @@
             \end{aligned}
             $$</p>
 
-            <p>Vi skal nu udregne summen \( (x_1 + x_2) \) og produktet \( (x_1 \cdot x_2) \) af de to rødder, som vi kender fra diskriminantformlen:</p>
+            <p>Vi skal så udregne summen \( (x_1 + x_2) \) og produktet \( (x_1 \cdot x_2) \) ved hjælp af rødderne fra diskriminantformlen:</p>
             <p>$$
-            x_1 + x_2 = \frac{-b + \sqrt{d}}{2a} + \frac{-b - \sqrt{d}}{2a} = \frac{-2b}{2a} = -\frac{b}{a}
+            x_1 + x_2 = \frac{-b + \sqrt{d}}{2a} + \frac{-b - \sqrt{d}}{2a} = \frac{-b + \sqrt{d} - b - \sqrt{d}}{2a} = \frac{-2b}{2a} = -\frac{b}{a}
             $$</p>
             <p>$$
             \begin{aligned}
-            x_1 \cdot x_2 &= \left( \frac{-b + \sqrt{d}}{2a} \right) \cdot \left( \frac{-b - \sqrt{d}}{2a} \right) \\
-            &= \frac{(-b)^2 - (\sqrt{d})^2}{4a^2} = \frac{b^2 - d}{4a^2} \\
-            &= \frac{b^2 - (b^2 - 4ac)}{4a^2} = \frac{4ac}{4a^2} = \frac{c}{a}
+            x_1 \cdot x_2 &= \left( \frac{-b + \sqrt{d}}{2a} \right) \cdot \left( \frac{-b - \sqrt{d}}{2a} \right) = \frac{(-b + \sqrt{d}) \cdot (-b - \sqrt{d})}{4a^2} \\
+            &= \frac{(-b)^2 - (\sqrt{d})^2}{4a^2} = \frac{b^2 - d}{4a^2} = \frac{b^2 - (b^2 - 4ac)}{4a^2} = \frac{4ac}{4a^2} = \frac{c}{a}
             \end{aligned}
             $$</p>
 
-            <p>Derefter indsætter vi resultaterne i vores udregning fra \( (*) \):</p>
+            <p>Derefter kan vi gå videre med udregningen ved \( (*) \):</p>
             <p>$$
             \begin{aligned}
-            a \cdot \left( x^2 - \left(-\frac{b}{a}\right) \cdot x + \frac{c}{a} \right) &= a \cdot \left( x^2 + \frac{b}{a} \cdot x + \frac{c}{a} \right) \\
+            a \cdot \left( x^2 - (x_1 + x_2) \cdot x + x_1x_2 \right) &= a \cdot \left( x^2 - \left(-\frac{b}{a}\right) \cdot x + \frac{c}{a} \right) \\
+            &= a \cdot \left( x^2 + \frac{b}{a} \cdot x + \frac{c}{a} \right) \\
             &= a \cdot x^2 + b \cdot x + c
             \end{aligned}
             $$</p>
-            <p>Hermed er sætning 2.6 bevist.</p>
+            <p>Hermed er sætningen bevist.</p>
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
             <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
         </section>
@@ -366,8 +497,22 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Tilføj gerne dine interaktive function-plot scripts her, hvis du vil 
-            // illustrere bestemte parabler under afsnit 4.
+            try {
+                functionPlot({
+                    target: '#poly-grad-graf',
+                    width: document.getElementById('poly-grad-graf').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-4, 4] },
+                    yAxis: { domain: [-5, 5] },
+                    data: [
+                        { fn: '2', color: '#3498db', graphType: 'polyline' },          // Grad 0
+                        { fn: 'x+1', color: '#e74c3c', graphType: 'polyline' },        // Grad 1
+                        { fn: 'x^2-2', color: '#27ae60', graphType: 'polyline' },      // Grad 2
+                        { fn: '0.5*x^3-2*x', color: '#f1c40f', graphType: 'polyline' } // Grad 3
+                    ]
+                });
+            } catch(e) { console.log('Fejl i indlæsning af graf', e); }
         });
     </script>
 
