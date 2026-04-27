@@ -166,7 +166,7 @@
             <p>Tangenten fortæller os, hvor stejl løsningskurven er i punktet $P$. Vi kan derfor få et indtryk af, hvordan løsningskurven kan se ud i nærheden af $P$.</p>
             <div class="svg-container">
                 <div id="graf-tangent"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: Løsningskurven gennem $P(1,2)$. Grøn: Tangenten $y = 3x - 1$.</p>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En skitseret løsningskurve gennem $P(1,2)$ og tangenten $y = 3x - 1$ (grøn).</p>
             </div>
         </section>
 
@@ -203,7 +203,7 @@
         <section class="card">
             <h2>Tre fundamentale væksthypoteser</h2>
             <p>Vi minder om, at hvis $y(t)$ er en differentiabel funktion, hvor $t$ betegner tiden, er $y'(t)$ væksthastigheden til tidspunktet $t$.</p>
-            <p>Når man skal opstille en model, er det i mange tilfælde lettere at tage udgangspunkt i en hypotese vedrørende væksthastigheden end funktionen selv. Hypoteserne drejer sig ofte om, hvordan $y'$ afhænger af $y$. Tre klassiske hypoteser fører til disse ligninger:</p>
+            <p>Når man skal opstille en model, er det i many tilfælde lettere at tage udgangspunkt i en hypotese vedrørende væksthastigheden end funktionen selv. Hypoteserne drejer sig ofte om, hvordan $y'$ afhænger af $y$. Tre klassiske hypoteser fører til disse ligninger:</p>
             <ol>
                 <li>$y'$ er en konstant (Lineær vækst). Løsningen er $y(t) = k \cdot t + c$.</li>
                 <li>$y'$ er proportional med $y$ (Uhæmmet eksponentiel vækst).</li>
@@ -235,7 +235,8 @@
             <p>Eller ved at sætte $M = \frac{b}{a}$:</p>
             <p>$$y' = a \cdot y \cdot (M - y)$$</p>
             
-            <p>De to sidste ligninger kaldes <strong>logistiske differentialligninger</strong>. Ligningerne udtrykker, at væksthastigheden $y'(t)$ er proportional med produktet af størrelsen $y(t)$ og den afstand, der er mellem $y(t)$ og en øvre grænse $M$. I hypotesen er der altså indbygget en dæmpning af væksten. I biologiske sammenhænge kaldes den øvre grænse $M$ for <strong>bæreevnen</strong>.</p>
+            <p>De to sidste ligninger kaldes <strong>logistiske differentialligninger</strong>. De er vigtige, for i many tilfælde fører de til en rimelig beskrivelse af bl.a. enkeltindividers og populationers vækst, logistisk vækst.</p>
+            <p>Ligningerne udtrykker, at væksthastigheden $y'(t)$ er proportional med produktet af størrelsen $y(t)$ og den afstand, der er mellem $y(t)$ og en øvre grænse $M$. I hypotesen er der altså indbygget en dæmpning af væksten. I biologiske sammenhænge kaldes den øvre grænse $M$ for <strong>bæreevnen</strong>.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.3b: Løsning af den logistiske differentialligning 2</strong>
@@ -244,11 +245,11 @@
                 <p>hvor $c$ er et tal.</p>
             </div>
             
-            <p>For enhver løsning gælder $y(t) \to M$, når $t \to \infty$. I området $0 < y < M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
+            <p>For enhver løsning gælder y(t) $\to M$, når t $\to \infty$. I området $0 < y < M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
 
             <div class="svg-container">
                 <div id="graf-logistisk"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En klassisk S-formet logistisk vækstkurve. Bæreevnen $M$ er markeret med den stiplet linje.</p>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En klassisk S-formet logistisk vækstkurve. Bæreevnen $M$ er markeret med den rød stiplet linje.</p>
             </div>
         </section>
 
@@ -261,7 +262,7 @@
             <h2>Definition og metode</h2>
             <p>Differentialligninger af 1. orden, der kan skrives på formen $\frac{dy}{dx} = h(x) \cdot g(y)$, kaldes <strong>separable differentialligninger</strong>.</p>
             
-            <p>Metoden går ud på at omskrive ligningen, så vi separerer (adskiller) de variable. Det smarte er bl.a., at man i nogle sammenhænge kan behandle $\frac{dy}{dx}$ som en brøk:</p>
+            <p>Metoden går ud på at omskrive ligningen, så vi behandler symbolet $\frac{dy}{dx}$ som en brøk og separerer (adskiller) de variable. Det smarte er bl.a., at man i nogle sammenhænge kan behandle $\frac{dy}{dx}$ som en brøk:</p>
 
             <p>$$
             \begin{aligned}
@@ -396,7 +397,14 @@
             <p>Samlet oversigt over matematiske beviser i dette emne</p>
         </div>
 
-        <section class="card proof">
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis-separabel">Bevis for Sætning 2.1 (Eksponentiel vækst $y'=k \cdot y$) ved separation af variable</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis-separabel" class="card proof">
             <h2>Bevis for Sætning 2.1 ($y'=k \cdot y$) ved separation af variable</h2>
             <p>Vi ønsker at vise, at løsningen til differentialligningen $y' = k \cdot y$ er $y(t) = c \cdot e^{k \cdot t}$. Vi benytter metoden for separation af de variable (Sætning 2.4).</p>
             
@@ -449,7 +457,6 @@
                   const dy = (L / 2) * Math.sin(theta);
                   lineData.push({
                     graphType: 'polyline',
-                    color: '#7f8c8d',
                     points: [
                       [x - dx, y - dy],
                       [x + dx, y + dy]
@@ -461,7 +468,7 @@
             }
 
             try {
-                // 1. Graf til Tangent-eksempel (P(1,2) og tangent y = 3x - 1)
+                // 1. Graf til Tangent-eksempel (dy/dx=x+y gennem P(1,2))
                 functionPlot({
                     target: '#graf-tangent',
                     width: document.getElementById('graf-tangent').parentElement.clientWidth - 40,
@@ -470,15 +477,15 @@
                     xAxis: { domain: [-1, 3] },
                     yAxis: { domain: [-2, 6] },
                     data: [
-                        { fn: '4*exp(x-1) - x - 1', color: '#3498db' }, // Løsningskurven
-                        { fn: '3*x - 1', color: '#27ae60' }          // Tangenten
+                        { fn: '2.5*exp(x-1) - x - 1', color: '#3498db' }, // Løsningskurven
+                        { fn: '3.5*x - 1.5', color: '#27ae60' }          // Tangenten
                     ],
-                    annotations: [{ x: 1, y: 2, text: 'P(1,2)' }]
+                    annotations: [{ x: 1, text: 'P(1,2)' }]
                 });
 
                 // 2. Graf til Hældningsfelt (y' = -y + x)
                 // Genererer linjeelementerne i scriptet for at overholde bibliotekets standard
-                const fieldData = generateSlopeFieldData(0.25, 0.5, -4, 4, -4, 4);
+                const fieldData = generateSlopeFieldData(0.2, 0.5, -4, 4, -4, 4);
                 functionPlot({
                     target: '#graf-haeldningsfelt',
                     width: document.getElementById('graf-haeldningsfelt').parentElement.clientWidth - 40,
@@ -498,7 +505,7 @@
                     xAxis: { domain: [-2, 12] },
                     yAxis: { domain: [-1, 6] },
                     data: [
-                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // M = 5, S-formet
+                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // Bæreevne M = 5, S-formet
                     ],
                     annotations: [{ y: 5, text: 'Bæreevne (M)', fnType: 'horizontal' }]
                 });
