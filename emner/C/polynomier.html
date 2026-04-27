@@ -120,10 +120,10 @@
             <p>Herunder er de ordnet efter stigende grad:</p>
 
             <ul>
-                <li><strong>Nulte grad:</strong> En konstant funktion, dvs. en funktion af formen \( f(x) = k \). Grafen er en ret linje parallel med førsteaksen.</li>
-                <li><strong>Første grad:</strong> \( f(x) = a \cdot x + b \quad (a \neq 0) \). Grafen er en ret linje, der hverken er parallel med førsteaksen eller andenaksen.</li>
-                <li><strong>Anden grad:</strong> \( f(x) = a \cdot x^2 + b \cdot x + c \quad (a \neq 0) \). Grafen kaldes en parabel.</li>
-                <li><strong>Tredje grad:</strong> \( f(x) = a \cdot x^3 + b \cdot x^2 + c \cdot x + d \quad (a \neq 0) \).</li>
+                <li><strong>Nulte grad (Blå):</strong> En konstant funktion, dvs. en funktion af formen \( f(x) = k \). Grafen er en ret linje parallel med x-aksen.</li>
+                <li><strong>Første grad (Rød):</strong> \( f(x) = a \cdot x + b \quad (a \neq 0) \). Grafen er en ret linje, der hverken er parallel med x-aksen eller y-aksen.</li>
+                <li><strong>Anden grad (Grøn):</strong> \( f(x) = a \cdot x^2 + b \cdot x + c \quad (a \neq 0) \). Grafen kaldes en parabel.</li>
+                <li><strong>Tredje grad (Gul):</strong> \( f(x) = a \cdot x^3 + b \cdot x^2 + c \cdot x + d \quad (a \neq 0) \).</li>
             </ul>
             <p>Herefter kommer fjerdegradspolynomier, femtegradspolynomier osv.</p>
             
@@ -150,7 +150,7 @@
                 <li>Løs ligningen: \( x^2 = 25 \).</li>
             </ol>
             
-            <p><strong>Løsning til 1 og 2:</strong> Det er oplagt, at den eneste løsning er, at hver side \( x \) i kvadratet skal være 5 cm lang. Der gælder jo, at \( 5^2 = 25 \). Intet andet positivt tal end 5 kan give 25, når det opløftes i anden.</p>
+            <p><strong>Løsning til 1 og 2:</strong> Det er oplagt, at den eneste løsning er, at hver side \( x \) i kvadratet skal være \( 5 \text{ cm} \) lang. Der gælder jo, at \( 5^2 = 25 \). Intet andet positivt tal end \( 5 \) kan give \( 25 \), når det opløftes i anden.</p>
             <p><strong>Løsning til 3:</strong> Ligningen har løsningerne \( x = 5 \) eller \( x = -5 \). Tallet \( x = -5 \) har dog ingen interesse som løsning til den praktiske opgave, da en sidelængde ikke kan være negativ.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
@@ -163,7 +163,7 @@
                 </ul>
                 <p>Når \( p \ge 0 \), kan de to sidste svar sammenfattes til \( x = \pm\sqrt{p} \), idet \( \pm\sqrt{0} = 0 \).</p>
             </div>
-            <p><strong>Et vigtigt faktum:</strong> Når man udregner \( x^2 \), kan resultatet ikke blive negativt. Dette gælder både når x er positiv, negativ og 0. Dette faktum får ofte betydning, når man løser andengradsligninger.</p>
+            <p><strong>Et vigtigt faktum:</strong> Når man udregner \( x^2 \), kan resultatet ikke blive negativt. Dette gælder både når \( x \) er positiv, negativ og 0. Dette faktum får ofte betydning, når man løser andengradsligninger.</p>
         </section>
 
         <section class="card">
@@ -241,7 +241,7 @@
             <p>Denne ligning har løsningerne \( x = \frac{1 \pm \sqrt{5}}{2} \).</p>
             <p>Her er det kun den positive løsning, der har interesse. Den betegnes ofte med det græske bogstav \( \Phi \) (stort phi), dvs.</p>
             <p>$$ \Phi = \frac{1 + \sqrt{5}}{2} \approx 1{,}618 $$</p>
-            <p>Man siger, at punktet P deler linjestykket AB i det gyldne snits forhold. Talmæssigt betyder det, at AP er ca. 1,6 gange så lang som PB.</p>
+            <p>Man siger, at punktet \( P \) deler linjestykket \( AB \) i det gyldne snits forhold. Talmæssigt betyder det, at \( AP \) er ca. 1,6 gange så lang som \( PB \).</p>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
@@ -252,72 +252,72 @@
 
         <section class="card">
             <h2>Parablens skæring med koordinatakserne</h2>
-            <p>Vi fremhæver nogle væsentlige egenskaber ved parabler. På figuren nedenfor er der tegnet seks forskellige parabler. Løsningerne til andengradsligningen svarer til parablens skæringspunkter med førsteaksen.</p>
+            <p>Vi fremhæver nogle væsentlige egenskaber ved parabler. På figuren nedenfor er der tegnet seks forskellige parabler. Løsningerne til andengradsligningen svarer til parablens skæringspunkter med x-aksen.</p>
 
             <div class="parabola-grid">
                 <div class="parabola-box">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
                         <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
-                        <path d="M 20 20 Q 50 140 80 20" fill="none" stroke="#3498db" stroke-width="2"/>
-                        <circle cx="35" cy="50" r="3" fill="#e74c3c"/><circle cx="65" cy="50" r="3" fill="#e74c3c"/>
+                        <path d="M 10 10 Q 50 130 90 10" fill="none" stroke="#3498db" stroke-width="2"/>
+                        <circle cx="26.9" cy="50" r="3" fill="#e74c3c"/><circle cx="73.1" cy="50" r="3" fill="#e74c3c"/>
                     </svg>
-                    <p>a > 0, d > 0<br><span style="font-weight:normal; font-size:0.8rem;">2 skæringer</span></p>
+                    <p>\( a > 0 \), \( d > 0 \)<br><span style="font-weight:normal; font-size:0.8rem;">2 skæringer</span></p>
                 </div>
                 <div class="parabola-box">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
                         <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
-                        <path d="M 20 -10 Q 50 110 80 -10" fill="none" stroke="#3498db" stroke-width="2"/>
+                        <path d="M 15 15 Q 50 85 85 15" fill="none" stroke="#3498db" stroke-width="2"/>
                         <circle cx="50" cy="50" r="3" fill="#e74c3c"/>
                     </svg>
-                    <p>a > 0, d = 0<br><span style="font-weight:normal; font-size:0.8rem;">1 skæring</span></p>
+                    <p>\( a > 0 \), \( d = 0 \)<br><span style="font-weight:normal; font-size:0.8rem;">1 skæring</span></p>
                 </div>
                 <div class="parabola-box">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
                         <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
-                        <path d="M 20 -40 Q 50 80 80 -40" fill="none" stroke="#3498db" stroke-width="2"/>
+                        <path d="M 20 10 Q 50 70 80 10" fill="none" stroke="#3498db" stroke-width="2"/>
                     </svg>
-                    <p>a > 0, d < 0<br><span style="font-weight:normal; font-size:0.8rem;">0 skæringer</span></p>
+                    <p>\( a > 0 \), \( d < 0 \)<br><span style="font-weight:normal; font-size:0.8rem;">0 skæringer</span></p>
                 </div>
                 <div class="parabola-box">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
                         <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
-                        <path d="M 20 80 Q 50 -40 80 80" fill="none" stroke="#27ae60" stroke-width="2"/>
-                        <circle cx="35" cy="50" r="3" fill="#e74c3c"/><circle cx="65" cy="50" r="3" fill="#e74c3c"/>
+                        <path d="M 10 90 Q 50 -30 90 90" fill="none" stroke="#27ae60" stroke-width="2"/>
+                        <circle cx="26.9" cy="50" r="3" fill="#e74c3c"/><circle cx="73.1" cy="50" r="3" fill="#e74c3c"/>
                     </svg>
-                    <p>a < 0, d > 0<br><span style="font-weight:normal; font-size:0.8rem;">2 skæringer</span></p>
+                    <p>\( a < 0 \), \( d > 0 \)<br><span style="font-weight:normal; font-size:0.8rem;">2 skæringer</span></p>
                 </div>
                 <div class="parabola-box">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
                         <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
-                        <path d="M 20 110 Q 50 -10 80 110" fill="none" stroke="#27ae60" stroke-width="2"/>
+                        <path d="M 15 85 Q 50 15 85 85" fill="none" stroke="#27ae60" stroke-width="2"/>
                         <circle cx="50" cy="50" r="3" fill="#e74c3c"/>
                     </svg>
-                    <p>a < 0, d = 0<br><span style="font-weight:normal; font-size:0.8rem;">1 skæring</span></p>
+                    <p>\( a < 0 \), \( d = 0 \)<br><span style="font-weight:normal; font-size:0.8rem;">1 skæring</span></p>
                 </div>
                 <div class="parabola-box">
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <line x1="0" y1="50" x2="100" y2="50" stroke="#bdc3c7" stroke-width="2"/>
                         <line x1="50" y1="0" x2="50" y2="100" stroke="#bdc3c7" stroke-width="2"/>
-                        <path d="M 20 140 Q 50 20 80 140" fill="none" stroke="#27ae60" stroke-width="2"/>
+                        <path d="M 20 90 Q 50 30 80 90" fill="none" stroke="#27ae60" stroke-width="2"/>
                     </svg>
-                    <p>a < 0, d < 0<br><span style="font-weight:normal; font-size:0.8rem;">0 skæringer</span></p>
+                    <p>\( a < 0 \), \( d < 0 \)<br><span style="font-weight:normal; font-size:0.8rem;">0 skæringer</span></p>
                 </div>
             </div>
 
             <ul>
-                <li><strong>d > 0:</strong> Parablen skærer førsteaksen i to punkter. Funktionen har to nulpunkter.</li>
-                <li><strong>d = 0:</strong> Parablen rører førsteaksen i netop ét punkt. Funktionen har kun ét nulpunkt.</li>
-                <li><strong>d < 0:</strong> Parablen har ingen punkter fælles med førsteaksen. Funktionen har ingen nulpunkter.</li>
+                <li><strong>\( d > 0 \):</strong> Parablen skærer x-aksen i to punkter. Funktionen har to nulpunkter.</li>
+                <li><strong>\( d = 0 \):</strong> Parablen rører x-aksen i netop ét punkt. Funktionen har kun ét nulpunkt.</li>
+                <li><strong>\( d < 0 \):</strong> Parablen har ingen punkter fælles med x-aksen. Funktionen har ingen nulpunkter.</li>
             </ul>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.3: Parablens skæring med andenaksen</strong>
-                <p>Parablen, som er graf for \( f(x) = a \cdot x^2 + b \cdot x + c \), skærer andenaksen i punktet \( (0, c) \).</p>
+                <p>Parablen, som er graf for \( f(x) = a \cdot x^2 + b \cdot x + c \), skærer y-aksen i punktet \( (0, c) \).</p>
             </div>
             <p>Når man indsætter 0 på x’s plads, fås \( y = f(0) = 0 + 0 + c = c \).</p>
         </section>
@@ -340,9 +340,11 @@
                     
                     <circle cx="90" cy="128" r="4" fill="#2c3e50"/>
                     <circle cx="210" cy="128" r="4" fill="#2c3e50"/>
-                    <circle cx="150" cy="170" r="5" fill="#e74c3c"/> <text x="145" y="195" font-family="sans-serif" font-weight="bold" fill="#e74c3c">T</text>
-                    <text x="140" y="240" font-family="sans-serif" font-style="italic">x_T</text>
-                    <text x="65" y="240" font-family="sans-serif" font-style="italic">x_T - h</text>
+                    <circle cx="150" cy="170" r="5" fill="#e74c3c"/> 
+                    
+                    <text x="145" y="195" font-family="sans-serif" font-weight="bold" fill="#e74c3c">T</text>
+                    <text x="135" y="240" font-family="sans-serif" font-style="italic">x_T</text>
+                    <text x="55" y="240" font-family="sans-serif" font-style="italic">x_T - h</text>
                     <text x="195" y="240" font-family="sans-serif" font-style="italic">x_T + h</text>
                 </svg>
             </div>
@@ -351,7 +353,7 @@
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.5: Parablens symmetri og toppunkt</strong>
-                <p>En parabel, som er graf for funktionen \( f(x) = ax^2 + bx + c \), er symmetrisk omkring den lodrette linje \( x = -\frac{b}{2a} \).</p>
+                <p>En parabel, som er graf for funktionen \( f(x) = a \cdot x^2 + b \cdot x + c \), er symmetrisk omkring den lodrette linje \( x = -\frac{b}{2a} \).</p>
                 <p>Parablens toppunkt \( T \) har førstekoordinaten \( x_T = -\frac{b}{2a} \) og andenkoordinaten \( y_T = f(x_T) = -\frac{d}{4a} \).</p>
             </div>
         </section>
@@ -365,7 +367,7 @@
                 <p>Hvis et andengradspolynomium \( p(x) = a \cdot x^2 + b \cdot x + c \) med positiv diskriminant har nulpunkterne \( x_1 \) og \( x_2 \), kan forskriften skrives på formen:</p>
                 <p>$$ p(x) = a \cdot (x - x_1)(x - x_2) $$</p>
             </div>
-            <p><em>Bemærkning: Faktoriseringen gælder også, hvis d = 0. Her bliver \( x_1 = x_2 \) og \( p(x) = a \cdot (x - x_1)^2 \). Se beviset i bunden.</em></p>
+            <p><em>Bemærkning: Faktoriseringen gælder også, hvis \( d = 0 \). Her bliver \( x_1 = x_2 \) og \( p(x) = a \cdot (x - x_1)^2 \). Se beviset i bunden.</em></p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.7: Parablens ligning på toppunktsform</strong>
@@ -391,7 +393,7 @@
             <p>Det er svært at få øje på et system i mængden af rødder. Men man kan bevise følgende:</p>
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.8: Antal rødder i et polynomium</strong>
-                <p>Et polynomium \( p(x) \) af grad \( n \) har højst \( n \) rødder. Eller anderledes udtrykt: En n-tegradsligning har højst n løsninger.</p>
+                <p>Et polynomium \( p(x) \) af grad \( n \) har højst \( n \) rødder. Eller anderledes udtrykt: En n-tegradsligning har højst \( n \) løsninger.</p>
             </div>
 
             <p>I ligninger af ulige grad er der altid mindst én løsning. Kun ligninger af lige grad (som 2., 4., og 6. grad) kan være helt uden løsninger.</p>
@@ -418,10 +420,10 @@
         <section id="bevis2-2" class="card proof">
             <h2>Bevis for sætning 2.2: Diskriminantformlen</h2>
             <p>I dette bevis indgår der to "gode ideer". Vi har ligningen:</p>
-            <p>$$ ax^2 + bx + c = 0 $$</p>
+            <p>$$ a \cdot x^2 + b \cdot x + c = 0 $$</p>
             
             <p><strong>Den første gode idé:</strong> Gang med \( 4a \) på begge sider af lighedstegnet:</p>
-            <p>$$ 4a \cdot ax^2 + 4a \cdot bx + 4a \cdot c = 4a \cdot 0 $$</p>
+            <p>$$ 4a \cdot a \cdot x^2 + 4a \cdot b \cdot x + 4a \cdot c = 4a \cdot 0 $$</p>
             <p>$$ 4a^2x^2 + 4abx + 4ac = 0 $$</p>
 
             <p><strong>Den anden gode idé:</strong> Læg \( d = b^2 - 4ac \) til på begge sider:</p>
@@ -506,10 +508,10 @@
                     xAxis: { domain: [-4, 4] },
                     yAxis: { domain: [-5, 5] },
                     data: [
-                        { fn: '2', color: '#3498db', graphType: 'polyline' },          // Grad 0
-                        { fn: 'x+1', color: '#e74c3c', graphType: 'polyline' },        // Grad 1
-                        { fn: 'x^2-2', color: '#27ae60', graphType: 'polyline' },      // Grad 2
-                        { fn: '0.5*x^3-2*x', color: '#f1c40f', graphType: 'polyline' } // Grad 3
+                        { fn: '2', color: '#3498db', graphType: 'polyline' },          
+                        { fn: 'x+1', color: '#e74c3c', graphType: 'polyline' },        
+                        { fn: 'x^2-2', color: '#27ae60', graphType: 'polyline' },      
+                        { fn: '0.5*x^3-2*x', color: '#f1c40f', graphType: 'polyline' } 
                     ]
                 });
             } catch(e) { console.log('Fejl i indlæsning af graf', e); }
