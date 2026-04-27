@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tal - STX Matematik A</title>
     
-    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="./style.css">
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script>
@@ -19,9 +19,9 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <script>
-        window.basePath = "../../"; 
+        window.basePath = "./"; 
     </script>
-    <script src="../../menu.js" defer></script>
+    <script src="./menu.js" defer></script>
 
     <style>
         .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
@@ -33,11 +33,15 @@
         .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
         .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
         .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+        
+        .img-placeholder { background: #ecf0f1; padding: 30px; text-align: center; border-radius: 8px; border: 2px dashed #bdc3c7; color: #7f8c8d; margin: 20px 0; font-style: italic; }
 
         @media (max-width: 600px) { .toc-list { columns: 1; } }
     </style>
 </head>
 <body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
 
     <main class="content">
         <header>
@@ -100,7 +104,9 @@
             <p>I samarbejde og handel opstår der behov for at arbejde med dele af helheder, dvs. brøkerne $\frac{p}{q}$, hvor $p$ og $q$ er naturlige tal. Både de naturlige tal og brøkerne er <strong>rationale tal</strong>.</p>
             <p>På Pythagoras’ tid var grækerne sikre på, at de rationale tal var tilstrækkelige til ethvert praktisk eller teoretisk formål. De havde verdensopfattelsen "alt er tal". Men så opstod der et problem: Hvad er længden $d$ af diagonalen i et kvadrat med siden 1?</p>
 
-            
+            <div class="img-placeholder">
+                Illustration: Et enhedskvadrat med sidelængden 1 og en diagonal med længden kvadratrod 2.
+            </div>
 
             <p>Ved at benytte Pythagoras’ sætning kunne pythagoræerne bevise, at $d^2 = 2$. Det lykkedes dem ikke at bestemme det eksakte rationale tal, som $d$ var lig med, og det blev i forlængelse heraf bevist, at $d$ simpelthen <em>ikke</em> kan være en brøk. Det var et alvorligt slag mod opfattelsen af tal som det grundlæggende for alt i verden.</p>
         </section>
@@ -130,7 +136,9 @@
             <h2>Tallinjen</h2>
             <p>Efter år 1700 fik de negative tal og $0$ samt en stor hob af andre tal liv og betydning vha. <strong>tallinjen</strong>. Tallinjen er en orienteret linje med et nulpunkt og en enhed.</p>
 
-            
+            <div class="img-placeholder">
+                Illustration: En tallinje, der markerer positive, negative tal, brøker og irrationale tal som pi og kvadratrod 2.
+            </div>
 
             <p>Sammenhængen mellem tal og tallinjen er, at der til ethvert punkt på tallinjen svarer et tal, og at der til ethvert tal svarer et punkt på tallinjen.</p>
             
@@ -141,6 +149,9 @@
         <section class="card">
             <h2>Grundlæggende talmængder</h2>
             
+            <div class="img-placeholder">
+                Illustration: Venndiagram over det reelle talsystem, der viser naturlige, hele, rationale og irrationale tal.
+            </div>
             
             <p>De matematiske talmængder udvider hinanden systematisk:</p>
             <ul>
