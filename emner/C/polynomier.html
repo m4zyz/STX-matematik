@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[SIDENS TITEL] - STX Matematik</title>
+    <title>Polynomier - STX Matematik</title>
     
     <link rel="stylesheet" href="../../style.css">
     
@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
 
     <script>
-        window.basePath = "../../"; // Husk at ændre denne sti, hvis filen ligger et andet sted!
+        window.basePath = "../../"; 
     </script>
     <script src="../../menu.js" defer></script>
 
@@ -78,72 +78,280 @@
 
     <main class="content">
         <header>
-            <h1 id="top">[HOVEDOVERSKRIFT]</h1>
-            <p class="subtitle">[Niveau, f.eks. A - niveau]</p>
+            <h1 id="top">Polynomier</h1>
+            <p class="subtitle">B - niveau</p>
         </header>
 
         <section class="card">
             <h2>Indholdsfortegnelse</h2>
             <ul class="toc-list">
-                <li><a href="#emne1"><span class="toc-num">1.</span>[Emne 1]</a></li>
-                <li><a href="#emne2"><span class="toc-num">2.</span>[Emne 2]</a></li>
-                <li><a href="#beviser"><span class="toc-num">3.</span>Beviser</a></li>
+                <li><a href="#typer"><span class="toc-num">1.</span>Typer af polynomier</a></li>
+                <li><a href="#andengradsligninger"><span class="toc-num">2.</span>Andengradsligninger</a></li>
+                <li><a href="#gyldnesnit"><span class="toc-num">3.</span>Det gyldne snit</a></li>
+                <li><a href="#parabler"><span class="toc-num">4.</span>Parabler</a></li>
+                <li><a href="#hoejeregrad"><span class="toc-num">5.</span>Polynomier af grad større end 2</a></li>
+                <li><a href="#beviser"><span class="toc-num">6.</span>Beviser</a></li>
             </ul>
         </section>
 
-        <div id="emne1" class="section-divider">
-            <h2>1. [Emne 1 Titel]</h2>
-            <p>[Kort beskrivelse af emnet]</p>
+        <div id="typer" class="section-divider">
+            <h2>1. Typer af polynomier</h2>
+            <p>Definitioner og grafer ordnet efter stigende grad</p>
         </div>
 
         <section class="card">
-            <h2>[Underoverskrift]</h2>
-            <p>Her kan du skrive din tekst. Brug <code>\( ... \)</code> til matematik inde i teksten, og <code>$$ ... $$</code> til store formler.</p>
-            
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition / Sætning: [Navn]</strong>
-                <p>Brug denne boks til at fremhæve vigtige formler eller definitioner.</p>
-            </div>
-        </section>
+            <h2>Hvad er et polynomium?</h2>
+            <p>En vigtig type funktioner er de såkaldte polynomier. Ordet polynomium betyder "mange led". Herunder er de ordnet efter stigende grad:</p>
 
-        <section class="card example">
-            <h2>Eksempel: [Titel på eksempel]</h2>
-            <p>Vis et regneeksempel trin for trin:</p>
-            <p>$$
-            \begin{gathered}
-            2x + 4 = 10 \\
-            \Downarrow \\
-            2x = 6 \\
-            \Downarrow \\
-            x = 3
-            \end{gathered}
-            $$</p>
+            <ul>
+                <li><strong>Nulte grad:</strong> En konstant funktion, dvs. en funktion af formen \( f(x) = k \). Grafen er en ret linje parallel med førsteaksen.</li>
+                <li><strong>Første grad:</strong> \( f(x) = a \cdot x + b \quad (a \neq 0) \). Grafen er en ret linje, der hverken er parallel med førsteaksen eller andenaksen.</li>
+                <li><strong>Anden grad:</strong> \( f(x) = a \cdot x^2 + b \cdot x + c \quad (a \neq 0) \). Grafen kaldes en parabel.</li>
+                <li><strong>Tredje grad:</strong> \( f(x) = a \cdot x^3 + b \cdot x^2 + c \cdot x + d \quad (a \neq 0) \).</li>
+            </ul>
+            <p>Herefter kommer fjerdegradspolynomier, femtegradspolynomier osv.</p>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
+        <div id="andengradsligninger" class="section-divider">
+            <h2>2. Andengradsligninger</h2>
+            <p>Grundlæggende ligninger og diskriminantformlen</p>
+        </div>
+
+        <section class="card">
+            <h2>Den grundlæggende andengradsligning</h2>
+            <p>Lad os se på en simpel problemstilling: Bestem siden i et kvadrat, så arealet bliver \( 25 \text{ cm}^2 \).</p>
+            <p>Siden i et kvadrat kaldes \( x \). Opgaven kan derfor oversættes til at løse ligningen: \( x^2 = 25 \).</p>
+            <p>Ligningen har løsningerne \( x = 5 \) eller \( x = -5 \). Tallet \( x = -5 \) har dog ingen interesse som løsning til den praktiske opgave, da en sidelængde ikke kan være negativ.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.1: Løsning af grundlæggende andengradsligning</strong>
+                <p>Givet andengradsligningen \( x^2 = p \). Da gælder:</p>
+                <ul>
+                    <li>Hvis \( p < 0 \), har ligningen ingen løsning.</li>
+                    <li>Hvis \( p = 0 \), har ligningen kun én løsning, nemlig \( x = 0 \).</li>
+                    <li>Hvis \( p > 0 \), har ligningen to løsninger, en positiv \( x = \sqrt{p} \) og en negativ \( x = -\sqrt{p} \).</li>
+                </ul>
+                <p>Når \( p \ge 0 \), kan de to sidste svar sammenfattes til \( x = \pm\sqrt{p} \).</p>
+            </div>
+            <p><strong>Vigtigt faktum:</strong> Når man udregner \( x^2 \), kan resultatet ikke blive negativt. Dette får ofte betydning, når man løser andengradsligninger.</p>
+        </section>
+
+        <section class="card">
+            <h2>Den generelle andengradsligning</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Andengradsligning</strong>
+                <p>En ligning af formen \( a \cdot x^2 + b \cdot x + c = 0 \), hvor \( a \neq 0 \), kaldes en andengradsligning.</p>
+            </div>
+            <p>Hvis man skal løse en andengradsligning uden hjælpemidler, benytter man diskriminantformlen.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.2: Diskriminantformlen</strong>
+                <p>Andengradsligningen \( a \cdot x^2 + b \cdot x + c = 0 \) løses således:</p>
+                <p>Først udregnes diskriminanten \( d = b^2 - 4ac \).</p>
+                <ul>
+                    <li>Hvis \( d < 0 \), har andengradsligningen <strong>ingen</strong> løsning.</li>
+                    <li>Hvis \( d = 0 \), giver formlen kun <strong>én</strong> løsning: \( x = -\frac{b}{2a} \).</li>
+                    <li>Hvis \( d > 0 \), giver formlen <strong>to</strong> løsninger: \( x = \frac{-b \pm \sqrt{d}}{2a} \).</li>
+                </ul>
+            </div>
+            <p><em>Se beviset for diskriminantformlen i bevis-sektionen nederst på siden.</em></p>
+        </section>
+
+        <section class="card example">
+            <h2>Eksempel: Et praktisk problem</h2>
+            <p>Bestem siderne i et rektangel, hvor længden er \( 4 \text{ cm} \) større end bredden, og hvor arealet er \( 12 \text{ cm}^2 \).</p>
+            <p>Bredden kaldes \( x \). Længden er derfor \( x + 4 \).</p>
+            <p>Vi opstiller ligningen:</p>
+            <p>$$
+            \begin{array}{rcll}
+            x \cdot (x + 4) &=& 12 & \small{\text{(gang ind i parentesen)}} \\
+            x^2 + 4x &=& 12 & \small{\text{(træk 12 fra på begge sider)}} \\
+            x^2 + 4x - 12 &=& 0 &
+            \end{array}
+            $$</p>
+            <p>Løses denne med diskriminantformlen (eller et CAS-værktøj), får vi \( x = -6 \) eller \( x = 2 \). Den negative løsning har ingen praktisk interesse. Svaret er altså, at bredden skal være \( 2 \text{ cm} \). Længden må så være \( 2 + 4 = 6 \text{ cm} \).</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="gyldnesnit" class="section-divider">
+            <h2>3. Det gyldne snit</h2>
+            <p>En berømt geometrisk anvendelse af andengradsligninger</p>
+        </div>
+
+        <section class="card">
+            <h2>Det gyldne snits ligning</h2>
+            <p>En berømt geometrisk opgave lyder således: Tegn et linjestykke AB, og del det op således, at forholdet mellem den store del og den lille del er det samme som forholdet mellem hele linjestykket og den store del.</p>
+
+            <div class="img-placeholder">
+                [Her kan du indsætte en illustration af linjestykket AB opdelt i x og y]
+            </div>
+
+            <p>Betingelserne i opgaven kan udtrykkes ved ligningen \( \frac{x}{y} = \frac{x+y}{x} \).</p>
+            <p>For at gøre regningerne lettere vælger vi en længdeenhed, så \( y = 1 \). Vi indsætter det i ligningen:</p>
+            <p>$$ x = \frac{x + 1}{x} $$</p>
+            <p>Vi ganger med \( x \) på begge sider og rykker alt over på venstre side:</p>
+            <p>$$ x^2 - x - 1 = 0 $$</p>
+            <p>Vi er hermed nået frem til den berømte andengradsligning for det gyldne snit. Den har løsningerne \( x = \frac{1 \pm \sqrt{5}}{2} \).</p>
+            <p>Her er det kun den positive løsning, der har interesse. Den betegnes ofte med det græske bogstav \( \Phi \) (stort phi):</p>
+            <p>$$ \Phi = \frac{1 + \sqrt{5}}{2} \approx 1{,}618 $$</p>
+            <p>Man siger, at punktet deler linjestykket i det gyldne snits forhold. Talmæssigt betyder det, at den store del er ca. 1,6 gange så lang som den lille del.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="parabler" class="section-divider">
+            <h2>4. Parabler</h2>
+            <p>Egenskaber for andengradspolynomiets graf</p>
+        </div>
+
+        <section class="card">
+            <h2>Skæring med første- og andenaksen</h2>
+            <p>Løsningerne til andengradsligningen \( a \cdot x^2 + b \cdot x + c = 0 \) svarer til parablens skæringspunkter med førsteaksen (x-aksen). Disse kaldes også for funktionens nulpunkter.</p>
+            <ul>
+                <li><strong>d > 0:</strong> Parablen har to skæringspunkter med førsteaksen.</li>
+                <li><strong>d = 0:</strong> Parablen berører førsteaksen i ét punkt.</li>
+                <li><strong>d < 0:</strong> Parablen skærer slet ikke førsteaksen.</li>
+            </ul>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.3: Parablens skæring med andenaksen</strong>
+                <p>Parablen, som er graf for \( f(x) = a \cdot x^2 + b \cdot x + c \), skærer altid andenaksen (y-aksen) i punktet \( (0, c) \).</p>
+                <p><em>Bevis:</em> Indsættes 0 på x's plads, fås \( f(0) = a \cdot 0^2 + b \cdot 0 + c = c \).</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Parablens toppunkt og symmetri</h2>
+            <p>Parablen er symmetrisk omkring en lodret linje gennem dens vendepunkt, kaldet toppunktet \( T \).</p>
+            
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.5: Parablens symmetri og toppunkt</strong>
+                <p>En parabel, som er graf for funktionen \( f(x) = ax^2 + bx + c \), er symmetrisk omkring den lodrette linje \( x = -\frac{b}{2a} \).</p>
+                <p>Parablens toppunkt \( T \) har førstekoordinaten \( x_T = -\frac{b}{2a} \) og andenkoordinaten \( y_T = f(x_T) = -\frac{d}{4a} \).</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Faktorisering og Toppunktsform</h2>
+            
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.6: Andengradspolynomiets faktorisering</strong>
+                <p>Hvis et andengradspolynomium \( p(x) = a \cdot x^2 + b \cdot x + c \) med positiv diskriminant har nulpunkterne \( x_1 \) og \( x_2 \), kan forskriften skrives på formen:</p>
+                <p>$$ p(x) = a \cdot (x - x_1)(x - x_2) $$</p>
+                <p>Dette gælder også for \( d = 0 \), hvor \( x_1 = x_2 \).</p>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.7: Parablens ligning på toppunktsform</strong>
+                <p>Hvis en parabel har toppunkt i \( (h, k) \), så kan forskriften for \( f \) skrives på formen:</p>
+                <p>$$ f(x) = a \cdot (x - h)^2 + k $$</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="hoejeregrad" class="section-divider">
+            <h2>5. Polynomier af grad større end 2</h2>
+            <p>Tredje-, fjerde- og femtegradspolynomier og deres rødder</p>
+        </div>
+
+        <section class="card">
+            <h2>Polynomiers rødder</h2>
+            <p>En rod \( x \) i et polynomium \( f(x) \) er en løsning til ligningen \( f(x) = 0 \).</p>
+            <p>For andengradsligninger har vi diskriminantformlen. For ligninger af femte grad eller højere er det bevist, at det er matematisk umuligt at finde en generel løsningsformel. Vi vil derfor normalt bruge et CAS-værktøj.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.8: Antal rødder i et polynomium</strong>
+                <p>Et polynomium \( p(x) \) af grad \( n \) har <strong>højst</strong> \( n \) rødder. Eller anderledes udtrykt: En n-tegradsligning har højst n løsninger.</p>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.9: Polynomium af ulige grad</strong>
+                <p>Et n-tegradspolynomium har mindst én rod, hvis \( n \) er et ulige tal (f.eks. grad 3, 5, 7).</p>
+            </div>
+            
+            <p>Man kan bevise, at ethvert polynomium af højere grad end 2 kan faktoriseres i et antal faktorer af formen \( x - r \) og et antal faktorer af formen \( ax^2 + bx + c \). I faktorerne \( x - r \) svarer r-værdierne til rødderne i polynomiet.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
 
         <div id="beviser" class="section-divider">
-            <h2>3. Beviser</h2>
+            <h2>6. Beviser</h2>
             <p>Samlet oversigt over matematiske beviser i dette emne</p>
         </div>
 
         <section class="card">
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis1">Bevis for [Sætning 1]</a></li>
+                <li><a href="#bevis2-2">Bevis for sætning 2.2: Diskriminantformlen</a></li>
+                <li><a href="#bevis2-6">Bevis for sætning 2.6: Andengradspolynomiets faktorisering</a></li>
             </ul>
         </section>
 
-        <section id="bevis1" class="card proof">
-            <h2>Bevis for [Sætning 1]</h2>
-            <p>Her kan du gennemgå beviset.</p>
+        <section id="bevis2-2" class="card proof">
+            <h2>Bevis for sætning 2.2: Diskriminantformlen</h2>
+            <p>I dette bevis indgår der to "gode ideer". Vi starter med standardligningen for et andengradspolynomium:</p>
+            <p>$$ ax^2 + bx + c = 0 $$</p>
             
-            <p>$$ a^2 + b^2 = c^2 $$</p>
+            <p><strong>Den første gode idé:</strong> Gang med \( 4a \) på begge sider af lighedstegnet:</p>
+            <p>$$ 4a \cdot ax^2 + 4a \cdot bx + 4a \cdot c = 4a \cdot 0 $$</p>
+            <p>$$ 4a^2x^2 + 4abx + 4ac = 0 $$</p>
 
+            <p><strong>Den anden gode idé:</strong> Læg \( d = b^2 - 4ac \) til på begge sider:</p>
+            <p>$$ 4a^2x^2 + 4abx + 4ac + b^2 - 4ac = b^2 - 4ac $$</p>
+            <p>På venstre side går \( 4ac \) og \( -4ac \) ud med hinanden. Højre side er lig med \( d \):</p>
+            <p>$$ 4a^2x^2 + 4abx + b^2 = d $$</p>
+
+            <p>Venstre side kan nu omskrives ved hjælp af første kvadratsætning (kvadratet på en toleddet størrelse):</p>
+            <p>$$ (2ax + b)^2 = d $$</p>
+
+            <p>Nu kan vi se, hvad diskriminanten \( d \) betyder. På venstre side står der en parentes opløftet i anden, hvilket betyder, at venstresiden aldrig kan blive negativ. Deraf følger delkonklusionen: Der er ingen løsninger, hvis diskriminanten \( d \) er negativ.</p>
+
+            <p>Vi forudsætter nu, at diskriminanten \( d \) ikke er negativ (\( d \ge 0 \)). Vi kan da tage kvadratroden på begge sider:</p>
+            <p>$$
+            \begin{aligned}
+            2ax + b &= \pm \sqrt{d} \\
+            2ax &= -b \pm \sqrt{d} \\
+            x &= \frac{-b \pm \sqrt{d}}{2a}
+            \end{aligned}
+            $$</p>
+            <p>Hermed er beviset for diskriminantformlen fuldført.</p>
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
             <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
         </section>
 
+        <section id="bevis2-6" class="card proof">
+            <h2>Bevis for sætning 2.6: Andengradspolynomiets faktorisering</h2>
+            <p>Vi vil bevise, at \( a \cdot x^2 + b \cdot x + c = a \cdot (x - x_1)(x - x_2) \).</p>
+            <p>Vi starter med højre side og ganger parenteserne sammen:</p>
+            <p>$$
+            \begin{aligned}
+            a \cdot (x - x_1)(x - x_2) &= a \cdot (x^2 - x_1x - xx_2 + x_1x_2) \\
+            &= a \cdot \left( x^2 - (x_1 + x_2) \cdot x + x_1x_2 \right) \quad (*)
+            \end{aligned}
+            $$</p>
+
+            <p>Vi skal nu udregne summen \( (x_1 + x_2) \) og produktet \( (x_1 \cdot x_2) \) af de to rødder, som vi kender fra diskriminantformlen:</p>
+            <p>$$
+            x_1 + x_2 = \frac{-b + \sqrt{d}}{2a} + \frac{-b - \sqrt{d}}{2a} = \frac{-2b}{2a} = -\frac{b}{a}
+            $$</p>
+            <p>$$
+            \begin{aligned}
+            x_1 \cdot x_2 &= \left( \frac{-b + \sqrt{d}}{2a} \right) \cdot \left( \frac{-b - \sqrt{d}}{2a} \right) \\
+            &= \frac{(-b)^2 - (\sqrt{d})^2}{4a^2} = \frac{b^2 - d}{4a^2} \\
+            &= \frac{b^2 - (b^2 - 4ac)}{4a^2} = \frac{4ac}{4a^2} = \frac{c}{a}
+            \end{aligned}
+            $$</p>
+
+            <p>Derefter indsætter vi resultaterne i vores udregning fra \( (*) \):</p>
+            <p>$$
+            \begin{aligned}
+            a \cdot \left( x^2 - \left(-\frac{b}{a}\right) \cdot x + \frac{c}{a} \right) &= a \cdot \left( x^2 + \frac{b}{a} \cdot x + \frac{c}{a} \right) \\
+            &= a \cdot x^2 + b \cdot x + c
+            \end{aligned}
+            $$</p>
+            <p>Hermed er sætning 2.6 bevist.</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
 
         <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
 
@@ -158,7 +366,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // functionPlot({ ... });
+            // Tilføj gerne dine interaktive function-plot scripts her, hvis du vil 
+            // illustrere bestemte parabler under afsnit 4.
         });
     </script>
 
