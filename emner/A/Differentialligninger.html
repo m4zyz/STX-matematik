@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funktioner og Trigonometri - STX Matematik A</title>
+    <title>Differentialligninger - STX Matematik A</title>
     
     <link rel="stylesheet" href="../../style.css">
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    
     <script>
     MathJax = {
       tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
+        inlineMath: [['$', '$']]
       }
     };
     </script>
@@ -27,22 +25,53 @@
     <script src="../../menu.js" defer></script>
 
     <style>
-        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
         .toc-list li { margin-bottom: 8px; break-inside: avoid; }
         .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
         .toc-list a:hover { text-decoration: underline; }
         .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
 
-        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
         .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
         .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
 
-        .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        /* Tabeller */
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
         
-        /* Gør selve graferne helt statiske for musen */
-        .svg-container > div { pointer-events: none; }
+        /* Billed-container til grafer og SVG */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
 
-        @media (max-width: 600px) { .toc-list { columns: 1; } }
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { 
+            pointer-events: none; 
+        }
+
+        @media (max-width: 600px) {
+            .toc-list { columns: 1; }
+            .data-table { font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body>
@@ -51,179 +80,360 @@
 
     <main class="content">
         <header>
-            <h1 id="top">Funktioner og Trigonometri</h1>
+            <h1 id="top">Differentialligninger</h1>
             <p class="subtitle">A - niveau</p>
         </header>
 
         <section class="card">
             <h2>Indholdsfortegnelse</h2>
             <ul class="toc-list">
-                <li><a href="#invers"><span class="toc-num">1.</span>Invers funktion</a></li>
-                <li><a href="#trigonometri"><span class="toc-num">2.</span>Trigonometriske funktioner</a></li>
-                <li><a href="#harmonisk"><span class="toc-num">3.</span>Harmoniske svingninger</a></li>
-                <li><a href="#forskydning"><span class="toc-num">4.</span>Parallelforskydning af grafer</a></li>
-                <li><a href="#beviser"><span class="toc-num">5.</span>Beviser</a></li>
+                <li><a href="#intro"><span class="toc-num">1.</span>Introduktion</a></li>
+                <li><a href="#proeve"><span class="toc-num">2.</span>At gøre prøve</a></li>
+                <li><a href="#tangent"><span class="toc-num">3.</span>Bestemmelse af tangentligninger</a></li>
+                <li><a href="#haeldning"><span class="toc-num">4.</span>Linjeelementer og hældningsfelter</a></li>
+                <li><a href="#vaekst"><span class="toc-num">5.</span>Simple vækstmodeller</a></li>
+                <li><a href="#separable"><span class="toc-num">6.</span>Separable differentialligninger</a></li>
+                <li><a href="#lineaere"><span class="toc-num">7.</span>Lineære differentialligninger (1. orden)</a></li>
+                <li><a href="#opstilling"><span class="toc-num">8.</span>Opstilling af differentialligninger</a></li>
+                <li><a href="#beviser"><span class="toc-num">9.</span>Beviser</a></li>
             </ul>
         </section>
 
-        <div id="invers" class="section-divider">
-            <h2>1. Invers funktion</h2>
-            <p>Operationer der ophæver hinanden, og grafernes spejling</p>
+        <div id="intro" class="section-divider">
+            <h2>1. Introduktion</h2>
+            <p>Hvad er en differentialligning, og hvad vil det sige at løse den?</p>
         </div>
 
         <section class="card">
-            <h2>Kvadratrod og i anden</h2>
-            <p>Vi forudsætter her, at $x \ge 0$. I så fald har ligningen $x^2 = 16$ kun løsningen $x = 4$, og ligningen $x^2 = 81$ har kun løsningen $x = 9$.</p>
-            <p>Mere generelt gælder, at når $a \ge 0$ og $x \ge 0$, så er $x^2 = a$ ensbetydende med, at $x = \sqrt{a}$. At tage kvadratroden er den inverse (omvendte) operation af at sætte i anden.</p>
+            <h2>Fra almindelige ligninger til differentialligninger</h2>
+            <p>At løse en almindelig ligning som for eksempel $x^2 - 3x - 4 = 0$ drejer sig om at finde de talværdier for den ubekendte $x$, der gør ligningen sand.</p>
+            <p>Når der er tale om at løse en differentialligning, drejer det sig om at finde forskriften for de <em>funktioner</em>, der gør ligningen sand for alle $x$.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition: Invers funktion for $x^2$</strong>
-                <p>For $x \ge 0$ er $f^{-1}(x) = \sqrt{x}$ den inverse funktion til funktionen $f(x) = x^2$.</p>
-                <p>Grafen for $f^{-1}(x)$ tegnes ved at spejle grafen for $f(x)$ i den rette linje med ligningen $y = x$.</p>
-            </div>
-
-            <div class="svg-container">
-                <div id="graf-invers-kvadrat"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: $f(x) = x^2$ | Grøn: $f^{-1}(x) = \sqrt{x}$ | Rød: Spejlingslinjen $y = x$</p>
-            </div>
-
-            <p><strong>Bemærkning:</strong> Hvis funktionen $f$ skal have en invers funktion, må der til enhver y-værdi højst høre én x-værdi. Hvis vi tillod negative x-værdier, ville $y = x^2$ for enhver positiv y-værdi have to tilhørende x-værdier (f.eks. både $x = 4$ og $x = -4$ giver $y = 16$). Derfor begrænser vi os til $x \ge 0$.</p>
-        </section>
-
-        <section class="card">
-            <h2>Eksponential- og logaritmefunktioner</h2>
-            <p>Ifølge definitionen af den naturlige logaritmefunktion gælder:</p>
-            <p>$$\ln(x) = y \quad \Leftrightarrow \quad x = e^y$$</p>
-            <p>Definitionen fortæller, at ligningen $\ln(x) = 5$ har én løsning, nemlig $x = e^5$. Mere generelt løser man ligningen $\ln(x) = a$ ved at tage den naturlige eksponentialfunktion på begge sider. De to er nemlig inverse operationer, og der gælder $e^{\ln(a)} = a$ og $\ln(e^a) = a$.</p>
-
-            <div class="svg-container">
-                <div id="graf-invers-exp"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: $f(x) = e^x$ | Grøn: $f^{-1}(x) = \ln(x)$ | Rød: Spejlingslinjen $y = x$</p>
-            </div>
-        </section>
-
-        <div id="trigonometri" class="section-divider">
-            <h2>2. Trigonometriske funktioner</h2>
-            <p>Radianer, enhedscirklen og de periodiske funktioner</p>
-        </div>
-
-        <section class="card">
-            <h2>Radian</h2>
-            <p>I trekantsberegning bruges vinkler oftest i grader, men for de trigonometriske funktioner cosinus og sinus bruger vi primært enheden <strong>radian</strong>. Radian defineres ud fra enhedscirklen (en cirkel med radius 1).</p>
-            
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition: Radiantal</strong>
-                <p>En vinkels radiantal er lig med længden af den cirkelbue, vinklen spænder over i en cirkel med radius 1.</p>
-            </div>
-
-            <p>Da omkredsen af enhedscirklen er $2\pi \cdot 1 = 2\pi$, svarer en hel cirkel ($360^\circ$) til $2\pi$ radianer.</p>
-
-            <figure style="text-align: center; margin: 30px 0;">
-                
-                <figcaption style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Enhedscirklen med vinkler i både grader og radianer.</figcaption>
-            </figure>
-
-            <p>Ved omregning mellem grader og radian benyttes disse to simple formler:</p>
-            <ul>
-                <li>Gradtal $v$ omsat til radiantal $x$: $$x = \frac{v}{360} \cdot 2\pi \text{ radian}$$</li>
-                <li>Radiantal $x$ omsat til gradtal $v$: $$v = \frac{x}{2\pi} \cdot 360 \text{ grader}$$</li>
-            </ul>
-        </section>
-
-        <section class="card">
-            <h2>De periodiske grafer for sin og cos</h2>
-            <p>En forøgelse af x-værdien med $2\pi$ svarer på enhedscirklen til en hel omgang, hvor man ender i præcis samme retningspunkt. Derfor gælder der:</p>
-            <p>$$\cos(x) = \cos(x + p \cdot 2\pi)$$</p>
-            <p>$$\sin(x) = \sin(x + p \cdot 2\pi)$$</p>
-            <p>hvor $p$ er et vilkårligt helt tal. Denne egenskab betyder, at funktionerne "gentager sig selv" efter et interval på $2\pi$. Funktionerne kaldes periodiske med perioden $2\pi$.</p>
-
-            <div class="svg-container">
-                <div id="graf-trig"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå: $\sin(x)$ | Rød: $\cos(x)$</p>
-            </div>
-            
-            <h3>Differentialkvotient af cos og sin</h3>
-            <p>Funktionerne er differentiable overalt. Ved differentiation af de trigonometriske funktioner (når $x$ er i radianer) gælder:</p>
-            <p>$$\cos'(x) = -\sin(x)$$</p>
-            <p>$$\sin'(x) = \cos(x)$$</p>
-        </section>
-
-        <div id="harmonisk" class="section-divider">
-            <h2>3. Harmoniske svingninger</h2>
-            <p>Fysiske modeller beskrevet af trigonometri</p>
-        </div>
-
-        <section class="card">
-            <h2>Matematikken bag bølger og svingninger</h2>
-            <p>Mange fænomener i virkeligheden kan beskrives som bølger eller svingninger - fra tidevand og temperaturudsving til lyd og penduler. Disse kan ofte modelleres af en harmonisk svingning.</p>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition: Harmonisk svingning</strong>
-                <p>En harmonisk svingning beskrives ved formlen:</p>
-                <p>$$y = A \cdot \sin(\omega \cdot t + \phi)$$</p>
+                <strong>Definition: Differentialligning</strong>
+                <p>En differentialligning er en ligning, hvori der indgår en eller flere differentialkvotienter $f'(x), f''(x), ...$ og eventuelt også funktionen $f(x)$ selv.</p>
                 <ul>
-                    <li><strong>$t$:</strong> Den uafhængige variabel (ofte tiden).</li>
-                    <li><strong>$A$:</strong> Amplituden (svingningens maksimale udsving fra midten).</li>
-                    <li><strong>$\omega$:</strong> Vinkelhastigheden.</li>
-                    <li><strong>$\phi$:</strong> Begyndelsesfasen eller faseforskydningen.</li>
+                    <li><strong>Orden:</strong> Ligninger med $f'(x)$ (eller $y'$) kaldes 1. ordens. Indgår der $f''(x)$, er det 2. ordens osv.</li>
+                    <li><strong>Løsning:</strong> En funktion, der opfylder ligningen, kaldes en <em>partikulær løsning</em>, og grafen kaldes en <em>løsningskurve</em> (eller integralkurve). Definitionsmængden skal være et interval.</li>
+                    <li>Samtlige løsninger til differentialligningen udgør den <em>fuldstændige løsning</em>.</li>
                 </ul>
             </div>
-            <p>Ud fra vinkelhastigheden kan man bestemme frekvensen $f = \frac{\omega}{2\pi}$ og svingningstiden (perioden) $T = \frac{2\pi}{\omega}$.</p>
+
+            <p>Differentialligningerne $f'(x) = \frac{6}{x}$ og $\frac{d^2y}{dx^2} = k$ fra eksemplerne i bogen er af en simpel type, der umiddelbart kan løses ved hjælp af stamfunktionsbestemmelse. Andre typer kræver helt andre løsningsmetoder.</p>
             
-            <div class="svg-container">
-                <div id="graf-harmonisk"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Eksempel på harmonisk svingning: $y = 3 \cdot \sin(2 \cdot t + 1)$</p>
-            </div>
-            
+            <p>Der findes en række måder at skrive differentialkvotienten for $y = f(x)$ på:</p>
+            <p>$$y' = f'(x) = \left( f(x) \right)' = \frac{dy}{dx} = \frac{d}{dx}\left( f(x) \right)$$</p>
         </section>
 
-        <div id="forskydning" class="section-divider">
-            <h2>4. Parallelforskydning af grafer</h2>
-            <p>At rykke en funktion i koordinatsystemet</p>
+        <div id="proeve" class="section-divider">
+            <h2>2. At gøre prøve</h2>
+            <p>Kontrol af, om en given funktion er en løsning</p>
+        </div>
+
+        <section class="card example">
+            <h2>Eksempel: At gøre prøve</h2>
+            <p>Det kan i nogle tilfælde være svært at løse en given differentialligning fra bunden. Ofte er det lettere at se efter, om en given funktion er en løsning. Dette kaldes at <em>gøre prøve</em>.</p>
+            
+            <p><strong>Opgave:</strong> Undersøg, om funktionen $f(x) = \sqrt{x^2 + 3}$ er en løsning til differentialligningen:</p>
+            <p>$$\frac{dy}{dx} = \frac{x}{y}, \quad y > 0$$</p>
+
+            <p><strong>Løsning:</strong> Vi gør prøve ved at indsætte $y = f(x) = \sqrt{x^2 + 3}$ i henholdsvis venstresiden og højresiden af differentialligningen og se efter, om det giver det samme.</p>
+            
+            <p><strong>Venstresiden (differentierer):</strong></p>
+            <p>$$ \frac{dy}{dx} = f'(x) = \left( \sqrt{x^2 + 3} \right)' = \frac{1}{2\sqrt{x^2 + 3}} \cdot 2x = \frac{x}{\sqrt{x^2 + 3}} $$</p>
+
+            <p><strong>Højresiden (indsætter):</strong></p>
+            <p>$$ \frac{x}{y} = \frac{x}{f(x)} = \frac{x}{\sqrt{x^2 + 3}} $$</p>
+
+            <p>Da venstresiden er præcis lig med højresiden, er $f(x) = \sqrt{x^2 + 3}$ en løsning til differentialligningen.</p>
+        </section>
+
+        <div id="tangent" class="section-divider">
+            <h2>3. Bestemmelse af tangentligninger</h2>
+            <p>At finde tangenten uden at kende funktionens forskrift</p>
         </div>
 
         <section class="card">
-            <h2>At forskyde med en vektor</h2>
-            <p>Parablen, der er graf for $f(x) = a \cdot x^2$, føres ved en parallelforskydning på stykket $h$ i x-aksens retning og stykket $k$ i y-aksens retning over i parablen $g(x) = a \cdot (x - h)^2 + k$. Dette gælder generelt for alle funktionstyper.</p>
+            <h2>Tangenthældninger fra differentialligningen</h2>
+            <p>I mange 1. ordens differentialligninger er $\frac{dy}{dx}$ udtrykt ved $x$ og $y$. Det kan benyttes til at bestemme ligningen for en tangent til en løsningskurve $y = f(x)$ i et givet punkt $(x_0, f(x_0))$, selv om man slet ikke kender en forskrift for funktionen $f(x)$! Dette lader sig gøre, da tangenthældningen i punktet netop er $\frac{dy}{dx} = f'(x_0)$, som kan udregnes ved hjælp af udtrykket i $x$ og $y$.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Eksempel: Tangentligning ud fra $y' = x + y$</h2>
+            <p>Vi betragter differentialligningen $\frac{dy}{dx} = x + y$. Det oplyses, at grafen for en bestemt partikulær løsning $f(x)$ går gennem punktet $P(1, 2)$. Vi ønsker at bestemme en ligning for tangenten til grafen for $f$ i punktet $P$.</p>
+            
+            <p>Tangenthældningen i $P$ er:</p>
+            <p>$$f'(1) = 1 + 2 = 3$$</p>
+            
+            <p>Ligningen for denne tangent findes med standardformlen $y - y_0 = a(x - x_0)$:</p>
+            <p>$$y - 2 = 3(x - 1) \quad \Leftrightarrow \quad y = 3x - 1$$</p>
+
+            <p>Tangenten fortæller os, hvor stejl løsningskurven er i punktet $P$. Vi kan derfor få et indtryk af, hvordan løsningskurven kan se ud i nærheden af $P$.</p>
+            <div class="svg-container">
+                <div id="graf-tangent"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En skitseret løsningskurve gennem $P(1,2)$ og tangenten $y = 3x - 1$ (grøn).</p>
+            </div>
+        </section>
+
+        <div id="haeldning" class="section-divider">
+            <h2>4. Linjeelementer og hældningsfelter</h2>
+            <p>Visuel repræsentation af differentialligninger</p>
+        </div>
+
+        <section class="card">
+            <h2>Hvad er et linjeelement?</h2>
+            <p>Ved et linjeelement forstås et talsæt $(x_0, y_0 ; a)$. Navnet kommer af, at $(x_0, y_0)$ opfattes som koordinater for et punkt $P$, og $a$ opfattes som hældningen for et lille linjestykke, der går gennem $P$.</p>
+            
+            <p>Grafen for en løsning $f(x)$ til en differentialligning siges at gå gennem linjeelementet $(x_0, y_0 ; a)$, hvis:</p>
+            <p>$$f(x_0) = y_0 \quad \text{og} \quad f'(x_0) = a$$</p>
+            <p>At en løsningskurve går gennem et linjeelement, betyder altså, at linjeelementet <em>tangerer</em> kurven i det givne punkt.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Hældningsfelt</h2>
+            <p>Tegner man et stort antal linjeelementer hørende til en given differentialligning af 1. orden, har man et <strong>hældningsfelt</strong> hørende til differentialligningen.</p>
+            <p>Hældningsfelter er bl.a. interessante, fordi man ofte - uden at løse den givne differentialligning - kan danne sig et indtryk af løsningskurverne.</p>
+
+            <div class="svg-container">
+                <div id="graf-haeldningsfelt"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Et matematisk præcist hældningsfelt for differentialligningen $y' = -y + x$.</p>
+            </div>
+        </section>
+
+        <div id="vaekst" class="section-divider">
+            <h2>5. Simple vækstmodeller</h2>
+            <p>Eksponentiel, forskudt og logistisk vækst</p>
+        </div>
+
+        <section class="card">
+            <h2>Tre fundamentale væksthypoteser</h2>
+            <p>Vi minder om, at hvis $y(t)$ er en differentiabel funktion, hvor $t$ betegner tiden, er $y'(t)$ væksthastigheden til tidspunktet $t$.</p>
+            <p>Når man skal opstille en model, er det i many tilfælde lettere at tage udgangspunkt i en hypotese vedrørende væksthastigheden end funktionen selv. Hypoteserne drejer sig ofte om, hvordan $y'$ afhænger af $y$. Tre klassiske hypoteser fører til disse ligninger:</p>
+            <ol>
+                <li>$y'$ er en konstant (Lineær vækst). Løsningen er $y(t) = k \cdot t + c$.</li>
+                <li>$y'$ er proportional med $y$ (Uhæmmet eksponentiel vækst).</li>
+                <li>$y'$ er en lineært aftagende funktion af $y$ (Modellen dæmpes over tid).</li>
+            </ol>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 1.2: Parallelforskydning af grafer</strong>
-                <p>Grafen for funktionen $g(x) = f(x - h) + k$ fremkommer af grafen for funktionen $f(x)$ ved en parallelforskydning på stykket $h$ i x-aksens retning og stykket $k$ i y-aksens retning.</p>
+                <strong>Sætning 2.1: Løsning af differentialligningen y' = k ⋅ y</strong>
+                <p>Differentialligningen $y' = k \cdot y$ har den fuldstændige løsning:</p>
+                <p>$$y(t) = c \cdot e^{k \cdot t}$$</p>
+                <p>hvor $c$ er et tal.</p>
             </div>
-            <p>At "forskyde grafen stykket $h$ i x-aksens retning og stykket $k$ i y-aksens retning" kaldes også matematisk for at "forskyde grafen efter vektor $\binom{h}{k}$".</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.2: Løsning af differentialligningen y' = b - a ⋅ y</strong>
+                <p>Differentialligningen $y' = b - a \cdot y$ (hvor $a > 0$) har den fuldstændige løsning:</p>
+                <p>$$y(t) = \frac{b}{a} + c \cdot e^{-a \cdot t}$$</p>
+                <p>hvor $c$ er et tal. For enhver løsning gælder, at $f(t)$ nærmer sig værdien $\frac{b}{a}$, når $t$ går mod uendelig.</p>
+            </div>
+        </section>
+
+        <section class="card example">
+            <h2>Logistisk vækst</h2>
+            <p>I stedet for at se på væksthastigheden $y'(t)$ for funktionen $y(t)$ er det nogle gange nyttigt at tage udgangspunkt i den <strong>relative væksthastighed</strong> $\frac{y'(t)}{y(t)}$. En antagelse om, at den relative væksthastighed er konstant, fører til differentialligningen $y' = k \cdot y$.</p>
             
+            <p>Vi vil nu se nærmere på den hypotese, at den relative væksthastighed $\frac{y'}{y}$ aftager lineært med $y$: $\frac{y'}{y} = b - a \cdot y$, hvor $a$ og $b$ er positive tal, og $y > 0$.</p>
+            <p>En lille omskrivning giver:</p>
+            <p>$$y' = y \cdot (b - a \cdot y)$$</p>
+            <p>Eller ved at sætte $M = \frac{b}{a}$:</p>
+            <p>$$y' = a \cdot y \cdot (M - y)$$</p>
+            
+            <p>De to sidste ligninger kaldes <strong>logistiske differentialligninger</strong>. De er vigtige, for i many tilfælde fører de til en rimelig beskrivelse af bl.a. enkeltindividers og populationers vækst, logistisk vækst.</p>
+            <p>Ligningerne udtrykker, at væksthastigheden $y'(t)$ er proportional med produktet af størrelsen $y(t)$ og den afstand, der er mellem $y(t)$ og en øvre grænse $M$. I hypotesen er der altså indbygget en dæmpning af væksten. I biologiske sammenhænge kaldes den øvre grænse $M$ for <strong>bæreevnen</strong>.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.3b: Løsning af den logistiske differentialligning 2</strong>
+                <p>Den logistiske differentialligning $y' = a \cdot y \cdot (M - y)$ har den fuldstændige løsning:</p>
+                <p>$$y(t) = 0 \text{ og } y(t) = \frac{M}{1 + c \cdot e^{-a \cdot M \cdot t}}$$</p>
+                <p>hvor $c$ er et tal.</p>
+            </div>
+            
+            <p>For enhver løsning gælder y(t) $\to M$, når t $\to \infty$. I området $0 < y < M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
+
+            <div class="svg-container">
+                <div id="graf-logistisk"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En klassisk S-formet logistisk vækstkurve. Bæreevnen $M$ er markeret med den rød stiplet linje.</p>
+            </div>
+        </section>
+
+        <div id="separable" class="section-divider">
+            <h2>6. Separable differentialligninger</h2>
+            <p>Løsning ved at "separere de variable" og samle x på den ene side og y på den anden</p>
+        </div>
+
+        <section class="card">
+            <h2>Definition og metode</h2>
+            <p>Differentialligninger af 1. orden, der kan skrives på formen $\frac{dy}{dx} = h(x) \cdot g(y)$, kaldes <strong>separable differentialligninger</strong>.</p>
+            
+            <p>Metoden går ud på at omskrive ligningen, så vi behandler symbolet $\frac{dy}{dx}$ som en brøk og separerer (adskiller) de variable. Det smarte er bl.a., at man i nogle sammenhænge kan behandle $\frac{dy}{dx}$ som en brøk:</p>
+
+            <p>$$
+            \begin{aligned}
+            \frac{dy}{dx} &= h(x) \cdot g(y) \\
+            \frac{1}{g(y)} \cdot \frac{dy}{dx} &= h(x) \\
+            \frac{1}{g(y)} dy &= h(x) dx \\
+            \int \frac{1}{g(y)} dy &= \int h(x) dx
+            \end{aligned}
+            $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.4: Separation af de variable</strong>
+                <p>Antag, at funktionen $h$ er kontinuert, og at funktionen $g$ er kontinuert og forskellig fra 0.</p>
+                <p>Da gælder: $y = f(x)$ er løsning til $\frac{dy}{dx} = h(x) \cdot g(y)$ netop når:</p>
+                <p>$$\int \frac{1}{g(y)} dy = \int h(x) dx$$</p>
+            </div>
+        </section>
+
+        <div id="lineaere" class="section-divider">
+            <h2>7. Lineære differentialligninger af 1. orden</h2>
+            <p>Lineære differentialligninger er ligninger af typen y' + a(x)y = b(x)</p>
+        </div>
+
+        <section class="card">
+            <h2>Homogene og inhomogene ligninger</h2>
+            <p>Ligningen $y' + a(x) \cdot y = b(x)$ siges at være homogen, hvis $b(x)$ er nulfunktionen. I modsat fald kaldes ligningen inhomogen.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nummer</th>
+                        <th>Ligning</th>
+                        <th>$a(x)$</th>
+                        <th>$b(x)$</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>$y' + y = x$</td>
+                        <td>1</td>
+                        <td>$x$</td>
+                        <td>Inhomogen</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>$y' - 2y = 2$</td>
+                        <td>-2</td>
+                        <td>2</td>
+                        <td>Inhomogen</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>$y' - \frac{1}{x}y = 4x^2$</td>
+                        <td>$- \frac{1}{x}$</td>
+                        <td>$4x^2$</td>
+                        <td>Inhomogen</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>$y' + 2xy = 0$</td>
+                        <td>$2x$</td>
+                        <td>0</td>
+                        <td>Homogen</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>$y' + \frac{2x}{x^2 - 5}y = 0$</td>
+                        <td>$\frac{2x}{x^2 - 5}$</td>
+                        <td>0</td>
+                        <td>Homogen</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>$y' = - 3y + e^x$</td>
+                        <td>3</td>
+                        <td>$e^x$</td>
+                        <td>Inhomogen</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>$y' = \cos(x) - y$</td>
+                        <td>1</td>
+                        <td>$\cos(x)$</td>
+                        <td>Inhomogen</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>$y' = \cos(x)y$</td>
+                        <td>$-\cos(x)$</td>
+                        <td>0</td>
+                        <td>Homogen</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>$y' = - \cos(x)y + e^{\sin(x)}$</td>
+                        <td>$\cos(x)$</td>
+                        <td>$e^{\sin(x)}$</td>
+                        <td>Inhomogen</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Det er underforstået, at $a(x)$ ikke er nulfunktionen.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.5: Løsning af den lineære differentialligning af 1. orden</strong>
+                <p>Den lineære differentialligning of 1. orden $y' + a(x) \cdot y = b(x)$ har den fuldstændige løsning:</p>
+                <p>$$y(x) = e^{-A(x)} \cdot \int b(x) \cdot e^{A(x)} dx + c \cdot e^{-A(x)}$$</p>
+                <p>hvor $A(x)$ er en stamfunktion til funktionen $a(x)$, og $c$ er et tal.</p>
+            </div>
+            <p>Panserformlen kan umiddelbart se vanskelig ud, men ofte er den ikke så svær at bruge i praksis.</p>
+        </section>
+
+        <div id="opstilling" class="section-divider">
+            <h2>8. Opstilling af differentialligninger</h2>
+            <p>Fra sproglig beskrivelse til matematisk model</p>
+        </div>
+
+        <section class="card">
+            <h2>At oversætte tekst til matematik</h2>
+            <p>Det er ofte vigtigt at kunne opstille 1. ordens differentialligninger ud fra en sproglig beskrivelse af et fænomen. Fælles for de klassiske eksempler (afkøling, populationsvækst etc.) er, at den sproglige beskrivelse giver en oplysning om væksthastigheden, som netop er lig differentialkvotienten. Desuden kan oplysningen "… er proportional med …" oversættes til "… er lig en konstant gange …". Ved at udnytte dette kan den sproglige beskrivelse oversættes til en 1. ordens differentialligning.</p>
+            
+            <p>Vi minder om et konkret eksempel på et vækstproblem: For en bestemt population er væksthastigheden af populationen proportional med populationens størrelse. Ud fra denne beskrivelse opstillede vi differentialligningen:</p>
+            <p>$$N'(t) = k \cdot N(t)$$</p>
+            <p>hvor $N(t)$ betegner antallet af individer i populationen til tiden $t$, og $k$ er en proportionalitetsfaktor.</p>
         </section>
 
         <div id="beviser" class="section-divider">
-            <h2>5. Beviser</h2>
+            <h2>9. Beviser</h2>
             <p>Samlet oversigt over matematiske beviser i dette emne</p>
         </div>
 
         <section class="card">
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-radian">Bevis for omregningsformlen mellem grader og radianer</a></li>
+                <li><a href="#bevis-separabel">Bevis for Sætning 2.1 (Eksponentiel vækst $y'=k \cdot y$) ved separation af variable</a></li>
             </ul>
         </section>
 
-        <section id="bevis-radian" class="card proof">
-            <h2>Bevis for omregningsformlen mellem grader og radianer</h2>
-            <p>Vi ønsker at vise sammenhængen mellem en vinkel $v$ målt i grader og samme vinkel $x$ målt i radianer.</p>
+        <section id="bevis-separabel" class="card proof">
+            <h2>Bevis for Sætning 2.1 ($y'=k \cdot y$) ved separation af variable</h2>
+            <p>Vi ønsker at vise, at løsningen til differentialligningen $y' = k \cdot y$ er $y(t) = c \cdot e^{k \cdot t}$. Vi benytter metoden for separation af de variable (Sætning 2.4).</p>
             
-            <p>En hel cirkel svarer til $360^\circ$.<br>
-            Omkredsen på enhedscirklen (hvor radius $r = 1$) er givet ved formlen for cirklens omkreds:</p>
-            <p>$$O = 2 \cdot \pi \cdot r = 2 \cdot \pi \cdot 1 = 2\pi$$</p>
+            <p>Der gælder $y'= \frac{dy}{dt}$. Differentialligningen kan skrives:</p>
+            <p>$$\frac{dy}{dt} = k \cdot y$$</p>
 
-            <p>Dermed svarer en fuld cirkel i radianer til $2\pi$. Forholdet mellem en vilkårlig vinkel og hele cirklen må være det samme, uanset om vi måler i grader eller radianer. Vi kan derfor opstille følgende ligning for forholdet:</p>
-            
-            <p>$$\frac{v}{360} = \frac{x}{2\pi}$$</p>
+            <p>Først omskriver vi ligningen, så vi separerer (adskiller) de variable ved at samle alt med y på den ene side af lighedstegnet og alt med t (tiden) på den anden side:</p>
+            <p>$$\frac{1}{y} \frac{dy}{dt} = k$$</p>
 
-            <p>Vi isolerer nu $x$ (vinklen i radianer) ved at gange med $2\pi$ på begge sider af lighedstegnet:</p>
-            <p>$$x = \frac{v}{360} \cdot 2\pi$$</p>
+            <p>Derefter omskriver vi til et udtryk i dy og dt og integrerer på begge sider:</p>
+            <p>$$\int \frac{1}{y} dy = \int k dt$$</p>
 
-            <p>Og for at finde gradtallet, kan vi tilsvarende isolere $v$ ved at gange med $360$ på begge sider i det oprindelige forhold:</p>
-            <p>$$v = \frac{x}{2\pi} \cdot 360$$</p>
+            <p>Vi differentierer VS og HS hver for sig:</p>
+            <p>VS: $\int \frac{1}{y} dy = \ln|y|$</p>
+            <p>HS: $\int k dt = k \cdot t + k_1$, hvor $k_1$ er et tal.</p>
+            <p>Altså gælder:</p>
+            <p>$$\ln|y| = k \cdot t + k_1$$</p>
 
+            <p>Vi tager nu eksponentialfunktionen på begge sider for at isolere $y$:</p>
+            <p>$$e^{\ln|y|} = e^{k \cdot t + k_1}$$</p>
+            <p>$$|y| = e^{k \cdot t} \cdot e^{k_1}$$</p>
+            <p>Da $|y|$ må være positiv, kan vi omskrive y til formen $y(t) = c \cdot e^{k \cdot t}$, hvor $c$ er et tal.</p>
+
+            <p>Hermed er sætningen bevist.</p>
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
         </section>
 
@@ -240,67 +450,97 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Funktion til at generere matematisk præcise hældningsfelter
+            function generateSlopeFieldData(L, h, xStart, xEnd, yStart, yEnd) {
+              const lineData = [];
+              for (let x = xStart; x <= xEnd; x += h) {
+                for (let y = yStart; y <= yEnd; y += h) {
+                  // Equation y' = -y + x
+                  const m = -y + x;
+                  const theta = Math.atan(m);
+                  const dx = (L / 2) * Math.cos(theta);
+                  const dy = (L / 2) * Math.sin(theta);
+                  lineData.push({
+                    fnType: 'points',       // PÅKRÆVET: fortæller function-plot at bruge punktlister
+                    graphType: 'polyline',
+                    points: [
+                      [x - dx, y - dy],
+                      [x + dx, y + dy]
+                    ]
+                  });
+                }
+              }
+              return lineData;
+            }
+
             try {
-                // 1. Invers graf: x^2 og sqrt(x)
+                // 1. Graf til Tangent-eksempel (dy/dx=x+y gennem P(1,2))
                 functionPlot({
-                    target: '#graf-invers-kvadrat',
+                    target: '#graf-tangent',
                     disableZoom: true,
-                    width: document.getElementById('graf-invers-kvadrat').parentElement.clientWidth - 40,
+                    width: document.getElementById('graf-tangent').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
-                    xAxis: { domain: [-1, 10] },
-                    yAxis: { domain: [-1, 10] },
+                    xAxis: { domain: [-1, 3] },
+                    yAxis: { domain: [-2, 6] },
                     data: [
-                        { fn: 'x^2', color: '#3498db' },
-                        { fn: 'sqrt(x)', color: '#27ae60' },
-                        { fn: 'x', color: '#e74c3c' }
-                    ]
+                        { fn: '2.5*exp(x-1) - x - 1', color: '#3498db' }, // Løsningskurven
+                        { fn: '3.5*x - 1.5', color: '#27ae60' }           // Tangenten
+                    ],
+                    annotations: [{ x: 1, text: 'P(1,2)' }]
                 });
 
-                // 2. Invers graf: e^x og ln(x)
+                // 2. Graf til Hældningsfelt (y' = -y + x)
+                // Rettelse: fnType: 'points' var manglende - uden det tegner function-plot ingenting
+                const fieldData = generateSlopeFieldData(0.2, 0.5, -4, 4, -4, 4);
                 functionPlot({
-                    target: '#graf-invers-exp',
+                    target: '#graf-haeldningsfelt',
                     disableZoom: true,
-                    width: document.getElementById('graf-invers-exp').parentElement.clientWidth - 40,
+                    width: document.getElementById('graf-haeldningsfelt').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
-                    xAxis: { domain: [-3, 6] },
-                    yAxis: { domain: [-3, 6] },
-                    data: [
-                        { fn: 'exp(x)', color: '#3498db' },
-                        { fn: 'log(x)', color: '#27ae60' }, // function-plot bruger log for ln
-                        { fn: 'x', color: '#e74c3c' }
-                    ]
-                });
-
-                // 3. Trigonometriske funktioner
-                functionPlot({
-                    target: '#graf-trig',
-                    disableZoom: true,
-                    width: document.getElementById('graf-trig').parentElement.clientWidth - 40,
-                    height: 350,
-                    grid: true,
-                    xAxis: { domain: [-7, 7] }, // ca. -2pi til 2pi
-                    yAxis: { domain: [-2, 2] },
-                    data: [
-                        { fn: 'sin(x)', color: '#3498db' },
-                        { fn: 'cos(x)', color: '#e74c3c' }
-                    ]
-                });
-
-                // 4. Harmonisk Svingning
-                functionPlot({
-                    target: '#graf-harmonisk',
-                    disableZoom: true,
-                    width: document.getElementById('graf-harmonisk').parentElement.clientWidth - 40,
-                    height: 350,
-                    grid: true,
-                    xAxis: { domain: [0, 10] },
+                    xAxis: { domain: [-4, 4] },
                     yAxis: { domain: [-4, 4] },
+                    data: fieldData
+                });
+
+                // 3. Graf til Logistisk vækst
+                // Rettelse: annotations understøtter ikke brugerdefineret farve/stippling,
+                // så den røde stiplede linje tegnes manuelt med D3 efter rendering.
+                const logInstance = functionPlot({
+                    target: '#graf-logistisk',
+                    disableZoom: true,
+                    width: document.getElementById('graf-logistisk').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-2, 12] },
+                    yAxis: { domain: [-1, 6] },
                     data: [
-                        { fn: '3 * sin(2*x + 1)', color: '#9b59b6' }
+                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // M = 5, S-formet
                     ]
                 });
+
+                // Tilføj rød stiplet linje ved y = 5 (bæreevnen) via D3
+                const yScale = logInstance.meta.yScale;
+                const xScale = logInstance.meta.xScale;
+                const content = d3.select('#graf-logistisk svg .content');
+
+                content.append('line')
+                    .attr('x1', xScale(-2))
+                    .attr('y1', yScale(5))
+                    .attr('x2', xScale(12))
+                    .attr('y2', yScale(5))
+                    .attr('stroke', 'red')
+                    .attr('stroke-width', 2)
+                    .attr('stroke-dasharray', '8,5');
+
+                content.append('text')
+                    .attr('x', xScale(8.5))
+                    .attr('y', yScale(5) - 7)
+                    .attr('fill', 'red')
+                    .attr('font-size', '12px')
+                    .attr('font-family', 'sans-serif')
+                    .text('Bæreevne (M = 5)');
 
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
