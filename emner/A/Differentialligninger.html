@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differentialligninger - STX Matematik A</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        .back-to-top { display: inline-block; font-size: 0.85rem; color: #bdc3c7; text-decoration: none; margin-top: 8px; }
+        .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
+
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
+        
+        .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+
+        @media (max-width: 600px) { .toc-list { columns: 1; } .data-table { font-size: 0.85rem; } }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Differentialligninger</h1>
+            <p class="subtitle">A - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#intro"><span class="toc-num">1.</span>Introduktion</a></li>
+                <li><a href="#proeve"><span class="toc-num">2.</span>At gøre prøve</a></li>
+                <li><a href="#tangent"><span class="toc-num">3.</span>Bestemmelse af tangentligninger</a></li>
+                <li><a href="#haeldning"><span class="toc-num">4.</span>Linjeelementer og hældningsfelter</a></li>
+                <li><a href="#vaekst"><span class="toc-num">5.</span>Simple vækstmodeller</a></li>
+                <li><a href="#separable"><span class="toc-num">6.</span>Separable differentialligninger</a></li>
+                <li><a href="#lineaere"><span class="toc-num">7.</span>Lineære differentialligninger (1. orden)</a></li>
+                <li><a href="#opstilling"><span class="toc-num">8.</span>Opstilling af differentialligninger</a></li>
+                <li><a href="#beviser"><span class="toc-num">9.</span>Beviser</a></li>
+            </ul>
+        </section>
+
+        <div id="intro" class="section-divider">
+            <h2>1. Introduktion</h2>
+            <p>Hvad er en differentialligning, og hvad vil det sige at løse den?</p>
+        </div>
+
+        <section class="card">
+            <h2>Fra almindelige ligninger til differentialligninger</h2>
+            <p>At løse en almindelig ligning som for eksempel $x^2 - 3x - 4 = 0$ drejer sig om at finde de talværdier for den ubekendte $x$, der gør ligningen sand.</p>
+            <p>Når der er tale om at løse en differentialligning, drejer det sig om at finde forskriften for de <em>funktioner</em>, der gør ligningen sand for alle $x$.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Differentialligning</strong>
+                <p>En differentialligning er en ligning, hvori der indgår en eller flere differentialkvotienter $f'(x), f''(x), ...$ og eventuelt også funktionen $f(x)$ selv.</p>
+                <ul>
+                    <li><strong>Orden:</strong> Ligninger med $f'(x)$ (eller $y'$) kaldes 1. ordens. Indgår der $f''(x)$, er det 2. ordens osv.</li>
+                    <li><strong>Løsning:</strong> En funktion, der opfylder ligningen, kaldes en <em>partikulær løsning</em>, og grafen kaldes en <em>løsningskurve</em> (eller integralkurve).</li>
+                    <li>Samtlige løsninger til differentialligningen udgør den <em>fuldstændige løsning</em>.</li>
+                </ul>
+            </div>
+
+            <p>Der findes en række måder at skrive differentialkvotienten for $y = f(x)$ på:</p>
+            <p>$$y' = f'(x) = \left( f(x) \right)' = \frac{dy}{dx} = \frac{d}{dx}\left( f(x) \right)$$</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="proeve" class="section-divider">
+            <h2>2. At gøre prøve</h2>
+            <p>Kontrol af, om en given funktion er en løsning</p>
+        </div>
+
+        <section class="card example">
+            <h2>Eksempel: At gøre prøve</h2>
+            <p>Det kan i nogle tilfælde være svært at løse en given differentialligning fra bunden. Ofte er det lettere at se efter, om en given funktion er en løsning. Dette kaldes at <em>gøre prøve</em>.</p>
+            
+            <p><strong>Opgave:</strong> Undersøg, om funktionen $f(x) = \sqrt{x^2 + 3}$ er en løsning til differentialligningen:</p>
+            <p>$$\frac{dy}{dx} = \frac{x}{y}, \quad y > 0$$</p>
+
+            <p><strong>Løsning:</strong> Vi gør prøve ved at indsætte $y = f(x)$ på henholdsvis venstresiden (VS) og højresiden (HS) af differentialligningen.</p>
+            
+            <p><strong>Venstresiden:</strong> Ved differentiation af den sammensatte funktion $f(x)$ fås:</p>
+            <p>$$ \text{VS} = \frac{dy}{dx} = f'(x) = \left( \sqrt{x^2 + 3} \right)' = \frac{1}{2\sqrt{x^2 + 3}} \cdot 2x = \frac{x}{\sqrt{x^2 + 3}} $$</p>
+
+            <p><strong>Højresiden:</strong> Vi indsætter forskriften i stedet for $y$:</p>
+            <p>$$ \text{HS} = \frac{x}{y} = \frac{x}{f(x)} = \frac{x}{\sqrt{x^2 + 3}} $$</p>
+
+            <p>Da venstresiden er præcis lig med højresiden ($\text{VS} = \text{HS}$), konkluderer vi, at $f(x) = \sqrt{x^2 + 3}$ <strong>er</strong> en løsning til differentialligningen.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="tangent" class="section-divider">
+            <h2>3. Bestemmelse af tangentligninger</h2>
+            <p>At finde tangenten uden at kende funktionens forskrift</p>
+        </div>
+
+        <section class="card">
+            <h2>Tangenthældninger fra differentialligningen</h2>
+            <p>I mange 1. ordens differentialligninger er $\frac{dy}{dx}$ udtrykt direkte ved hjælp af $x$ og $y$. Det kan benyttes til at bestemme ligningen for en tangent til en løsningskurve $y = f(x)$ i et givet punkt $(x_0, f(x_0))$, selv om man slet ikke kender en forskrift for funktionen $f(x)$!</p>
+            <p>Dette lader sig gøre, da tangenthældningen i punktet netop er $\frac{dy}{dx} = f'(x_0)$, som kan udregnes ved blot at indsætte punktets koordinater.</p>
+        </section>
+
+        <section class="card example">
+            <h2>Eksempel: Tangentligning ud fra $y' = x + y$</h2>
+            <p>Det oplyses, at grafen for en bestemt partikulær løsning $f(x)$ til differentialligningen $\frac{dy}{dx} = x + y$ går gennem punktet $P(1, 2)$. Vi ønsker at bestemme en ligning for tangenten til grafen for $f$ i punktet $P$.</p>
+            
+            <p>Tangenthældningen i $P$ er:</p>
+            <p>$$f'(1) = 1 + 2 = 3$$</p>
+            
+            <p>Ligningen for denne tangent findes med standardformlen $y - y_0 = a(x - x_0)$:</p>
+            <p>$$y - 2 = 3(x - 1) \quad \Leftrightarrow \quad y = 3x - 1$$</p>
+
+            <div class="svg-container">
+                <div id="graf-tangent"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En skitseret løsningskurve gennem $P(1,2)$ og tangenten $y = 3x - 1$ (grøn).</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="haeldning" class="section-divider">
+            <h2>4. Linjeelementer og hældningsfelter</h2>
+            <p>Visuel repræsentation af differentialligninger</p>
+        </div>
+
+        <section class="card">
+            <h2>Hvad er et linjeelement?</h2>
+            <p>Ved et linjeelement forstås et talsæt $(x_0, y_0 ; a)$. Navnet kommer af, at $(x_0, y_0)$ opfattes som koordinater for et punkt $P$, og $a$ opfattes som hældningen for et lille linjestykke, der går gennem $P$.</p>
+            
+            <p>Grafen for en løsning $f(x)$ til en differentialligning siges at gå gennem linjeelementet $(x_0, y_0 ; a)$, hvis:</p>
+            <p>$$f(x_0) = y_0 \quad \text{og} \quad f'(x_0) = a$$</p>
+            <p>At en løsningskurve går gennem et linjeelement, betyder altså, at linjeelementet <em>tangerer</em> kurven i punktet.</p>
+
+            <br><br>
+
+            <p>Tegner man et stort antal linjeelementer hørende til en given differentialligning af 1. orden, får man et <strong>hældningsfelt</strong>. Det er interessant, fordi man kan "se" løsningskurverne strømme gennem feltet uden overhovedet at løse ligningen.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="vaekst" class="section-divider">
+            <h2>5. Simple vækstmodeller</h2>
+            <p>Eksponentiel, forskudt og logistisk vækst</p>
+        </div>
+
+        <section class="card">
+            <h2>Tre fundamentale væksthypoteser</h2>
+            <p>Når vi opstiller vækstmodeller, ser vi ofte på, hvordan væksthastigheden $y'$ afhænger af $y$. Tre klassiske tilfælde er:</p>
+            <ol>
+                <li>$y'$ er en konstant $\rightarrow$ $y' = k$ (Lineær vækst)</li>
+                <li>$y'$ er proportional med $y$ $\rightarrow$ $y' = k \cdot y$ (Eksponentiel vækst)</li>
+                <li>$y'$ er en lineært aftagende funktion af $y$ $\rightarrow$ $y' = b - a \cdot y$ (Forskudt eksponentiel / Logistisk)</li>
+            </ol>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.1: Eksponentiel vækst</strong>
+                <p>Differentialligningen $y' = k \cdot y$ har den fuldstændige løsning:</p>
+                <p>$$y(t) = c \cdot e^{k \cdot t}$$</p>
+                <p>hvor $c$ er en konstant.</p>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.2: Forskudt eksponentiel vækst</strong>
+                <p>Differentialligningen $y' = b - a \cdot y$ (hvor $a > 0$) har den fuldstændige løsning:</p>
+                <p>$$y(t) = \frac{b}{a} + c \cdot e^{-a \cdot t}$$</p>
+                <p>Bemærk: For enhver løsning vil $f(t)$ nærme sig værdien $\frac{b}{a}$, når $t \to \infty$.</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Logistisk vækst</h2>
+            <p>I mange biologiske modeller udviser populationer logistisk vækst. Her antages det, at den relative væksthastighed aftager lineært, hvilket indbygger en dæmpning af væksten (en øvre grænse kaldet <strong>bæreevnen</strong>).</p>
+
+            <br>[attachment_0](attachment)<br>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.3: Den logistiske differentialligning</strong>
+                <p>Den logistiske differentialligning på formen:</p>
+                <p>$$y' = a \cdot y \cdot (M - y)$$</p>
+                <p>har den fuldstændige (og ikke-trivielle) løsning:</p>
+                <p>$$y(t) = \frac{M}{1 + c \cdot e^{-a \cdot M \cdot t}}$$</p>
+                <p>hvor $M$ er bæreevnen, og $c$ er en konstant. Det gælder at $y(t) \to M$, når $t \to \infty$.</p>
+            </div>
+
+            <div class="svg-container">
+                <div id="graf-logistisk"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En klassisk S-formet logistisk vækstkurve. Bæreevnen $M$ er markeret med rød stiplet linje.</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="separable" class="section-divider">
+            <h2>6. Separable differentialligninger</h2>
+            <p>Løsning ved at samle x og y på hver sin side</p>
+        </div>
+
+        <section class="card">
+            <h2>Separation af de variable</h2>
+            <p>Differentialligninger af 1. orden, der kan skrives på formen $\frac{dy}{dx} = h(x) \cdot g(y)$, kaldes separable differentialligninger.</p>
+            
+            <p>Idéen (og navnet "separation") bygger på, at man adskiller de variable ved at samle alt med $y$ på den ene side og alt med $x$ på den anden. Dette er tilladt, fordi vi i visse sammenhænge kan behandle $\frac{dy}{dx}$ matematisk som en brøk:</p>
+
+            <p>$$
+            \begin{aligned}
+            \frac{dy}{dx} &= h(x) \cdot g(y) \\
+            \frac{1}{g(y)} \cdot \frac{dy}{dx} &= h(x) \\
+            \frac{1}{g(y)} dy &= h(x) dx \\
+            \int \frac{1}{g(y)} dy &= \int h(x) dx
+            \end{aligned}
+            $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.4: Separation af variable</strong>
+                <p>Givet, at funktionen $h$ er kontinuert, og $g$ er kontinuert og $\neq 0$. Da er $y = f(x)$ en løsning til $\frac{dy}{dx} = h(x) \cdot g(y)$ netop når:</p>
+                <p>$$\int \frac{1}{g(y)} dy = \int h(x) dx$$</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="lineaere" class="section-divider">
+            <h2>7. Lineære differentialligninger af 1. orden</h2>
+            <p>Ligninger på formen y' + a(x)y = b(x)</p>
+        </div>
+
+        <section class="card">
+            <h2>Homogene og inhomogene ligninger</h2>
+            <p>Lineære differentialligninger af 1. orden er ligninger af typen:</p>
+            <p>$$y' + a(x) \cdot y = b(x)$$</p>
+            <ul>
+                <li>Hvis $b(x) = 0$, kaldes ligningen for <strong>homogen</strong>.</li>
+                <li>Hvis $b(x) \neq 0$, kaldes ligningen for <strong>inhomogen</strong>.</li>
+            </ul>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.5: Panserformlen (Løsning af den lineære differentialligning af 1. orden)</strong>
+                <p>Den lineære differentialligning $y' + a(x) \cdot y = b(x)$ har den fuldstændige løsning:</p>
+                <p>$$y(x) = e^{-A(x)} \cdot \int b(x) \cdot e^{A(x)} dx + c \cdot e^{-A(x)}$$</p>
+                <p>hvor $A(x)$ er en stamfunktion til funktionen $a(x)$, og $c$ er et tal.</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="opstilling" class="section-divider">
+            <h2>8. Opstilling af differentialligninger</h2>
+            <p>Fra sproglig beskrivelse til matematisk model</p>
+        </div>
+
+        <section class="card">
+            <h2>At oversætte tekst til matematik</h2>
+            <p>Det er ofte vigtigt at kunne opstille 1. ordens differentialligninger ud fra en sproglig beskrivelse af et fænomen. En god huskeregel er:</p>
+            <ul>
+                <li>"Væksthastigheden for $y$" oversættes til $\frac{dy}{dt}$ (eller $y'$).</li>
+                <li>"... er proportional med ..." oversættes til $= k \cdot (...)$.</li>
+            </ul>
+
+            <p><strong>Eksempel fra afkøling:</strong><br>
+            <em>"Den hastighed, hvormed en genstands temperatur aftager, er proportional med forskellen mellem genstandens aktuelle temperatur og omgivelsernes temperatur."</em></p>
+            <p>$$y' = -k \cdot (y - y_{\text{omg}})$$</p>
+            <p>Minustegnet skyldes, at temperaturen aftager, så væksthastigheden skal være negativ.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="beviser" class="section-divider">
+            <h2>9. Beviser</h2>
+            <p>Matematiske beviser i dette emne</p>
+        </div>
+
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis-eksp">Bevis for Sætning 2.1 (Eksponentiel vækst via separation af variable)</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis-eksp" class="card proof">
+            <h2>Bevis for Sætning 2.1</h2>
+            <p>Vi ønsker at vise, at løsningen til differentialligningen $y' = k \cdot y$ er $y(t) = c \cdot e^{kt}$. Vi benytter metoden for separation af de variable (Sætning 2.4).</p>
+            
+            <p>Først omskriver vi $y'$ til $\frac{dy}{dt}$:</p>
+            <p>$$\frac{dy}{dt} = k \cdot y$$</p>
+
+            <p>Vi deler med $y$ på begge sider for at separere de variable ($y \neq 0$):</p>
+            <p>$$\frac{1}{y} \cdot \frac{dy}{dt} = k$$</p>
+
+            <p>Nu integrerer vi på begge sider i forhold til variablerne:</p>
+            <p>$$\int \frac{1}{y} dy = \int k dt$$</p>
+
+            <p>Dette giver os stamfunktionerne (inkl. en integrationskonstant $k_1$ på højre side):</p>
+            <p>$$\ln|y| = k \cdot t + k_1$$</p>
+
+            <p>For at isolere $y$ benytter vi, at den naturlige eksponentialfunktion er invers til den naturlige logaritme. Vi tager $e$ opløftet i begge sider:</p>
+            <p>$$e^{\ln|y|} = e^{k \cdot t + k_1}$$</p>
+            <p>$$|y| = e^{k_1} \cdot e^{k \cdot t}$$</p>
+
+            <p>Vi fjerner numerisktegnet ved at sætte $\pm$ på højresiden. Da $\pm e^{k_1}$ bare er en ny vilkårlig konstant, kalder vi denne for $c$:</p>
+            <p>$$y(t) = c \cdot e^{k \cdot t}$$</p>
+
+            <p>Hermed er sætningen bevist.</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Graf til Tangent-eksempel (P(1,2) og tangent y = 3x - 1)
+                functionPlot({
+                    target: '#graf-tangent',
+                    width: document.getElementById('graf-tangent').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-1, 3] },
+                    yAxis: { domain: [-2, 6] },
+                    data: [
+                        { fn: '2*exp(x-1) - x - 1', color: '#3498db' }, // En partikulær løsning der rammer (1,2) med y'=x+y
+                        { fn: '3*x - 1', color: '#27ae60' }          // Tangenten
+                    ],
+                    annotations: [{ x: 1, text: 'P(1,2)' }]
+                });
+
+                // Graf til Logistisk vækst
+                functionPlot({
+                    target: '#graf-logistisk',
+                    width: document.getElementById('graf-logistisk').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-2, 10] },
+                    yAxis: { domain: [-1, 6] },
+                    data: [
+                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // M = 5
+                    ],
+                    annotations: [{ y: 5, text: 'Bæreevne (M)' }]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>
