@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandsynlighedsregning - STX Matematik A</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        .svg-container { text-align: center; margin: 25px 0; background: #ffffff; border: 1px solid #dde2ea; border-radius: 8px; padding: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { pointer-events: none; }
+
+        @media (max-width: 600px) { .toc-list { columns: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Sandsynlighedsregning og Statistik</h1>
+            <p class="subtitle">A - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#normalfordelinger"><span class="toc-num">1.</span>Normalfordelinger</a></li>
+                <li><a href="#binomial"><span class="toc-num">2.</span>Sammenhæng med binomialfordeling</a></li>
+                <li><a href="#standardnormal"><span class="toc-num">3.</span>Standardnormalfordelingen</a></li>
+                <li><a href="#estimering"><span class="toc-num">4.</span>Estimering af middelværdi og spredning</a></li>
+                <li><a href="#residualer"><span class="toc-num">5.</span>Hvor god er den lineære model? (Residualer)</a></li>
+                <li><a href="#transformation"><span class="toc-num">6.</span>Variabeltransformation</a></li>
+                <li><a href="#beviser"><span class="toc-num">7.</span>Beviser</a></li>
+            </ul>
+        </section>
+
+        <div id="normalfordelinger" class="section-divider">
+            <h2>1. Normalfordelinger</h2>
+            <p>Fra diskrete til kontinuerte sandsynlighedsfordelinger.</p>
+        </div>
+
+        <section class="card">
+            <h2>Kontinuerte variable og Gauss-kurver</h2>
+            <p>En binomialfordeling er et eksempel på en diskret fordeling. Hvis antalsparameteren f.eks. er 10, er der kun 11 mulige udfald: $0, 1, 2, \dots , 10$. Diskret betyder adskilt.</p>
+            <p>I praksis forekommer der eksperimenter, hvor udfaldene er en stokastisk variabel $X$, der i princippet kan være alle mulige tal. Ved måling af f.eks. henfaldstider kan man mellem to målte tidspunkter altid forestille sig tidspunktet midt imellem osv. I sådanne tilfælde vil det ikke være muligt at tillægge enhver specifik værdi af $X$ en sandsynlighed. I stedet arbejder man med intervalsandsynligheder, dvs. sandsynligheder for, at $X$ ligger i givne intervaller. Sådanne stokastiske variable kaldes <strong>kontinuerte</strong>.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Normalfordelingskurven (Gauss-kurven)</strong>
+                <p>Erfaringen fra måling af højder, længder osv. viser, at intervalsandsynlighederne ofte kan beskrives som arealet under en bestemt type kurver kaldet Gauss-kurver. Disse er grafer for funktioner af typen:</p>
+                <p>$$f(x) = \frac{1}{\sigma \sqrt{2\pi}} \cdot e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$</p>
+                <p>hvor $\mu$ er middelværdien, og $\sigma$ er spredningen.</p>
+            </div>
+            
+            <p>Når sandsynlighedsfordelingen for en stokastisk variabel $X$ kan bestemmes ved hjælp af en Gauss-kurve, siges $X$ at være <strong>normalfordelt</strong>. Ideen skyldes den tyske matematiker Carl Friedrich Gauss (1777 - 1855).</p>
+
+            <div class="svg-container">
+                <div id="graf-gauss"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En Gauss-kurve med middelværdi $\mu=0$ og spredning $\sigma=1$. Arealet under kurven udgør den samlede sandsynlighed på 1 (eller 100%).</p>
+            </div>
+        </section>
+
+        <div id="binomial" class="section-divider">
+            <h2>2. Sammenhæng med binomialfordeling</h2>
+            <p>Når den diskrete fordeling nærmer sig den kontinuerte.</p>
+        </div>
+
+        <section class="card">
+            <h2>Fra stolpediagram til klokkekurve</h2>
+            <p>Der er en forbindelse mellem binomialfordeling og normalfordeling. Hvis man tegner stolpediagrammer for en række binomialfordelinger, vil de for store værdier af antalsparameteren $n$ nærme sig en Gauss-kurve med samme middelværdi $\mu$ og spredning $\sigma$.</p>
+            <p>Generelt kan man sige, at overensstemmelsen mellem binomialfordelingen (med parameter $p$ og $n$) og normalfordelingen er god, når både $n \cdot p$ og $n \cdot (1 - p)$ er mindst 5. Jo længere $p$ er væk fra 0,5, jo større skal $n$ være for at få god overensstemmelse.</p>
+
+            <h3>Tommelfingerregler for normalfordelingen</h3>
+            <p>For en normalfordelt stokastisk variabel $X$ gælder, at sandsynligheden er:</p>
+            <ul>
+                <li>ca. <strong>68 %</strong> for, at $X$ ligger inden for 1 spredning fra middelværdien: $[\mu - \sigma ; \mu + \sigma]$</li>
+                <li>ca. <strong>95 %</strong> for, at $X$ ligger inden for 2 spredninger fra middelværdien: $[\mu - 2\sigma ; \mu + 2\sigma]$</li>
+                <li>ca. <strong>99,7 %</strong> for, at $X$ ligger inden for 3 spredninger fra middelværdien: $[\mu - 3\sigma ; \mu + 3\sigma]$</li>
+            </ul>
+            <p>Udfald uden for intervallet $[\mu - 3\sigma ; \mu + 3\sigma]$ kaldes exceptionelle.</p>
+
+            <p>I praksis benyttes dette bl.a. til at beregne 95 %-konfidensintervaller, hvor formlen (der egentlig rammer 95,45 %) ser således ud:</p>
+            <p>$$ \left[ \widehat p - 2 \cdot \sqrt {\frac{\widehat p \cdot (1 - \widehat p)}{n}} ; \widehat p + 2 \cdot \sqrt {\frac{\widehat p \cdot (1 - \widehat p)}{n}} \right] $$</p>
+            <p>Undertiden ændrer man faktoren 2 til 1,96 for at være helt præcis, men i praksis gør det sjældent nogen større forskel.</p>
+        </section>
+
+        <div id="standardnormal" class="section-divider">
+            <h2>3. Standardnormalfordelingen</h2>
+            <p>Når gennemsnittet er 0 og spredningen er 1.</p>
+        </div>
+
+        <section class="card">
+            <h2>$X \sim N(0,1)$</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Standardnormalfordelt stokastisk variabel</strong>
+                <p>Forkortelsen $X \sim N(0,1)$ betyder, at $X$ er en standardnormalfordelt stokastisk variabel, dvs. middelværdien er $\mu = 0$, og spredningen er $\sigma = 1$.</p>
+                <p>Hertil hører tæthedsfunktionen:</p>
+                <p>$$ \varphi(x) = \frac{1}{\sqrt{2\pi}} \cdot e^{-\frac{1}{2}x^2} $$</p>
+                <p>og fordelingsfunktionen:</p>
+                <p>$$ \Phi(a) = P(X \le a) = \int_{-\infty}^{a} \varphi(x) dx $$</p>
+            </div>
+
+            <p>Sandsynligheden $\Phi(a)$ kan illustreres som arealet under grafen for tæthedsfunktionen $\varphi$ i intervallet fra $-\infty$ til $a$. Det samlede areal under grafen er lig med 1, da den samlede sandsynlighed er 100 %.</p>
+            
+            <p>For en vilkårlig normalfordeling $X \sim N(\mu, \sigma)$ bruges samme logik. Tæthedsfunktionen $f(x)$ danner arealerne, og fordelingsfunktionen $F(a) = P(X \le a)$ beskriver det akkumulerede areal.</p>
+        </section>
+
+        <div id="estimering" class="section-divider">
+            <h2>4. Estimering af middelværdi og spredning</h2>
+            <p>At skønne over en hel population ud fra en stikprøve.</p>
+        </div>
+
+        <section class="card">
+            <h2>Middeltal og spredning for stikprøver</h2>
+            <p>Ofte er middelværdi og spredning for en hel population ukendt. Det er derfor nødvendigt at gætte på de to værdier ud fra en stikprøve. Dette kaldes at estimere $\mu$ og $\sigma$.</p>
+
+            <p>Middeltal $\bar x$ for et observationssæt $x_1, x_2, \dots , x_n$ udregnes som det sædvanlige gennemsnit:</p>
+            <p>$$ \bar x = \frac{x_1 + x_2 + \dots + x_n}{n} $$</p>
+
+            <p>Spredningen for <em>selve stikprøven</em> betegnes typisk med $\sigma$ eller $\sigma_n$ og udregnes ved:</p>
+            <p>$$ \sigma = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar x)^2}{n}} $$</p>
+
+            <p>Det bedste skøn (estimat) for spredningen i den <em>samlede population</em> betegnes med $s$ eller $s_{n-1}$. For at fjerne systematisk undervurdering divideres her med $n - 1$ i stedet for $n$:</p>
+            <p>$$ s = \sqrt{\frac{\sum_{i=1}^n (x_i - \bar x)^2}{n - 1}} $$</p>
+            
+            <p>I praksis er der kun en ubetydelig forskel på de to spredningsmål for store datasæt. Et CAS-værktøj beregner typisk begge.</p>
+        </section>
+
+        <div id="residualer" class="section-divider">
+            <h2>5. Hvor god er den lineære model? (Residualer)</h2>
+            <p>Vurdering af lineær regression og mindste kvadraters metode.</p>
+        </div>
+
+        <section class="card">
+            <h2>Residualspredning og mindste kvadraters metode</h2>
+            <p>Når vi vurderer en lineær regression, har vi hidtil krævet, at residualerne (afvigelserne mellem y-dataværdier og y-modelværdier) skal vise små afvigelser og være tilfældigt spredt over og under x-aksen.</p>
+            
+            <p>Som et matematisk mål for usikkerheden introducerer vi residualspredningen $s$. Den lineære regression ("mindste kvadraters metode") virker netop ved at finde den linje, hvor summen af de kvadrerede residualer ($r_1^2 + r_2^2 + \dots + r_n^2$) bliver så lille som muligt.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Residualspredning</strong>
+                <p>Residualspredningen angiver den gennemsnitlige afvigelse fra regressionslinjen og beregnes ved:</p>
+                <p>$$ s = \sqrt{ \frac{r_1^2 + r_2^2 + \dots + r_n^2}{n - 2} } $$</p>
+                <p>Residualspredningen $s$ er et mål for modelusikkerheden. En "lille" $s$-værdi (lille i forhold til selve y-værdierne) taler for, at modellen er god.</p>
+            </div>
+
+            <h3>Er residualerne normalfordelte?</h3>
+            <p>Et vigtigt krav til en god lineær regressionsmodel er, at residualerne skal være tilfældigt spredt omkring middelværdien 0. Mere præcist sagt: Residualerne skal være normalfordelte.</p>
+            <p>Dette kan kontrolleres med et <strong>fraktilplot</strong> (Q-Q plot). Fremstiller man et fraktilplot for residualerne, og punkterne med god tilnærmelse danner en ret linje, bekræfter det, at residualerne er normalfordelte med middelværdi 0.</p>
+        </section>
+
+        <div id="transformation" class="section-divider">
+            <h2>6. Variabeltransformation</h2>
+            <p>Linearisering af krumme sammenhænge.</p>
+        </div>
+
+        <section class="card">
+            <h2>At "rette grafer ud"</h2>
+            <p>For at lette analysen af krumme grafer kan man transformere variablerne. Hvis man f.eks. ved, at vægten $m$ af et stykke pap afhænger af sidelængden $x$ i formen $m = c \cdot x^2$, vil grafen være en parabel. Ved at udskifte variablen fra $x$ til arealet $A = x^2$, får vi sammenhængen $m = c \cdot A$, hvilket er en ret linje gennem $(0,0)$.</p>
+
+            <p>Transformation af de variable som middel til linearisering kan anvendes generelt:</p>
+            <ul>
+                <li>En række punkter ligger på en <strong>eksponentiel graf</strong>, hvis og kun hvis punkterne $(x, \log(y))$ ligger på en ret linje. (Semilogaritmisk papir).</li>
+                <li>En række punkter ligger på en <strong>potensgraf</strong>, hvis og kun hvis punkterne $(\log(x), \log(y))$ ligger på en ret linje. (Dobbeltlogaritmisk papir).</li>
+            </ul>
+
+            <div class="svg-container">
+                <div id="graf-transformation"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Blå kurve: Kvadratisk sammenhæng $y = 0.04 \cdot x^2$. Rød linje: Den transformerede lineære funktion, hvor x-aksen betragtes som $x^2$.</p>
+            </div>
+        </section>
+
+        <div id="beviser" class="section-divider">
+            <h2>7. Beviser</h2>
+            <p>Samlet oversigt over matematiske beviser i dette emne</p>
+        </div>
+
+        <section class="card proof">
+            <h2>Bevis for normalfordelingens egenskaber</h2>
+            <p>Vi betragter tæthedsfunktionen for en normalfordelt variabel med middelværdi $\mu$ og spredning $\sigma$ ($\sigma > 0$):</p>
+            <p>$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</p>
+
+            <h3>Del 1: Bevis for, at funktionen er symmetrisk omkring $\mu$</h3>
+            <p>For at bevise symmetri omkring den lodrette linje $x = \mu$, skal vi bevise at $f(\mu - h) = f(\mu + h)$ for en vilkårlig afstand $h$.</p>
+            
+            <p><strong>Trin 1:</strong> Vi indsætter $(\mu + h)$ i funktionen:</p>
+            <p>$$f(\mu + h) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(\mu + h - \mu)^2}{2\sigma^2}}$$</p>
+            <p>Da $\mu - \mu = 0$, reduceres potensen til:</p>
+            <p>$$f(\mu + h) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{h^2}{2\sigma^2}}$$</p>
+
+            <p><strong>Trin 2:</strong> Vi indsætter $(\mu - h)$ i funktionen:</p>
+            <p>$$f(\mu - h) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(\mu - h - \mu)^2}{2\sigma^2}}$$</p>
+            <p>Igen går $\mu$ ud med hinanden, og vi har $(-h)$ tilbage i parentesen:</p>
+            <p>$$f(\mu - h) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(-h)^2}{2\sigma^2}}$$</p>
+            <p>Da kvadratet på et negativt tal er det samme som kvadratet på det tilsvarende positive tal ($(-h)^2 = h^2$), får vi:</p>
+            <p>$$f(\mu - h) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{h^2}{2\sigma^2}}$$</p>
+
+            <p><strong>Konklusion 1:</strong> Da udtrykkene for $f(\mu + h)$ og $f(\mu - h)$ er præcis ens, er funktionen symmetrisk omkring $x = \mu$.</p>
+
+            <hr style="margin: 30px 0; border: none; border-bottom: 1px solid #dde2ea;">
+
+            <h3>Del 2: Bevis for, at $\mu$ er det eneste maksimumssted</h3>
+            <p>For at finde ekstremumssteder skal vi differentiere funktionen, sætte den afledte $f'(x) = 0$ og undersøge monotoniforholdene.</p>
+
+            <p><strong>Trin 1: Find den afledte funktion $f'(x)$</strong><br>
+            Vi bruger kædereglen, da vi har en sammensat funktion på formen $e^{g(x)}$. Den indre funktion er:</p>
+            <p>$$g(x) = -\frac{(x-\mu)^2}{2\sigma^2} = -\frac{1}{2\sigma^2}(x-\mu)^2$$</p>
+            <p>Den afledte af den indre funktion, $g'(x)$, er:</p>
+            <p>$$g'(x) = -\frac{1}{2\sigma^2} \cdot 2(x-\mu) \cdot 1 = -\frac{x-\mu}{\sigma^2}$$</p>
+            <p>Vi samler nu $f'(x)$ ved hjælp af kædereglen $(e^{g(x)})' = g'(x) \cdot e^{g(x)}$:</p>
+            <p>$$f'(x) = \frac{1}{\sigma\sqrt{2\pi}} \cdot \left( -\frac{x-\mu}{\sigma^2} \right) \cdot e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$</p>
+            <p>Da en del af dette udtryk netop er den oprindelige funktion $f(x)$, kan vi skrive det kompakt som:</p>
+            <p>$$f'(x) = -\frac{x-\mu}{\sigma^2} \cdot f(x)$$</p>
+
+            <p><strong>Trin 2: Sæt $f'(x) = 0$</strong></p>
+            <p>$$-\frac{x-\mu}{\sigma^2} \cdot f(x) = 0$$</p>
+            <p>Da tæthedsfunktionen $f(x)$ er en eksponentialfunktion ganget med en positiv konstant, er den altid strengt positiv ($f(x) > 0$). Den kan aldrig blive nul. Nulreglen kræver derfor, at den anden faktor er nul:</p>
+            <p>$$-\frac{x-\mu}{\sigma^2} = 0$$</p>
+            <p>Da $\sigma^2$ er en positiv konstant, kan brøken kun være nul, hvis tælleren er nul:</p>
+            <p>$$x - \mu = 0 \implies x = \mu$$</p>
+            <p>Dette viser, at $x = \mu$ er det eneste kritiske punkt på grafen.</p>
+
+            <p><strong>Trin 3: Monotoniforhold</strong><br>
+            Vi undersøger fortegnet for $f'(x)$ på begge sider af $x = \mu$. (Husk at $\sigma^2$ og $f(x)$ altid er positive).</p>
+            <ul>
+                <li><strong>For $x < \mu$:</strong> Her er $(x - \mu)$ negativt. Det giver $f'(x) = - \frac{(\text{negativt})}{\text{positivt}} \cdot \text{positivt} = \text{positivt}$. Altså er $f'(x) > 0$, hvilket betyder, at funktionen er <em>voksende</em> før $\mu$.</li>
+                <li><strong>For $x > \mu$:</strong> Her er $(x - \mu)$ positivt. Det giver $f'(x) = - \frac{(\text{positivt})}{\text{positivt}} \cdot \text{positivt} = \text{negativt}$. Altså er $f'(x) < 0$, hvilket betyder, at funktionen er <em>aftagende</em> efter $\mu$.</li>
+            </ul>
+
+            <p><strong>Konklusion 2:</strong> Da funktionen er strengt voksende for alle $x < \mu$, har en vandret tangent i $x = \mu$, og er strengt aftagende for alle $x > \mu$, er $x = \mu$ funktionens eneste og globale maksimumssted.</p>
+
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // 1. Gauss-kurven (Standardnormalfordeling N(0,1))
+                functionPlot({
+                    target: '#graf-gauss',
+                    disableZoom: true,
+                    width: document.getElementById('graf-gauss').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-4, 4] },
+                    yAxis: { domain: [-0.05, 0.45] },
+                    data: [
+                        { fn: '1/sqrt(2*PI) * exp(-0.5*x^2)', color: '#3498db' }
+                    ]
+                });
+
+                // 2. Transformation: Parabel og ret linje for at illustrere A = x^2 substitution
+                functionPlot({
+                    target: '#graf-transformation',
+                    disableZoom: true,
+                    width: document.getElementById('graf-transformation').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [0, 20] },
+                    yAxis: { domain: [0, 15] },
+                    data: [
+                        { fn: '0.04 * x^2', color: '#3498db' }, // Uden transformation
+                        { fn: '0.04 * x', color: '#e74c3c' }    // Med transformation (x-aksen fungerer nu som A)
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>
