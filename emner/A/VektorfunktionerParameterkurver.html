@@ -251,6 +251,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
+                // RETTELSE: function-plot v1 kræver graphType: 'polyline' for alle
+                // parametriske kurver (fnType: 'parametric'). Uden denne nøgle
+                // tegnes intet, selvom fnType er sat korrekt.
+
                 // 1. Dobbeltpunkt graf
                 functionPlot({
                     target: '#graf-dobbeltpunkt',
@@ -259,9 +263,14 @@
                     grid: true,
                     xAxis: { domain: [-2, 4] },
                     yAxis: { domain: [-3, 3] },
-                    data: [
-                        { fnType: 'parametric', x: 't^2 - 1', y: 't^3 - 3*t', range: [-2.5, 2.5], color: '#e74c3c' }
-                    ]
+                    data: [{
+                        fnType: 'parametric',
+                        graphType: 'polyline',
+                        x: 't^2 - 1',
+                        y: 't^3 - 3*t',
+                        range: [-2.5, 2.5],
+                        color: '#e74c3c'
+                    }]
                 });
 
                 // 2. Cykloiden
@@ -270,26 +279,48 @@
                     width: document.getElementById('graf-cykloide').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
-                    xAxis: { domain: [-7, 13] }, // Lidt mere end -2pi til 4pi
+                    xAxis: { domain: [-7, 13] },
                     yAxis: { domain: [-0.5, 3] },
-                    data: [
-                        { fnType: 'parametric', x: 't - sin(t)', y: '1 - cos(t)', range: [-3 * Math.PI, 5 * Math.PI], color: '#3498db' }
-                    ]
+                    data: [{
+                        fnType: 'parametric',
+                        graphType: 'polyline',
+                        x: 't - sin(t)',
+                        y: '1 - cos(t)',
+                        range: [-3 * Math.PI, 5 * Math.PI],
+                        color: '#3498db'
+                    }]
                 });
 
                 // 3. Parabel som parameterkurve
-                functionPlot({
+                const parabelInstance = functionPlot({
                     target: '#graf-parabel',
                     width: document.getElementById('graf-parabel').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
                     xAxis: { domain: [-1, 5] },
                     yAxis: { domain: [-3, 3] },
-                    data: [
-                        { fnType: 'parametric', x: 't^2', y: 't', range: [-3, 3], color: '#27ae60' }
-                    ],
-                    annotations: [{ x: 0.25, y: 0, text: 'Brændpunkt (F)' }]
+                    data: [{
+                        fnType: 'parametric',
+                        graphType: 'polyline',
+                        x: 't^2',
+                        y: 't',
+                        range: [-3, 3],
+                        color: '#27ae60'
+                    }]
                 });
+
+                // Brændpunkt tegnes manuelt med D3 (annotations understøtter ikke punktmarkering)
+                const xS = parabelInstance.meta.xScale;
+                const yS = parabelInstance.meta.yScale;
+                const pc = d3.select('#graf-parabel svg .content');
+                pc.append('circle')
+                    .attr('cx', xS(0.25)).attr('cy', yS(0))
+                    .attr('r', 5)
+                    .attr('fill', '#e67e22').attr('stroke', '#fff').attr('stroke-width', 1.5);
+                pc.append('text')
+                    .attr('x', xS(0.25) + 8).attr('y', yS(0) - 8)
+                    .attr('fill', '#e67e22').attr('font-size', '12px').attr('font-family', 'sans-serif')
+                    .text('Brændpunkt F(¼, 0)');
 
                 // 4. Logaritmisk Spiral
                 functionPlot({
@@ -299,9 +330,14 @@
                     grid: true,
                     xAxis: { domain: [-10, 10] },
                     yAxis: { domain: [-10, 10] },
-                    data: [
-                        { fnType: 'parametric', x: 'exp(0.15*t) * cos(t)', y: 'exp(0.15*t) * sin(t)', range: [-20, 20], color: '#9b59b6' }
-                    ]
+                    data: [{
+                        fnType: 'parametric',
+                        graphType: 'polyline',
+                        x: 'exp(0.15*t) * cos(t)',
+                        y: 'exp(0.15*t) * sin(t)',
+                        range: [-20, 20],
+                        color: '#9b59b6'
+                    }]
                 });
 
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
