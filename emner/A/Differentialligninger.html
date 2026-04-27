@@ -108,7 +108,7 @@
                 <strong>Definition: Differentialligning</strong>
                 <p>En differentialligning er en ligning, hvori der indgår en eller flere differentialkvotienter $f'(x), f''(x), ...$ og eventuelt også funktionen $f(x)$ selv.</p>
                 <ul>
-                    <li><strong>Orden:</strong> Ligninger med $f'(x)$ (eller $y'$) kaldes 1. ordens. Indgår der $f''(x)$, er det 2. ordens osv..</li>
+                    <li><strong>Orden:</strong> Ligninger med $f'(x)$ (eller $y'$) kaldes 1. ordens. Indgår der $f''(x)$, er det 2. ordens osv.</li>
                     <li><strong>Løsning:</strong> En funktion, der opfylder ligningen, kaldes en <em>partikulær løsning</em>, og grafen kaldes en <em>løsningskurve</em> (eller integralkurve). Definitionsmængden skal være et interval.</li>
                     <li>Samtlige løsninger til differentialligningen udgør den <em>fuldstændige løsning</em>.</li>
                 </ul>
@@ -191,7 +191,7 @@
 
             <div class="svg-container">
                 <div id="graf-haeldningsfelt"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Eksempel på et hældningsfelt for differentialligningen $y' = -y + x$.</p>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Et matematisk præcist hældningsfelt for differentialligningen $y' = -y + x$.</p>
             </div>
         </section>
 
@@ -244,7 +244,7 @@
                 <p>hvor $c$ er et tal.</p>
             </div>
             
-            <p>For enhver løsning gælder y(t) $\to M$, når t $\to \infty$. I området $0 < y < M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
+            <p>For enhver løsning gælder $y(t) \to M$, når $t \to \infty$. I området $0 < y < M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
 
             <div class="svg-container">
                 <div id="graf-logistisk"></div>
@@ -261,7 +261,7 @@
             <h2>Definition og metode</h2>
             <p>Differentialligninger af 1. orden, der kan skrives på formen $\frac{dy}{dx} = h(x) \cdot g(y)$, kaldes <strong>separable differentialligninger</strong>.</p>
             
-            <p>Metoden går ud på at omskrive ligningen, så vi behandler symbolet $\frac{dy}{dx}$ som en brøk og separerer (adskiller) de variable. Det smarte er bl.a., at man i nogle sammenhænge kan behandle $\frac{dy}{dx}$ som en brøk:</p>
+            <p>Metoden går ud på at omskrive ligningen, så vi separerer (adskiller) de variable. Det smarte er bl.a., at man i nogle sammenhænge kan behandle $\frac{dy}{dx}$ som en brøk:</p>
 
             <p>$$
             \begin{aligned}
@@ -384,7 +384,7 @@
 
         <section class="card">
             <h2>At oversætte tekst til matematik</h2>
-            <p>Fælles for de klassiske eksempler (afkøling, populationsvækst etc.) er, at den sproglige beskrivelse giver en oplysning om væksthastigheden, som netop er lig differentialkvotienten. Desuden kan oplysningen "… er proportional med …" oversættes til "… er lig en konstant gange …". Ved at udnytte dette kan den sproglige beskrivelse oversættes til en 1. ordens differentialligning.</p>
+            <p>Det er ofte vigtigt at kunne opstille 1. ordens differentialligninger ud fra en sproglig beskrivelse af et fænomen. Fælles for de klassiske eksempler (afkøling, populationsvækst etc.) er, at den sproglige beskrivelse giver en oplysning om væksthastigheden, som netop er lig differentialkvotienten. Desuden kan oplysningen "… er proportional med …" oversættes til "… er lig en konstant gange …". Ved at udnytte dette kan den sproglige beskrivelse oversættes til en 1. ordens differentialligning.</p>
             
             <p>Vi minder om et konkret eksempel på et vækstproblem: For en bestemt population er væksthastigheden af populationen proportional med populationens størrelse. Ud fra denne beskrivelse opstillede vi differentialligningen:</p>
             <p>$$N'(t) = k \cdot N(t)$$</p>
@@ -396,14 +396,7 @@
             <p>Samlet oversigt over matematiske beviser i dette emne</p>
         </div>
 
-        <section class="card">
-            <h2>Oversigt over beviser</h2>
-            <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-separabel">Bevis for Sætning 2.1 (Eksponentiel vækst $y'=k \cdot y$) ved separation af variable</a></li>
-            </ul>
-        </section>
-
-        <section id="bevis-separabel" class="card proof">
+        <section class="card proof">
             <h2>Bevis for Sætning 2.1 ($y'=k \cdot y$) ved separation af variable</h2>
             <p>Vi ønsker at vise, at løsningen til differentialligningen $y' = k \cdot y$ er $y(t) = c \cdot e^{k \cdot t}$. Vi benytter metoden for separation af de variable (Sætning 2.4).</p>
             
@@ -419,7 +412,6 @@
             <p>Vi differentierer VS og HS hver for sig:</p>
             <p>VS: $\int \frac{1}{y} dy = \ln|y|$</p>
             <p>HS: $\int k dt = k \cdot t + k_1$, hvor $k_1$ er et tal.</p>
-
             <p>Altså gælder:</p>
             <p>$$\ln|y| = k \cdot t + k_1$$</p>
 
@@ -445,8 +437,31 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Funktion til at generere matematisk præcise hældningsfelter
+            function generateSlopeFieldData(L, h, xStart, xEnd, yStart, yEnd) {
+              const lineData = [];
+              for (let x = xStart; x <= xEnd; x += h) {
+                for (let y = yStart; y <= yEnd; y += h) {
+                  // Equation y' = -y + x
+                  const m = -y + x;
+                  const theta = Math.atan(m);
+                  const dx = (L / 2) * Math.cos(theta);
+                  const dy = (L / 2) * Math.sin(theta);
+                  lineData.push({
+                    graphType: 'polyline',
+                    color: '#7f8c8d',
+                    points: [
+                      [x - dx, y - dy],
+                      [x + dx, y + dy]
+                    ]
+                  });
+                }
+              }
+              return lineData;
+            }
+
             try {
-                // 1. Graf til Tangent-eksempel (dy/dx=x+y gennem P(1,2))
+                // 1. Graf til Tangent-eksempel (P(1,2) og tangent y = 3x - 1)
                 functionPlot({
                     target: '#graf-tangent',
                     width: document.getElementById('graf-tangent').parentElement.clientWidth - 40,
@@ -455,13 +470,15 @@
                     xAxis: { domain: [-1, 3] },
                     yAxis: { domain: [-2, 6] },
                     data: [
-                        { fn: '2*exp(x-1) - x - 1', color: '#3498db', graphType: 'polyline' }, // Løsningskurven
-                        { fn: '3*x - 1', color: '#27ae60', graphType: 'polyline' }            // Tangenten
+                        { fn: '4*exp(x-1) - x - 1', color: '#3498db' }, // Løsningskurven
+                        { fn: '3*x - 1', color: '#27ae60' }          // Tangenten
                     ],
-                    annotations: [{ x: 1, text: 'P(1,2)' }]
+                    annotations: [{ x: 1, y: 2, text: 'P(1,2)' }]
                 });
 
                 // 2. Graf til Hældningsfelt (y' = -y + x)
+                // Genererer linjeelementerne i scriptet for at overholde bibliotekets standard
+                const fieldData = generateSlopeFieldData(0.25, 0.5, -4, 4, -4, 4);
                 functionPlot({
                     target: '#graf-haeldningsfelt',
                     width: document.getElementById('graf-haeldningsfelt').parentElement.clientWidth - 40,
@@ -469,11 +486,7 @@
                     grid: true,
                     xAxis: { domain: [-4, 4] },
                     yAxis: { domain: [-4, 4] },
-                    data: [
-                        // Simulerer hældningsfelt med mange korte segmenter
-                        // Dette er en forenkling i function-plot; ideelt set bruges vectorFields
-                        { fn: '(-y + x)', graphType: 'polyline', fnType: 'vectorField', vector: { scale: 0.1 } } 
-                    ]
+                    data: fieldData // Passerer præ-genererede linjeelementer
                 });
 
                 // 3. Graf til Logistisk vækst
@@ -485,7 +498,7 @@
                     xAxis: { domain: [-2, 12] },
                     yAxis: { domain: [-1, 6] },
                     data: [
-                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6', graphType: 'polyline' } // Bæreevne M = 5
+                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // M = 5, S-formet
                     ],
                     annotations: [{ y: 5, text: 'Bæreevne (M)', fnType: 'horizontal' }]
                 });
