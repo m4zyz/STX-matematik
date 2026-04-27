@@ -3,50 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Differentialregning - STX Matematik A</title>
+    <title>[SIDENS TITEL] - STX Matematik</title>
     
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../../style.css">
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
-      }
-    };
-    </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
 
     <script>
-        window.basePath = "./"; 
+        window.basePath = "../../"; // Husk at ændre denne sti, hvis filen ligger et andet sted!
     </script>
-    <script src="./menu.js" defer></script>
+    <script src="../../menu.js" defer></script>
 
     <style>
-        .toc-list { list-style: none; padding: 0; margin: 10px 0 0 0; columns: 2; column-gap: 30px; }
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
         .toc-list li { margin-bottom: 8px; break-inside: avoid; }
         .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
         .toc-list a:hover { text-decoration: underline; }
         .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
 
-        .section-divider { margin: 40px 0 18px 0; padding-bottom: 10px; border-bottom: 2px solid #bdc3c7; }
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
         .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
         .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
 
-        .back-to-top { display: inline-block; font-size: 0.85rem; color: #bdc3c7; text-decoration: none; margin-top: 8px; }
+        /* Tilbage til toppen */
+        .back-to-top {
+            display: inline-block;
+            font-size: 0.85rem;
+            color: #bdc3c7;
+            text-decoration: none;
+            margin-top: 8px;
+        }
         .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
 
+        /* Tabeller */
         .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .data-table th { background-color: #f4f7f6; color: #2c3e50; text-align: center; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
         
-        .img-placeholder { background: #ecf0f1; padding: 40px; text-align: center; border-radius: 8px; border: 2px dashed #bdc3c7; color: #7f8c8d; margin: 20px 0; font-style: italic; }
+        /* Billed-pladsholder */
+        .img-placeholder {
+            background: #ecf0f1;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px dashed #bdc3c7;
+            color: #7f8c8d;
+            margin: 20px 0;
+        }
 
-        .proof-step { margin-bottom: 10px; }
-        .proof-step-desc { font-weight: bold; color: #2c3e50; }
-
-        @media (max-width: 600px) { .toc-list { columns: 1; } .data-table { font-size: 0.85rem; } }
+        @media (max-width: 600px) {
+            .toc-list { columns: 1; }
+            .data-table { font-size: 0.85rem; }
+        }
     </style>
 </head>
 <body>
@@ -55,510 +78,72 @@
 
     <main class="content">
         <header>
-            <h1 id="top">Differentialregning</h1>
-            <p class="subtitle">A - niveau</p>
+            <h1 id="top">[HOVEDOVERSKRIFT]</h1>
+            <p class="subtitle">[Niveau, f.eks. A - niveau]</p>
         </header>
 
         <section class="card">
             <h2>Indholdsfortegnelse</h2>
             <ul class="toc-list">
-                <li><a href="#definition"><span class="toc-num">1.</span>Definition af differentialkvotient</a></li>
-                <li><a href="#optimering"><span class="toc-num">2.</span>Optimering</a></li>
-                <li><a href="#regneregler"><span class="toc-num">3.</span>Regneregler for differentiation</a></li>
-                <li><a href="#funktioner"><span class="toc-num">4.</span>Eksponential-, logaritme- og potensfunktioner</a></li>
-                <li><a href="#vaekst"><span class="toc-num">5.</span>Vækst og væksthastighed</a></li>
-                <li><a href="#differentiabilitet"><span class="toc-num">6.</span>Differentiabilitet og kontinuitet</a></li>
-                <li><a href="#beviser"><span class="toc-num">7.</span>Beviser</a></li>
+                <li><a href="#emne1"><span class="toc-num">1.</span>[Emne 1]</a></li>
+                <li><a href="#emne2"><span class="toc-num">2.</span>[Emne 2]</a></li>
+                <li><a href="#beviser"><span class="toc-num">3.</span>Beviser</a></li>
             </ul>
         </section>
 
-        <div id="definition" class="section-divider">
-            <h2>1. Definition af differentialkvotient</h2>
-            <p>Hvad vil det sige, at en funktion er differentiabel?</p>
+        <div id="emne1" class="section-divider">
+            <h2>1. [Emne 1 Titel]</h2>
+            <p>[Kort beskrivelse af emnet]</p>
         </div>
 
         <section class="card">
-            <h2>Differentiabilitet og Tangent</h2>
-            <p>For en funktion $f(x)$ er differentialkvotienten et mål for grafens stejlhed i et punkt $(x_0, f(x_0))$ på grafen for funktionen. Vi betegner denne differentialkvotient $f'(x_0)$, og den er lig hældningen af tangenten til grafen i $(x_0, f(x_0))$.</p>
-            <p>Når det er muligt at bestemme hældningen i et punkt, siges $f(x)$ at være <strong>differentiabel</strong> i $x_0$. I definitionen benytter vi, at en sekant er en ret linje, der går gennem to punkter $(x_0, f(x_0))$ og $(x, f(x))$ på grafen.</p>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition 1: Differentiabilitet</strong>
-                <p>At en funktion $f(x)$ er differentiabel i $x_0$, betyder, at sekanthældningen</p>
-                <p>$$ \frac{f(x)-f(x_0)}{x-x_0} $$</p>
-                <p>går mod et bestemt tal $a$, når $x$ går mod $x_0$.</p>
-                <p>I så fald kaldes dette tal $a$ for differentialkvotienten af $f(x)$ i $x_0$, og det betegnes $f'(x_0)$.</p>
-            </div>
-
-            <p>Hvis det oplyses, at en funktion $f(x)$ er differentiabel i $x_0$, betyder det således, at:</p>
-            <p>$$ \frac{f(x)-f(x_0)}{x-x_0} \to f'(x_0) \quad \text{når} \quad x \to x_0 $$</p>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition: Tangent</strong>
-                <p>Hvis en funktion $f(x)$ er differentiabel i $x_0$, kaldes den rette linje gennem punktet $P_0(x_0, f(x_0))$ med hældningskoefficienten $f'(x_0)$ for tangenten til grafen for $f(x)$ i $P_0$.</p>
-            </div>
-
-            <p>Den geometriske fortolkning af definitionen er, at man kan indføre en tangent som sekanternes grænsestilling, forstået på den måde, at sekanthældningerne kommer tættere og tættere på tangenthældningen, jo nærmere punktet $(x, f(x))$ kommer på punktet $(x_0, f(x_0))$.</p>
+            <h2>[Underoverskrift]</h2>
+            <p>Her kan du skrive din tekst. Brug <code>\( ... \)</code> til matematik inde i teksten, og <code>$$ ... $$</code> til store formler.</p>
             
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition 2: Differentiabilitet (h-reglen)</strong>
-                <p>I stedet for at bruge $x$, kan afstanden mellem x-værdierne betegnes $h$, så punktet er $(x_0+h, f(x_0+h))$. Differentiabilitet betyder her, at sekanthældningen:</p>
-                <p>$$ \frac{f(x_0+h)- f(x_0)}{h} $$</p>
-                <p>går mod et bestemt tal $a$, når $h$ går mod $0$. Dette tal er differentialkvotienten $f'(x_0)$.</p>
+                <strong>Definition / Sætning: [Navn]</strong>
+                <p>Brug denne boks til at fremhæve vigtige formler eller definitioner.</p>
             </div>
-            <a href="#top" class="back-to-top">Tilbage til toppen</a>
-        </section>
-
-        <div id="optimering" class="section-divider">
-            <h2>2. Optimering</h2>
-            <p>At finde det maksimale eller minimale resultat i praktiske problemer</p>
-        </div>
-
-        <section class="card">
-            <h2>Hvad er optimering?</h2>
-            <p>At "optimere" betyder noget i retning af "gøre bedst". I matematik benyttes ordet optimering især om praktiske problemer, hvor man ønsker at gøre en størrelse minimal, fx udgifterne, eller maksimal, fx overskuddet.</p>
-            <p>Optimeringsproblemer kan ofte løses ved hjælp af differentialregning. Udfordringen er som regel at få oversat det praktiske problem til et differentialregningsproblem af typen "Find maksimum (eller minimum) for $f(x)$".</p>
         </section>
 
         <section class="card example">
-            <h2>Eksempel: Hvor stor en æske kan man få for 48 kr.?</h2>
-            <p>Dette eksempel indeholder de karakteristiske træk ved en række optimeringsproblemer. I skemaet herunder ses de generelle træk ved metoden i venstre kolonne, og udførelsen i højre.</p>
-            
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th style="width: 5%;">Trin</th>
-                        <th style="width: 45%;">Handling</th>
-                        <th style="width: 50%;">Eksempel</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align: center;">1</td>
-                        <td>Alle variable identificeres og navngives.</td>
-                        <td>$x, h, V$</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">2</td>
-                        <td>Den afhængige variabel identificeres. Det vil altid være den størrelse, der skal optimeres.</td>
-                        <td>$V$ (Rumfanget)</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">3</td>
-                        <td>Sammenhænge mellem de øvrige variable opstilles.</td>
-                        <td>Samlet pris = <strong>48 kr.</strong>, dvs. $12xh + 4x^2 = 48$.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">4</td>
-                        <td>Den uafhængige variabel vælges.</td>
-                        <td>Både $h$ og $x$ kan bruges. Vi vælger $x$.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">5</td>
-                        <td>De andre variable udtrykkes ved den valgte uafhængige variabel.</td>
-                        <td>$h$ isoleres i ligningen $12xh + 4x^2 = 48$, dvs. $h = \frac{12-x^2}{3x}$.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">6</td>
-                        <td>Begrænsninger på den uafhængige variabel bestemmes.</td>
-                        <td>$0 < x < \sqrt{12}$</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">7</td>
-                        <td>Den afhængige variabel udtrykkes ved de øvrige variable.</td>
-                        <td>$V = x^2 \cdot h$</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">8</td>
-                        <td>De fundne sammenhænge indsættes, så kun den valgte uafhængige variabel indgår.</td>
-                        <td>$V = x^2 \cdot \frac{12-x^2}{3x} = 4x - \frac{x^3}{3}$</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">9</td>
-                        <td>Funktionen differentieres, og differentialkvotienten sættes lig 0. Ligningen løses.</td>
-                        <td>$V'(x) = 0$ løses. Løsning: $x = 2$.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">10</td>
-                        <td>Grafen tegnes, eller fortegnsvariationen for differentialkvotienten undersøges.</td>
-                        <td>Viser, at der er et globalt maksimum for funktionen ved $x=2$.</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: center;">11</td>
-                        <td>Konklusion. Den optimale værdi af de variable beregnes.</td>
-                        <td>Rumfanget er maksimalt for $x=2$, dvs. siden skal være <strong>2 cm</strong>. Højden bliver dermed <strong>1,3 cm</strong>. Maksimale rumfang er <strong>5,3 cm³</strong>.</td>
-                    </tr>
-                </tbody>
-            </table>
-            <a href="#top" class="back-to-top">Tilbage til toppen</a>
-        </section>
-
-        <div id="regneregler" class="section-divider">
-            <h2>3. Regneregler for differentiation</h2>
-            <p>Vigtige regneregler for produkter, summer og sammensatte funktioner</p>
-        </div>
-
-        <section class="card">
-            <h2>Oversigt over de basale regneregler</h2>
-            <p>Nedenstående tabel opsummerer de primære regneregler for at differentiere kombinationer af funktioner.</p>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">Regel</th>
-                        <th style="width: 35%;">Funktion $p(x)$</th>
-                        <th style="width: 40%;">Differentialkvotient $p'(x)$</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Konstant faktor-reglen</strong></td>
-                        <td>$c \cdot f(x)$</td>
-                        <td>$c \cdot f'(x)$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sumreglen</strong></td>
-                        <td>$f(x) + g(x)$</td>
-                        <td>$f'(x) + g'(x)$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Differensreglen</strong></td>
-                        <td>$f(x) - g(x)$</td>
-                        <td>$f'(x) - g'(x)$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Produktreglen</strong></td>
-                        <td>$f(x) \cdot g(x)$</td>
-                        <td>$f'(x) \cdot g(x) + f(x) \cdot g'(x)$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sammensat funktion</strong></td>
-                        <td>$f(g(x))$</td>
-                        <td>$g'(x) \cdot f'(g(x))$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Lineær substitution</strong></td>
-                        <td>$f(a \cdot x + b)$</td>
-                        <td>$a \cdot f'(a \cdot x + b)$</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p><em>Alle beviserne for regnereglerne kan findes i <a href="#beviser">bevis-sektionen</a> nederst på siden.</em></p>
-            <a href="#top" class="back-to-top">Tilbage til toppen</a>
-        </section>
-
-        <div id="funktioner" class="section-divider">
-            <h2>4. Eksponential-, logaritme- og potensfunktioner</h2>
-            <p>Differentiation af de elementære funktioner</p>
-        </div>
-
-        <section class="card">
-            <h2>Differentialkvotienter for elementære funktioner</h2>
-            <p>Her ses de afledte for nogle af gymnasiets hyppigst brugte funktioner:</p>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 1.2: Vigtige differentialkvotienter</strong>
-                <p>$$ (a^x)' = a^x \cdot \ln(a) $$</p>
-                <p>$$ (\ln(x))' = \frac{1}{x} $$</p>
-                <p>$$ (x^a)' = a \cdot x^{a-1} $$</p>
-            </div>
-
-            <h2>Oversigtstabel</h2>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Funktion $f(x)$</th>
-                        <th>Differentialkvotient $f'(x)$</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>konstant</td><td>$0$</td></tr>
-                    <tr><td>$x$</td><td>$1$</td></tr>
-                    <tr><td>$ax + b$</td><td>$a$</td></tr>
-                    <tr><td>$x^2$</td><td>$2x$</td></tr>
-                    <tr><td>$x^3$</td><td>$3x^2$</td></tr>
-                    <tr><td>$\frac{1}{x}$</td><td>$-\frac{1}{x^2}$</td></tr>
-                    <tr><td>$\sqrt{x}$</td><td>$\frac{1}{2 \cdot \sqrt{x}}$</td></tr>
-                    <tr><td>$a^x$</td><td>$\ln(a) \cdot a^x$</td></tr>
-                    <tr><td>$\ln(x)$</td><td>$\frac{1}{x}$</td></tr>
-                    <tr><td>$x^a$</td><td>$a \cdot x^{a-1}$</td></tr>
-                    <tr><td>$\text{e}^x$</td><td>$\text{e}^x$</td></tr>
-                    <tr><td>$\text{e}^{k \cdot x}$</td><td>$k \cdot \text{e}^{k \cdot x}$</td></tr>
-                    <tr><td>$\cos(x)$</td><td>$-\sin(x)$</td></tr>
-                    <tr><td>$\sin(x)$</td><td>$\cos(x)$</td></tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="card">
-            <h2>Den naturlige eksponentialfunktion</h2>
-            <p>Tallet $\text{e} \approx 2{,}71828$ er grundtal for den naturlige logaritmefunktion $\ln(x)$. Hermed menes, at $\ln(\text{e}) = 1$.</p>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition & Sætning 1.3</strong>
-                <p>Eksponentialfunktionen $\text{e}^x$ med grundtal $\text{e}$ kaldes den <strong>naturlige eksponentialfunktion</strong>.</p>
-                <p>Dens helt specielle egenskab er, at den er sin egen afledede funktion:</p>
-                <p>$$ (\text{e}^x)' = \text{e}^x $$</p>
-            </div>
-            
-            <a href="#top" class="back-to-top">Tilbage til toppen</a>
-        </section>
-
-        <div id="vaekst" class="section-divider">
-            <h2>5. Vækst og væksthastighed</h2>
-            <p>Øjeblikkelig hastighed og eksponentielle grænser</p>
-        </div>
-
-        <section class="card">
-            <h2>Væksthastighed og frit fald</h2>
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition: Væksthastighed</strong>
-                <p>For en funktion $f(t)$, hvor $t$ betegner tiden, kaldes $f'(t_0)$ væksthastigheden til tidspunktet $t_0$. Mere præcist er $f'(t_0)$ en <strong>øjeblikkelig hastighed</strong>.</p>
-            </div>
-            <p>Når man skal give en praktisk fortolkning af en væksthastighed, vil enheden altid være $y$-enhed pr. $x$-enhed (fx bakterier pr. time). Ved fysiske bevægelser, såsom et frit fald, betyder hastighed tilbagelagt vejlængde pr. tidsenhed, og bestemmes igen matematisk som en differentialkvotient.</p>
-        </section>
-
-        <section class="card">
-            <h2>Asymptotiske egenskaber for eksponentialfunktioner</h2>
-            <p>Vi ser på funktioner af typen $\text{e}^{kx}$ og $\text{e}^{-kx}$, hvor $k > 0$. For begge er x-aksen asymptote til grafen.</p>
-            
-            
-            <ul>
-                <li>$\text{e}^{kx} \to 0$ når $x \to -\infty$, og $\text{e}^{kx} \to \infty$ når $x \to \infty$</li>
-                <li>$\text{e}^{-kx} \to \infty$ når $x \to -\infty$, og $\text{e}^{-kx} \to 0$ når $x \to \infty$</li>
-            </ul>
-
-            <p>Disse egenskaber bruges i komplekse brøker. Fx for $f(x) = \frac{4}{1 + 3 \cdot \text{e}^{-0{,}8 \cdot x}}$ vil nævneren gå mod $\infty$ når $x \to -\infty$, hvormed funktionen går mod $0$. Når $x \to \infty$ vil udtrykket gå mod $\frac{4}{1+0} = 4$. Altså er der asymptoter ved $y=0$ og $y=4$.</p>
-        </section>
-
-        <section class="card">
-            <h2>Eksponentiel vækst</h2>
-            <p>En vilkårlig eksponentialfunktion $a^t$ kan udtrykkes ved den naturlige eksponentialfunktion: $a^t = \text{e}^{k \cdot t}$, hvor $k = \ln(a)$.</p>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 1.4: Eksponentiel vækst omskrivninger</strong>
-                <p><strong>Voksende funktion:</strong> $y = b \cdot a^t$ ($a > 1$) kan omskrives til $y = b \cdot \text{e}^{k \cdot t}$ ($k > 0$).<br>
-                Fordoblingskonstanten er $T_2 = \frac{\ln(2)}{k}$. Den kan også skrives som $y = b \cdot 2^{\frac{t}{T_2}}$.</p>
-
-                <p><strong>Aftagende funktion:</strong> $y = b \cdot a^t$ ($0 < a < 1$) kan omskrives til $y = b \cdot \text{e}^{-k \cdot t}$ ($k > 0$).<br>
-                Halveringskonstanten er $T_{1/2} = \frac{\ln(2)}{k}$. Den kan også skrives som $y = b \cdot \left(\frac{1}{2}\right)^{\frac{t}{T_{1/2}}}$.</p>
-            </div>
-            <a href="#top" class="back-to-top">Tilbage til toppen</a>
-        </section>
-
-        <div id="differentiabilitet" class="section-divider">
-            <h2>6. Differentiabilitet og kontinuitet</h2>
-            <p>Betydningen af at grafen ikke har knæk eller spring</p>
-        </div>
-
-        <section class="card">
-            <h2>Kontinuitet</h2>
-            <p>Man siger, at en funktion er kontinuert i et interval, hvis grafen er sammenhængende (uden spring).</p>
-            
-            <p>Vi kan for eksempel have funktionen $g(x) = \frac{3x^2}{\text{int}(x)} - 3x + 1$, hvor $\text{int}(x)$ runder ned til nærmeste hele tal. Dens graf vil have "spring" hver gang $x$ passerer et helt tal.</p>
-            
-
-            <p>Da grafen springer ved de hele tal, kan man umuligt tegne en tangent der. Funktionen $g(x)$ er derved ikke differentiabel for disse x. Der gælder den vigtige hovedregel:</p>
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <p>Hvis en funktion <strong>ikke</strong> er kontinuert, så er den <strong>heller ikke</strong> differentiabel.<br>
-                Sagt med andre ord: Hvis en funktion er differentiabel, så er den med garanti også kontinuert.</p>
-            </div>
-            <p>Husk, at en funktion godt kan være kontinuert, uden at den er differentiabel overalt (f.eks. ved et "knæk" på grafen, hvor der ikke findes en entydig tangent).</p>
-        </section>
-
-        <section class="card">
-            <h2>Kontinuitet, nulpunkter og monotoni</h2>
-            <p>Fordi kontinuerte funktioner er sammenhængende, gælder det, at hvis $y$ er positiv for én x-værdi og negativ for en anden x-værdi, <em>skal</em> funktionen have et nulpunkt mellem de to x-værdier. Grafen kan ganske enkelt ikke komme fra en positiv y-værdi til en negativ y-værdi uden at skære x-aksen undervejs.</p>
-            
-
-            <p>En kontinuert funktion kan altså ikke skifte fortegn uden at passere et nulpunkt. Dette benyttes direkte i vores monotoniundersøgelser: For en funktion $f(x)$ vil $f'(x)$ typisk være kontinuert. Når vi har fundet nulpunkterne $f'(x) = 0$, ved vi, at fortegnet (positivt eller negativt) for $f'(x)$ er fuldstændig fast og uændret mellem to nulpunkter. Vi kan derfor teste hældningen med en enkelt x-værdi i det mellemliggende interval.</p>
+            <h2>Eksempel: [Titel på eksempel]</h2>
+            <p>Vis et regneeksempel trin for trin:</p>
+            <p>$$
+            \begin{gathered}
+            2x + 4 = 10 \\
+            \Downarrow \\
+            2x = 6 \\
+            \Downarrow \\
+            x = 3
+            \end{gathered}
+            $$</p>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
 
 
         <div id="beviser" class="section-divider">
-            <h2>7. Beviser</h2>
+            <h2>3. Beviser</h2>
             <p>Samlet oversigt over matematiske beviser i dette emne</p>
         </div>
 
         <section class="card">
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-ex">Bevis for Sætning 1.3: $\text{e}^x$ er sin egen afledede</a></li>
-                <li><a href="#bevis-x2">Bevis for Sætning 6.1: Differentialkvotienten af $x^2$</a></li>
-                <li><a href="#bevis-x3">Bevis for Sætning 6.2: Differentialkvotienten af $x^3$</a></li>
-                <li><a href="#bevis-1-x">Bevis for Sætning 6.3: Differentialkvotienten af $\frac{1}{x}$</a></li>
-                <li><a href="#bevis-sqrt-x">Bevis for Sætning 6.5: Differentialkvotienten af $\sqrt{x}$</a></li>
-                <li><a href="#bevis-konstant">Bevis for Sætning 6.6: Konstant faktor-reglen</a></li>
-                <li><a href="#bevis-sum">Bevis for Sætning 6.7: Sumreglen</a></li>
-                <li><a href="#bevis-produkt">Bevis for Sætning 6.9: Produktreglen</a></li>
-                <li><a href="#bevis-sammensat">Bevis for Sætning 6.10: Sammensat funktion</a></li>
+                <li><a href="#bevis1">Bevis for [Sætning 1]</a></li>
             </ul>
         </section>
 
-        <section id="bevis-ex" class="card proof">
-            <h2>Bevis for Sætning 1.3: $\text{e}^x$ er sin egen afledede</h2>
-            <p>Beviset for at funktionen $f(x) = \text{e}^x$ har $f'(x) = \text{e}^x$ fås let af formlen for en generel eksponentialfunktion i sætning 1.2:</p>
-            <p>$$ f'(x) = \text{e}^x \cdot \ln(\text{e}) = \text{e}^x \cdot 1 = \text{e}^x $$</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
-
-        <section id="bevis-x2" class="card proof">
-            <h2>Bevis for Sætning 6.1: Differentialkvotienten af $x^2$</h2>
-            <p>Vi skal vise, at for $f(x) = x^2$ er differentialkvotienten $f'(x_0) = 2x_0$. Først udregnes hældningen for sekanten mellem punkterne $(x_0, x_0^2)$ og $(x, x^2)$:</p>
-            <p>$$ \frac{f(x)-f(x_0)}{x-x_0} = \frac{x^2-x_0^2}{x-x_0} = \frac{(x+x_0)\cdot(x-x_0)}{x-x_0} = x+x_0 $$</p>
-            <p>Efter forkortningen lader vi $x$ gå mod $x_0$:</p>
-            <p>$$ x+x_0 \to x_0 + x_0 = 2x_0 \quad \text{når} \quad x \to x_0 $$</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
-
-        <section id="bevis-x3" class="card proof">
-            <h2>Bevis for Sætning 6.2: Differentialkvotienten af $x^3$</h2>
-            <p>Vi skal vise, at for $f(x) = x^3$ er differentialkvotienten $f'(x_0) = 3x_0^2$. Her kan både definition 1 og 2 benyttes.</p>
+        <section id="bevis1" class="card proof">
+            <h2>Bevis for [Sætning 1]</h2>
+            <p>Her kan du gennemgå beviset.</p>
             
-            <h3>Bevis 1 (ved definition 1)</h3>
-            <p>Sekanthældningen opskrives:</p>
-            <p>$$ \frac{f(x) - f(x_0)}{x -x_0} = \frac{x^3 - x_0^3}{x - x_0} $$</p>
-            <p>Ved brug af et CAS-værktøj eller polynomiers division omskrives brøken til:</p>
-            <p>$$ x^2 + x_0 \cdot x + x_0^2 $$</p>
-            <p>Vi undersøger nu grænseværdien når $x \to x_0$:</p>
-            <p>$$ x^2 + x_0 \cdot x + x_0^2 \to x_0^2 + x_0 \cdot x_0 + x_0^2 = 3x_0^2 $$</p>
+            <p>$$ a^2 + b^2 = c^2 $$</p>
 
-            <h3>Bevis 2 (ved h-reglen, definition 2)</h3>
-            <p>Sekanthældningen opskrives og parentesen ganges ud:</p>
-            <p>$$
-            \begin{aligned}
-            \frac{f(x_0 + h) - f(x_0)}{h} &= \frac{(x_0 + h)^3 - x_0^3}{h} \\
-            &= \frac{(x_0^3 + 3x_0^2h + 3x_0 h^2 + h^3) - x_0^3}{h} \\
-            &= \frac{3x_0^2h + 3x_0 h^2 + h^3}{h} \\
-            &= 3x_0^2 + 3x_0 h + h^2
-            \end{aligned}
-            $$</p>
-            <p>Når $h \to 0$ forsvinder alle led med $h$, og vi står tilbage med:</p>
-            <p>$$ 3x_0^2 + 0 + 0 = 3x_0^2 $$</p>
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
             <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
         </section>
 
-        <section id="bevis-1-x" class="card proof">
-            <h2>Bevis for Sætning 6.3: Differentialkvotienten af $\frac{1}{x}$</h2>
-            <p>For $f(x) = \frac{1}{x}$ viser vi her beviset via definition 2 (h-reglen):</p>
-            <p>$$
-            \begin{aligned}
-            \frac{f(x_0+h)-f(x_0)}{h} &= \frac{\frac{1}{x_0+h}-\frac{1}{x_0}}{h} \\
-            &= \frac{\frac{x_0-(x_0+h)}{(x_0+h) \cdot x_0}}{h} \\
-            &= \frac{\frac{-h}{(x_0+h)\cdot x_0}}{h} \\
-            &= \frac{-1}{(x_0 + h)\cdot x_0}
-            \end{aligned}
-            $$</p>
-            <p>Efter denne omskrivning ser vi, hvad der sker når $h \to 0$:</p>
-            <p>$$ \frac{-1}{(x_0+h)\cdot x_0} \to \frac{-1}{(x_0+0)\cdot x_0} = \frac{-1}{x_0^2} $$</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
-
-        <section id="bevis-sqrt-x" class="card proof">
-            <h2>Bevis for Sætning 6.5: Differentialkvotienten af $\sqrt{x}$</h2>
-            <p>Først udregnes hældningen for sekanten for $f(x) = \sqrt{x}$:</p>
-            <p>$$ \frac{f(x)-f(x_0)}{x-x_0} = \frac{\sqrt{x}-\sqrt{x_0}}{x-x_0} $$</p>
-            <p>For at komme videre forlænger vi brøken med nævnerens konjugerede størrelse, $\sqrt{x} + \sqrt{x_0}$:</p>
-            <p>$$
-            \begin{aligned}
-            \frac{\sqrt{x}-\sqrt{x_0}}{x - x_0} &= \frac{(\sqrt{x}-\sqrt{x_0})\cdot(\sqrt{x}+\sqrt{x_0})}{(x-x_0)\cdot(\sqrt{x}+\sqrt{x_0})} \\
-            &= \frac{(\sqrt{x})^2-(\sqrt{x_0})^2}{(x-x_0)\cdot (\sqrt{x}+\sqrt{x_0})} \\
-            &= \frac{x-x_0}{(x-x_0)\cdot (\sqrt{x}+\sqrt{x_0})} \\
-            &= \frac{1}{\sqrt{x}+\sqrt{x_0}}
-            \end{aligned}
-            $$</p>
-            <p>Når $x \to x_0$ vil $\sqrt{x} \to \sqrt{x_0}$, hvormed nævneren bliver til to ens rødder lagt sammen:</p>
-            <p>$$ \frac{1}{\sqrt{x}+\sqrt{x_0}} \to \frac{1}{\sqrt{x_0}+\sqrt{x_0}} = \frac{1}{2\cdot\sqrt{x_0}} $$</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
-
-        <section id="bevis-konstant" class="card proof">
-            <h2>Bevis for Sætning 6.6: Konstant faktor-reglen</h2>
-            <p>For $p(x) = c \cdot f(x)$ opskrives sekanthældningen ved h-reglen:</p>
-            <p>$$ \frac{p(x_0 + h)-p(x_0)}{h} = \frac{c\cdot f(x_0 + h)-c\cdot f(x_0)}{h} = c\cdot \frac{f(x_0+h)-f(x_0)}{h} $$</p>
-            <p>Da $f(x)$ er differentiabel, vil $\frac{f(x_0+h)-f(x_0)}{h} \to f'(x_0)$. Dermed vil udtrykket gå mod $c \cdot f'(x_0)$ når $h \to 0$.</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
-
-        <section id="bevis-sum" class="card proof">
-            <h2>Bevis for Sætning 6.7: Sumreglen</h2>
-            <p>For funktionen $p(x) = f(x) + g(x)$ opskriver vi sekanthældningen:</p>
-            <p>$$ \frac{p(x)-p(x_0)}{x-x_0} = \frac{(f(x)+g(x))-(f(x_0)+g(x_0))}{x - x_0} $$</p>
-            <p>Leddene ommøbleres, så vi kan adskille de to funktioner:</p>
-            <p>$$
-            \begin{aligned}
-            &= \frac{(f(x)-f(x_0))+(g(x)-g(x_0))}{x-x_0} \\
-            &= \frac{f(x) - f(x_0)}{x-x_0} + \frac{g(x)-g(x_0)}{x-x_0}
-            \end{aligned}
-            $$</p>
-            <p>Da både $f$ og $g$ er differentiable, vil hver brøk gå mod hhv. $f'(x_0)$ og $g'(x_0)$ når $x \to x_0$. Alt i alt får vi differenskvotienten $f'(x_0) + g'(x_0)$.</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
-
-        <section id="bevis-produkt" class="card proof">
-            <h2>Bevis for Sætning 6.9: Produktreglen</h2>
-            <p>Vi ønsker at finde den afledede af produktet $p(x) = f(x) \cdot g(x)$.</p>
-            
-            <div class="proof-step">
-                <div class="proof-step-desc">1. Vi opskriver sekanthældningen for p(x):</div>
-                $$ \frac{\Delta p}{\Delta x} = \frac{p(x)- p(x_0)}{x - x_0} = \frac{f(x)\cdot g(x)-f(x_0)\cdot g(x_0)}{x - x_0} $$
-            </div>
-
-            <div class="proof-step">
-                <div class="proof-step-desc">2. Et matematisk trick: Vi trækker et led fra og lægger præcis det samme led til (ændrer ikke på værdien):</div>
-                $$ \frac{f(x)\cdot g(x) \color{#e74c3c}{-f(x_0)\cdot g(x) + f(x_0)\cdot g(x)} - f(x_0)\cdot g(x_0)}{x-x_0} $$
-            </div>
-
-            <div class="proof-step">
-                <div class="proof-step-desc">3. Leddene samles i par ved at sætte fælles faktorer uden for parentes:</div>
-                $$ \frac{(f(x)- f(x_0))\cdot g(x) + f(x_0)\cdot (g(x)-g(x_0))}{x - x_0} $$
-            </div>
-
-            <div class="proof-step">
-                <div class="proof-step-desc">4. Udtrykket brydes op i to separate brøker:</div>
-                $$ \frac{f(x)-f(x_0)}{x - x_0}\cdot g(x) + f(x_0)\cdot\frac{g(x)-g(x_0)}{x - x_0} $$
-            </div>
-
-            <p>Vi skal nu se, hvad der sker når $x \to x_0$. Da funktionerne er differentiable gælder der, at brøkerne går mod $f'(x_0)$ og $g'(x_0)$. Endvidere vil $g(x) \to g(x_0)$ (da en differentiabel funktion altid er kontinuert).</p>
-            <p>Alt i alt fås:</p>
-            <p>$$ \to f'(x_0) \cdot g(x_0)+f(x_0)\cdot g'(x_0) \quad \text{når} \quad x\to x_0 $$</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
-
-        <section id="bevis-sammensat" class="card proof">
-            <h2>Bevis for Sætning 6.10: Differentiation af sammensat funktion</h2>
-            <p>Vi ser på den sammensatte funktion $s(x) = f(g(x))$. For overskuelighedens skyld indfører vi den indre funktion som en variabel: $u = g(x)$ og $u_0 = g(x_0)$.</p>
-
-            <div class="proof-step">
-                <div class="proof-step-desc">1. Sekanthældningen opstilles:</div>
-                $$ \frac{\Delta s}{\Delta x} = \frac{f(g(x))-f(g(x_0))}{x-x_0} = \frac{f(u)-f(u_0)}{x-x_0} $$
-            </div>
-
-            <div class="proof-step">
-                <div class="proof-step-desc">2. Brøken forlænges med ændringen i den indre funktion, $u - u_0$:</div>
-                $$ \frac{f(u)-f(u_0)}{u-u_0}\cdot\frac{u-u_0}{x-x_0} $$
-            </div>
-
-            <div class="proof-step">
-                <div class="proof-step-desc">3. De oprindelige "g"-betegnelser genindsættes for at tydeliggøre, at vi har adskilt den ydre og indre differentialkvotient:</div>
-                $$ \frac{f(u)-f(u_0)}{u-u_0}\cdot\frac{g(x)-g(x_0)}{x-x_0} $$
-            </div>
-
-            <p>Når $x \to x_0$, vil $g(x) \to g(x_0)$, og derved $u \to u_0$. Fordi begge funktioner er differentiable, konvergerer vores to brøker derved mod henholdsvis $f'(u_0)$ og $g'(x_0)$:</p>
-            <p>$$ \to f'(u_0) \cdot g'(x_0) = f'(g(x_0))\cdot g'(x_0) \quad \text{når} \quad x \to x_0 $$</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
-        </section>
 
         <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
 
@@ -570,6 +155,12 @@
         </footer>
 
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // functionPlot({ ... });
+        });
+    </script>
 
 </body>
 </html>
