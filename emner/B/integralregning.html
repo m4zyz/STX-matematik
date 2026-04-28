@@ -69,6 +69,8 @@
         }
 
         .proof { margin-bottom: 30px; }
+        .proof-step { margin-bottom: 15px; }
+        .proof-step strong { display: block; color: var(--primary-color); margin-bottom: 5px; }
         
         /* Tilbage til toppen link */
         .back-to-top { display: inline-block; font-size: 0.85rem; color: #bdc3c7; text-decoration: none; margin-top: 8px; }
@@ -87,7 +89,7 @@
     <main class="content">
         <header>
             <h1 id="top">Integralregning</h1>
-            <p class="subtitle">B - niveau</p>
+            <p class="subtitle">A - niveau</p>
         </header>
 
         <section class="card">
@@ -99,7 +101,9 @@
                 <li><a href="#arealer-grafer"><span class="toc-num">4.</span>Arealer mellem grafer</a></li>
                 <li><a href="#substitution"><span class="toc-num">5.</span>Integration ved $u$-substitution</a></li>
                 <li><a href="#anvendelser"><span class="toc-num">6.</span>Anvendelser af integralregning</a></li>
-                <li><a href="#beviser"><span class="toc-num">7.</span>Beviser</a></li>
+                <li><a href="#beviser"><span class="toc-num">7.</span>Beviser for grundregler</a></li>
+                <li><a href="#beviser-standard"><span class="toc-num">8.</span>Beviser for standard-stamfunktioner</a></li>
+                <li><a href="#beviser-geometri"><span class="toc-num">9.</span>Beviser for geometriske anvendelser</a></li>
             </ul>
         </section>
 
@@ -130,15 +134,15 @@
             <p>Når man kender én stamfunktion til en given funktion, kan man finde uendelig mange stamfunktioner ved blot at addere en konstant.</p>
             
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.1: Stamfunktion plus vilkårlig konstant</strong>
+                <strong>Sætning: Stamfunktion plus vilkårlig konstant</strong>
                 <p>Hvis $F(x)$ er en stamfunktion til $f(x)$, er enhver funktion af typen $F(x) + k$, hvor $k$ er en konstant, også en stamfunktion til $f(x)$.</p>
             </div>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.2: To stamfunktioner afviger kun med en konstant</strong>
+                <strong>Sætning: To stamfunktioner afviger kun med en konstant</strong>
                 <p>Hvis $F_1(x)$ er en stamfunktion til $f(x)$, kan enhver anden stamfunktion $F(x)$ til $f(x)$ skrives som $F(x) = F_1(x) + k$, hvor $k$ er en konstant.</p>
             </div>
-            <p><em>Beviser for disse sætninger findes i <a href="#beviser">bevis-sektionen</a> nederst.</em></p>
+            <p><em>Beviser for disse sætninger findes i <a href="#bevis-konstant">bevis-sektionen</a>.</em></p>
            
         </section>
 
@@ -149,20 +153,16 @@
 
         <section class="card">
             <h2>Areal under en graf</h2>
-            <p>Vi ser på funktioner, hvis graf er sammenhængende (kontinuert) i et interval $[a; b]$ og ikke kommer under x-aksen i dette interval ($f(x) \geq 0$). Vi vil beregne arealet af området begrænset af grafen, x-aksen og de to lodrette linjer $x = a$ og $x = b$.</p>
+            <p>Vi ser på funktioner, hvis graf er sammenhængende (kontinuert) i et interval $[a; b]$ og ikke kommer under x-aksen i dette interval ($f(x) \geq 0$).</p>
             
-            
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Definition: Det bestemte integral</strong>
                 <p>Lad $F(x)$ være en stamfunktion til funktionen $f(x)$. Tallet $F(b) - F(a)$ kaldes det bestemte integral af $f(x)$ i $[a; b]$, og man skriver:</p>
                 <p>$$ \int_a^b f(x)\text{d}x = \left[ F(x) \right]_a^b = F(b) - F(a) $$</p>
             </div>
 
-            <p>Det er vigtigt at understrege forskellen: Det bestemte integral $\int_a^b f(x)\text{d}x$ er et <strong>tal</strong>, mens det ubestemte integral $\int f(x)\text{d}x$ er en <strong>funktion</strong>.</p>
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.4: Arealbestemmelse ved hjælp af bestemt integral</strong>
+                <strong>Sætning: Arealbestemmelse ved hjælp af bestemt integral</strong>
                 <p>Arealet $A$ af det område, der er begrænset af grafen for en ikke-negativ funktion $f(x)$ og x-aksen i intervallet $[a; b]$, er bestemt ved:</p>
                 <p>$$ A = \int_a^b f(x)\text{d}x $$</p>
             </div>
@@ -171,8 +171,6 @@
                 <div id="graf-areal"></div>
                 <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Arealet under grafen for $f(x) = x^2$ i intervallet $[0; 2]$. Arealet udregnes til $\int_0^2 x^2\text{d}x = \frac{8}{3}$.</p>
             </div>
-            
-          
         </section>
 
         <div id="regneregler" class="section-divider">
@@ -182,9 +180,6 @@
 
         <section class="card">
             <h2>Oversigt over regneregler</h2>
-            <p>Nedenstående tabeller opsummerer regnereglerne for henholdsvis det ubestemte og det bestemte integral.</p>
-
-            <h3>For ubestemt integral (Sætning 2.5)</h3>
             <table class="data-table">
                 <thead>
                     <tr>
@@ -202,298 +197,167 @@
                         <td>$\int (f(x) - g(x))\text{d}x = \int f(x)\text{d}x - \int g(x)\text{d}x$</td>
                     </tr>
                     <tr>
-                        <td><strong>Konstant-faktor-reglen</strong></td>
+                        <td><strong>Konstant-faktor</strong></td>
                         <td>$\int (c \cdot f(x))\text{d}x = c \cdot \int f(x)\text{d}x$</td>
                     </tr>
                 </tbody>
             </table>
-
-            <h3>For bestemt integral (Sætning 2.6)</h3>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th style="width: 30%;">Regel</th>
-                        <th style="width: 70%;">Formel</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Sumreglen</strong></td>
-                        <td>$\int_a^b (f(x) + g(x))\text{d}x = \int_a^b f(x)\text{d}x + \int_a^b g(x)\text{d}x$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Differensreglen</strong></td>
-                        <td>$\int_a^b (f(x) - g(x))\text{d}x = \int_a^b f(x)\text{d}x - \int_a^b g(x)\text{d}x$</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Konstant-faktor-reglen</strong></td>
-                        <td>$\int_a^b (c \cdot f(x))\text{d}x = c \cdot \int_a^b f(x)\text{d}x$</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p><em>Beviserne for disse regneregler er givet som sætning 6.11 og 6.12 i <a href="#beviser">bevis-sektionen</a>.</em></p>
-           
-        </section>
-
-        <div id="arealer-grafer" class="section-divider">
-            <h2>4. Arealer mellem grafer</h2>
-            <p>Når et område er begrænset af to funktioner</p>
-        </div>
-
-        <section class="card">
-            <h2>Areal mellem to funktioner</h2>
-            <p>Vi kan udvide konceptet om areal under en kurve til også at beregne arealet af området <em>mellem</em> to kurver.</p>
-            
-            
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.7: Areal mellem to grafer</strong>
-                <p>Når $g(x) \leq f(x)$ for alle $x$ i intervallet $[a; b]$, er arealet $A$ af området $M$ mellem graferne for $f(x)$ og $g(x)$ givet ved:</p>
-                <p>$$ A = \int_a^b (f(x) - g(x))\text{d}x $$</p>
-            </div>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.8: Areal af område under x-aksen</strong>
-                <p>Når $g(x) \leq 0$ for alle $x$ i intervallet $[a; b]$, er arealet $A$ af området $M$ mellem x-aksen og grafen givet ved at indsætte $f(x) = 0$ i sætning 2.7:</p>
-                <p>$$ A = - \int_a^b g(x)\text{d}x $$</p>
-            </div>
-            
-          
-        </section>
-
-        <div id="substitution" class="section-divider">
-            <h2>5. Integration ved $u$-substitution</h2>
-            <p>Hvordan vi integrerer sammensatte funktioner som "kædereglen baglæns"</p>
-        </div>
-
-        <section class="card">
-            <h2>Metoden til $u$-substitution</h2>
-            <p>Ligesom sum- og differensreglen for differentiation har tilsvarende integrationsregler, så findes der også en integrationsregel for sammensatte funktioner. Denne metode kaldes <strong>$u$-substitution</strong> og er en af de mest effektive teknikker i integralregning.</p>
-            
-            <p>Hovedideen er at erstatte ("substituere") en kompliceret del af integranden med en ny variabel $u$. Derved forsimples integralet, så det kan løses med de almindelige stamfunktioner.</p>
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.9: Integration ved substitution</strong>
-                <p>Hvis $f(g(x))$ er en sammensat funktion, hvor den indre funktion $g(x)$ er differentiabel, gælder:</p>
-                <p>$$ \int f(g(x)) \cdot g'(x)\text{d}x = F(g(x)) + k $$</p>
-                <p>hvor $F(x)$ er en stamfunktion til den ydre funktion $f(x)$.</p>
-            </div>
-
-            <h3>Trin-for-trin guide til $u$-substitution:</h3>
-            <ol>
-                <li><strong>Vælg $u$:</strong> Vælg en del af integranden (ofte en indre funktion i en rod, en nævner eller en eksponent) og sæt $u = g(x)$.</li>
-                <li><strong>Differentier $u$:</strong> Bestem differentialkvotienten $\frac{\text{d}u}{\text{d}x} = g'(x)$.</li>
-                <li><strong>Isoler $\text{d}x$:</strong> Omskriv til $\text{d}x = \frac{1}{g'(x)} \text{d}u$.</li>
-                <li><strong>Substituer:</strong> Indsæt $u$ og dit nye udtryk for $\text{d}x$ i det oprindelige integral. Hvis du har valgt $u$ rigtigt, vil de resterende x'er i funktionen nu gå ud med hinanden (kunne forkortes væk).</li>
-                <li><strong>Integrer:</strong> Nu har du et simpelt integral kun med $u$ og $\text{d}u$. Udregn stamfunktionen.</li>
-                <li><strong>Substituer tilbage:</strong> Til sidst byttes $u$ tilbage til det oprindelige udtryk med $x$.</li>
-            </ol>
-        </section>
-
-        <section class="card example">
-            <h2>Eksempel: Udregning af et integral med $u$-substitution</h2>
-            <p><strong>Opgave:</strong> Bestem det ubestemte integral $\int 2x \cdot \text{e}^{x^2} \text{d}x$.</p>
-            
-            <p><strong>Løsning (Trin 1-3):</strong><br>
-            Vi vælger den indre funktion i eksponenten som vores $u$:<br>
-            $u = x^2$<br>
-            Dette differentierer vi med hensyn til x:<br>
-            $\frac{\text{d}u}{\text{d}x} = 2x$<br>
-            Nu isolerer vi $\text{d}x$ ved at bytte rundt:<br>
-            $\text{d}x = \frac{1}{2x} \text{d}u$
-            </p>
-
-            <p><strong>Løsning (Trin 4-6):</strong><br>
-            Vi indsætter vores nye udtryk for $u$ og $\text{d}x$ i det oprindelige integral:</p>
-            <p>
-            $$ \int 2x \cdot \text{e}^{x^2} \text{d}x \quad \Rightarrow \quad \int 2x \cdot \text{e}^u \cdot \frac{1}{2x} \text{d}u $$
-            </p>
-            <p>Vi bemærker, at "$2x$" kan forkortes ud, så x'erne forsvinder fuldstændig. Vi står nu tilbage med et meget simpelt integral, vi kan udregne:</p>
-            <p>
-            $$ \int \text{e}^u \text{d}u = \text{e}^u + k $$
-            </p>
-            <p>Til allersidst erstatter vi $u$ med $x^2$ igen for at få det endelige svar:</p>
-            <p>
-            $$ \int 2x \cdot \text{e}^{x^2} \text{d}x = \text{e}^{x^2} + k $$
-            </p>
-          
-        </section>
-
-        <div id="anvendelser" class="section-divider">
-            <h2>6. Anvendelser af integralregning</h2>
-            <p>Fysik, volumener, middelværdi og kurvelængde</p>
-        </div>
-
-        <section class="card">
-            <h2>Omdrejningslegemer (Rumfang)</h2>
-            <p>Når man drejer grafen for en funktion <strong>360°</strong> om x-aksen, fremkommer der et rumligt legeme, som kaldes et omdrejningslegeme. To simple eksempler på dette er en kugle (halvcirkel drejet) og en kegle (linjestykke drejet).</p>
-            
-            
-
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.10: Rumfang af omdrejningslegeme</strong>
-                <p>Når det område, der er begrænset af grafen for $f(x)$ og x-aksen i intervallet $[a; b]$, drejes <strong>360°</strong> om x-aksen, er rumfanget $V$ af omdrejningslegemet givet ved:</p>
-                <p>$$ V = \pi \int_a^b (f(x))^2 \text{d}x $$</p>
-            </div>
-
-            <p>Hvis området er begrænset mellem to funktioner $f(x)$ og $g(x)$ (hvor $g(x) \leq f(x)$), kan man ifølge sætning 2.11 bruge formlen:</p>
-            <p>$$ V = \pi \int_a^b (f(x))^2 \text{d}x - \pi \int_a^b (g(x))^2 \text{d}x $$</p>
-        </section>
-
-        <section class="card">
-            <h2>Bevægelse, kurvelængde og middelværdi</h2>
-            
-            <h3>Fysik og bevægelse</h3>
-            <p>Integralregning benyttes ofte i fysik, når vi f.eks. kender accelerationsfunktionen og ønsker at finde hastigheden, eller kender hastigheden og ønsker stedfunktionen (strækningen).</p>
-
-            <h3>Kurvelængde</h3>
-            <p>Ønsker man at finde den præcise længde $s$ af en kurve tegnet af funktionen $f(x)$ fra $x = a$ til $x = b$, benyttes (Sætning 2.12):</p>
-            <p>$$ s = \int_a^b \sqrt{1+(f'(x))^2} \text{d}x $$</p>
-
-            <h3>Middelværdi (gennemsnit)</h3>
-            <p>I en række situationer kan man bestemme et gennemsnit af en kontinuerlig funktion (f.eks. strålingsdosis eller temperatur) over et interval $[a; b]$:</p>
-            <p>$$ \langle f(x) \rangle = \frac{1}{b - a} \int_a^b f(x) \text{d}x $$</p>
-            <p>Dette svarer til at finde højden på et rektangel med bredden $(b-a)$, som har præcis samme areal som området under grafen for $f(x)$.</p>
-
-        
+            <p><em>Beviserne for disse findes i <a href="#beviser">sektion 7</a>.</em></p>
         </section>
 
         <div id="beviser" class="section-divider">
-            <h2>7. Beviser</h2>
-            <p>Samlet oversigt over matematiske beviser i dette emne</p>
+            <h2>7. Beviser for grundregler</h2>
+            <p>Matematiske beviser for de fundamentale regneregler</p>
         </div>
 
-        <section class="card">
-            <h2>Oversigt over beviser</h2>
-            <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-konstant">Bevis for Sætning 2.1 og 2.2: Stamfunktioner afviger med en konstant</a></li>
-                <li><a href="#bevis-areal-mellem">Bevis for Sætning 2.7: Areal mellem to grafer</a></li>
-                <li><a href="#bevis-sub">Bevis for Sætning 2.9: Integration ved substitution</a></li>
-                <li><a href="#bevis-regler-ubestemt">Bevis for Sætning 6.11: Regneregler for ubestemt integral</a></li>
-                <li><a href="#bevis-regler-bestemt">Bevis for Sætning 6.12: Regneregler for bestemt integral</a></li>
-                <li><a href="#bevis-arealfunktion">Bevis for Sætning 6.13 og 6.14: Arealfunktionen er en stamfunktion</a></li>
-            </ul>
-        </section>
-
         <section id="bevis-konstant" class="card proof">
-            <h2>Bevis for Sætning 2.1 og 2.2: Stamfunktioner afviger med en konstant</h2>
-            <p><strong>Bevis for Sætning 2.1:</strong> Vi skal vise, at hvis $F(x)$ er en stamfunktion til $f(x)$, er $F(x) + k$ det også.</p>
-            <p>Vi differentierer $F(x) + k$:</p>
-            <p>$$ (F(x) + k)' = F'(x) + (k)' = f(x) + 0 = f(x) $$</p>
-            <p>Hermed bevist.</p>
-            
-            <p><strong>Bevis for Sætning 2.2:</strong> Vi antager, at $F_1(x)$ og $F(x)$ begge er stamfunktioner til $f(x)$. Derfor er $F_1'(x) = f(x)$ og $F'(x) = f(x)$.</p>
-            <p>Det vil sige at $F'(x) - F_1'(x) = 0$. Ved brug af differensreglen for differentiation fås:</p>
-            <p>$$ (F(x) - F_1(x))' = 0 $$</p>
-            <p>Hvis en funktion differentieret giver $0$ overalt, må den være en konstant. Altså er $F(x) - F_1(x) = k$, hvilket betyder $F(x) = F_1(x) + k$.</p>
-
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-          
+            <h2>Stamfunktioner afviger kun med en konstant</h2>
+            <p><strong>Sætning:</strong> Hvis $F_1(x)$ og $F_2(x)$ er stamfunktioner til $f(x)$, så er $F_2(x) = F_1(x) + k$.</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong>
+                Vi antager, at $F_1'(x) = f(x)$ og $F_2'(x) = f(x)$. Vi ser på differensen $H(x) = F_2(x) - F_1(x)$ og differentierer denne:
+                $$ H'(x) = (F_2(x) - F_1(x))' = F_2'(x) - F_1'(x) = f(x) - f(x) = 0 $$
+                Da den afledede funktion er $0$ for alle $x$, må $H(x)$ være en konstant funktion $k$.
+                Dermed er $F_2(x) - F_1(x) = k \Rightarrow F_2(x) = F_1(x) + k$.
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <section id="bevis-areal-mellem" class="card proof">
-            <h2>Bevis for Sætning 2.7: Areal mellem to grafer</h2>
-            <p>Vi vil finde arealet $A$ mellem $f(x)$ og $g(x)$, hvor $g(x) \leq f(x)$.</p>
-            <p><strong>Tilfælde 1: Begge grafer ligger over x-aksen.</strong><br>
-            Arealet bestemmes ved at trække det nederste areal (under $g$) fra det øverste areal (under $f$):</p>
-            <p>$$ A = \int_a^b f(x)\text{d}x - \int_a^b g(x)\text{d}x $$</p>
-            <p>Ifølge differensreglen kan vi sætte dette på fælles integraltegn: $\int_a^b (f(x) - g(x))\text{d}x$.</p>
+        <section id="bevis-sum-diff-konst" class="card proof">
+            <h2>Integration af sum, differens og konstant</h2>
+            <p><strong>Sumreglen:</strong> $\int (f(x)+g(x)) \text{d}x=\int f(x)\text{d}x + \int g(x)\text{d}x$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong>
+                Vi differentierer højresiden:
+                $$ \left(\int f(x)\text{d}x + \int g(x)\text{d}x\right)' = \left(\int f(x)\text{d}x\right)' + \left(\int g(x)\text{d}x\right)' = f(x) + g(x) $$
+                Da differentiation af højresiden giver integranden på venstresiden, er sætningen bevist.
+            </div>
 
-            <p><strong>Tilfælde 2: Generelt.</strong><br>
-            Hvis graferne går under x-aksen, parallelforskyder vi dem begge med et tal $k$ i y-aksens positive retning, så begge ender over x-aksen. Arealet mellem kurverne påvirkes ikke af forskydningen.</p>
-            <p>
-            $$
-            \begin{aligned}
-            A &= \int_a^b ((f(x) + k) - (g(x) + k))\text{d}x \\
-              &= \int_a^b (f(x) + k - g(x) - k)\text{d}x \\
-              &= \int_a^b (f(x) - g(x))\text{d}x
-            \end{aligned}
-            $$
+            <p><strong>Konstant-faktor-reglen:</strong> $\int k\cdot f(x)\text{d}x=k\int f(x)\text{d}x$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong>
+                Vi differentierer højresiden:
+                $$ \left(k\int f(x)\text{d}x\right)' = k \cdot \left(\int f(x)\text{d}x\right)' = k \cdot f(x) $$
+                Hvilket svarer til integranden på venstresiden.
+            </div>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section id="bevis-partiel" class="card proof">
+            <h2>Bevis for partiel integration</h2>
+            <p><strong>Sætning:</strong> $\int f(x)\cdot g(x)\text{d}x=F(x)\cdot g(x)-\int F(x)\cdot g'(x)\text{d}x$</p>
+            <div class="proof-step">
+                <strong>1. Udgangspunkt:</strong> Vi differentierer højresiden:
+                $$ \left( F(x)\cdot g(x)-\int F(x)\cdot g'(x)\text{d}x\right)' $$
+            </div>
+            <div class="proof-step">
+                <strong>2. Produktreglen:</strong> Vi bruger produktreglen på det første led og differentierer integralet:
+                $$ (F'(x)\cdot g(x) + F(x)\cdot g'(x)) - F(x)\cdot g'(x) $$
+            </div>
+            <div class="proof-step">
+                <strong>3. Reduktion:</strong> Da $F'(x) = f(x)$, og de to led $F(x)g'(x)$ går ud med hinanden:
+                $$ f(x)\cdot g(x) + F(x)\cdot g'(x) - F(x)\cdot g'(x) = f(x)\cdot g(x) $$
+                Vi har nu vist, at differentiation af højresiden giver venstresidens integrand.
+            </div>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <div id="beviser-standard" class="section-divider">
+            <h2>8. Beviser for standard-stamfunktioner</h2>
+            <p>Gennemgang ved brug af integrationsprøven</p>
+        </div>
+
+        <section class="card proof">
+            <h2>Potensfunktioner og $1/x$</h2>
+            <p><strong>Sætning:</strong> $\int x^n\text{d}x = \frac{1}{n+1}x^{n+1}+k$ for $n \neq -1$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Vi differentierer højresiden:
+                $$ \left(\frac{1}{n+1}x^{n+1}+k\right)' = \frac{1}{n+1} \cdot (n+1)x^{(n+1)-1} + 0 = x^n $$
+            </div>
+
+            <p><strong>Sætning:</strong> $\int \frac{1}{x}\text{d}x = \ln|x|+k$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Vi differentierer $\ln|x|+k$:
+                $$ (\ln|x|)' = \frac{1}{|x|} \cdot \frac{|x|}{x} = \frac{1}{x} $$
+                Hvor vi bruger at $(|x|)' = \frac{|x|}{x}$.
+            </div>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section class="card proof">
+            <h2>Eksponentialfunktioner</h2>
+            <p><strong>Sætning:</strong> $\int e^x \text{d}x = e^x + k$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Da $(e^x + k)' = e^x$, er formlen korrekt.
+            </div>
+
+            <p><strong>Sætning:</strong> $\int a^x \text{d}x = \frac{a^x}{\ln a} + k$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Vi differentierer højresiden:
+                $$ \left(\frac{a^x}{\ln a}+k\right)' = \frac{1}{\ln a} \cdot (a^x \cdot \ln a) = a^x $$
+            </div>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section class="card proof">
+            <h2>Trigonometriske funktioner og Logaritme</h2>
+            <p><strong>$\sin(x)$ og $\cos(x)$:</strong>
+                $$ \left(-\cos x + k\right)' = -(-\sin x) = \sin x \implies \int \sin x \text{d}x = -\cos x + k $$
+                $$ \left(\sin x + k\right)' = \cos x \implies \int \cos x \text{d}x = \sin x + k $$
             </p>
-            <p>Sætningen er dermed bevist.</p>
 
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
+            <p><strong>Logaritmen ($\ln x$):</strong> $\int \ln x \text{d}x = x \cdot \ln x - x + k$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Vi bruger produktreglen på $(x \cdot \ln x)$:
+                $$ (x \cdot \ln x - x + k)' = (1 \cdot \ln x + x \cdot \frac{1}{x}) - 1 = \ln x + 1 - 1 = \ln x $$
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <section id="bevis-sub" class="card proof">
-            <h2>Bevis for Sætning 2.9: Integration ved substitution</h2>
-            <p>Sætningen lyder: $\int f(g(x)) \cdot g'(x)\text{d}x = F(g(x)) + k$, hvor $F'(x) = f(x)$.</p>
-            <p>Vi beviser sætningen ved at "gøre prøve". Vi differentierer højresiden vha. kædereglen (differentiation af en sammensat funktion):</p>
-            <p>$$ (F(g(x)))' = F'(g(x)) \cdot g'(x) $$</p>
-            <p>Da $F$ er en stamfunktion til $f$, er $F' = f$, så:</p>
-            <p>$$ = f(g(x)) \cdot g'(x) $$</p>
-            <p>Dette er netop integranden på venstresiden, og dermed er sætningen bevist.</p>
+        <div id="beviser-geometri" class="section-divider">
+            <h2>9. Beviser for geometriske anvendelser</h2>
+            <p>Areal, Volumen, Kurvelængde og Overflade</p>
+        </div>
 
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
+        <section class="card proof">
+            <h2>Areal og Volumen (Riemann-summer)</h2>
+            <p><strong>Areal under kurve:</strong> $A = \int_a^b f(x)\text{d}x$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Vi opdeler arealet i $n$ rektangler med bredde $\Delta x$.
+                Summen af arealerne er $A \approx \sum_{i=1}^n f(x_i) \cdot \Delta x$.
+                Når $\Delta x \to 0$ (og $n \to \infty$), bliver denne sum præcis det bestemte integral:
+                $$ A = \lim_{\Delta x \to 0} \sum f(x_i)\Delta x = \int_a^b f(x)\text{d}x $$
+            </div>
+
+            <p><strong>Omdrejningslegeme (x-aksen):</strong> $V_x = \pi \int_a^b f(x)^2\text{d}x$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Vi opdeler legemet i tynde skiver (cylindre). Hver skive har volumenet:
+                $$ V_i = \pi \cdot r^2 \cdot h = \pi \cdot f(x_i)^2 \cdot \Delta x $$
+                Summen af alle skiver giver i grænsen det anførte integral.
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <section id="bevis-regler-ubestemt" class="card proof">
-            <h2>Bevis for Sætning 6.11: Regneregler for ubestemt integral</h2>
-            <p>Vi beviser sumreglen og konstant-faktor-reglen.</p>
-            
-            <p><strong>Sumreglen:</strong><br>
-            Ifølge definitionen af ubestemt integral gælder $\left(\int f(x)\text{d}x\right)' = f(x)$ og $\left(\int g(x)\text{d}x\right)' = g(x)$. Vi differentierer summen af integralerne ved hjælp af sumreglen for <em>differentiation</em>:</p>
-            <p>$$ \left(\int f(x)\text{d}x + \int g(x)\text{d}x\right)' = f(x) + g(x) $$</p>
-            <p>Altså er summen af integralerne en stamfunktion til $f(x)+g(x)$, hvilket beviser sumreglen for integration.</p>
-
-            <p><strong>Konstant-faktor-reglen:</strong><br>
-            Vi differentierer højre side:</p>
-            <p>$$ \left(c \cdot \int f(x)\text{d}x\right)' = c \cdot \left(\int f(x)\text{d}x\right)' = c \cdot f(x) $$</p>
-            <p>Dermed er reglen bevist.</p>
-
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
+        <section class="card proof">
+            <h2>Kurvelængde</h2>
+            <p><strong>Sætning:</strong> $L = \int_a^b \sqrt{1+f'(x)^2}\text{d}x$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Et lille linjestykke $\Delta s$ kan findes via Pythagoras:
+                $$ \Delta s = \sqrt{\Delta x^2 + \Delta y^2} = \sqrt{\Delta x^2 + (f'(x)\Delta x)^2} = \sqrt{1+f'(x)^2} \cdot \Delta x $$
+                Ved at summere alle disse små stykker og tage grænseværdien fås integralet.
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <section id="bevis-regler-bestemt" class="card proof">
-            <h2>Bevis for Sætning 6.12: Regneregler for bestemt integral</h2>
-            <p>Vi udnytter, at hvis $F(x)$ er en stamfunktion til $f(x)$ og $G(x)$ til $g(x)$, så er $F(x)+G(x)$ en stamfunktion til $f(x)+g(x)$ (fra foregående sætning).</p>
-            
-            <p>Vi kan derfor bevise sumreglen for det bestemte integral:</p>
-            <p>
-            $$
-            \begin{aligned}
-            \int_a^b (f(x) + g(x))\text{d}x &= [F(x) + G(x)]_a^b \\
-            &= (F(b) + G(b)) - (F(a) + G(a)) \\
-            &= F(b) - F(a) + G(b) - G(a) \\
-            &= [F(x)]_a^b + [G(x)]_a^b \\
-            &= \int_a^b f(x)\text{d}x + \int_a^b g(x)\text{d}x
-            \end{aligned}
-            $$
-            </p>
-            <p>De øvrige bevises tilsvarende ved hjælp af egenskaberne fra algebraen.</p>
-
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-          
-        </section>
-
-        <section id="bevis-arealfunktion" class="card proof">
-            <h2>Bevis for Sætning 6.13 og 6.14: Arealfunktionen er en stamfunktion</h2>
-            <p>Vi lader $A(x)$ være <strong>arealfunktionen</strong> for funktionen $f(x)$, som angiver arealet under kurven fra startpunktet $a$ frem til en variabel grænse $x$.</p>
-            
-            
-
-            <p><strong>Sætning 6.13:</strong><br>
-            Vi antager, at $f(x)$ er voksende. Vi tilføjer en lille tilvækst $h > 0$ på x-aksen. Det tilkomne areal $A(x_0+h) - A(x_0)$ er et lille "bånd" af bredde $h$.</p>
-            <p>Højden af dette bånd ligger mellem venstre kant $f(x_0)$ og højre kant $f(x_0+h)$. Arealet er altså afgrænset af det lille og det store rektangel:</p>
-            <p>$$ f(x_0) \cdot h \leq A(x_0+h) - A(x_0) \leq f(x_0+h) \cdot h $$</p>
-            <p>Vi dividerer med $h$ i hele uligheden:</p>
-            <p>$$ f(x_0) \leq \frac{A(x_0+h) - A(x_0)}{h} \leq f(x_0+h) $$</p>
-            <p>Når $h \to 0$, vil $f(x_0+h) \to f(x_0)$ fordi $f$ er kontinuert. Derved bliver sekanthældningen "klemt" ind på værdien $f(x_0)$:</p>
-            <p>$$ \frac{A(x_0+h) - A(x_0)}{h} \to f(x_0) \quad \text{når} \quad h \to 0 $$</p>
-            <p>Dette er definitionen på en differentialkvotient! Altså er $A'(x_0) = f(x_0)$, og $A(x)$ er dermed en stamfunktion til $f(x)$.</p>
-
-            <p><strong>Sætning 6.14 (Sammenhæng med det bestemte integral):</strong><br>
-            Ifølge definitionen på et bestemt integral er $\int_a^b f(x)\text{d}x = F(b) - F(a)$. Vi ved nu, at $A(x)$ er en stamfunktion, så vi indsætter $A(x)$ som stamfunktion:</p>
-            <p>$$ \int_a^b f(x)\text{d}x = A(b) - A(a) $$</p>
-            <p>Da arealet fra startpunkt $a$ til sig selv $a$ er 0, er $A(a) = 0$. Vi står tilbage med:</p>
-            <p>$$ \int_a^b f(x)\text{d}x = A(b) $$</p>
-            <p>Da $A(b)$ er defineret som arealet under funktionen fra $a$ til $b$, har vi bevist, at det bestemte integral beregner dette areal.</p>
-
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
+        <section class="card proof">
+            <h2>Omdrejningslegeme om y-aksen</h2>
+            <p><strong>Sætning:</strong> $V_y = 2\pi \int_a^b x \cdot f(x)\text{d}x$</p>
+            <div class="proof-step">
+                <strong>Bevis:</strong> Vi opdeler volumenet i cylinderringe. En tynd ring med radius $x$ og højde $f(x)$ har overfladearealet $2\pi x \cdot f(x)$. Når vi ganger med tykkelsen $\Delta x$, fås volumenet af ringen:
+                $$ V_i = 2\pi \cdot x_i \cdot f(x_i) \cdot \Delta x $$
+                Summen af disse ringe giver integralet.
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
         <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
@@ -501,16 +365,16 @@
         <footer class="site-footer">
             <div class="footer-content">
                 <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
-                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen.</p>
             </div>
         </footer>
 
     </main>
 
     <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // Graf til illustration af arealet under x^2 mellem 0 og 2
                 functionPlot({
                     target: '#graf-areal',
                     disableZoom: true,
@@ -522,14 +386,13 @@
                     data: [{
                         fn: 'x^2',
                         color: '#2980b9',
-                        closed: true, // Skyggelægger arealet under grafen
-                        range: [0, 2] // Integrationsgrænserne
+                        closed: true,
+                        range: [0, 2]
                     }, {
-                        fn: 'x^2', // Tegner den fulde linje for at få et pænt look
+                        fn: 'x^2',
                         color: '#2c3e50'
                     }]
                 });
-
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
     </script>
