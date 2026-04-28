@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vektorer i 2D (Del 2) - STX Matematik B</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        /* Tabeller */
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
+        
+        /* Billed- og graf-container */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { 
+            pointer-events: none; 
+        }
+
+        /* Billed-pladsholder */
+        .img-placeholder {
+            background: #ecf0f1;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px dashed #bdc3c7;
+            color: #7f8c8d;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .proof { margin-bottom: 30px; }
+
+        @media (max-width: 600px) {
+            .toc-list { columns: 1; }
+            .data-table { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Vektorer i 2D</h1>
+            <p class="subtitle">B-Niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#den-rette-linje"><span class="toc-num">1.</span>Den rette linje</a></li>
+                <li><a href="#vinkler-skaering"><span class="toc-num">2.</span>Vinkler og skæring mellem linjer</a></li>
+                <li><a href="#projektioner"><span class="toc-num">3.</span>Projektioner</a></li>
+                <li><a href="#tvaervektor-determinant"><span class="toc-num">4.</span>Tværvektor og determinant</a></li>
+                <li><a href="#afstand"><span class="toc-num">5.</span>Afstand fra punkt til linje</a></li>
+                <li><a href="#cirklen"><span class="toc-num">6.</span>Cirklen</a></li>
+                <li><a href="#beviser"><span class="toc-num">7.</span>Beviser</a></li>
+            </ul>
+        </section>
+
+        <div id="den-rette-linje" class="section-divider">
+            <h2>1. Den rette linje</h2>
+            <p>Parameterfremstilling og linjens ligning</p>
+        </div>
+
+        <section class="card">
+            <h2>Retningsvektor og normalvektor</h2>
+            <p>For at arbejde med linjer i et koordinatsystem ved hjælp af vektorer, skal vi definere to meget centrale begreber:</p>
+            <ul>
+                <li>En <strong>retningsvektor</strong> for en ret linje $l$ er en vektor $\vec{r}$, der er parallel med $l$.</li>
+                <li>En <strong>normalvektor</strong> til en ret linje $l$ er en vektor $\vec{n}$, som er vinkelret på $l$.</li>
+            </ul>
+
+            
+
+            <p>En ret linje kan i matematikken fastlægges på tre forskellige måder:</p>
+            <ol>
+                <li>Ved to punkter $A$ og $B$.</li>
+                <li>Ved et kendt punkt $P_0$ og en retningsvektor $\vec{r}$.</li>
+                <li>Ved et kendt punkt $P_0$ og en normalvektor $\vec{n}$.</li>
+            </ol>
+        </section>
+
+        <section class="card">
+            <h2>Linjens parameterfremstilling</h2>
+            <p>Vi antager, at en linje $l$ er fastlagt ved et punkt $P_0(x_0, y_0)$ og en retningsvektor $\vec{r} = \binom{r_1}{r_2}$. Et hvilket som helst punkt $P(x,y)$ ligger på linjen, netop når vektoren fra $P_0$ til $P$ er parallel med retningsvektoren. Det betyder, at der findes et tal $t$, således at:</p>
+            <p>$$ \overrightarrow{P_0P} = t \cdot \vec{r} $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 5.1: Ret linjes parameterfremstilling</strong>
+                <p>Når en ret linje $l$ er bestemt af et punkt $P_0(x_0, y_0)$ og en retningsvektor $\vec{r} = \binom{r_1}{r_2}$, ligger et punkt $P(x,y)$ på linjen, præcis når:</p>
+                <p>$$ \binom{x}{y} = \binom{x_0}{y_0} + t\binom{r_1}{r_2} $$</p>
+                <p>Tallet $t$ kaldes en parameter. Forskellige værdier af $t$ giver forskellige punkter på linjen.</p>
+            </div>
+            
+            <p>Parameterfremstillingen skrives ofte også som to adskilte ligninger for henholdsvis x- og y-koordinaten:</p>
+            <p>$$ x = x_0 + t \cdot r_1 $$</p>
+            <p>$$ y = y_0 + t \cdot r_2 $$</p>
+        </section>
+
+        <section class="card">
+            <h2>Linjens ligning</h2>
+            <p>Hvis linjen i stedet er fastlagt ved et punkt $P_0(x_0, y_0)$ og en normalvektor $\vec{n} = \binom{a}{b}$, skal vi tænke anderledes. Et punkt $P$ ligger på linjen, netop når vektoren $\overrightarrow{P_0P}$ står vinkelret på normalvektoren $\vec{n}$. To vektorer står vinkelret på hinanden, hvis deres prikprodukt er nul.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 5.2: Ret linjes ligning</strong>
+                <p>Hvis en linje $l$ er fastlagt ved et punkt $P_0(x_0, y_0)$ og en normalvektor $\vec{n} = \binom{a}{b}$, ligger et punkt $P(x,y)$ på linjen, præcis når $x$ og $y$ tilfredsstiller ligningen:</p>
+                <p>$$ a(x - x_0) + b(y - y_0) = 0 $$</p>
+            </div>
+
+            <p>Denne form har den store fordel, at man umiddelbart kan aflæse både et punkt på linjen og en normalvektor direkte fra tallene. Ved at gange ind i parenteserne og samle konstanterne, kan ligningen omskrives til den mere velkendte generelle form:</p>
+            <p>$$ ax + by + c = 0 $$</p>
+        </section>
+
+
+        <div id="vinkler-skaering" class="section-divider">
+            <h2>2. Vinkler og skæring mellem linjer</h2>
+            <p>Beregning af vinkler og skæringspunkter</p>
+        </div>
+
+        <section class="card">
+            <h2>Vinkel mellem to linjer</h2>
+            <p>Mellem to linjer $m$ og $l$, der skærer hinanden, opstår der to vinkler $v$ og $w$, som tilsammen giver $180^\circ$. Man kan beregne vinklen mellem to linjer ved blot at regne på deres vektorer.</p>
+            <ul>
+                <li>Hvis man kender linjernes retningsvektorer, er vinklen mellem linjerne lig med vinklen mellem retningsvektorerne.</li>
+                <li>Hvis man kender linjernes normalvektorer, er vinklen mellem linjerne lig med vinklen mellem normalvektorerne.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Skæring mellem linjer</h2>
+            <p>Når man skal bestemme skæringspunktet mellem to rette linjer, afhænger metoden af, hvordan linjerne er beskrevet matematisk. Der er tre hovedtilfælde:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Situation</th>
+                        <th>Metode til at finde skæring</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ligning og Ligning</strong></td>
+                        <td>Opstil ligningerne som et ligningssystem med to ubekendte ($x$ og $y$) og løs det.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parameter og Ligning</strong></td>
+                        <td>Indsæt udtrykkene for $x$ og $y$ fra parameterfremstillingen direkte ind i linjens ligning. Dette giver en ligning med kun én ubekendt ($t$). Find $t$ og indsæt den derefter i parameterfremstillingen for at finde punktet.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parameter og Parameter</strong></td>
+                        <td>Giv den ene parameterfremstilling variablen $t$ og den anden variablen $s$. Sæt x-koordinaterne lig med hinanden, og y-koordinaterne lig med hinanden. Løs systemet for at finde $t$ og $s$.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+        <div id="projektioner" class="section-divider">
+            <h2>3. Projektioner</h2>
+            <p>Projektion af et punkt på en linje og en vektor på en vektor</p>
+        </div>
+
+        <section class="card">
+            <h2>Definitioner</h2>
+            <p><strong>Projektion af et punkt på en linje:</strong> Projektionen af et punkt $A$ på en linje $l$ er skæringspunktet $A_l$ mellem $l$ og linjen $m$ gennem $A$, som står vinkelret på $l$. Det svarer til punktets "skygge" på linjen, hvis lyset falder vinkelret ind.</p>
+
+            <p><strong>Projektion af en vektor på en vektor:</strong> For at finde projektionen af vektor $\vec{a}$ på vektor $\vec{b}$, tegner man begge vektorer fra samme startpunkt. Derefter tegner man en linje vinkelret ned på den linje, som $\vec{b}$ ligger på. Afstanden fra startpunktet til nedslagspunktet udgør projektionsvektoren $\overrightarrow{a_{\vec{b}}}$.</p>
+
+            
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 5.3: Projektionssætningen</strong>
+                <p>For to vektorer $\vec{a}$ og $\vec{b}$ (hvor $\vec{b} \neq \vec{o}$) kan projektionsvektoren beregnes med formlen:</p>
+                <p>$$ \overrightarrow{a_{\vec{b}}} = \frac{\vec{a} \cdot \vec{b}}{|\vec{b}|^2}\vec{b} $$</p>
+                <p>Længden af projektionsvektoren er givet ved formlen:</p>
+                <p>$$ |\overrightarrow{a_{\vec{b}}}| = \frac{|\vec{a} \cdot \vec{b}|}{|\vec{b}|} $$</p>
+            </div>
+        </section>
+
+
+        <div id="tvaervektor-determinant" class="section-divider">
+            <h2>4. Tværvektor og determinant</h2>
+            <p>Positiv omløbsretning og arealet af parallelogrammer</p>
+        </div>
+
+        <section class="card">
+            <h2>Omløbsretning og tværvektoren</h2>
+            <p>I et koordinatsystem orienterer man det, således at den <strong>positive omløbsretning</strong> er mod uret (fra førsteaksen mod andenaksen). En vinkel mellem to vektorer regnes for positiv, hvis den korteste drejning går i den positive omløbsretning.</p>
+
+            
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Tværvektor</strong>
+                <p>Tværvektoren $\hat{\vec{a}}$ til en vektor $\vec{a} = \binom{a_1}{a_2}$ defineres som vektoren drejet $90^\circ$ mod uret. Matematisk skrives det som:</p>
+                <p>$$ \hat{\vec{a}} = \binom{-a_2}{a_1} $$</p>
+            </div>
+
+            <p>For en vektor og dens tværvektor gælder altid, at de har samme længde ($|\hat{\vec{a}}| = |\vec{a}|$), og at de står vinkelret på hinanden ($\hat{\vec{a}} \bot \vec{a}$).</p>
+        </section>
+
+        <section class="card">
+            <h2>Determinanten</h2>
+            <p>Udover prikproduktet kan man danne et andet uhyre vigtigt tal ud fra to vektorers koordinater. Dette kaldes determinanten.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Determinanten</strong>
+                <p>Determinanten $\det(\vec{a}, \vec{b})$ af to vektorer $\vec{a} = \binom{a_1}{a_2}$ og $\vec{b} = \binom{b_1}{b_2}$ defineres ved:</p>
+                <p>$$ \det(\vec{a}, \vec{b}) = a_1 b_2 - a_2 b_1 $$</p>
+                <p>Determinanten skrives ofte også ved at stille koordinaterne op mellem to lodrette streger og gange over kors:</p>
+                <p>$$ \begin{vmatrix}a_1 & b_1 \\ a_2 & b_2 \end{vmatrix} = a_1 \cdot b_2 - a_2 \cdot b_1 $$</p>
+            </div>
+
+            <p>Determinanten er mere end bare talgymnastik. Den har to ekstremt nyttige geometriske egenskaber:</p>
+            <ol>
+                <li>Den numeriske værdi af determinanten udgør arealet af det parallelogram, som de to vektorer udspænder. Altså: $\text{Areal} = |\det(\vec{a}, \vec{b})|$.</li>
+                <li>Determinanten fortæller, om to vektorer er parallelle. Hvis determinanten giver præcis 0, ligger de to vektorer på linje (og arealet af deres "parallelogram" er derved naturligvis også nul).</li>
+            </ol>
+            <p>Sammenhængen mellem tværvektoren og determinanten er, at $\det(\vec{a}, \vec{b})$ faktisk bare er prikproduktet mellem $\vec{a}$'s tværvektor og $\vec{b}$. Altså $\det(\vec{a}, \vec{b}) = \hat{\vec{a}} \cdot \vec{b}$.</p>
+        </section>
+
+
+        <div id="afstand" class="section-divider">
+            <h2>5. Afstand fra punkt til linje</h2>
+            <p>Beregning af den korteste vinkelrette afstand</p>
+        </div>
+
+        <section class="card">
+            <h2>Afstandsformlen</h2>
+            <p>Ved afstanden $\text{dist}(A,l)$ fra et punkt $A$ til en linje $l$ forstås altid den vinkelrette (den korteste) afstand fra punktet til linjen.</p>
+
+            [Image showing the shortest orthogonal distance from a point to a line in a 2D coordinate system]
+
+            <p>Selvom man teoretisk kan finde denne afstand ved først at udregne en projektion for at finde skæringspunktet, er det meget nemmere at benytte den direkte afstandsformel, som bygger på linjens ligning.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 5.6: Afstandsformlen</strong>
+                <p>Når $Q(x_1, y_1)$ er et punkt i planet, og $l$ er en ret linje med ligningen $ax + by + c = 0$, kan den korteste afstand beregnes direkte med formlen:</p>
+                <p>$$ \text{dist}(Q,l) = \frac{|ax_1 + by_1 + c|}{\sqrt{a^2 + b^2}} $$</p>
+            </div>
+
+            <p>Det vil sige, du indsætter punktets koordinater direkte i linjens ligning i tælleren, tager den numeriske værdi (så afstanden ikke bliver negativ), og dividerer med længden af normalvektoren $\binom{a}{b}$.</p>
+            <p>For at finde afstanden mellem to <em>parallelle linjer</em> vælger man blot et tilfældigt punkt på den ene linje, og beregner afstanden fra dette punkt til den anden linje.</p>
+        </section>
+
+
+        <div id="cirklen" class="section-divider">
+            <h2>6. Cirklen</h2>
+            <p>Cirklens ligning, tangenter og skæring</p>
+        </div>
+
+        <section class="card">
+            <h2>Cirklens ligning</h2>
+            <p>En cirkel er geometrisk defineret som de punkter $P$, der befinder sig i en konstant afstand $r$ fra et fastlagt centrum $C$. Denne tankegang oversættes nemt til matematik.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 5.7: Cirklens ligning</strong>
+                <p>Hvis en cirkel har radius $r$ og centrum $C(x_0, y_0)$, ligger et punkt $P(x,y)$ på cirklen, netop når P's koordinater tilfredsstiller ligningen:</p>
+                <p>$$ (x - x_0)^2 + (y - y_0)^2 = r^2 $$</p>
+            </div>
+
+            <p>Hvis ligningen i stedet er givet "udpakket" på formen $x^2 + y^2 + ax + by + c = 0$, kan man bruge metoden kvadratkomplettering for at samle den igen til cirklens ligning, hvorefter centrum og radius nemt kan aflæses.</p>
+        </section>
+
+        <section class="card">
+            <h2>Tangent til cirkel</h2>
+            <p>Tangenten til en cirkel i et bestemt punkt $P$ på periferien er den rette linje, der rører cirklen uden at skære igennem den. Den vil altid stå vinkelret på den radius, der går fra centrum $C$ ud til $P$. Derfor har tangenten automatisk vektoren $\overrightarrow{CP}$ som sin normalvektor.</p>
+        </section>
+
+        <section class="card">
+            <h2>Skæring mellem linje og cirkel</h2>
+            <p>En ret linje og en cirkel kan skære hinanden på tre måder. Dette afgøres af afstanden fra cirklens centrum $C$ til linjen $l$ ved hjælp af afstandsformlen fra afsnit 5.</p>
+
+            [Image showing a line intersecting a circle in 0, 1, and 2 points based on its distance to the center]
+
+            <ul>
+                <li>Når $\text{dist}(C,l) > r$, ligger linjen helt udenfor, og der er <strong>ingen</strong> skæringspunkter.</li>
+                <li>Når $\text{dist}(C,l) = r$, rører linjen præcis kanten og er en tangent. Der er <strong>ét</strong> skæringspunkt (røringspunktet).</li>
+                <li>Når $\text{dist}(C,l) < r$, går linjen tværs gennem cirklen (en sekant). Der er <strong>to</strong> skæringspunkter.</li>
+            </ul>
+
+            <div class="svg-container">
+                <div id="graf-1"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Cirklen og linjen kan have 0, 1 eller 2 fælles punkter.</p>
+            </div>
+        </section>
+
+
+        <div id="beviser" class="section-divider">
+            <h2>7. Beviser</h2>
+            <p>Samlet oversigt over matematiske beviser i dette emne</p>
+        </div>
+
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis-1">Bevis for Sætning 5.3: Projektionssætningen</a></li>
+                <li><a href="#bevis-2">Bevis for Sætning 5.6: Afstand fra punkt til linje</a></li>
+                <li><a href="#bevis-3">Bevis for Sætning 5.7: Cirklens ligning</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis-1" class="card proof">
+            <h2>Bevis for Sætning 5.3: Projektionssætningen</h2>
+            <p>Vi vil bevise, at projektionen af $\vec{a}$ på $\vec{b}$ er $\overrightarrow{a_{\vec{b}}} = \frac{\vec{a} \cdot \vec{b}}{|\vec{b}|^2}\vec{b}$.</p>
+            
+            <p><strong>1) Trin 1:</strong><br>
+            Vi tegner $\vec{a}$ og $\vec{b}$ ud fra samme punkt $P$, så $\vec{a} = \overrightarrow{PQ}$ og $\vec{b} = \overrightarrow{PT}$. Projektionsvektoren $\overrightarrow{a_{\vec{b}}}$ ligger langs linjen defineret af $\vec{b}$ og afsluttes i et punkt $N$, således at stregen $NQ$ står vinkelret ned på $\vec{b}$.<br>
+            Af indskudssætningen gælder det at summen af vektorerne fra $P$ til $N$, og fra $N$ til $Q$, giver vektoren $\vec{a}$:</p>
+            <p>$$ \vec{a} = \overrightarrow{a_{\vec{b}}} + \overrightarrow{NQ} $$</p>
+            
+            <p><strong>2) Trin 2:</strong><br>
+            Da projektionsvektoren er parallel med $\vec{b}$, findes der et reelt tal $t$, så $\overrightarrow{a_{\vec{b}}} = t \cdot \vec{b}$.<br>
+            Vi tager nu prikproduktet med $\vec{b}$ på begge sider af den første ligning:</p>
+            <p>$$ \vec{a} \cdot \vec{b} = (\overrightarrow{a_{\vec{b}}} + \overrightarrow{NQ}) \cdot \vec{b} $$</p>
+            <p>$$ \vec{a} \cdot \vec{b} = \overrightarrow{a_{\vec{b}}} \cdot \vec{b} + \overrightarrow{NQ} \cdot \vec{b} $$</p>
+            
+            <p><strong>3) Trin 3:</strong><br>
+            Da $\overrightarrow{NQ}$ står vinkelret på $\vec{b}$, bliver deres prikprodukt nul. Vi indsætter derefter $t \cdot \vec{b}$ på projektionsvektorens plads:</p>
+            <p>$$ \vec{a} \cdot \vec{b} = (t \cdot \vec{b}) \cdot \vec{b} + 0 $$</p>
+            <p>$$ \vec{a} \cdot \vec{b} = t \cdot (\vec{b} \cdot \vec{b}) $$</p>
+            <p>Da en vektor prikket med sig selv giver dens længde i anden ($|\vec{b}|^2$), kan vi isolere $t$:</p>
+            <p>$$ t = \frac{\vec{a} \cdot \vec{b}}{|\vec{b}|^2} $$</p>
+            
+            <p><strong>4) Trin 4:</strong><br>
+            Til sidst indsætter vi værdien af $t$ tilbage i ligningen $\overrightarrow{a_{\vec{b}}} = t \cdot \vec{b}$:</p>
+            <p>$$ \overrightarrow{a_{\vec{b}}} = \frac{\vec{a} \cdot \vec{b}}{|\vec{b}|^2}\vec{b} $$</p>
+            
+            <p>Dermed er sætningen bevist.</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-2" class="card proof">
+            <h2>Bevis for Sætning 5.6: Afstand fra punkt til linje</h2>
+            <p>Vi vil bevise formlen for $\text{dist}(Q,l)$.</p>
+
+            <p><strong>1) Trin 1:</strong><br>
+            Vi har punktet $Q(x_1, y_1)$ og linjen $l: ax + by + c = 0$. Linjens normalvektor er dermed $\vec{n} = \binom{a}{b}$.<br>
+            Vi vælger et tilfældigt punkt $P_0(x_0, y_0)$, som ligger på linjen. Da punktet ligger på linjen, skal ligningen gælde, hvilket betyder, at $ax_0 + by_0 + c = 0$. Dette omrokerer vi til:</p>
+            <p>$$ c = -ax_0 - by_0 $$</p>
+
+            <p><strong>2) Trin 2:</strong><br>
+            Den korteste afstand fra $Q$ til linjen er præcis det samme som længden af projektionen af vektoren $\overrightarrow{P_0Q}$ ned på normalvektoren $\vec{n}$.</p>
+            <p>$$ \text{dist}(Q,l) = |\overrightarrow{P_0Q}_{\vec{n}}| $$</p>
+
+            <p><strong>3) Trin 3:</strong><br>
+            Vi bruger formlen for længden af en projektion fra Sætning 5.3:</p>
+            <p>$$ \text{dist}(Q,l) = \frac{|\overrightarrow{P_0Q} \cdot \vec{n}|}{|\vec{n}|} $$</p>
+            <p>Vektoren $\overrightarrow{P_0Q}$ er givet ved $\binom{x_1 - x_0}{y_1 - y_0}$. Vi udregner prikproduktet i tælleren og længden af normalvektoren i nævneren:</p>
+            <p>$$ \text{dist}(Q,l) = \frac{|\binom{x_1 - x_0}{y_1 - y_0} \cdot \binom{a}{b}|}{\sqrt{a^2 + b^2}} $$</p>
+            <p>$$ \text{dist}(Q,l) = \frac{|a(x_1 - x_0) + b(y_1 - y_0)|}{\sqrt{a^2 + b^2}} $$</p>
+
+            <p><strong>4) Trin 4:</strong><br>
+            Vi ganger ind i parenteserne i tælleren for at frigøre leddene:</p>
+            <p>$$ \text{dist}(Q,l) = \frac{|ax_1 - ax_0 + by_1 - by_0|}{\sqrt{a^2 + b^2}} $$</p>
+            <p>Nu husker vi fra Trin 1, at $c = -ax_0 - by_0$. Dem bytter vi ud:</p>
+            <p>$$ \text{dist}(Q,l) = \frac{|ax_1 + by_1 + c|}{\sqrt{a^2 + b^2}} $$</p>
+
+            <p>Dermed er formlen bevist.</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-3" class="card proof">
+            <h2>Bevis for Sætning 5.7: Cirklens ligning</h2>
+            <p>Vi vil bevise, at en cirkel har ligningen $(x - x_0)^2 + (y - y_0)^2 = r^2$.</p>
+            
+            <p><strong>1) Geometrisk betragtning:</strong><br>
+            I et koordinatsystem er en cirkel mængden af punkter, som har den faste afstand $r$ til cirklens centrum $C(x_0, y_0)$. Et hvilket som helst punkt på selve ringen kalder vi $P(x,y)$.</p>
+
+            <p><strong>2) Opstilling af ligning:</strong><br>
+            At punktet befinder sig på kanten betyder matematisk, at længden af stregen mellem dem udgør radius:</p>
+            <p>$$ |CP| = r $$</p>
+            <p>Ud fra formlen for længden af en vektor (som bygger direkte på Pythagoras' læresætning), kan vi skrive afstanden som:</p>
+            <p>$$ \sqrt{(x - x_0)^2 + (y - y_0)^2} = r $$</p>
+
+            <p><strong>3) Isolering:</strong><br>
+            For at slippe for kvadratroden sætter vi hele ligningen i anden på begge sider af lighedstegnet:</p>
+            <p>$$ (x - x_0)^2 + (y - y_0)^2 = r^2 $$</p>
+
+            <p>Dermed er cirklens ligning bevist.</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Konfigurerer grafen til at vise en cirkel x^2 + y^2 = 9 og en sekant linje
+                functionPlot({
+                    target: '#graf-1',
+                    disableZoom: true,
+                    width: document.getElementById('graf-1').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-5, 5] },
+                    yAxis: { domain: [-5, 5] },
+                    data: [
+                        { 
+                            fn: 'sqrt(9 - x^2)', color: '#3498db' // Cirkel top
+                        },
+                        { 
+                            fn: '-sqrt(9 - x^2)', color: '#3498db' // Cirkel bund
+                        },
+                        { 
+                            fn: '0.5x + 1', color: '#e74c3c' // Den rette linje (sekant)
+                        }
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>
