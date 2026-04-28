@@ -80,17 +80,7 @@
             max-width: 30%;
             position: relative;
         }
-        /* Skjul standard D3-tal for at tilføje egne variabler (a, x0 osv.) */
-        .d3-axis text {
-            display: none !important;
-        }
-        /* Juster D3 annotations-tekst til at vise vores a, x0 mv. */
-        .function-plot .annotations text {
-            display: block !important;
-            font-size: 16px;
-            font-style: italic;
-            fill: #333;
-        }
+        
         /* Slå pointer events fra på grafer */
         .svg-container > div { 
             pointer-events: none; 
@@ -204,28 +194,96 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // Fælles konfiguration
+                // Fælles konfiguration - Uden standard annotations der laver lodrette streger
                 const commonConfig = {
                     disableZoom: true,
                     grid: false,
                     xAxis: { domain: [0, 6], label: 'x' },
-                    yAxis: { domain: [0, 5], label: 'y' },
-                    annotations: [
-                        { x: 1, text: 'a' },
-                        { x: 3, text: 'x₀' },
-                        { x: 4.5, text: 'x₀+h' },
-                        { x: 5.5, text: 'b' }
-                    ]
+                    yAxis: { domain: [0, 5], label: 'y' }
                 };
 
-                // Funktion vi bruger til f(x)
                 const funcString = '0.12 * x^2 + 1.2';
-                // Udregning af højderne til rektanglerne for annotationer
-                // f(3) = 2.28
-                // f(4.5) = 3.63
 
-                // Figur 604a (Rød)
-                functionPlot(Object.assign({}, commonConfig, {
+                // Hjælpefunktion til at gøre akserne mere tydelige og fjerne overflødige tal
+                function styleAxes(chartId, chartInstance) {
+                    const svg = d3.select(chartId + ' svg');
+                    const xScale = chartInstance.meta.xScale;
+
+                    // 1. Vis kun hele tal på y-aksen, skjul kommatal for overskuelighed
+                    svg.selectAll('.y.axis .tick text')
+                        .text(d => Number.isInteger(d) ? d : '')
+                        .style('font-size', '13px');
+
+                    // 2. Skjul alle de autogenererede tal på x-aksen
+                    svg.selectAll('.x.axis .tick text').style('display', 'none');
+
+                    // 3. Tilføj vores egne matematiske variabler på x-aksen
+                    const xAxisGroup = svg.select('.x.axis');
+                    const xLabels = [
+                        { val: 1, text: 'a' },
+                        { val: 3, text: 'x₀' },
+                        { val: 4.5, text: 'x₀+h' },
+                        { val: 5.5, text: 'b' }
+                    ];
+
+                    xLabels.forEach(label => {
+                        // Tilføj teksten
+                        xAxisGroup.append('text')
+                            .attr('x', xScale(label.val))
+                            .attr('y', 20) // Skub teksten lidt ned fra aksen
+                            .attr('fill', '#000')
+                            .attr('font-size', '18px')
+                            .attr('font-family', 'serif')
+                            .attr('font-style', 'italic')
+                            .attr('text-anchor', 'middle')
+                            .text(label.text);
+
+                        // Tilføj en lille markør-streg på aksen for præcision
+                        xAxisGroup.append('line')
+                            .attr('x1', xScale(label.val))
+                            .attr('x2', xScale(label.val))
+                            .attr('y1', 0)
+                            .attr('y2', 6)
+                            .attr('stroke', '#000')
+                            .attr('stroke-width', 1.5);
+                    });
+                }
+
+                // Hjælpefunktion til at tilføje f(x0) og f(x0+h) på y-aksen til graf 3
+                function addYLabelsTo604c(chartInstance) {
+                    const svg = d3.select('#graf-604c svg');
+                    const yScale = chartInstance.meta.yScale;
+                    const yAxisGroup = svg.select('.y.axis');
+                    
+                    const yLabels = [
+                        { val: 2.28, text: 'f(x₀)' },
+                        { val: 3.63, text: 'f(x₀+h)' }
+                    ];
+
+                    yLabels.forEach(label => {
+                        yAxisGroup.append('text')
+                            .attr('x', -8) // Skub teksten til venstre for aksen
+                            .attr('y', yScale(label.val) + 6) // Centrer vertikalt
+                            .attr('fill', '#000')
+                            .attr('font-size', '18px')
+                            .attr('font-family', 'serif')
+                            .attr('font-style', 'italic')
+                            .attr('text-anchor', 'end')
+                            .text(label.text);
+
+                        // Tilføj en lille markør-streg
+                        yAxisGroup.append('line')
+                            .attr('x1', -6)
+                            .attr('x2', 0)
+                            .attr('y1', yScale(label.val))
+                            .attr('y2', yScale(label.val))
+                            .attr('stroke', '#000')
+                            .attr('stroke-width', 1.5);
+                    });
+                }
+
+                // Tegn Figur 604a (Rød)
+                const chartA = functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604a',
                     width: document.getElementById('graf-604a').clientWidth,
                     height: 250,
@@ -234,9 +292,10 @@
                         { fn: funcString, range: [1, 3], closed: true, color: '#da322a' } 
                     ]
                 }));
+                styleAxes('#graf-604a', chartA);
 
-                // Figur 604b (Grøn)
-                functionPlot(Object.assign({}, commonConfig, {
+                // Tegn Figur 604b (Grøn)
+                const chartB = functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604b',
                     width: document.getElementById('graf-604b').clientWidth,
                     height: 250,
@@ -245,9 +304,10 @@
                         { fn: funcString, range: [1, 4.5], closed: true, color: '#469c46' } 
                     ]
                 }));
+                styleAxes('#graf-604b', chartB);
 
-                // Figur 604c (Gul + Rektangler + y-akse markeringer)
-                const config604c = Object.assign({}, commonConfig, {
+                // Tegn Figur 604c (Gul + Rektangler)
+                const chartC = functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604c',
                     width: document.getElementById('graf-604c').clientWidth,
                     height: 250,
@@ -255,20 +315,16 @@
                         { fn: funcString, color: '#444' }, 
                         { fn: funcString, range: [3, 4.5], closed: true, color: '#f4cc3d' }, 
                         
-                        // Tegning af stregerne for det LILLE rektangel f(x0)*h
+                        // Tegning af stregerne for det LILLE rektangel
                         { points: [[3, 2.28], [4.5, 2.28]], fnType: 'points', graphType: 'polyline', color: '#000' },
                         
-                        // Tegning af stregerne for det STORE rektangel f(x0+h)*h
+                        // Tegning af stregerne for det STORE rektangel
                         { points: [[3, 3.63], [4.5, 3.63]], fnType: 'points', graphType: 'polyline', color: '#000' },
                         { points: [[3, 2.28], [3, 3.63]], fnType: 'points', graphType: 'polyline', color: '#000' }
                     ]
-                });
-                
-                // Tilføjer y-akse tekst til graf 3 for at vise højderne f(x0) og f(x0+h) fra beviset
-                config604c.annotations.push({ y: 2.28, text: 'f(x₀)' });
-                config604c.annotations.push({ y: 3.63, text: 'f(x₀+h)' });
-
-                functionPlot(config604c);
+                }));
+                styleAxes('#graf-604c', chartC);
+                addYLabelsTo604c(chartC); // Tilføjer f(x0) og f(x0+h) på y-aksen
 
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
