@@ -47,11 +47,6 @@
         }
         .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
         .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
-
-        /* Tabeller */
-        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
         
         /* Billed- og graf-container */
         .svg-container {
@@ -109,11 +104,13 @@
             margin-top: 25px;
             text-align: left;
             padding: 0 10px;
+            background: #f9f9f9;
+            border-left: 4px solid #f4cc3d;
+            padding: 15px;
         }
 
         @media (max-width: 600px) {
             .toc-list { columns: 1; }
-            .data-table { font-size: 0.85rem; }
             .graph-item { max-width: 100%; margin-bottom: 20px; }
         }
     </style>
@@ -131,33 +128,19 @@
         <section class="card">
             <h2>Indholdsfortegnelse</h2>
             <ul class="toc-list">
-                <li><a href="#emne1"><span class="toc-num">1.</span>Introduktion til integralregning</a></li>
-                <li><a href="#graf-eksempel"><span class="toc-num">2.</span>Arealfunktionen</a></li>
-                <li><a href="#beviser"><span class="toc-num">3.</span>Beviser</a></li>
+                <li><a href="#graf-eksempel"><span class="toc-num">1.</span>Visualisering af Arealfunktionen</a></li>
+                <li><a href="#beviser"><span class="toc-num">2.</span>Bevis for Sætning 6.13</a></li>
             </ul>
         </section>
 
-        <div id="emne1" class="section-divider">
-            <h2>1. Introduktion til integralregning</h2>
-            <p>Grundlæggende principper</p>
-        </div>
-
-        <section class="card">
-            <h2>Definition af det bestemte integral</h2>
-            <p>Her kan du skrive din tekst. Brug <code>$ ... $</code> til matematik inde i teksten, f.eks. $f(x) = ax + b$, og brug <code>$$ ... $$</code> til store centrerede formler:</p>
-            
-            <p>$$ \int_a^b f(x) dx = F(b) - F(a) $$</p>
-            <a href="#top" class="back-to-top">Tilbage til toppen</a>
-        </section>
-
         <div id="graf-eksempel" class="section-divider">
-            <h2>2. Arealfunktionen</h2>
+            <h2>1. Visualisering af Arealfunktionen</h2>
             <p>Forståelse af arealet under kurven for funktionen f(x)</p>
         </div>
 
         <section class="card">
-            <h2>Visualisering af Arealfunktionen</h2>
-            <p>Nedenfor illustreres, hvordan arealfunktionen $A(x)$ beskriver arealet under kurven for en kontinuert og positiv funktion $f(x)$ i intervallet fra $a$ til $b$.</p>
+            <h2>Grafisk sammenhæng</h2>
+            <p>For at forstå beviset for at arealfunktionen er en stamfunktion, skal vi først kigge på differensen mellem to arealer under grafen. Nedenfor illustreres, hvordan tilvæksten i arealet kan afgrænses af to rektangler.</p>
             
             <div class="svg-container">
                 <div class="graphs-wrapper">
@@ -169,49 +152,50 @@
                 </div>
 
                 <div class="graph-caption">
-                    <strong>Figur 604a, 604b og 604c</strong> Figur 604a (venstre): Arealet af det røde område er $A(x_0)$<br>
-                    Figur 604b (midt): Arealet af det grønne område er $A(x_0 + h)$ Figur 604c (højre):<br>
-                    Arealet af det gule område er $A(x_0 + h) - A(x_0)$
+                    <strong>Figur 604a, 604b og 604c</strong><br>
+                    <strong>Figur 604a (venstre):</strong> Arealet af det røde område er $A(x_0)$.<br>
+                    <strong>Figur 604b (midt):</strong> Arealet af det grønne område er $A(x_0 + h)$.<br>
+                    <strong>Figur 604c (højre):</strong> Arealet af det gule område er $A(x_0 + h) - A(x_0)$. Her er også indtegnet de to afgørende rektangler til beviset. Det mindste rektangel har højden $f(x_0)$, og det største rektangel har højden $f(x_0 + h)$.
                 </div>
             </div>
             <a href="#top" class="back-to-top">Tilbage til toppen</a>
         </section>
+
         <div id="beviser" class="section-divider">
-            <h2>3. Beviser</h2>
-            <p>Samlet oversigt over matematiske beviser i dette emne</p>
+            <h2>2. Beviser</h2>
+            <p>Infinitesimalregningens hovedsætning</p>
         </div>
 
-        <section class="card">
-            <h2>Oversigt over beviser</h2>
-            <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-1">Bevis for Differentialregningens og Integralregningens Hovedsætning</a></li>
-            </ul>
-        </section>
-
         <section id="bevis-1" class="card proof">
-            <h2>Bevis for Differentialregningens og Integralregningens Hovedsætning</h2>
-            <p>Vi vil bevise, at $A'(x_0) = f(x_0)$.</p>
+            <h2>Bevis for Sætning 6.13: Arealfunktionen er stamfunktion</h2>
             
-            <p><strong>1) Trin 1:</strong><br>
-            Vi opstiller differenskvotienten ud fra de tre figurer ovenfor.</p>
-            <p>$$ \frac{A(x_0 + h) - A(x_0)}{h} $$</p>
+            <p>Vi antager, at $f$ er voksende, og vi nøjes med at bevise sætningen i dette tilfælde.</p>
+            <p>Sekanthældningen for $A$ med udgangspunkt i $x_0$ er givet ved $\frac{A(x_0 + h) - A(x_0)}{h}$.</p>
             
-            <p><strong>2) Trin 2:</strong><br>
-            Ved hjælp af indskudssætningen ser vi på rektanglerne i det gule areal og lader $h \to 0$.</p>
-            
-            <p>Dermed er sætningen bevist.</p>
+            <p>Vi nøjes med at se på det tilfælde, hvor $h > 0$. På figur 604 har vi farvet de områder, der har arealerne $A(x_0)$, $A(x_0 + h)$ samt $A(x_0 + h) - A(x_0)$.</p>
 
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+            <p>På figur 604c har vi tegnet to rektangler, hvor det ene har højden $f(x_0)$, og det andet har højden $f(x_0 + h)$. Da $f$ er voksende, er rektanglet med arealet $f(x_0) \cdot h$ <strong>mindre</strong> end det gule områdes areal, som igen er <strong>mindre</strong> end rektanglet med arealet $f(x_0 + h) \cdot h$.</p>
+
+            <p>Der gælder altså (indskudssætningen):</p>
+            <p>$$ f(x_0) \cdot h \leq A(x_0 + h) - A(x_0) \leq f(x_0 + h) \cdot h $$</p>
+
+            <p>Da $h > 0$, kan vi dividere med $h$ uden at ændre ulighedstegnene:</p>
+            <p>$$ f(x_0) \leq \frac{A(x_0 + h) - A(x_0)}{h} \leq f(x_0 + h) $$</p>
+
+            <p>Når $h \to 0$, vil $f(x_0 + h) \to f(x_0)$. Der gælder derfor:</p>
+            <p>$$ \lim_{h \to 0} \frac{A(x_0 + h) - A(x_0)}{h} = f(x_0) $$</p>
+
+            <p>Det betyder, at $A$ er differentiabel i $x_0$ med differentialkvotienten $A'(x_0) = f(x_0)$. Hermed er beviset fuldført, og vi har bevist, at arealfunktionen $A(x)$ hørende til $f(x)$ er en stamfunktion til $f(x)$.</p>
+
+            <p style="text-align: right; margin-top: 10px; font-size: 1.5rem; color: #2c3e50;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til toppen</a>
         </section>
 
-
-        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
 
         <footer class="site-footer">
             <div class="footer-content">
                 <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
-                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen.</p>
             </div>
         </footer>
 
@@ -220,7 +204,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // Fælles konfiguration for alle 3 grafer
+                // Fælles konfiguration
                 const commonConfig = {
                     disableZoom: true,
                     grid: false,
@@ -234,44 +218,57 @@
                     ]
                 };
 
-                // Funktion vi bruger til f(x) for at den ligner billedet (parabel)
+                // Funktion vi bruger til f(x)
                 const funcString = '0.12 * x^2 + 1.2';
+                // Udregning af højderne til rektanglerne for annotationer
+                // f(3) = 2.28
+                // f(4.5) = 3.63
 
-                // Figur 604a (Rød - A(x_0))
+                // Figur 604a (Rød)
                 functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604a',
                     width: document.getElementById('graf-604a').clientWidth,
                     height: 250,
                     data: [
-                        { fn: funcString, color: '#444' }, // Kurven f(x)
-                        { fn: funcString, range: [1, 3], closed: true, color: '#da322a' } // Rødt areal
+                        { fn: funcString, color: '#444' }, 
+                        { fn: funcString, range: [1, 3], closed: true, color: '#da322a' } 
                     ]
                 }));
 
-                // Figur 604b (Grøn - A(x_0 + h))
+                // Figur 604b (Grøn)
                 functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604b',
                     width: document.getElementById('graf-604b').clientWidth,
                     height: 250,
                     data: [
-                        { fn: funcString, color: '#444' }, // Kurven f(x)
-                        { fn: funcString, range: [1, 4.5], closed: true, color: '#469c46' } // Grønt areal
+                        { fn: funcString, color: '#444' }, 
+                        { fn: funcString, range: [1, 4.5], closed: true, color: '#469c46' } 
                     ]
                 }));
 
-                // Figur 604c (Gul - A(x_0 + h) - A(x_0))
-                functionPlot(Object.assign({}, commonConfig, {
+                // Figur 604c (Gul + Rektangler + y-akse markeringer)
+                const config604c = Object.assign({}, commonConfig, {
                     target: '#graf-604c',
                     width: document.getElementById('graf-604c').clientWidth,
                     height: 250,
                     data: [
-                        { fn: funcString, color: '#444' }, // Kurven f(x)
-                        { fn: funcString, range: [3, 4.5], closed: true, color: '#f4cc3d' }, // Gult areal
-                        // Tilføjer de to rektangel-linjer til det gule areal for indskudssætningen
-                        { fn: '0.12 * 3^2 + 1.2', range: [3, 4.5], color: '#666' }, 
-                        { fn: '0.12 * 4.5^2 + 1.2', range: [3, 4.5], color: '#666' } 
+                        { fn: funcString, color: '#444' }, 
+                        { fn: funcString, range: [3, 4.5], closed: true, color: '#f4cc3d' }, 
+                        
+                        // Tegning af stregerne for det LILLE rektangel f(x0)*h
+                        { points: [[3, 2.28], [4.5, 2.28]], fnType: 'points', graphType: 'polyline', color: '#000' },
+                        
+                        // Tegning af stregerne for det STORE rektangel f(x0+h)*h
+                        { points: [[3, 3.63], [4.5, 3.63]], fnType: 'points', graphType: 'polyline', color: '#000' },
+                        { points: [[3, 2.28], [3, 3.63]], fnType: 'points', graphType: 'polyline', color: '#000' }
                     ]
-                }));
+                });
+                
+                // Tilføjer y-akse tekst til graf 3 for at vise højderne f(x0) og f(x0+h) fra beviset
+                config604c.annotations.push({ y: 2.28, text: 'f(x₀)' });
+                config604c.annotations.push({ y: 3.63, text: 'f(x₀+h)' });
+
+                functionPlot(config604c);
 
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
