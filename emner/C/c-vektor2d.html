@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vektorer i 2D - STX Matematik C</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        /* Tabeller */
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
+        
+        /* Billed- og graf-container */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { 
+            pointer-events: none; 
+        }
+
+        .proof { margin-bottom: 30px; }
+
+        @media (max-width: 600px) {
+            .toc-list { columns: 1; }
+            .data-table { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Vektorer i 2D</h1>
+            <p class="subtitle">C - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#hvad-er-en-vektor"><span class="toc-num">1.</span>Hvad er en vektor?</a></li>
+                <li><a href="#algebra-og-geometri"><span class="toc-num">2.</span>Algebra og Geometri: Vektorregning</a></li>
+                <li><a href="#punkter-vektorer"><span class="toc-num">3.</span>Punkter og Vektorer</a></li>
+                <li><a href="#beliggenhed-prikprodukt"><span class="toc-num">4.</span>Beliggenhed og Prikprodukt</a></li>
+                <li><a href="#trigonometri"><span class="toc-num">5.</span>Trigonometri</a></li>
+                <li><a href="#beviser"><span class="toc-num">6.</span>Beviser</a></li>
+            </ul>
+        </section>
+
+        <div id="hvad-er-en-vektor" class="section-divider">
+            <h2>1. Hvad er en vektor?</h2>
+            <p>Retning og afstand forenet</p>
+        </div>
+
+        <section class="card">
+            <h2>Hvor langt væk, hvilken retning?</h2>
+            <p>Forestil dig instruktionen: "Gå 5 km mod nord". Denne meddelelse fører forskellige steder hen, alt efter hvor man starter, men selve <em>bevægelsen</em> er den samme. En sådan instruktion, der kombinerer en afstand og en retning, kaldes en <strong>vektor</strong>.</p>
+            <p>En vektor symboliseres matematisk med et bogstav med en lille pil over, fx $\vec{v}$.</p>
+            
+            
+
+            <p>Retninger angives ofte som vinkler i forhold til en standardretning. Vi fastlægger retningen Øst til at være 0°. Derefter findes andre retninger ved at dreje mod uret:</p>
+            <ul>
+                <li>Øst: 0°</li>
+                <li>Nord-øst: 45°</li>
+                <li>Nord: 90°</li>
+                <li>Vest: 180°</li>
+                <li>Syd: 270°</li>
+            </ul>
+            <p>For at beskrive at man skal bevæge sig 5 km mod nordøst, kan vi skrive $\vec{v}(5, 45^\circ)$. Ofte angiver vi dog vektorer på en endnu nemmere måde ved at bruge koordinatsystemets akser (hvor langt hen ad x-aksen, og hvor langt op ad y-aksen).</p>
+        </section>
+
+        <div id="algebra-og-geometri" class="section-divider">
+            <h2>2. Algebra og Geometri: Vektorregning</h2>
+            <p>Regning med pile og koordinatsæt</p>
+        </div>
+
+        <section class="card">
+            <h2>Vektorer som koordinatsæt</h2>
+            <p>I et koordinatsystem er det nemmest at beskrive en vektor ud fra, hvor meget den rykker vandret og lodret. I stedet for vinkler skriver vi den som en "søjle".</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: En 2D-vektor</strong>
+                <p>En vektor $\vec{v}$ angives som et koordinatsæt: $\vec{v} = \binom{v_1}{v_2}$</p>
+                <p>$v_1$ kaldes førstekoordinaten (vandret bevægelse), og $v_2$ kaldes andenkoordinaten (lodret bevægelse).</p>
+            </div>
+
+            <p>Når vi tegner vektoren som en pil fra et startpunkt $P$ til et slutpunkt $Q$, skriver vi $\overrightarrow{PQ} = \binom{v_1}{v_2}$. En vektor har uendeligt mange repræsentanter (pile), afhængig af hvor vi vælger at lade den starte, men de er alle den samme vektor, så længe de peger samme vej og er lige lange.</p>
+
+            <h3>Længden af en vektor</h3>
+            <p>Ved hjælp af Pythagoras' sætning kan vi altid beregne, præcis hvor lang en vektor er. Længden af en vektor $\vec{v}$ skrives som $|\vec{v}|$:</p>
+            <p>$$ |\vec{v}| = \sqrt{v_1^2 + v_2^2} $$</p>
+        </section>
+
+        <section class="card">
+            <h2>Regneregler for vektorer</h2>
+            <p>Man kan regne med vektorer på to måder: algebraisk (med tallene i koordinatsættet) eller geometrisk (ved at tegne pilene).</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Operation</th>
+                        <th>Algebraisk</th>
+                        <th>Geometrisk beskrivelse</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sum (Addition)</strong></td>
+                        <td>$\vec{a} + \vec{b} = \binom{a_1 + b_1}{a_2 + b_2}$</td>
+                        <td>Afsæt pil $\vec{a}$. Læg pil $\vec{b}$ i forlængelse heraf. Summen er pilen fra start til slut (kræfternes parallelogram).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Differens (Minus)</strong></td>
+                        <td>$\vec{a} - \vec{b} = \binom{a_1 - b_1}{a_2 - b_2}$</td>
+                        <td>Læg den modsatte vektor til: $\vec{a} + (-\vec{b})$.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gange med tal (Skalering)</strong></td>
+                        <td>$k \cdot \vec{a} = \binom{k \cdot a_1}{k \cdot a_2}$</td>
+                        <td>Gør pilen $k$ gange så lang. Hvis $k$ er negativ, vendes pilens retning desuden 180°.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            [attachment_0](attachment)
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Specielle vektorer</strong>
+                <ul>
+                    <li><strong>Nulvektoren:</strong> $\vec{o} = \binom{0}{0}$. Den har længden 0 og ingen retning.</li>
+                    <li><strong>Den modsatte vektor:</strong> Vektoren $-\vec{a}$ peger i stik modsat retning af $\vec{a}$ men har samme længde. $-\vec{a} = \binom{-a_1}{-a_2}$.</li>
+                    <li><strong>Enhedsvektor:</strong> En vektor, der har en længde på præcis 1.</li>
+                </ul>
+            </div>
+        </section>
+
+
+        <div id="punkter-vektorer" class="section-divider">
+            <h2>3. Punkter og Vektorer</h2>
+            <p>Forbindelsen mellem punkter i rummet</p>
+        </div>
+
+        <section class="card">
+            <h2>Stedvektor og vektoren mellem to punkter</h2>
+            <p>Ethvert punkt $P(p_1, p_2)$ i et koordinatsystem kan forbindes til begyndelsespunktet $O(0,0)$ med en pil. Denne vektor kaldes punktets <strong>stedvektor</strong>, og den har samme koordinater som punktet selv: $\overrightarrow{OP} = \binom{p_1}{p_2}$.</p>
+
+            <p>Hvis vi kender to punkter, $A(a_1, a_2)$ og $B(b_1, b_2)$, kan vi finde vektoren, der går fra $A$ til $B$ ved at trække deres koordinater fra hinanden (slutpunkt minus startpunkt):</p>
+            <p>$$ \overrightarrow{AB} = \binom{b_1 - a_1}{b_2 - a_2} $$</p>
+
+            <p>Heraf følger også den direkte <strong>afstandsformel</strong> mellem to punkter, som blot er længden af vektoren $\overrightarrow{AB}$:</p>
+            <p>$$ \text{dist}(A,B) = \sqrt{(b_1 - a_1)^2 + (b_2 - a_2)^2} $$</p>
+
+            <h3>Midtpunkt af et linjestykke</h3>
+            <p>Midtpunktet $M$ på linjestykket mellem $A$ og $B$ kan findes ved at tage gennemsnittet af deres koordinater:</p>
+            <p>$$ M = \left(\frac{a_1 + b_1}{2}, \frac{a_2 + b_2}{2}\right) $$</p>
+        </section>
+
+        <section class="card">
+            <h2>Indskudssætningen</h2>
+            <p>Indskudssætningen er en smart geometrisk regel. Hvis man har en vektor fra $A$ til $C$, giver det samme resultat at tage en omvej via et andet punkt $B$. Man "indskyder" et punkt:</p>
+            <p>$$ \overrightarrow{AC} = \overrightarrow{AB} + \overrightarrow{BC} $$</p>
+            <p>Sætningen kan også bruges baglæns: Har man summen af to vektorer, hvor den første slutter i samme punkt som den anden starter, kan man udskyde (fjerne) punktet.</p>
+        </section>
+
+
+        <div id="beliggenhed-prikprodukt" class="section-divider">
+            <h2>4. Beliggenhed og Prikprodukt</h2>
+            <p>At undersøge om vektorer er parallelle eller vinkelrette</p>
+        </div>
+
+        <section class="card">
+            <h2>Parallelle og Ortogonale vektorer</h2>
+            <p><strong>Parallelle vektorer:</strong> To vektorer er parallelle ($\vec{a} \parallel \vec{b}$), hvis de peger i enten samme eller eksakt modsat retning. Matematisk betyder det, at den ene vektor kan skrives som et tal ganget med den anden vektor: $\vec{b} = k \cdot \vec{a}$.</p>
+            
+            <p><strong>Ortogonale vektorer:</strong> To vektorer kaldes ortogonale ($\vec{a} \bot \vec{b}$), når vinklen mellem dem er præcis 90° (de står vinkelret på hinanden).</p>
+        </section>
+
+        <section class="card">
+            <h2>Prikprodukt (Skalarprodukt)</h2>
+            <p>I modsætning til addition, hvor to vektorer lægges sammen og giver en ny vektor, producerer <strong>prikproduktet</strong> mellem to vektorer et helt almindeligt tal. Det udregnes ved at gange førstekoordinaterne sammen og lægge dem til produktet af andenkoordinaterne:</p>
+            <p>$$ \vec{a} \cdot \vec{b} = a_1 b_1 + a_2 b_2 $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning: Ortogonalsætningen</strong>
+                <p>Prikproduktet er en fantastisk test for at se, om to vektorer står vinkelret på hinanden. For vektorer, der ikke er nulvektorer, gælder det, at de står vinkelret på hinanden, hvis og kun hvis deres prikprodukt er nul.</p>
+                <p>$$ \vec{a} \bot \vec{b} \quad \Leftrightarrow \quad \vec{a} \cdot \vec{b} = 0 $$</p>
+            </div>
+
+            <p>Prikproduktets fortegn fortæller os desuden om vinklen $v$ mellem to vektorer:</p>
+            <ul>
+                <li>Hvis $\vec{a} \cdot \vec{b} > 0$, så er vinklen spids (under 90°).</li>
+                <li>Hvis $\vec{a} \cdot \vec{b} < 0$, så er vinklen stump (over 90°).</li>
+            </ul>
+        </section>
+
+
+        <div id="trigonometri" class="section-divider">
+            <h2>5. Trigonometri</h2>
+            <p>Cosinus, sinus, tangens og trekanter</p>
+        </div>
+
+        <section class="card">
+            <h2>Enhedscirklen</h2>
+            <p>Den grundlæggende definition af trigonometri tager udgangspunkt i <strong>enhedscirklen</strong> – en cirkel med centrum i Origo (0,0) og radius 1.</p>
+            <p>Tegner man en vinkel $v$ med udgangspunkt i x-aksens positive del, vil vinklens højre ben skære enhedscirklen i et punkt, vi kalder retningspunktet $P_v$.</p>
+            
+            
+
+            <p>Definitionen på cosinus og sinus aflæses direkte som dette punkts koordinater:</p>
+            <p>$$ \cos(v) = x\text{-koordinaten} $$</p>
+            <p>$$ \sin(v) = y\text{-koordinaten} $$</p>
+            <p><strong>Tangens</strong> til en vinkel defineres som forholdet mellem dem: $\tan(v) = \frac{\sin(v)}{\cos(v)}$.</p>
+
+            <table class="data-table" style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th style="width: 33%;">Vinkel $v$</th>
+                        <th style="width: 33%;">$\cos(v)$</th>
+                        <th style="width: 33%;">$\sin(v)$</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>0°</td><td>1</td><td>0</td></tr>
+                    <tr><td>90°</td><td>0</td><td>1</td></tr>
+                    <tr><td>180°</td><td>-1</td><td>0</td></tr>
+                    <tr><td>270°</td><td>0</td><td>-1</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="card">
+            <h2>Retvinklede Trekanter (Hyp-Mod-Hos)</h2>
+            <p>I trekanter, hvor en af vinklerne er 90°, bruges cosinus, sinus og tangens til at finde ukendte sidelængder og vinkler. Vi skelner mellem den længste side (hypotenusen), kateten der ligger op ad den vinkel vi kigger på (hosliggende), og den katete der ligger over for (modstående).</p>
+
+            
+
+            <ul>
+                <li>$ \cos(v) = \frac{\text{hosliggende}}{\text{hypotenuse}} $</li>
+                <li>$ \sin(v) = \frac{\text{modstående}}{\text{hypotenuse}} $</li>
+                <li>$ \tan(v) = \frac{\text{modstående}}{\text{hosliggende}} $</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>Vilkårlige Trekanter</h2>
+            <p>Når en trekant ikke har en ret vinkel, kan vi stadig beregne sider og vinkler ved hjælp af to meget vigtige relationer.</p>
+            
+            
+
+            <h3>Cosinusrelationerne</h3>
+            <p>Bruges når man kender alle tre sider og vil finde en vinkel, eller når man kender to sider og vinklen imellem dem, og vil finde den sidste side. Det er en udvidelse af Pythagoras' sætning.</p>
+            <p>$$ c^2 = a^2 + b^2 - 2ab \cdot \cos(C) $$</p>
+
+            <h3>Sinusrelationerne</h3>
+            <p>Bruges når man kender et "par" (en vinkel og dens modstående side) samt enten endnu en vinkel eller en side mere.</p>
+            <p>$$ \frac{a}{\sin(A)} = \frac{b}{\sin(B)} = \frac{c}{\sin(C)} $$</p>
+
+            <h3>Trekants Areal</h3>
+            <p>Kender man to sider og vinklen imellem dem, kan arealet $T$ beregnes direkte uden at kende trekantens højde:</p>
+            <p>$$ T = \frac{1}{2} \cdot a \cdot b \cdot \sin(C) $$</p>
+        </section>
+
+
+        <div id="beviser" class="section-divider">
+            <h2>6. Beviser</h2>
+            <p>Samlet oversigt over matematiske beviser for emnet Vektorer og Trigonometri</p>
+        </div>
+
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis-modsat">Bevis: Den modsatte vektor og differens</a></li>
+                <li><a href="#bevis-vektorregler">Bevis: Vektor-regneregler (V1, V3, V4)</a></li>
+                <li><a href="#bevis-indskud">Bevis: Indskudssætningen og Afstandsformlen</a></li>
+                <li><a href="#bevis-prikprodukt">Bevis: Regneregler for prikprodukt (Kvadratet på en sum)</a></li>
+                <li><a href="#bevis-grundrelation">Bevis: Grundrelationen (Idiotformlen)</a></li>
+                <li><a href="#bevis-vinkel">Bevis: Prikprodukt og vinkel</a></li>
+                <li><a href="#bevis-hypmodhos">Bevis: Hyp-mod-hos-sætningen</a></li>
+                <li><a href="#bevis-cosinusrel">Bevis: Cosinusrelationerne</a></li>
+                <li><a href="#bevis-sinusrel">Bevis: Sinusrelationerne og Trekants Areal</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis-modsat" class="card proof">
+            <h2>Bevis: Den modsatte vektor og differens</h2>
+            <p><strong>1) Modsat vektor:</strong> Vi vil vise, at $-\vec{a} = \binom{-a_1}{-a_2}$.</p>
+            <p>Ved at bruge reglen om at gange et tal på en vektor får vi:</p>
+            <p>$$ -\vec{a} = (-1)\binom{a_1}{a_2} = \binom{(-1)a_1}{(-1)a_2} = \binom{-a_1}{-a_2} $$</p>
+            <p>Lægger vi dem sammen bekræftes det, at de giver nulvektoren:</p>
+            <p>$$ \vec{a} + (-\vec{a}) = \binom{a_1}{a_2} + \binom{-a_1}{-a_2} = \binom{a_1 - a_1}{a_2 - a_2} = \binom{0}{0} = \vec{o} $$</p>
+
+            <p><strong>2) Differens:</strong> Vi vil vise, at $\vec{a} - \vec{b} = \binom{a_1 - b_1}{a_2 - b_2}$.</p>
+            <p>Differensen defineres som at lægge den modsatte vektor til:</p>
+            <p>$$ \vec{a} - \vec{b} = \vec{a} + (-\vec{b}) = \binom{a_1}{a_2} + \binom{-b_1}{-b_2} = \binom{a_1 - b_1}{a_2 - b_2} $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-vektorregler" class="card proof">
+            <h2>Bevis: Vektor-regneregler (V1, V3, V4)</h2>
+            <p><strong>V1 (Kommutativ lov): $\vec{a} + \vec{b} = \vec{b} + \vec{a}$</strong></p>
+            <p>$$ \vec{a} + \vec{b} = \binom{a_1}{a_2} + \binom{b_1}{b_2} = \binom{a_1 + b_1}{a_2 + b_2} $$</p>
+            <p>Da 2 + 3 er det samme som 3 + 2, kan vi bytte om på almindelige tal inde i parentesen:</p>
+            <p>$$ = \binom{b_1 + a_1}{b_2 + a_2} = \binom{b_1}{b_2} + \binom{a_1}{a_2} = \vec{b} + \vec{a} $$</p>
+
+            <p><strong>V3 (Distributiv lov): $k(\vec{a} + \vec{b}) = k\vec{a} + k\vec{b}$</strong></p>
+            <p>$$ k(\vec{a} + \vec{b}) = k\binom{a_1 + b_1}{a_2 + b_2} = \binom{k(a_1 + b_1)}{k(a_2 + b_2)} = \binom{ka_1 + kb_1}{ka_2 + kb_2} $$</p>
+            <p>$$ = \binom{ka_1}{ka_2} + \binom{kb_1}{kb_2} = k\binom{a_1}{a_2} + k\binom{b_1}{b_2} = k\vec{a} + k\vec{b} $$</p>
+
+            <p><strong>V4 (Distributiv lov for skalarer): $(k+m)\vec{a} = k\vec{a} + m\vec{a}$</strong></p>
+            <p>$$ (k+m)\vec{a} = \binom{(k+m)a_1}{(k+m)a_2} = \binom{ka_1 + ma_1}{ka_2 + ma_2} $$</p>
+            <p>$$ = \binom{ka_1}{ka_2} + \binom{ma_1}{ma_2} = k\vec{a} + m\vec{a} $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-indskud" class="card proof">
+            <h2>Bevis: Indskudssætningen og Afstandsformlen</h2>
+            <p><strong>Indskudssætningen:</strong> $\overrightarrow{AC} = \overrightarrow{AB} + \overrightarrow{BC}$</p>
+            <p>Dette bevises rent geometrisk: Af den geometriske konstruktion af summen af to vektorer (paralellogrammet / at lægge pile i forlængelse af hinanden) følger det direkte, at en pil fra $A$ til $B$ efterfulgt af en pil fra $B$ til $C$ slutter samme sted som en pil direkte fra $A$ til $C$.</p>
+
+            <p><strong>Vektor mellem to punkter:</strong> $\overrightarrow{AB} = \binom{b_1 - a_1}{b_2 - a_2}$</p>
+            <p>Vi bruger indskudssætningen og indskyder begyndelsespunktet (Origo) $O(0,0)$ mellem punkterne $A$ og $B$:</p>
+            <p>$$ \overrightarrow{AB} = \overrightarrow{AO} + \overrightarrow{OB} = -\overrightarrow{OA} + \overrightarrow{OB} = \overrightarrow{OB} - \overrightarrow{OA} $$</p>
+            <p>Da stedvektorer har samme koordinater som deres punkt:</p>
+            <p>$$ = \binom{b_1}{b_2} - \binom{a_1}{a_2} = \binom{b_1 - a_1}{b_2 - a_2} $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-prikprodukt" class="card proof">
+            <h2>Bevis: Regneregler for prikprodukt (Kvadratet på en sum)</h2>
+            <p>Vi beviser reglen $|\vec{a} + \vec{b}|^2 = |\vec{a}|^2 + 2\vec{a}\cdot\vec{b} + |\vec{b}|^2$. Vi husker, at en vektor prikket med sig selv giver længden i anden ($|\vec{v}|^2 = \vec{v}\cdot\vec{v}$).</p>
+            <p>$$ |\vec{a} + \vec{b}|^2 = (\vec{a} + \vec{b}) \cdot (\vec{a} + \vec{b}) $$</p>
+            <p>Vi ganger ind i parenteserne, præcis som i almindelig algebra:</p>
+            <p>$$ = \vec{a}\cdot\vec{a} + \vec{a}\cdot\vec{b} + \vec{b}\cdot\vec{a} + \vec{b}\cdot\vec{b} $$</p>
+            <p>Da prikproduktet er kommutativt ($\vec{a}\cdot\vec{b} = \vec{b}\cdot\vec{a}$), samler vi leddene:</p>
+            <p>$$ = |\vec{a}|^2 + 2\vec{a}\cdot\vec{b} + |\vec{b}|^2 $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-grundrelation" class="card proof">
+            <h2>Bevis: Grundrelationen mellem cosinus og sinus</h2>
+            <p>Vi vil vise formlen $(\cos(v))^2 + (\sin(v))^2 = 1$.</p>
+            <p>Givet en vinkel $v$, har vi et retningspunkt på enhedscirklen givet ved $P_v = (\cos(v), \sin(v))$.</p>
+            <p>Stedvektoren til dette punkt er $\overrightarrow{OP_v} = \binom{\cos(v)}{\sin(v)}$. Da retningspunktet ligger på enhedscirklen, er afstanden til centrum præcis 1, dvs. at vektorens længde er en enhedsvektor ($|\overrightarrow{OP_v}| = 1$).</p>
+            <p>Vi bruger længdeformlen for en vektor:</p>
+            <p>$$ 1 = |\overrightarrow{OP_v}| = \sqrt{(\cos(v))^2 + (\sin(v))^2} $$</p>
+            <p>For at fjerne kvadratroden kvadrerer vi på begge sider (og $1^2$ er stadig 1):</p>
+            <p>$$ 1 = (\cos(v))^2 + (\sin(v))^2 $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-vinkel" class="card proof">
+            <h2>Bevis: Prikprodukt og vinkel</h2>
+            <p>Vi kigger på formlen $\cos(v) = \frac{\vec{a}\cdot\vec{b}}{|\vec{a}||\vec{b}|}$ og vil bevise relationen mellem fortegn og den vinkel de spænder over.</p>
+            <p>Ved at omskrive formlen får vi: $\vec{a}\cdot\vec{b} = |\vec{a}||\vec{b}|\cos(v)$.</p>
+            <p>Længder er altid positive (større end 0), så leddet $|\vec{a}||\vec{b}|$ er strengt positivt. Det betyder, at prikproduktet $\vec{a}\cdot\vec{b}$ har <em>nøjagtig samme fortegn</em> som $\cos(v)$.</p>
+            <p>Ved at kigge på enhedscirklen ved vi om cosinus (x-værdien):</p>
+            <ul>
+                <li>Cosinus er positiv i 1. kvadrant (vinkel mellem 0° og 90°). Ergo er prikproduktet $> 0$.</li>
+                <li>Cosinus er præcis 0 ved 90°. Ergo er prikproduktet præcis $0$ (ortogonale).</li>
+                <li>Cosinus er negativ i 2. kvadrant (vinkel over 90°). Ergo er prikproduktet $< 0$.</li>
+            </ul>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-hypmodhos" class="card proof">
+            <h2>Bevis: Hyp-mod-hos-sætningen</h2>
+            <p>I en retvinklet trekant, hvor $C=90^\circ$, placerer vi punkt $A$ i origo $(0,0)$ i et koordinatsystem, og kateten $AC$ ud ad x-aksen. Dette gør, at vinkel $A$ nu ligger fra x-aksen op mod hypotenusen $c$.</p>
+            <p>Vi danner en enhedsvektor langs hypotenusen ved at tage $\overrightarrow{AB}$ og dividere med dens egen længde:</p>
+            <p>$$ \frac{\overrightarrow{AB}}{|\overrightarrow{AB}|} = \binom{\cos(A)}{\sin(A)} $$</p>
+            <p>Hvis vi isolerer $\overrightarrow{AB}$, får vi punktet $B$'s koordinater:</p>
+            <p>$$ \overrightarrow{AB} = |\overrightarrow{AB}| \cdot \binom{\cos(A)}{\sin(A)} = \binom{c\cdot\cos(A)}{c\cdot\sin(A)} $$</p>
+            <p>Da punkt $B$ ligger ved $(b, a)$ ifølge standard trekanter (x-længden er katete $b$, y-højden er katete $a$), har vi:</p>
+            <p>$$ \binom{b}{a} = \binom{c\cdot\cos(A)}{c\cdot\sin(A)} $$</p>
+            <p>Heraf udledes de to formler: $b = c \cdot \cos(A) \Rightarrow \cos(A) = \frac{b}{c}$ og $a = c \cdot \sin(A) \Rightarrow \sin(A) = \frac{a}{c}$. Tangens bevises via sin defintion: $\tan(A) = \frac{\sin(A)}{\cos(A)} = \frac{a/c}{b/c} = \frac{a}{b}$.</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-cosinusrel" class="card proof">
+            <h2>Bevis: Cosinusrelationerne</h2>
+            <p>Vi vil bevise $c^2 = a^2 + b^2 - 2ab\cdot\cos(C)$. Vi placerer vektorer langs trekantens sider: $\vec{a} = \overrightarrow{CB}$ og $\vec{b} = \overrightarrow{CA}$. Sidelængderne svarer til vektorernes længde: $a = |\vec{a}|$ og $b = |\vec{b}|$.</p>
+            <p>Via indskudssætningen er vektoren langs siden $c$ givet ved $\overrightarrow{AB} = \overrightarrow{CB} - \overrightarrow{CA} = \vec{a} - \vec{b}$. Altså er længden $c = |\vec{a} - \vec{b}|$.</p>
+            <p>Vi kvadrerer længden og bruger reglen for kvadratet på en differens for prikprodukter:</p>
+            <p>$$ c^2 = |\vec{a} - \vec{b}|^2 = |\vec{a}|^2 + |\vec{b}|^2 - 2\vec{a}\cdot\vec{b} $$</p>
+            <p>Vi indsætter definitionen på prikproduktet ($\vec{a}\cdot\vec{b} = |\vec{a}||\vec{b}|\cos(C)$):</p>
+            <p>$$ c^2 = |\vec{a}|^2 + |\vec{b}|^2 - 2|\vec{a}||\vec{b}|\cos(C) $$</p>
+            <p>Ved at udskifte vektorlængderne med sidelængder fås beviset:</p>
+            <p>$$ c^2 = a^2 + b^2 - 2ab \cdot \cos(C) $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-sinusrel" class="card proof">
+            <h2>Bevis: Sinusrelationerne og Trekants Areal</h2>
+            <p>Arealet $T$ af en trekant findes normalt som $\frac{1}{2} \cdot h_b \cdot b$. Vi ved fra den retvinklede trigonometri (se forrige bevis), at vi kan opskrive en højde som hypotenusen gange sinus til vinklen: $h_b = a \cdot \sin(C)$. Sætter vi dette ind i arealformlen får vi den berømte <strong>appelsinformel</strong> for trekants areal:</p>
+            <p>$$ T = \frac{1}{2} \cdot a \cdot b \cdot \sin(C) $$</p>
+            <p>For at bevise sinusrelationerne husker vi, at arealet af en bestemt trekant naturligvis altid er det samme, uanset fra hvilken vinkel vi beregner det:</p>
+            <p>$$ \frac{1}{2} a b \sin(C) = \frac{1}{2} a c \sin(B) = \frac{1}{2} b c \sin(A) $$</p>
+            <p>Vi dividerer nu igennem med leddet $\frac{1}{2} a b c$ på alle sider:</p>
+            <p>$$ \frac{\frac{1}{2} a b \sin(C)}{\frac{1}{2} a b c} = \frac{\frac{1}{2} a c \sin(B)}{\frac{1}{2} a b c} = \frac{\frac{1}{2} b c \sin(A)}{\frac{1}{2} a b c} $$</p>
+            <p>Når vi har forkortet de overflødige faktorer væk fra hver brøk, står sinusrelationerne flot tilbage:</p>
+            <p>$$ \frac{\sin(C)}{c} = \frac{\sin(B)}{b} = \frac{\sin(A)}{a} $$</p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>
