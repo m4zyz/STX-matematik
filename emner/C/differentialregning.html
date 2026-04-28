@@ -60,15 +60,16 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
-        .svg-container > div { 
-            pointer-events: none; 
-        }
-
-        .proof { margin-bottom: 30px; }
+        .proof { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .proof h3 { font-size: 1.1rem; color: #34495e; margin-top: 20px; }
+        
+        .step-list { list-style: none; padding-left: 0; }
+        .step-item { display: flex; margin-bottom: 10px; align-items: baseline; }
+        .step-num { min-width: 30px; font-weight: bold; color: var(--primary-color); }
+        .step-content { flex-grow: 1; }
 
         @media (max-width: 600px) {
             .toc-list { columns: 1; }
-            .data-table { font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -79,191 +80,263 @@
     <main class="content">
         <header>
             <h1 id="top">Differentialregning</h1>
-            <p class="subtitle">C - niveau</p>
+            <p class="subtitle">C-niveau</p>
         </header>
 
         <section class="card">
             <h2>Indholdsfortegnelse</h2>
             <ul class="toc-list">
                 <li><a href="#kvotient"><span class="toc-num">1.</span>Differentialkvotient</a></li>
-                <li><a href="#regneregler"><span class="toc-num">2.</span>Regneregler for differentiation</a></li>
+                <li><a href="#regler"><span class="toc-num">2.</span>Regneregler</a></li>
                 <li><a href="#tangent"><span class="toc-num">3.</span>Tangentens ligning</a></li>
-                <li><a href="#monotoni"><span class="toc-num">4.</span>Monotoniforhold og ekstrema</a></li>
+                <li><a href="#monotoni"><span class="toc-num">4.</span>Monotoni & Ekstrema</a></li>
                 <li><a href="#beviser"><span class="toc-num">5.</span>Beviser</a></li>
             </ul>
         </section>
 
         <div id="kvotient" class="section-divider">
             <h2>1. Differentialkvotient</h2>
-            <p>Hvad fortæller f'(x) os om grafens stejlhed?</p>
+            <p>Forståelse af tangenthældning og notation</p>
         </div>
 
         <section class="card">
-            <h2>Tangentens hældning</h2>
-            <p>Differentialkvotienten af en funktion $f$ i et punkt $x_0$ er et tal, der angiver, hvor stejl grafen er lige præcis i det punkt. Det svarer til hældningen for tangenten i punktet.</p>
-            <p>Dette skrives som $f'(x_0)$, hvilket læses som »f mærke af $x_0$«.</p>
+            <p>Differentialkvotienten $f'(x_0)$ angiver tangenthældningen $a$ i punktet $P(x_0, f(x_0))$. Det er et mål for, hvor stejl grafen er i netop det punkt.</p>
             
-            
-
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th style="width: 50%;">Funktion $f(x)$</th>
-                        <th style="width: 50%;">Differentialkvotient $f'(x)$</th>
+                        <th>Funktion $f(x)$</th>
+                        <th>Differentialkvotient $f'(x)$</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr><td>$k$ (konstant)</td><td>$0$</td></tr>
                     <tr><td>$x$</td><td>$1$</td></tr>
-                    <tr><td>$ax + b$</td><td>$a$</td></tr>
+                    <tr><td>$ax+b$</td><td>$a$</td></tr>
                     <tr><td>$x^2$</td><td>$2x$</td></tr>
-                    <tr><td>$x^3$</td><td>$3x^2$</td></tr>
+                    <tr><td>$x^n$</td><td>$n \cdot x^{n-1}$</td></tr>
                     <tr><td>$\frac{1}{x}$</td><td>$-\frac{1}{x^2}$</td></tr>
                     <tr><td>$\sqrt{x}$</td><td>$\frac{1}{2\sqrt{x}}$</td></tr>
                 </tbody>
             </table>
         </section>
 
-        <div id="regneregler" class="section-divider">
+        <div id="regler" class="section-divider">
             <h2>2. Regneregler</h2>
-            <p>Hvordan differentierer man sammensatte udtryk?</p>
+            <p>Regneregler for sum, differens og konstante faktorer</p>
         </div>
 
         <section class="card">
             <h2>Sætning 7.1: Regneregler for differentiation</h2>
-            <p>Når vi kender de afledede funktioner for $f$ og $g$, kan vi kombinere dem:</p>
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Type</th>
+                        <th>Navn</th>
                         <th>Funktion</th>
                         <th>Differentialkvotient</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Sum</td><td>$f(x) + g(x)$</td><td>$f'(x) + g'(x)$</td></tr>
-                    <tr><td>Differens</td><td>$f(x) - g(x)$</td><td>$f'(x) - g'(x)$</td></tr>
-                    <tr><td>Konstant faktor</td><td>$c \cdot f(x)$</td><td>$c \cdot f'(x)$</td></tr>
                     <tr><td>Konstant led</td><td>$f(x) + k$</td><td>$f'(x)$</td></tr>
+                    <tr><td>Konstant faktor</td><td>$c \cdot f(x)$</td><td>$c \cdot f'(x)$</td></tr>
+                    <tr><td>Sumregel</td><td>$f(x) + g(x)$</td><td>$f'(x) + g'(x)$</td></tr>
+                    <tr><td>Differensregel</td><td>$f(x) - g(x)$</td><td>$f'(x) - g'(x)$</td></tr>
                 </tbody>
             </table>
         </section>
 
         <div id="tangent" class="section-divider">
             <h2>3. Tangentens ligning</h2>
-            <p>Bestemmelse af den rette linje der rører grafen</p>
+            <p>Sådan finder man ligningen for en tangent</p>
         </div>
 
         <section class="card">
-            <h2>Sætning 7.2: Tangentligningen</h2>
-            <p>For at finde ligningen for en tangent i et punkt $(x_0, f(x_0))$, skal vi bruge punktets koordinater og hældningen $f'(x_0)$.</p>
-            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Ligningen for tangenten:</strong>
-                <p>$$ y = f'(x_0) \cdot (x - x_0) + f(x_0) $$</p>
-            </div>
-        </section>
-
-        <section class="card example">
-            <h2>Eksempel: Find tangentens ligning</h2>
-            <p><strong>Opgave:</strong> Find tangenten for $f(x) = x^2$ i punktet med $x_0 = 3$.</p>
-            <p><strong>Løsning:</strong></p>
-            <ol>
-                <li>Find $y_0$: $f(3) = 3^2 = 9$. Punktet er $(3, 9)$.</li>
-                <li>Find $f'(x)$: For $x^2$ er den $2x$.</li>
-                <li>Find hældningen $a$: $f'(3) = 2 \cdot 3 = 6$.</li>
-                <li>Indsæt i formlen: $y = 6 \cdot (x - 3) + 9 \Rightarrow y = 6x - 18 + 9 \Rightarrow y = 6x - 9$.</li>
-            </ol>
+            <h2>Sætning 7.2: Tangentligning</h2>
+            <p>Tangenten til grafen for en funktion $f$ i røringspunktet $(x_0, f(x_0))$ har ligningen:</p>
+            <p>$$ y = f'(x_0) \cdot (x - x_0) + f(x_0) $$</p>
+            
+            <h3>Sætning 7.3: Parablens tangent i (0, c)</h3>
+            <p>For parablen $f(x) = ax^2 + bx + c$ er tangenten i skæringspunktet med y-aksen $(0,c)$ givet ved:</p>
+            <p>$$ y = bx + c $$</p>
         </section>
 
         <div id="monotoni" class="section-divider">
             <h2>4. Monotoniforhold og ekstrema</h2>
-            <p>Hvor vokser og aftager funktionen?</p>
+            <p>Brug af differentialregning til at analysere grafer</p>
         </div>
 
         <section class="card">
-            <h2>Monotonisætningen</h2>
-            <p>Vi bruger fortegnet for $f'(x)$ til at se, hvad funktionen gør:</p>
-            <ul>
-                <li>Hvis $f'(x) > 0$: Funktionen er <strong>voksende</strong>.</li>
-                <li>Hvis $f'(x) < 0$: Funktionen er <strong>aftagende</strong>.</li>
-                <li>Hvis $f'(x) = 0$: Der er <strong>vandret tangent</strong> (muligt toppunkt/lokalt ekstremum).</li>
-            </ul>
+            <p>Ved at løse ligningen $f'(x) = 0$ finder man de steder, hvor grafen har <strong>vandret tangent</strong>. Dette kan være et lokalt maksimum, lokalt minimum eller en vandret vendetangent.</p>
             
-            
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 7.6: Monotonisætningen</strong>
+                <ul>
+                    <li>Hvis $f'(x) > 0$: $f$ er voksende.</li>
+                    <li>Hvis $f'(x) < 0$: $f$ er aftagende.</li>
+                    <li>Hvis $f'(x) = 0$: Vandret tangent.</li>
+                </ul>
+            </div>
 
             <div class="svg-container">
                 <div id="graf-1"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Graf for $f(x) = x^3 - 3x$. Her ses tydeligt to steder med vandret tangent ($f'(x)=0$).</p>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Eksempel: En funktion med vandrette tangenter i lokale ekstrema.</p>
             </div>
         </section>
 
         <div id="beviser" class="section-divider">
             <h2>5. Beviser</h2>
-            <p>Matematiske udledninger af regneregler og egenskaber</p>
+            <p>Udvidet sektion med alle C-niveau beviser</p>
         </div>
 
-        <section class="card">
-            <h2>Oversigt over beviser</h2>
-            <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-sum">Bevis for Sætning 7.1: Differentiation af en sum</a></li>
-                <li><a href="#bevis-konstant">Bevis for Sætning 7.1: Differentiation af $c \cdot f(x)$</a></li>
-                <li><a href="#bevis-parabel">Bevis for Sætning 7.3: Parablens tangent i $(0,c)$</a></li>
-                <li><a href="#bevis-top">Bevis for Sætning 7.7: Parablens toppunkt</a></li>
-            </ul>
+        <section id="bevis-kvadrat" class="card proof">
+            <h2>Bevis: Differentiation af $x^2$ (Tretrinsreglen)</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1.</div>
+                    <div class="step-content">Vi lader $y = x^2$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2.</div>
+                    <div class="step-content">Opstiller differenskvotienten: $\frac{\Delta y}{\Delta x} = \frac{(x_0+\Delta x)^2-x_0^2}{\Delta x}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3.</div>
+                    <div class="step-content">Udvidede parentesen: $\frac{x_0^2+(\Delta x)^2+2x_0\Delta x-x_0^2}{\Delta x}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4.</div>
+                    <div class="step-content">Reducerer: $\frac{(\Delta x)^2+2x_0\Delta x}{\Delta x}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5.</div>
+                    <div class="step-content">Forkorter med $\Delta x$: $\Delta x + 2x_0$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">6.</div>
+                    <div class="step-content">Lader $\Delta x \to 0$: $\lim_{\Delta x \to 0} (\Delta x + 2x_0) = 2x_0$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">7.</div>
+                    <div class="step-content">Konklusion: $(x^2)' = 2x$.</div>
+                </div>
+            </div>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section id="bevis-sqrt" class="card proof">
+            <h2>Bevis: Differentiation af $\sqrt{x}$</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1.</div>
+                    <div class="step-content">$\frac{\Delta y}{\Delta x} = \frac{\sqrt{x_0+\Delta x}-\sqrt{x_0}}{\Delta x}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2.</div>
+                    <div class="step-content">Forlænger med den konjugerede: $\frac{(\sqrt{x_0+\Delta x}-\sqrt{x_0})(\sqrt{x_0+\Delta x}+\sqrt{x_0})}{\Delta x(\sqrt{x_0+\Delta x}+\sqrt{x_0})}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3.</div>
+                    <div class="step-content">Bruger $(a-b)(a+b)=a^2-b^2$: $\frac{x_0+\Delta x-x_0}{\Delta x(\sqrt{x_0+\Delta x}+\sqrt{x_0})}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4.</div>
+                    <div class="step-content">Forkorter: $\frac{1}{\sqrt{x_0+\Delta x}+\sqrt{x_0}}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5.</div>
+                    <div class="step-content">For $\Delta x \to 0$: $\frac{1}{2\sqrt{x_0}}$.</div>
+                </div>
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-sum" class="card proof">
-            <h2>Bevis: Differentiation af en sum ($f(x) + g(x)$)</h2>
-            <p>Vi vil vise, at $(f(x) + g(x))' = f'(x) + g'(x)$.</p>
-            <p><strong>Bevis:</strong></p>
-            <p>Ifølge definitionen på en differentialkvotient kigger vi på grænseværdien af differenskvotienten for den samlede funktion $H(x) = f(x) + g(x)$:</p>
-            <p>$$ \frac{H(x) - H(x_0)}{x - x_0} = \frac{(f(x) + g(x)) - (f(x_0) + g(x_0))}{x - x_0} $$</p>
-            <p>Vi omrokerer leddene i tælleren:</p>
-            <p>$$ \frac{f(x) - f(x_0) + g(x) - g(x_0)}{x - x_0} = \frac{f(x) - f(x_0)}{x - x_0} + \frac{g(x) - g(x_0)}{x - x_0} $$</p>
-            <p>Når $x \to x_0$, vil den første brøk gå mod $f'(x_0)$ og den anden brøk gå mod $g'(x_0)$.</p>
-            <p>Dermed er $H'(x_0) = f'(x_0) + g'(x_0)$.</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <h2>Bevis: Differentiation af en sum</h2>
+            <p>Vi vil vise, at $(f(x)+g(x))' = f'(x) + g'(x)$.</p>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1.</div>
+                    <div class="step-content">Definerer $h(x) = f(x) + g(x)$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2.</div>
+                    <div class="step-content">Differenskvotient: $\frac{(f(x_0+\Delta x)+g(x_0+\Delta x)) - (f(x_0)+g(x_0))}{\Delta x}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3.</div>
+                    <div class="step-content">Omrokerer: $\frac{f(x_0+\Delta x)-f(x_0)}{\Delta x} + \frac{g(x_0+\Delta x)-g(x_0)}{\Delta x}$</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4.</div>
+                    <div class="step-content">Grænseværdi $\Delta x \to 0$: Da $f$ og $g$ er differentiable, går de to brøker mod hhv. $f'(x_0)$ og $g'(x_0)$.</div>
+                </div>
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <section id="bevis-konstant" class="card proof">
-            <h2>Bevis: Differentiation af $c \cdot f(x)$</h2>
-            <p>Vi vil vise, at $(c \cdot f(x))' = c \cdot f'(x)$.</p>
-            <p><strong>Bevis:</strong></p>
-            <p>Vi lader $H(x) = c \cdot f(x)$. Vi opstiller differenskvotienten:</p>
-            <p>$$ \frac{H(x) - H(x_0)}{x - x_0} = \frac{c \cdot f(x) - c \cdot f(x_0)}{x - x_0} $$</p>
-            <p>Vi sætter den konstante faktor $c$ uden for parentes i tælleren:</p>
-            <p>$$ c \cdot \frac{f(x) - f(x_0)}{x - x_0} $$</p>
-            <p>Når $x \to x_0$, ved vi, at brøken går mod $f'(x_0)$. Da $c$ er en konstant, ændrer den sig ikke.</p>
-            <p>Grænseværdien er derfor $c \cdot f'(x_0)$.</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        <section id="bevis-potens" class="card proof">
+            <h2>Bevis: Differentiation af $x^n$</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1.</div>
+                    <div class="step-content">Omskrivning: $x^n = e^{\ln(x^n)} = e^{n \cdot \ln(x)}$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2.</div>
+                    <div class="step-content">Brug kædereglen: $(e^{n \cdot \ln(x)})' = e^{n \cdot \ln(x)} \cdot (n \cdot \ln(x))'$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3.</div>
+                    <div class="step-content">Differentier indre: $n \cdot \frac{1}{x}$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4.</div>
+                    <div class="step-content">Saml: $x^n \cdot n \cdot \frac{1}{x} = n \cdot x^{n-1}$.</div>
+                </div>
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <section id="bevis-parabel" class="card proof">
-            <h2>Bevis for Sætning 7.3: Parablens tangent i $(0, c)$</h2>
-            <p>Vi betragter parablen $f(x) = ax^2 + bx + c$.</p>
-            <p><strong>1) Skæring med y-aksen:</strong><br>
-            Vi indsætter $x=0$: $f(0) = a \cdot 0^2 + b \cdot 0 + c = c$. Punktet er altså $R(0, c)$.</p>
-            <p><strong>2) Hældningen i punktet:</strong><br>
-            Vi differentierer: $f'(x) = 2ax + b$.<br>
-            Vi indsætter $x=0$ for at finde hældningen i $R$: $f'(0) = 2a \cdot 0 + b = b$.</p>
-            <p><strong>3) Tangentens ligning:</strong><br>
-            Da hældningen er $b$ og skæringspunktet med y-aksen er $c$, må tangentens ligning være $y = bx + c$.</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        <section id="bevis-exp" class="card proof">
+            <h2>Bevis: Differentiation af $a^x$</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1.</div>
+                    <div class="step-content">$y = a^x = (e^{\ln a})^x = e^{x \cdot \ln a}$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2.</div>
+                    <div class="step-content">Kædereglen giver: $e^{x \cdot \ln a} \cdot \ln a$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3.</div>
+                    <div class="step-content">Substituer tilbage: $a^x \cdot \ln a$.</div>
+                </div>
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <section id="bevis-top" class="card proof">
-            <h2>Bevis for Sætning 7.7: Parablens toppunkt</h2>
-            <p>Vi vil vise, at toppunktets x-koordinat er $x_T = -\frac{b}{2a}$.</p>
-            <p><strong>Bevis:</strong></p>
-            <p>I parablens toppunkt er tangenten vandret. Det betyder, at differentialkvotienten skal være lig med 0.</p>
-            <p>Vi differentierer $f(x) = ax^2 + bx + c$:</p>
-            <p>$$ f'(x) = 2ax + b $$</p>
-            <p>Vi sætter $f'(x) = 0$:</p>
-            <p>$$ 2ax + b = 0 $$</p>
-            <p>Vi isolerer $x$ ved at trække $b$ fra og dividere med $2a$:</p>
-            <p>$$ 2ax = -b \Rightarrow x = -\frac{b}{2a} $$</p>
-            <p>Dermed er toppunktets x-koordinat fundet.</p>
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        <section id="bevis-trig" class="card proof">
+            <h2>Bevis: Differentiation af $\tan(x)$</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-num">1.</div>
+                    <div class="step-content">$\tan(x) = \frac{\sin x}{\cos x}$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2.</div>
+                    <div class="step-content">Brug kvotientreglen: $\frac{(\sin x)' \cdot \cos x - \sin x \cdot (\cos x)'}{(\cos x)^2}$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3.</div>
+                    <div class="step-content">Indsæt kendte afledede: $\frac{\cos x \cdot \cos x - \sin x \cdot (-\sin x)}{\cos^2 x}$.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4.</div>
+                    <div class="step-content">Idiosynkrasi: $\frac{\cos^2 x + \sin^2 x}{\cos^2 x} = \frac{1}{\cos^2 x} = 1 + \tan^2 x$.</div>
+                </div>
+            </div>
+            <p style="text-align: right;">&#9632;</p>
         </section>
 
         <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download som PDF</button>
@@ -285,10 +358,10 @@
                     width: document.getElementById('graf-1').parentElement.clientWidth - 40,
                     height: 350,
                     grid: true,
-                    xAxis: { domain: [-3, 3] },
+                    xAxis: { domain: [-4, 4] },
                     yAxis: { domain: [-5, 5] },
                     data: [
-                        { fn: 'x^3 - 3x', color: '#3498db' }
+                        { fn: '0.1x^3 - x', color: '#3498db' }
                     ]
                 });
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
