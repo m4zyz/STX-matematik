@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik - STX Matematik C</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        /* Tabeller */
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
+        
+        /* Billed- og graf-container */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { 
+            pointer-events: none; 
+        }
+
+        /* Billed-pladsholder (hvis du skal indsætte rigtige billeder senere) */
+        .img-placeholder {
+            background: #ecf0f1;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px dashed #bdc3c7;
+            color: #7f8c8d;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .proof { margin-bottom: 30px; }
+
+        @media (max-width: 600px) {
+            .toc-list { columns: 1; }
+            .data-table { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Statistik</h1>
+            <p class="subtitle">C - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#indekstal"><span class="toc-num">1.</span>Indekstal</a></li>
+                <li><a href="#ugrupperede"><span class="toc-num">2.</span>Deskriptiv statistik: Ugrupperede observationer</a></li>
+                <li><a href="#kvartiler"><span class="toc-num">3.</span>Boksplot og Kvartiler</a></li>
+                <li><a href="#spredning"><span class="toc-num">4.</span>Spredning og Outliers</a></li>
+                <li><a href="#grupperede"><span class="toc-num">5.</span>Grupperede observationer og Sumkurver</a></li>
+            </ul>
+        </section>
+
+        <div id="indekstal" class="section-divider">
+            <h2>1. Indekstal</h2>
+            <p>Sammenligning af udvikling over tid ved hjælp af et basisår</p>
+        </div>
+
+        <section class="card">
+            <h2>Hvad er indekstal?</h2>
+            <p>Når man har store tal, der ændrer sig over tid (fx elevtilgang, priser eller befolkningstal), kan det være svært at overskue den procentvise udvikling. Man løser ofte dette problem ved at omskrive tallene til <strong>indekstal</strong>.</p>
+            <p>Man vælger et bestemt år som <strong>basisår</strong> og sætter værdien i dette år til præcis 100. Derefter beregner man de øvrige års værdier i forhold til dette basisår.</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Årstal</th>
+                        <th>2008</th>
+                        <th>2009</th>
+                        <th>2010 (Basisår)</th>
+                        <th>2011</th>
+                        <th>2016</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tilgang (Absolut)</strong></td>
+                        <td>26.934</td>
+                        <td>27.494</td>
+                        <td>31.271</td>
+                        <td>32.477</td>
+                        <td>33.180</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Indekstal</strong></td>
+                        <td>86,1</td>
+                        <td>87,9</td>
+                        <td><strong>100</strong></td>
+                        <td>103,9</td>
+                        <td>106,1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>I eksemplet med 2010 som basisår udregnes 2016-indekstallet ved: $\frac{33.180}{31.271} \cdot 100 = 106,1$. Det betyder, at elevtallet i 2016 er 6,1% højere end i 2010.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Regel: Omregning af Indekstal</strong>
+                <p>Kender man to værdier ($V_1$ og $V_2$) og det ene indekstal ($I_1$), kan man regne frem og tilbage med følgende formler:</p>
+                <ul>
+                    <li>Ny indekstal: $$ I_2 = \frac{V_2}{V_1} \cdot I_1 $$</li>
+                    <li>Ny absolut værdi: $$ V_2 = \frac{I_2}{I_1} \cdot V_1 $$</li>
+                </ul>
+            </div>
+            
+            <p>Bemærk forskellen mellem <strong>procent</strong> og <strong>procentpoint</strong>. Fra 2008 til 2013 steg indekstallet fra 86,1 til 106,4. Det er en stigning på 20,3 <em>procentpoint</em>, men udregner man selve stigningen i procent i forhold til tallet fra 2008, udgør det en stigning på hele 23,6%.</p>
+        </section>
+
+        <div id="ugrupperede" class="section-divider">
+            <h2>2. Deskriptiv statistik: Ugrupperede observationer</h2>
+            <p>Opsamling af enkeltstående målinger</p>
+        </div>
+
+        <section class="card">
+            <h2>Prikdiagrammer og Stolpediagrammer</h2>
+            <p>Deskriptiv statistik bruges til at sammenfatte og skabe overblik over en datamængde. Forestil dig, vi måler højden på 25 elever i en klasse. Vi kan illustrere disse <strong>ugrupperede observationer</strong> grafisk.</p>
+            <ul>
+                <li><strong>Prikdiagram:</strong> En x-akse med observationerne, hvor hver enkelt måling tegnes som en prik ovenpå. Flere prikker ovenpå hinanden indikerer, at den samme observation forekommer flere gange.</li>
+                <li><strong>Stolpediagram:</strong> Observationerne grupperes som stolper. Stolpens højde angiver observationens <em>hyppighed</em> (hvor mange gange den forekommer) eller <em>frekvens</em> (hyppighed i %).</li>
+            </ul>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Højde (cm)</th>
+                        <th>151</th>
+                        <th>160</th>
+                        <th>162</th>
+                        <th>167</th>
+                        <th>172</th>
+                        <th>182</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Hyppighed</strong></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Frekvens (%)</strong></td>
+                        <td>4%</td>
+                        <td>8%</td>
+                        <td>8%</td>
+                        <td>12%</td>
+                        <td>8%</td>
+                        <td>8%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><em>Frekvensen beregnes ved at dividere hyppigheden med det samlede antal (fx $3 / 25 = 0,12 = 12\%$).</em></p>
+        </section>
+
+        <section class="card">
+            <h2>Middeltal (gennemsnit)</h2>
+            <p>Middeltallet (som ofte betegnes $\bar{x}$) er et enkelt tal, som sammenfatter hele datasættet og fungerer som dets tyngdepunkt. For at finde middeltallet lægger man alle observationerne sammen og dividerer med antallet af observationer $n$:</p>
+            <p>$$ \bar{x} = \frac{x_1 + x_2 + \dots + x_n}{n} $$</p>
+        </section>
+
+        <div id="kvartiler" class="section-divider">
+            <h2>3. Boksplot og Kvartiler</h2>
+            <p>Visualisering af datasættets spredning og skævhed</p>
+        </div>
+
+        <section class="card">
+            <h2>Det udvidede kvartilsæt</h2>
+            <p>Når data sættes i rækkefølge fra mindst til størst, kan man inddele materialet i fire lige store grupper af hver 25%. De tal, der fungerer som "skillelinjer" for disse grupper, kaldes kvartilsættet.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Udvidet Kvartilsæt</strong>
+                <p>Består altid af 5 specifikke nøgletal:</p>
+                <ol>
+                    <li><strong>Minimum (min):</strong> Den mindste værdi.</li>
+                    <li><strong>Nedre kvartil ($Q_1$):</strong> Afskærer de nederste 25%.</li>
+                    <li><strong>Median ($m$):</strong> Den præcist midterste værdi (50%).</li>
+                    <li><strong>Øvre kvartil ($Q_3$):</strong> Afskærer de øverste 25%.</li>
+                    <li><strong>Maksimum (max):</strong> Den største værdi.</li>
+                </ol>
+            </div>
+
+            <p><strong>Variationsbredde:</strong> Forskellen mellem maksimum og minimum.<br>
+            <strong>Kvartilbredde:</strong> Forskellen mellem $Q_3$ og $Q_1$ (dvs. afstanden for de 50% midterste observationer).</p>
+        </section>
+
+        <section class="card">
+            <h2>Skævhed i fordelinger</h2>
+            <p>Man forveksler ofte middeltal og median. De fortæller ikke det samme. Medianen er ufølsom overfor ekstreme enkeltværdier, mens middeltallet påvirkes kraftigt. Samspillet mellem de to fortæller os noget om datasættets <em>skævhed</em>.</p>
+            <ul>
+                <li><strong>Venstreskæv:</strong> Hvis Middeltal < Median. Mange høje værdier og en lille hale mod venstre.</li>
+                <li><strong>Ikke-skæv (Symmetrisk):</strong> Hvis Middeltal = Median. Klokkeformet.</li>
+                <li><strong>Højreskæv:</strong> Hvis Median < Middeltal. Mange små værdier og en lang hale mod højre.</li>
+            </ul>
+        </section>
+
+        <div id="spredning" class="section-divider">
+            <h2>4. Spredning og Outliers</h2>
+            <p>Afvigelser fra gennemsnittet</p>
+        </div>
+
+        <section class="card">
+            <h2>Spredning ($s$)</h2>
+            <p>For at beskrive hvor "spredt" data ligger, er variationsbredden en sårbar indikator, da en enkelt ekstrem måling ødelægger hele billedet. I stedet benyttes <strong>spredningen</strong> $s$ (også kaldet standardafvigelsen), som tager højde for <em>alle</em> observationer i forhold til middeltallet $\bar{x}$.</p>
+
+            <p>$$ s = \sqrt{\frac{(x_1-\bar{x})^2 + (x_2-\bar{x})^2 + \dots + (x_n-\bar{x})^2}{n}} $$</p>
+
+            <p>Spredningen udtrykker altså "den gennemsnitlige kvadratiske afvigelse fra middeltallet". I et normalt datasæt ligger ca. 68% af alle observationerne inden for intervallet $\bar{x}-s$ til $\bar{x}+s$. Vi udregner normalt altid spredningen ved hjælp af IT/CAS-værktøjer.</p>
+        </section>
+
+        <section class="card">
+            <h2>Outliers</h2>
+            <p>En <strong>outlier</strong> er en ekstrem måling, som afviger markant fra resten af datasættet (fx en person på 225 cm i en 1.g klasse). I matematik definerer man ikke en outlier ud fra en mavefornemmelse, men ved en eksakt regneregel baseret på boksplottets kvartilbredde.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Regel: Identificering af Outliers</strong>
+                <p>En observation er en outlier, hvis den ligger mere end <strong>1,5 gange kvartilbredden</strong> under $Q_1$ eller over $Q_3$.</p>
+                <ul>
+                    <li>Nedre grænse: $Q_1 - 1,5 \cdot \text{Kvartilbredde}$</li>
+                    <li>Øvre grænse: $Q_3 + 1,5 \cdot \text{Kvartilbredde}$</li>
+                </ul>
+            </div>
+        </section>
+
+        <div id="grupperede" class="section-divider">
+            <h2>5. Grupperede observationer og Sumkurver</h2>
+            <p>Databehandling af større og mere uoverskuelige datasæt</p>
+        </div>
+
+        <section class="card">
+            <h2>Histogrammer</h2>
+            <p>Når et observationssæt er meget stort (fx indkomster for en hel by), bliver et prikdiagram ubrugeligt. I stedet grupperer man data ind i faste intervaller (fx 150-155 cm, 155-160 cm, osv.).</p>
+            <p>Dette afbildes visuelt i et <strong>histogram</strong>. Bemærk, at det i et histogram er <em>arealet</em> af hver boks (ikke bare højden), der illustrerer, hvor mange procent af data der ligger i netop dét interval. Herved bevares de rigtige proportioner, selv hvis man slår intervaller sammen.</p>
+        </section>
+
+        <section class="card">
+            <h2>Sumkurve og Fraktiler</h2>
+            <p>En stærk metode til at trække data ud af grupperede observationer er ved at udregne den <strong>kumulerede frekvens</strong>. Dette opnås ganske enkelt ved at lægge intervalfrekvenserne sammen løbende, så man til sidst ender på præcis 100%.</p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Højde Interval</th>
+                        <th>150-155</th>
+                        <th>155-160</th>
+                        <th>160-165</th>
+                        <th>165-170</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Intervalfrekvens</strong></td>
+                        <td>4%</td>
+                        <td>8%</td>
+                        <td>12%</td>
+                        <td>28%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kumuleret Frekvens</strong></td>
+                        <td>4%</td>
+                        <td>12%</td>
+                        <td>24%</td>
+                        <td>52%</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Afsættes den kumulerede frekvens i et koordinatsystem med højde på x-aksen og procent på y-aksen, og forbindes punkterne (intervalendepunkterne) med rette streger, får man en <strong>sumkurve</strong>.</p>
+            
+            <p>Fra en sumkurve kan man aflæse <strong>fraktiler</strong>. En fraktil betyder, hvor stor en procentdel der ligger under en given grænse. Kvartilerne ($Q_1$, medianen $m$ og $Q_3$) er blot særlige navne for 25%-fraktilen, 50%-fraktilen og 75%-fraktilen. Hvis man vil finde 30%-fraktilen, går man ind på y-aksen ved 30%, går vandret ud til sumkurven og læser værdien nede på x-aksen.</p>
+
+            <div class="svg-container">
+                <div id="graf-1"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En generisk sumkurve. Startende ved 0% og kumulerende gradvist op til 100%. Den stjålne hældning midtpå indikerer, at det er her, de fleste observationer befinder sig.</p>
+            </div>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Et generisk eksempel på en kumuleret fordelingsfunktion, som agerer sumkurve
+                functionPlot({
+                    target: '#graf-1',
+                    disableZoom: true,
+                    width: document.getElementById('graf-1').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [140, 200] },
+                    yAxis: { domain: [0, 110] },
+                    data: [
+                        { 
+                            // En tilpasset sigmoid/logistisk funktion for at imitere en S-formet sumkurve der går mod 100%
+                            fn: '100 / (1 + exp(-0.15 * (x - 170)))', color: '#3498db' 
+                        }
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>

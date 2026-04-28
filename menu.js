@@ -23,7 +23,11 @@ const stxMenuData = {
     ],
     "C-Niveau": [
         { title: "Funktioner C", path: "emner/C/Funktioner.html" },
-        { title: "polynomier", path: "emner/C/polynomier.html" }
+        { title: "polynomier", path: "emner/C/polynomier.html" },
+        { title: "polynomier", path: "emner/C/polynomier.html" },
+        { title: "vektor i 2d", path: "emner/C/c-vektor2d.html" },
+        { title: "Statistik", path: "emner/C/Statistik.html" },
+
     ],
     "Formelsamlinger": [
         { title: "A-niveau", path: "formelsamling/A/formelsamlingA.html" },
