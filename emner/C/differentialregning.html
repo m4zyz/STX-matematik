@@ -102,8 +102,6 @@
             <h2>Hvad er en differentialkvotient?</h2>
             <p>Differentialkvotienten af en funktion $f$ i et punkt $x_0$ er et tal, der angiver hældningen for tangenten til grafen i punktet $(x_0, f(x_0))$. Det skrives som $f'(x_0)$.</p>
             
-            
-
             <table class="data-table">
                 <thead>
                     <tr>
@@ -188,9 +186,11 @@
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
                 <li><a href="#bevis-potens">Bevis: Differentiation af $x^n$</a></li>
-                <li><a href="#bevis-kvadrat">Bevis: Differentiation af $x^2$ (Tretrinsreglen)</a></li>
+                <li><a href="#bevis-kvadrat">Bevis: Differentiation af $x^2$</a></li>
+                <li><a href="#bevis-reciprok">Bevis: Differentiation af reciprokfunktion $\frac{1}{x}$</a></li>
                 <li><a href="#bevis-kvadratrod">Bevis: Differentiation af $\sqrt{x}$</a></li>
                 <li><a href="#bevis-e">Bevis: Differentiation af $e^x$</a></li>
+                <li><a href="#bevis-ax">Bevis: Differentiation af $a^x$</a></li>
                 <li><a href="#bevis-log">Bevis: Differentiation af $\ln(x)$ og $\log(x)$</a></li>
                 <li><a href="#bevis-trig">Bevis: Differentiation af $\sin(x)$ og $\cos(x)$</a></li>
                 <li><a href="#bevis-tan">Bevis: Differentiation af $\tan(x)$</a></li>
@@ -210,9 +210,9 @@
             <p>Vi vil bevise, at $(x^n)' = n \cdot x^{n-1}$.</p>
             <ol>
                 <li>$x^n$ omskrives: $x^n = e^{\ln(x^n)} = e^{n \cdot \ln(x)}$.</li>
-                <li>Vi bruger kædereglen: $(e^{u})' = e^u \cdot u'$. Her er $u = n \cdot \ln(x)$.</li>
-                <li>$u' = n \cdot \frac{1}{x}$.</li>
-                <li>$(x^n)' = e^{n \cdot \ln(x)} \cdot n \cdot \frac{1}{x} = x^n \cdot \frac{n}{x} = n \cdot x^{n-1}$.</li>
+                <li>Vi bruger kædereglen: $(e^u)' = e^u \cdot u'$. Her er $u = n \cdot \ln(x)$.</li>
+                <li>Vi differentierer $u$: $u' = n \cdot \frac{1}{x}$.</li>
+                <li>Samlet fås: $(x^n)' = e^{n \cdot \ln(x)} \cdot n \cdot \frac{1}{x} = x^n \cdot n \cdot \frac{1}{x} = n \cdot x^{n-1}$.</li>
             </ol>
             <p style="text-align: right;">&#9632;</p>
         </section>
@@ -222,10 +222,21 @@
             <p>Vi bruger tretrinsreglen på $y = x^2$:</p>
             <ol>
                 <li><strong>Differenskvotient:</strong> $\frac{\Delta y}{\Delta x} = \frac{(x_0 + \Delta x)^2 - x_0^2}{\Delta x}$</li>
-                <li><strong>Reduktion:</strong> $\frac{x_0^2 + (\Delta x)^2 + 2x_0\Delta x - x_0^2}{\Delta x} = \frac{(\Delta x)^2 + 2x_0\Delta x}{\Delta x} = \Delta x + 2x_0$</li>
-                <li><strong>Grænseværdi:</strong> For $\Delta x \to 0$ vil $\Delta x + 2x_0 \to 2x_0$.</li>
+                <li><strong>Udregning:</strong> $\frac{x_0^2 + (\Delta x)^2 + 2x_0\Delta x - x_0^2}{\Delta x} = \frac{(\Delta x)^2 + 2x_0\Delta x}{\Delta x}$</li>
+                <li><strong>Reduktion:</strong> $\Delta x + 2x_0$</li>
+                <li><strong>Grænseværdi:</strong> For $\Delta x \to 0$ fås $2x_0$.</li>
             </ol>
-            <p>Altså er $(x^2)' = 2x$.</p>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section id="bevis-reciprok" class="card proof">
+            <h2>Bevis: Differentiation af reciprokfunktion ($\frac{1}{x}$)</h2>
+            <ol>
+                <li>Differenskvotient: $\frac{\frac{1}{x_0+\Delta x} - \frac{1}{x_0}}{\Delta x}$</li>
+                <li>Fællesnævner i tæller: $\frac{\frac{x_0 - (x_0+\Delta x)}{(x_0+\Delta x)x_0}}{\Delta x} = \frac{-\Delta x}{(x_0+\Delta x)x_0 \cdot \Delta x}$</li>
+                <li>Forkort $\Delta x$: $\frac{-1}{(x_0+\Delta x)x_0}$</li>
+                <li>Grænseværdi $\Delta x \to 0$: $\frac{-1}{x_0 \cdot x_0} = -\frac{1}{x^2}$.</li>
+            </ol>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
@@ -233,117 +244,124 @@
             <h2>Bevis: Differentiation af kvadratrodsfunktion ($\sqrt{x}$)</h2>
             <ol>
                 <li>Differenskvotient: $\frac{\sqrt{x_0 + \Delta x} - \sqrt{x_0}}{\Delta x}$</li>
-                <li>Vi forlænger brøken med $(\sqrt{x_0 + \Delta x} + \sqrt{x_0})$:
-                    $$ \frac{(\sqrt{x_0 + \Delta x} - \sqrt{x_0})(\sqrt{x_0 + \Delta x} + \sqrt{x_0})}{\Delta x(\sqrt{x_0 + \Delta x} + \sqrt{x_0})} $$
-                </li>
-                <li>Tælleren reduceres (3. kvadratsætning): $\frac{(x_0 + \Delta x) - x_0}{\dots} = \frac{\Delta x}{\Delta x(\sqrt{x_0 + \Delta x} + \sqrt{x_0})}$</li>
-                <li>Forkort $\Delta x$: $\frac{1}{\sqrt{x_0 + \Delta x} + \sqrt{x_0}}$</li>
-                <li>Grænseværdi: For $\Delta x \to 0$ fås $\frac{1}{\sqrt{x_0} + \sqrt{x_0}} = \frac{1}{2\sqrt{x}}$.</li>
+                <li>Forlæng med konjugeret: $\frac{(\sqrt{x_0 + \Delta x} - \sqrt{x_0})(\sqrt{x_0 + \Delta x} + \sqrt{x_0})}{\Delta x(\sqrt{x_0 + \Delta x} + \sqrt{x_0})}$</li>
+                <li>Tæller reduceres: $\frac{(x_0 + \Delta x) - x_0}{\Delta x(\dots)} = \frac{\Delta x}{\Delta x(\sqrt{x_0 + \Delta x} + \sqrt{x_0})}$</li>
+                <li>Grænseværdi $\Delta x \to 0$: $\frac{1}{\sqrt{x_0} + \sqrt{x_0}} = \frac{1}{2\sqrt{x}}$.</li>
             </ol>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-e" class="card proof">
-            <h2>Bevis: Differentiation af eksponentialfunktionen ($e^x$)</h2>
+            <h2>Bevis: Differentiation af $e^x$</h2>
             <ol>
                 <li>Lad $y = e^x$. Så er $\ln(y) = x$.</li>
-                <li>Vi differentierer mht. $y$ på begge sider: $\frac{1}{y} = \frac{dx}{dy}$.</li>
-                <li>Vi vender brøken: $\frac{dy}{dx} = y$.</li>
-                <li>Da $y = e^x$, er $\frac{dy}{dx} = e^x$.</li>
+                <li>Differentier mht. $y$ på begge sider: $\frac{1}{y} = \frac{dx}{dy}$.</li>
+                <li>Vend brøken: $\frac{dy}{dx} = y$. Da $y=e^x$, er $(e^x)' = e^x$.</li>
             </ol>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section id="bevis-ax" class="card proof">
+            <h2>Bevis: Differentiation af $a^x$</h2>
+            <ol>
+                <li>Omskriv: $a^x = e^{x \cdot \ln(a)}$.</li>
+                <li>Brug kædereglen: $(e^{x \cdot \ln a})' = e^{x \cdot \ln a} \cdot (x \cdot \ln a)'$.</li>
+                <li>Da $(x \cdot \ln a)' = \ln a$, fås: $a^x \cdot \ln(a)$.</li>
+            </ol>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section id="bevis-log" class="card proof">
+            <h2>Bevis: Differentiation af $\ln(x)$ og $\log(x)$</h2>
+            <p><strong>For $\ln(x)$:</strong> Pr. definition af arealfunktionen i infinitesimalregningen er $(\ln x)' = \frac{1}{x}$.</p>
+            <p><strong>For $\log(x)$:</strong> Omskriv til $\frac{\ln x}{\ln 10}$. Da $\frac{1}{\ln 10}$ er en konstant, fås: $\frac{1}{\ln 10} \cdot \frac{1}{x} = \frac{1}{x \cdot \ln 10}$.</p>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-trig" class="card proof">
             <h2>Bevis: Differentiation af $\sin(x)$ og $\cos(x)$</h2>
-            <p><strong>For $\sin(x)$:</strong> Ved brug af tretrinsreglen og geometriske betragtninger i enhedscirklen findes, at $\frac{\Delta \sin(x)}{\Delta x} \to \cos(x)$ for $\Delta x \to 0$.</p>
-            <p><strong>For $\cos(x)$:</strong> Tilsvarende findes, at $\frac{\Delta \cos(x)}{\Delta x} \to -\sin(x)$.</p>
+            <p>Ved hjælp af tretrinsreglen og enhedscirklen (hvor hypotenusen $|AB|$ nærmer sig buen $\Delta x$) ses:</p>
+            <p><strong>$(\sin x)'$:</strong> $\frac{\Delta y}{\Delta x} \to \cos(x)$.</p>
+            <p><strong>$(\cos x)'$:</strong> $\frac{\Delta y}{\Delta x} \to -\sin(x)$.</p>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-tan" class="card proof">
             <h2>Bevis: Differentiation af $\tan(x)$</h2>
             <ol>
-                <li>$\tan(x) = \frac{\sin(x)}{\cos(x)}$. Vi bruger brøkreglen.</li>
-                <li>$(\tan(x))' = \frac{(\sin x)'\cos x - \sin x(\cos x)'}{\cos^2 x}$</li>
-                <li>$= \frac{\cos x \cdot \cos x - \sin x \cdot (-\sin x)}{\cos^2 x} = \frac{\cos^2 x + \sin^2 x}{\cos^2 x}$</li>
-                <li>Idet $\cos^2 x + \sin^2 x = 1$ (grundrelationen), fås $\frac{1}{\cos^2 x}$ eller $1 + \tan^2 x$.</li>
+                <li>Omskriv: $\tan(x) = \frac{\sin x}{\cos x}$. Brug brøkreglen.</li>
+                <li>$\frac{(\sin x)' \cdot \cos x - \sin x \cdot (\cos x)'}{\cos^2 x} = \frac{\cos x \cdot \cos x - \sin x \cdot (-\sin x)}{\cos^2 x}$</li>
+                <li>$= \frac{\cos^2 x + \sin^2 x}{\cos^2 x} = \frac{1}{\cos^2 x} = 1 + \tan^2 x$.</li>
             </ol>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-sum" class="card proof">
-            <h2>Bevis: Differentiation af en sum ($f(x) + g(x)$)</h2>
+            <h2>Bevis: Differentiation af en sum ($f+g$)</h2>
             <ol>
-                <li>Lad $h(x) = f(x) + g(x)$.</li>
-                <li>$\frac{h(x_0 + \Delta x) - h(x_0)}{\Delta x} = \frac{(f(x_0 + \Delta x) + g(x_0 + \Delta x)) - (f(x_0) + g(x_0))}{\Delta x}$</li>
-                <li>Dette opdeles i to brøker: $\frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x} + \frac{g(x_0 + \Delta x) - g(x_0)}{\Delta x}$</li>
-                <li>For $\Delta x \to 0$ går de to brøker mod hhv. $f'(x_0)$ og $g'(x_0)$.</li>
-                <li>Altså $(f+g)' = f' + g'$.</li>
+                <li>Differenskvotient for $h = f+g$: $\frac{(f(x_0+\Delta x)+g(x_0+\Delta x)) - (f(x_0)+g(x_0))}{\Delta x}$</li>
+                <li>Opdel: $\frac{f(x_0+\Delta x)-f(x_0)}{\Delta x} + \frac{g(x_0+\Delta x)-g(x_0)}{\Delta x}$</li>
+                <li>Grænseværdi $\Delta x \to 0$ giver $f'(x_0) + g'(x_0)$.</li>
             </ol>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
+        <section id="bevis-differens" class="card proof">
+            <h2>Bevis: Differentiation af en differens ($f-g$)</h2>
+            <p>Følger samme princip som sumreglen, blot med negativt fortegn: $(f-g)' = f' - g'$.</p>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
         <section id="bevis-konstant" class="card proof">
-            <h2>Bevis: Differentiation af konstant gange funktion ($k \cdot f(x)$)</h2>
+            <h2>Bevis: Differentiation af $k \cdot f(x)$</h2>
             <ol>
-                <li>Differenskvotient: $\frac{k \cdot f(x_0 + \Delta x) - k \cdot f(x_0)}{\Delta x}$</li>
-                <li>$k$ sættes uden for brøken: $k \cdot \frac{f(x_0 + \Delta x) - f(x_0)}{\Delta x}$</li>
-                <li>For $\Delta x \to 0$ går brøken mod $f'(x_0)$.</li>
-                <li>Altså $(k \cdot f)' = k \cdot f'$.</li>
+                <li>$\frac{k \cdot f(x_0+\Delta x) - k \cdot f(x_0)}{\Delta x} = k \cdot \frac{f(x_0+\Delta x) - f(x_0)}{\Delta x}$</li>
+                <li>For $\Delta x \to 0$ går brøken mod $f'(x_0)$. Resultat: $k \cdot f'(x)$.</li>
             </ol>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-produkt" class="card proof">
-            <h2>Bevis: Differentiation af et produkt ($f(x) \cdot g(x)$)</h2>
+            <h2>Bevis: Differentiation af produkt ($f \cdot g$)</h2>
             <ol>
-                <li>Vi lægger $f(x_0)g(x_0+\Delta x)$ til og trækker det fra i tælleren på differenskvotienten.</li>
-                <li>Dette tillader os at faktorisere brøken til to led:
-                    $$ \frac{f(x_0+\Delta x)-f(x_0)}{\Delta x} \cdot g(x_0+\Delta x) + f(x_0) \cdot \frac{g(x_0+\Delta x)-g(x_0)}{\Delta x} $$
-                </li>
-                <li>For $\Delta x \to 0$ fås $f'(x)g(x) + f(x)g'(x)$.</li>
+                <li>Trick: Tilføj og træk $f(x_0) \cdot g(x_0+\Delta x)$ fra i tælleren.</li>
+                <li>$\frac{f(x_0+\Delta x)g(x_0+\Delta x) - f(x_0)g(x_0+\Delta x) + f(x_0)g(x_0+\Delta x) - f(x_0)g(x_0)}{\Delta x}$</li>
+                <li>Sæt uden for parentes: $\frac{f(x_0+\Delta x)-f(x_0)}{\Delta x} \cdot g(x_0+\Delta x) + f(x_0) \cdot \frac{g(x_0+\Delta x)-g(x_0)}{\Delta x}$</li>
+                <li>Grænseværdi: $f'(x)g(x) + f(x)g'(x)$.</li>
             </ol>
+            <p style="text-align: right;">&#9632;</p>
+        </section>
+
+        <section id="bevis-broek" class="card proof">
+            <h2>Bevis: Differentiation af en brøk ($f/g$)</h2>
+            <p>Bevises ved at bringe tælleren på fælles brøkstreg og bruge produktreglens trick. Resultat: $\frac{f'g - fg'}{g^2}$.</p>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-kaede" class="card proof">
             <h2>Bevis: Kædereglen ($f(g(x))$)</h2>
-            <p>Vi bruger Leibniz' notation:</p>
-            <ol>
-                <li>Lad $y = f(u)$ og $u = g(x)$.</li>
-                <li>$\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}$.</li>
-                <li>Dette svarer til $f'(u) \cdot g'(x) = f'(g(x)) \cdot g'(x)$.</li>
-            </ol>
+            <p>Brug Leibniz notation: $\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}$.</p>
+            <p>Dette svarer til $f'(u) \cdot g'(x) = f'(g(x)) \cdot g'(x)$.</p>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-parabel" class="card proof">
-            <h2>Bevis: Parablens tangent i $(0, c)$</h2>
-            <ol>
-                <li>$f(x) = ax^2 + bx + c$. Skæring med y-aksen ($x=0$) er $f(0) = c$. Punktet er $(0, c)$.</li>
-                <li>$f'(x) = 2ax + b$. Hældningen i $x=0$ er $f'(0) = b$.</li>
-                <li>Tangentens ligning $y = ax+b$: Da hældningen er $b$ og skæringen er $c$, er ligningen $y = bx + c$.</li>
-            </ol>
+            <h2>Bevis: Parablens tangent i $(0,c)$</h2>
+            <p>For $f(x) = ax^2+bx+c$: $f(0)=c$ og $f'(x)=2ax+b$. Hældning i $x=0$ er $f'(0)=b$. Tangentligning: $y = bx+c$.</p>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
         <section id="bevis-toppunkt" class="card proof">
             <h2>Bevis: Parablens toppunkt</h2>
-            <ol>
-                <li>$f(x) = ax^2 + bx + c \Rightarrow f'(x) = 2ax + b$.</li>
-                <li>I toppunktet er hældningen 0: $2ax + b = 0$.</li>
-                <li>Ligningen løses: $2ax = -b \Rightarrow x = -\frac{b}{2a}$.</li>
-            </ol>
+            <p>Løs $f'(x)=0$: $2ax+b=0 \Rightarrow x = -b/(2a)$.</p>
             <p style="text-align: right;">&#9632;</p>
         </section>
 
-        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download som PDF</button>
 
         <footer class="site-footer">
             <div class="footer-content">
-                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
-                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter.</p>
             </div>
         </footer>
 
@@ -360,9 +378,7 @@
                     grid: true,
                     xAxis: { domain: [-4, 4] },
                     yAxis: { domain: [-4, 4] },
-                    data: [
-                        { fn: 'x^3 - 3*x', color: '#3498db' }
-                    ]
+                    data: [{ fn: 'x^3 - 3*x', color: '#3498db' }]
                 });
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
