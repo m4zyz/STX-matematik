@@ -138,7 +138,7 @@
             <p>Det kan i nogle tilfælde være svært at løse en given differentialligning fra bunden. Ofte er det lettere at se efter, om en given funktion er en løsning. Dette kaldes at <em>gøre prøve</em>.</p>
             
             <p><strong>Opgave:</strong> Undersøg, om funktionen $f(x)=\sqrt{x^2+3}$ er en løsning til differentialligningen:</p>
-            <p>$$\frac{dy}{dx}=\frac{x}{y}, \quad y>0$$</p>
+            <p>$$\frac{dy}{dx}=\frac{x}{y}, \quad y > 0$$</p>
 
             <p><strong>Løsning:</strong> Vi gør prøve ved at indsætte $y=f(x)=\sqrt{x^2+3}$ i henholdsvis venstresiden og højresiden af differentialligningen og se efter, om det giver det samme.</p>
             
@@ -228,7 +228,7 @@
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.2 / 8.2: Løsning af differentialligningen $y'=b-a\cdot y$</strong>
-                <p>Differentialligningen $y'=b-a\cdot y$ (hvor $a>0$) har den fuldstændige løsning:</p>
+                <p>Differentialligningen $y'=b-a\cdot y$ (hvor $a > 0$) har den fuldstændige løsning:</p>
                 <p>$$y(t)=\frac{b}{a}+c\cdot e^{-a\cdot t}$$</p>
                 <p>hvor $c$ er et tal. For enhver løsning gælder, at $f(t)$ nærmer sig værdien $\frac{b}{a}$, når $t$ går mod uendelig.</p>
             </div>
@@ -238,7 +238,7 @@
             <h2>Logistisk vækst</h2>
             <p>I stedet for at se på væksthastigheden $y'(t)$ for funktionen $y(t)$ er det nogle gange nyttigt at tage udgangspunkt i den <strong>relative væksthastighed</strong> $\frac{y'(t)}{y(t)}$. En antagelse om, at den relative væksthastighed er konstant, fører til differentialligningen $y'=k\cdot y$.</p>
             
-            <p>Vi vil nu se nærmere på den hypotese, at den relative væksthastighed $\frac{y'}{y}$ aftager lineært med $y$: $\frac{y'}{y}=b-a\cdot y$, hvor $a$ og $b$ er positive tal, og $y>0$.</p>
+            <p>Vi vil nu se nærmere på den hypotese, at den relative væksthastighed $\frac{y'}{y}$ aftager lineært med $y$: $\frac{y'}{y}=b-a\cdot y$, hvor $a$ og $b$ er positive tal, og $y > 0$.</p>
             <p>En lille omskrivning giver:</p>
             <p>$$y'=y\cdot (b-a\cdot y)$$</p>
             <p>Eller ved at sætte $M=\frac{b}{a}$:</p>
@@ -255,7 +255,7 @@
                 <p>hvor $c$ er et tal.</p>
             </div>
             
-            <p>For enhver løsning gælder $y(t) \to M$, når $t \to \infty$. I området $0<y<M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
+            <p>For enhver løsning gælder $y(t) \to M$, når $t \to \infty$. I området $0 < y < M$ er integralkurverne S-formede kurver, der vokser mod den øvre grænse $M$.</p>
 
             <div class="svg-container">
                 <div id="graf-logistisk"></div>
@@ -461,7 +461,7 @@
             <h2>Bevis for Sætning 8.1: Løsning af differentialligningen $y'=k\cdot y$ (Separation)</h2>
             <p>Vi vil bevise, at differentialligningen $y'=a\cdot y$ har den fuldstændige løsning $y=c\cdot e^{ax}$, hvor $a$ er et reelt tal ($a\ne 0$), og $c$ er en konstant.</p>
             
-            <p><strong>1)</strong> For $y=0$ ses direkte, at sætningen gælder, da $y'=0$ har løsningen $y=k$, der netop kun kan være 0. For $y<0$ eller $y>0$ gælder separation af de variable:</p>
+            <p><strong>1)</strong> For $y=0$ ses direkte, at sætningen gælder, da $y'=0$ har løsningen $y=k$, der netop kun kan være 0. For $y < 0$ eller $y > 0$ gælder separation af de variable:</p>
             <p>$$\frac{dy}{dx}=ay \quad \Leftrightarrow \quad \frac{1}{y}dy = a \ dx$$</p>
             
             <p><strong>2)</strong> Vi integrerer på begge sider:</p>
@@ -475,8 +475,8 @@
             <p>$$e^{\ln{|y|}} = e^{ax+c_3} \quad \Rightarrow \quad |y| = e^{ax+c_3}$$</p>
             
             <p><strong>5)</strong> Det numeriske tegn ophæves, hvilket giver to mulige fortegn for $y$:</p>
-            <p>$$y = e^{ax+c_3} = e^{c_3} \cdot e^{ax} \quad \text{for } y>0$$</p>
-            <p>$$y = -e^{ax+c_3} = -e^{c_3} \cdot e^{ax} \quad \text{for } y<0$$</p>
+            <p>$$y = e^{ax+c_3} = e^{c_3} \cdot e^{ax} \quad \text{for } y > 0$$</p>
+            <p>$$y = -e^{ax+c_3} = -e^{c_3} \cdot e^{ax} \quad \text{for } y < 0$$</p>
             
             <p><strong>6)</strong> Idet både $e^{c_3}$ og $-e^{c_3}$ altid vil udgøre en reel konstant, kalder vi blot denne for $c$. Hermed er løsningen:</p>
             <p>$$y = c \cdot e^{ax}$$</p>
@@ -535,7 +535,9 @@
 
         <section id="bevis-ydobbelt-k" class="card proof">
             <h2>Bevis: Løsning til $y'' = k$</h2>
-            <p>Differentialligningen $y'' = k$ har den fuldstændige løsning $y= \frac{1}{2}kx^2+k_1x+k_2$ (bemærk: I dit oprindelige bevis stod der $kx^2$, men integration af $k$ to gange giver $\frac{1}{2}kx^2$).</p> <p><strong>1)</strong> Vi integrerer på begge sider af lighedstegnet første gang:</p>
+            <p>Differentialligningen $y'' = k$ har den fuldstændige løsning $y= \frac{1}{2}kx^2+k_1x+k_2$.</p> 
+            
+            <p><strong>1)</strong> Vi integrerer på begge sider af lighedstegnet første gang:</p>
             <p>$$\int y'' dx = \int k \ dx \quad \Rightarrow \quad y' = kx + k_1$$</p>
             
             <p><strong>2)</strong> Vi integrerer på begge sider for anden gang:</p>
@@ -579,7 +581,7 @@
 
         <section id="bevis-logistisk-separation" class="card proof">
             <h2>Bevis for Sætning 8.3b: Logistisk vækst 2 (Separation og Partialbrøker)</h2>
-            <p>Vi vil bevise løsningen for den logistiske vækst på formen $y'=a\cdot y \cdot (M-y)$, hvor $0<y<M$, ved at bruge metoden for separation af de variable og partialbrøksopspaltning.</p>
+            <p>Vi vil bevise løsningen for den logistiske vækst på formen $y'=a\cdot y \cdot (M-y)$, hvor $0 < y < M$, ved at bruge metoden for separation af de variable og partialbrøksopspaltning.</p>
 
             <p><strong>1) Separation af de variable:</strong><br>
             Vi skriver ligningen op med Leibniz' notation og separerer variablerne $y$ og $x$:</p>
@@ -603,7 +605,7 @@
             <p><strong>3) Integration:</strong><br>
             Vi sætter vores opspalttede udtryk ind i integralet fra Trin 1. Konstanten $\frac{1}{M}$ kan vi sætte uden for integraltegnet:</p>
             <p>$$\frac{1}{M} \int \left(\frac{1}{y} + \frac{1}{M-y}\right)dy = \int a \ dx$$</p>
-            <p>Integrationen udføres. Bemærk, at integralet af $\frac{1}{M-y}$ giver $-\ln|M-y|$ pga. den indre funktion. Idet vi regner med at populationen $y$ er mellem 0 og $M$, kan de numeriske tegn udelades:</p>
+            <p>Integrationen udføres. Bemærk, at integralet af $\frac{1}{M-y}$ giver $-\ln(M-y)$ pga. den indre funktion. Idet vi regner med at populationen $y$ er mellem 0 og $M$, kan de numeriske tegn udelades:</p>
             <p>$$\frac{1}{M} \left(\ln(y) - \ln(M-y)\right) = ax + c_1$$</p>
             <p>$$\frac{1}{M} \ln\left(\frac{y}{M-y}\right) = ax + c_1$$</p>
 
@@ -613,10 +615,10 @@
             <p>$$\frac{y}{M-y} = e^{a\cdot M\cdot x + c_1\cdot M} = e^{c_1\cdot M} \cdot e^{a\cdot M\cdot x}$$</p>
             <p>Leddet $e^{c_1\cdot M}$ er blot en konstant, så den omdøber vi til $C$.</p>
             <p>$$\frac{y}{M-y} = C\cdot e^{a\cdot M\cdot x}$$</p>
-            <p>Vi ganger nu nævneren over på højresiden og ganger ind i parentesen:</p>
+            <p>Vi ganger nu nævneren over på højresiden og derefter ganger vi y'et ind på leddene:</p>
             <p>$$y = (M-y) \cdot C\cdot e^{a\cdot M\cdot x}$$</p>
             <p>$$y = M\cdot C\cdot e^{a\cdot M\cdot x} - y\cdot C\cdot e^{a\cdot M\cdot x}$$</p>
-            <p>Vi samler y'erne på den ene side og sætter $y$ uden for en parentes:</p>
+            <p>Vi samler y'erne på venstre side og sætter $y$ uden for en parentes:</p>
             <p>$$y + y\cdot C\cdot e^{a\cdot M\cdot x} = M\cdot C\cdot e^{a\cdot M\cdot x}$$</p>
             <p>$$y(1 + C\cdot e^{a\cdot M\cdot x}) = M\cdot C\cdot e^{a\cdot M\cdot x}$$</p>
             <p>$$y = \frac{M\cdot C\cdot e^{a\cdot M\cdot x}}{1 + C\cdot e^{a\cdot M\cdot x}}$$</p>
@@ -629,8 +631,6 @@
         <section id="bevis-logistisk-max" class="card proof">
             <h2>Bevis: Den maksimale hældning i logistisk vækst</h2>
             <p>Den største tangenthældning for en logistisk vækstkurve findes der, hvor populationen er halvdelen af bæreevnen, nemlig når $y=\frac{m}{2}$.</p>
-            
-            
             
             <p><strong>Bevis:</strong><br>
             1) Vi tager udgangspunkt i væksthastigheden $y' = ky(m-y)$. Denne hastighed kalder vi for funktionen $g(y)$, idet vi betragter hældningen som afhængig af $y$. Vi ganger y ind i parentesen:</p>
