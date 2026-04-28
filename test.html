@@ -202,11 +202,12 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // Fælles konfiguration - Uden standard annotations
+                // Fælles konfiguration - Uden standard annotations. 
+                // x-aksen er udvidet til 6.5 for at give plads til 'b'
                 const commonConfig = {
                     disableZoom: true,
                     grid: false,
-                    xAxis: { domain: [0, 6], label: 'x' },
+                    xAxis: { domain: [0, 6.5], label: 'x' },
                     yAxis: { domain: [0, 5], label: 'y' }
                 };
 
@@ -234,7 +235,7 @@
                         { val: 1, text: 'a' },
                         { val: 3, text: 'x₀' },
                         { val: 4.5, text: 'x₀+h' },
-                        { val: 5.5, text: 'b' }
+                        { val: 6.0, text: 'b' } // 'b' er rykket fra 5.5 til 6.0 for mere plads
                     ];
 
                     xLabels.forEach(label => {
