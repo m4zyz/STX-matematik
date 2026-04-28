@@ -112,8 +112,6 @@
             <p>At løse en almindelig ligning som for eksempel $x^2-3x-4=0$ drejer sig om at finde de talværdier for den ubekendte $x$, der gør ligningen sand.</p>
             <p>Når der er tale om at løse en differentialligning, drejer det sig om at finde forskriften for de <em>funktioner</em>, der gør ligningen sand for alle $x$.</p>
             
-            
-
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Definition: Differentialligning</strong>
                 <p>En differentialligning er en ligning, hvori der indgår en eller flere differentialkvotienter $f'(x), f''(x), ...$ og eventuelt også funktionen $f(x)$ selv.</p>
@@ -198,8 +196,6 @@
             <h2>Hældningsfelt</h2>
             <p>Tegner man et stort antal linjeelementer hørende til en given differentialligning af 1. orden, har man et <strong>hældningsfelt</strong> hørende til differentialligningen.</p>
             
-            
-            
             <p>Hældningsfelter er bl.a. interessante, fordi man ofte uden at løse den givne differentialligning kan danne sig et indtryk af løsningskurverne.</p>
 
             <div class="svg-container">
@@ -250,14 +246,12 @@
             
             <p>De to sidste ligninger kaldes <strong>logistiske differentialligninger</strong>. De er vigtige, for i mange tilfælde fører de til en rimelig beskrivelse af bl.a. enkeltindividers og populationers vækst, logistisk vækst.</p>
             
-            [attachment_0](attachment)
-            
             <p>Ligningerne udtrykker, at væksthastigheden $y'(t)$ er proportional med produktet af størrelsen $y(t)$ og den afstand, der er mellem $y(t)$ og en øvre grænse $M$. I hypotesen er der altså indbygget en dæmpning af væksten. I biologiske sammenhænge kaldes den øvre grænse $M$ for <strong>bæreevnen</strong>.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.3b / 8.3b: Løsning af den logistiske differentialligning</strong>
                 <p>Den logistiske differentialligning $y'=a\cdot y\cdot (M-y)$ har den fuldstændige løsning:</p>
-                <p>$$y(t)=0 \text{ og } y(t)=\frac{M}{1+c\cdot e^{-a\cdot M\cdot t}}$$</p>
+                <p>$$y(t)=0 \quad \text{og} \quad y(t)=\frac{M}{1+c\cdot e^{-a\cdot M\cdot t}}$$</p>
                 <p>hvor $c$ er et tal.</p>
             </div>
             
@@ -265,7 +259,7 @@
 
             <div class="svg-container">
                 <div id="graf-logistisk"></div>
-                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En klassisk S-formet logistisk vækstkurve. Bæreevnen $M$ er markeret med den rød stiplet linje.</p>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En klassisk S-formet logistisk vækstkurve. Bæreevnen $M$ er markeret med den røde stiplede linje.</p>
             </div>
         </section>
 
@@ -295,7 +289,7 @@
                 <strong>Sætning 2.4: Separation af de variable</strong>
                 <p>Antag, at funktionen $h$ er kontinuert, og at funktionen $g$ er kontinuert og forskellig fra 0.</p>
                 <p>Da gælder: $y=f(x)$ er løsning til $\frac{dy}{dx}=h(x)\cdot g(y)$ netop når:</p>
-                <p>$$\int \frac{1}{g(y)}dy=\int h(x)dx$$</p>
+                <p>$$\int \frac{1}{g(y)}dy=\int h(x)dx+k$$</p>
             </div>
         </section>
 
@@ -418,76 +412,138 @@
         <section class="card">
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
-                <li><a href="#bevis-eksponentiel">Bevis for Sætning 8.1: $y'=k\cdot y$</a></li>
-                <li><a href="#bevis-forskudt">Bevis for Sætning 8.2: $y'=b-a\cdot y$</a></li>
-                <li><a href="#bevis-logistisk1">Bevis for Sætning 8.3a: Logistisk vækst 1</a></li>
-                <li><a href="#bevis-logistisk2">Bevis for Sætning 8.3b: Logistisk vækst 2</a></li>
+                <li><a href="#bevis-separation">Bevis for Sætning 2.4: Separation af variable</a></li>
+                <li><a href="#bevis-eksponentiel">Bevis for Sætning 8.1: $y'=k\cdot y$ (Metode: Separation)</a></li>
+                <li><a href="#bevis-forskudt">Bevis for Sætning 8.2: $y'=b-a\cdot y$ (Metode: Separation)</a></li>
+                <li><a href="#bevis-ydobbelt-h">Bevis: Løsning til $y''=h(x)$</a></li>
+                <li><a href="#bevis-ydobbelt-k">Bevis: Løsning til $y''=k$</a></li>
+                <li><a href="#bevis-logistisk1">Bevis for Sætning 8.3a: Logistisk vækst 1 (Metode: Substitution $z=1/y$)</a></li>
+                <li><a href="#bevis-logistisk-separation">Bevis for Sætning 8.3b: Logistisk vækst 2 (Metode: Separation og Partialbrøker)</a></li>
+                <li><a href="#bevis-logistisk-max">Bevis: Den maksimale hældning i logistisk vækst</a></li>
                 <li><a href="#bevis-lineaer">Bevis for Sætning 8.4: Lineær differentialligning (Panserformlen)</a></li>
             </ul>
         </section>
 
+        <section id="bevis-separation" class="card proof">
+            <h2>Bevis for Sætning 2.4: Separation af variable</h2>
+            <p>For differentialligninger af typen $\frac{dy}{dx}=g(y)\cdot h(x)$ kan løsninger $y=f(x)$ findes ved ligningen $\int \frac{1}{g(y)}dy = \int h(x)dx + k$, når $g(y) \ne 0$, og $h$ og $g$ er kontinuerte.</p>
+            <p><strong>Bevis:</strong></p>
+            
+            <p><strong>1)</strong> Da $g$ er kontinuert og forskellig fra nul, er den reciprokke funktion $\frac{1}{g(y)}$ også kontinuert, og vi kan derfor dividere med $g(y)$ på begge sider af lighedstegnet:</p>
+            <p>$$\frac{1}{g(y)}\cdot\frac{dy}{dx}=h(x)$$</p>
+            
+            <p><strong>2)</strong> Vi bruger den gængse skrivemåde for differentialkvotient og funktion:</p>
+            <p>$$\frac{1}{g(f(x))}\cdot f'(x)=h(x)$$</p>
+            
+            <p><strong>3)</strong> Da $h$ er kontinuert, har den en stamfunktion $H$, hvor $H'(x)=h(x)$. Vi indfører dertil den kontinuerte funktion $g^{-1}(y) = \frac{1}{g(y)}$ (bemærk: her benyttes potensnotation, ikke omvendt funktion). Dette giver:</p>
+            <p>$$g^{-1}(y) \cdot f'(x)=H'(x)$$</p>
+            
+            <p><strong>4)</strong> Da funktionen $g^{-1}(y)$ også er kontinuert, har den stamfunktionen $G^{-1}(y)=\int\frac{1}{g(y)}dy$, og der må gælde $g^{-1}(y)=(G^{-1}(y))'$. Ved at udskifte led får vi:</p>
+            <p>$$(G^{-1}(f(x)))'\cdot f'(x)=H'(x)$$</p>
+            
+            <p><strong>5)</strong> Venstresiden kan, via reglen for differentiation af sammensat funktion, samles til $(G^{-1}(f(x)))'$. Ligningen bliver nu:</p>
+            <p>$$(G^{-1}(f(x)))'=H'(x)$$</p>
+            
+            <p><strong>6)</strong> Trækker vi $H'(x)$ fra på begge sider, har vi:</p>
+            <p>$$(G^{-1}(f(x)))' - H'(x) = 0 \quad \Leftrightarrow \quad (G^{-1}(f(x)) - H(x))' = 0$$</p>
+            
+            <p><strong>7)</strong> Da differentialkvotienten af differensen er nul, må funktionen være konstant:</p>
+            <p>$$G^{-1}(f(x)) - H(x) = k$$</p>
+            
+            <p><strong>8)</strong> Vi genindfører $y=f(x)$ og lægger $H(x)$ til på begge sider:</p>
+            <p>$$G^{-1}(y) = H(x) + k$$</p>
+            
+            <p><strong>9)</strong> Til sidst udskiftes stamfunktionerne med integraler, hvormed vi er i mål:</p>
+            <p>$$\int \frac{1}{g(y)}dy = \int h(x)dx + k$$</p>
+        </section>
+
         <section id="bevis-eksponentiel" class="card proof">
-            <h2>Bevis for Sætning 8.1: Løsning af differentialligningen $y'=k\cdot y$</h2>
-            <p>Vi vil bevise, at differentialligningen $y'=k\cdot y$ har den fuldstændige løsning $y(t)=c\cdot e^{k t}$.</p>
+            <h2>Bevis for Sætning 8.1: Løsning af differentialligningen $y'=k\cdot y$ (Separation)</h2>
+            <p>Vi vil bevise, at differentialligningen $y'=a\cdot y$ har den fuldstændige løsning $y=c\cdot e^{ax}$, hvor $a$ er et reelt tal ($a\ne 0$), og $c$ er en konstant.</p>
             
-            <p><strong>1) Gøre prøve:</strong><br>
-            Ved at gøre prøve ses, at $y(t)=c\cdot e^{kt}$ er en løsning til $y'=k\cdot y$. Vi udregner $y'(t) = c \cdot k \cdot e^{kt} = k \cdot (c \cdot e^{kt}) = k \cdot y(t)$.</p>
+            <p><strong>1)</strong> For $y=0$ ses direkte, at sætningen gælder, da $y'=0$ har løsningen $y=k$, der netop kun kan være 0. For $y<0$ eller $y>0$ gælder separation af de variable:</p>
+            <p>$$\frac{dy}{dx}=ay \quad \Leftrightarrow \quad \frac{1}{y}dy = a \ dx$$</p>
             
-            <p><strong>2) Bevis for at enhver løsning er på denne form:</strong><br>
-            Vi antager nu, at funktionen $y=y(t)$ er en løsning, dvs. $y'=k\cdot y$. Vi skal vise, at $y(t)$ kan skrives på formen $y(t)=c\cdot e^{kt}$.</p>
+            <p><strong>2)</strong> Vi integrerer på begge sider:</p>
+            <p>$$\int \frac{1}{y}dy=\int a \ dx$$</p>
+            <p>$$\ln{|y|} + c_1 = ax + c_2$$</p>
             
-            <p>Vi indfører en hjælpefunktion $z=z(t)=y(t)\cdot e^{-kt}$, og vi finder differentialkvotienten for denne funktion vha. produktreglen:</p>
-            <p>
-            $$
-            \begin{aligned}
-            z' &= y'\cdot e^{-kt} + y\cdot (-k\cdot e^{-kt}) \\
-            &= y'\cdot e^{-kt} - k\cdot y\cdot e^{-kt} \\
-            &= k\cdot y\cdot e^{-kt} - k\cdot y\cdot e^{-kt} \\
-            &= 0
-            \end{aligned}
-            $$
-            </p>
-            <p>hvor vi ved det næstsidste lighedstegn har udnyttet antagelsen om, at $y(t)$ er en løsning ($y'=k\cdot y$).</p>
+            <p><strong>3)</strong> De to integrationskonstanter samles i en fælles konstant $c_3$ på højresiden:</p>
+            <p>$$\ln{|y|} = ax + c_3$$</p>
             
-            <p>Da $z'(t)=0$, er $z(t)$ en konstant funktion. Vi får derfor:</p>
-            <p>$$z(t)=c \quad \Leftrightarrow \quad y(t)\cdot e^{-kt}=c \quad \Leftrightarrow \quad y(t)=c\cdot e^{kt}$$</p>
+            <p><strong>4)</strong> Den naturlige eksponentialfunktion benyttes på begge sider af lighedstegnet for at fjerne logaritmen:</p>
+            <p>$$e^{\ln{|y|}} = e^{ax+c_3} \quad \Rightarrow \quad |y| = e^{ax+c_3}$$</p>
             
-            <p>Dette viser, at en vilkårlig løsning $y(t)$ kan skrives på formen $y(t)=c\cdot e^{k t}$. Dermed er sætningen bevist.</p>
-
-            <p><em>(Alternativt bevis: Sætningen kan også bevises ved at adskille (separere) de variable og integrere begge sider som angivet i Sætning 2.4).</em></p>
-
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <p><strong>5)</strong> Det numeriske tegn ophæves, hvilket giver to mulige fortegn for $y$:</p>
+            <p>$$y = e^{ax+c_3} = e^{c_3} \cdot e^{ax} \quad \text{for } y>0$$</p>
+            <p>$$y = -e^{ax+c_3} = -e^{c_3} \cdot e^{ax} \quad \text{for } y<0$$</p>
+            
+            <p><strong>6)</strong> Idet både $e^{c_3}$ og $-e^{c_3}$ altid vil udgøre en reel konstant, kalder vi blot denne for $c$. Hermed er løsningen:</p>
+            <p>$$y = c \cdot e^{ax}$$</p>
         </section>
 
         <section id="bevis-forskudt" class="card proof">
-            <h2>Bevis for Sætning 8.2: Løsning af differentialligningen $y'=b-a\cdot y$</h2>
-            <p>Vi vil bevise, at ligningen $y'=b-a\cdot y$ (hvor $a>0$) har den fuldstændige løsning $y(t)=\frac{b}{a}+c\cdot e^{-at}$.</p>
+            <h2>Bevis for Sætning 8.2: Løsning af differentialligningen $y'=b-a\cdot y$ (Separation)</h2>
+            <p>Vi vil bevise, at ligningen $y'=b-ay$ (hvor $a \ne 0$) har den fuldstændige løsning $y=\frac{b}{a}+c\cdot e^{-ax}$.</p>
             
-            <p><strong>1) Gøre prøve:</strong><br>
-            Ved at indsætte funktionen i ligningen bekræftes det, at $y(t)=\frac{b}{a}+c\cdot e^{-at}$ er en løsning.</p>
+            <p><strong>1)</strong> Vi opstiller differentialligningen med Leibniz' notation og betragter $\frac{dy}{dx}$ som en brøk:</p>
+            <p>$$\frac{dy}{dx}=b-ay \quad \Leftrightarrow \quad \frac{dy}{b-ay} = dx$$</p>
+            <p>Bemærk, at $y=\frac{b}{a}$ direkte giver en nulløsning (idet $y'=0$), hvilket svarer til $c=0$.</p>
             
-            <p><strong>2) Bevis for fuldstændig løsning:</strong><br>
-            Vi antager, at funktionen $y=y(t)$ er en vilkårlig løsning ($y'=b-a\cdot y$). Vi vil vise formen for $y(t)$.</p>
-            <p>Vi indfører hjælpefunktionen $z=z(t)=b-a\cdot y(t)$, og finder den afledte:</p>
-            <p>$$z' = -a\cdot y' = -a\cdot (b-a\cdot y) = -a\cdot z$$</p>
-            <p>Det fremgår nu, at $z=z(t)$ er en løsning til differentialligningen $z'=-a\cdot z$. Ifølge den foregående sætning (8.1) gælder derfor $z(t)=c_1\cdot e^{-at}$. Vi får så:</p>
-            <p>
-            $$
-            \begin{aligned}
-            z(t) &= c_1\cdot e^{-at} \\
-            b-a\cdot y(t) &= c_1\cdot e^{-at} \\
-            \frac{b}{a} - \frac{c_1}{a}\cdot e^{-at} &= y(t) \\
-            \frac{b}{a} + c\cdot e^{-at} &= y(t)
-            \end{aligned}
-            $$
-            </p>
-            <p>hvor $c$ blot er en omdøbning af konstanten $-\frac{c_1}{a}$. Dermed er sætningen bevist.</p>
+            <p><strong>2)</strong> For at løse venstresiden benytter vi substitution. Vi definerer variablen $u = b-ay$. Vi differentierer $u$ med hensyn til $y$:</p>
+            <p>$$\frac{du}{dy} = -a \quad \Leftrightarrow \quad \frac{du}{-a} = dy$$</p>
+            
+            <p><strong>3)</strong> Vi substituerer nu udtrykkene tilbage i vores separerede ligning:</p>
+            <p>$$\frac{\frac{du}{-a}}{u} = dx \quad \Leftrightarrow \quad \frac{du}{u} = -a \ dx$$</p>
+            
+            <p><strong>4)</strong> Nu kan vi integrere på begge sider:</p>
+            <p>$$\int \frac{1}{u}du = \int -a \ dx$$</p>
+            <p>$$\ln{|u|} = -ax + k$$</p>
+            
+            <p><strong>5)</strong> Vi tager eksponentialfunktionen på begge sider for at ophæve den naturlige logaritme. Samtidig anvendes potensreglen $e^{A+B} = e^A \cdot e^B$:</p>
+            <p>$$|u| = e^{-ax+k} = e^{-ax} \cdot e^k$$</p>
+            <p>Når det numeriske tegn hæves, tilføjes et $\pm$ på højresiden:</p>
+            <p>$$u = \pm e^k \cdot e^{-ax}$$</p>
+            
+            <p><strong>6)</strong> Vi substituerer $u = b-ay$ tilbage ind i ligningen:</p>
+            <p>$$b-ay = \pm e^k \cdot e^{-ax}$$</p>
+            <p>$$-ay = -b \pm e^k \cdot e^{-ax}$$</p>
+            <p>Vi dividerer nu alle led med $-a$ for at isolere $y$:</p>
+            <p>$$y = \frac{-b}{-a} \pm \frac{e^k}{-a} \cdot e^{-ax}$$</p>
+            
+            <p><strong>7)</strong> Brøken $\frac{-b}{-a}$ reduceres til $\frac{b}{a}$. Leddet $\pm \frac{e^k}{-a}$ er samlet set blot en stor grim konstant, så den omdøber vi til $c$. Dermed får vi den færdige løsning:</p>
+            <p>$$y = \frac{b}{a} + c \cdot e^{-ax}$$</p>
+        </section>
 
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        <section id="bevis-ydobbelt-h" class="card proof">
+            <h2>Bevis: Løsning til $y'' = h(x)$</h2>
+            <p>Differentialligningen $y'' = h(x)$ (eller $\frac{d^2y}{dx^2} = h(x)$) har den fuldstændige løsning $y=H_2(x)+k_1x+k_2$, hvor $k_1$ og $k_2$ er konstanter, og $H_2(x) = \int\int h(x)dx$ (altså funktionen $h$ integreret to gange).</p>
+            
+            <p><strong>1)</strong> Vi lader $y=f(x)$, så differentialligningen kan skrives:</p>
+            <p>$$f''(x) = h(x)$$</p>
+            
+            <p><strong>2)</strong> Der integreres én gang på begge sider af lighedstegnet. Vi kalder stamfunktionen til $h$ for $H_1$, og integrationen udløser desuden en integrationskonstant $k_1$:</p>
+            <p>$$\int f''(x)dx = \int h(x)dx \quad \Rightarrow \quad f'(x) = H_1(x) + k_1$$</p>
+            
+            <p><strong>3)</strong> Vi integrerer nu endnu en gang på begge sider:</p>
+            <p>$$\int f'(x)dx = \int (H_1(x) + k_1)dx$$</p>
+            <p>$$f(x) = \int H_1(x)dx + \int k_1dx$$</p>
+            
+            <p><strong>4)</strong> Vi benævner nu stamfunktionen til $H_1$ som $H_2$. Integrationen af konstanten $k_1$ giver $k_1 x$, og der udløses en ny konstant $k_2$ fra denne anden integration. Vi genindfører til sidst $y=f(x)$:</p>
+            <p>$$y = H_2(x) + k_1 x + k_2$$</p>
+        </section>
+
+        <section id="bevis-ydobbelt-k" class="card proof">
+            <h2>Bevis: Løsning til $y'' = k$</h2>
+            <p>Differentialligningen $y'' = k$ har den fuldstændige løsning $y= \frac{1}{2}kx^2+k_1x+k_2$ (bemærk: I dit oprindelige bevis stod der $kx^2$, men integration af $k$ to gange giver $\frac{1}{2}kx^2$).</p> <p><strong>1)</strong> Vi integrerer på begge sider af lighedstegnet første gang:</p>
+            <p>$$\int y'' dx = \int k \ dx \quad \Rightarrow \quad y' = kx + k_1$$</p>
+            
+            <p><strong>2)</strong> Vi integrerer på begge sider for anden gang:</p>
+            <p>$$\int y' dx = \int (kx + k_1)dx \quad \Rightarrow \quad y = \frac{1}{2}kx^2 + k_1 x + k_2$$</p>
         </section>
 
         <section id="bevis-logistisk1" class="card proof">
-            <h2>Bevis for Sætning 8.3a: Løsning af den logistiske differentialligning 1</h2>
+            <h2>Bevis for Sætning 8.3a: Logistisk vækst 1 (Substitution)</h2>
             <p>Vi betragter $y'=y\cdot (b-a\cdot y) = a\cdot y\cdot \left(\frac{b}{a}-y\right)$.</p>
 
             <p><strong>1) Gøre prøve:</strong><br>
@@ -519,17 +575,71 @@
             $$
             </p>
             <p>hvor $c=c_1\cdot \frac{b}{a}$. Dette fuldfører beviset.</p>
-
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
         </section>
 
-        <section id="bevis-logistisk2" class="card proof">
-            <h2>Bevis for Sætning 8.3b: Løsning af den logistiske differentialligning 2</h2>
-            <p>Den logistiske differentialligning på formen $y'=a\cdot y\cdot (M-y)$ har løsningen $y(t)=\frac{M}{1+c\cdot e^{-a M t}}$.</p>
-            <p><strong>Bevis:</strong><br>
-            Sætningen følger simpelthen af Sætning 8.3a ved substitution. Vi definerer $M=\frac{b}{a}$, hvilket er ækvivalent med at $b=a\cdot M$. Ved at indsætte $b=a\cdot M$ i løsningen fra 8.3a får vi præcis udtrykket for $y(t)$ ovenfor.</p>
+        <section id="bevis-logistisk-separation" class="card proof">
+            <h2>Bevis for Sætning 8.3b: Logistisk vækst 2 (Separation og Partialbrøker)</h2>
+            <p>Vi vil bevise løsningen for den logistiske vækst på formen $y'=a\cdot y \cdot (M-y)$, hvor $0<y<M$, ved at bruge metoden for separation af de variable og partialbrøksopspaltning.</p>
 
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <p><strong>1) Separation af de variable:</strong><br>
+            Vi skriver ligningen op med Leibniz' notation og separerer variablerne $y$ og $x$:</p>
+            <p>$$\frac{dy}{dx} = a\cdot y \cdot (M-y) \quad \Rightarrow \quad \frac{1}{y\cdot (M-y)}dy = a \ dx$$</p>
+            <p>Integrerer vi på begge sider, får vi:</p>
+            <p>$$\int \frac{1}{y\cdot (M-y)}dy = \int a \ dx$$</p>
+
+            <p><strong>2) Partialbrøksopspaltning (PFD):</strong><br>
+            For at kunne integrere venstresiden er vi nødt til at opdele den komplekse brøk i to simple partialbrøker. Vi opstiller udtrykket således:</p>
+            <p>$$\frac{1}{y(M-y)} = \frac{A}{y} + \frac{B}{M-y}$$</p>
+            <p>Vi ganger igennem med fællesnævneren $y(M-y)$ på alle led for at fjerne brøkerne:</p>
+            <p>$$1 = A(M-y) + B\cdot y$$</p>
+            <p>$$1 = A\cdot M - A\cdot y + B\cdot y$$</p>
+            <p>$$1 = y(B-A) + A\cdot M$$</p>
+            <p>For at denne ligning skal være sand for alle værdier af $y$, skal y-leddene udligne hinanden (koefficienten må være 0), og konstantleddet skal give 1:</p>
+            <p>1) $B-A = 0 \Rightarrow A = B$<br>
+            2) $A\cdot M = 1 \Rightarrow A = \frac{1}{M}$</p>
+            <p>Eftersom $A=B$, er $B$ også $\frac{1}{M}$. Brøken kan dermed omskrives til:</p>
+            <p>$$\frac{1}{y(M-y)} = \frac{\frac{1}{M}}{y} + \frac{\frac{1}{M}}{M-y} = \frac{1}{M}\left(\frac{1}{y} + \frac{1}{M-y}\right)$$</p>
+
+            <p><strong>3) Integration:</strong><br>
+            Vi sætter vores opspalttede udtryk ind i integralet fra Trin 1. Konstanten $\frac{1}{M}$ kan vi sætte uden for integraltegnet:</p>
+            <p>$$\frac{1}{M} \int \left(\frac{1}{y} + \frac{1}{M-y}\right)dy = \int a \ dx$$</p>
+            <p>Integrationen udføres. Bemærk, at integralet af $\frac{1}{M-y}$ giver $-\ln|M-y|$ pga. den indre funktion. Idet vi regner med at populationen $y$ er mellem 0 og $M$, kan de numeriske tegn udelades:</p>
+            <p>$$\frac{1}{M} \left(\ln(y) - \ln(M-y)\right) = ax + c_1$$</p>
+            <p>$$\frac{1}{M} \ln\left(\frac{y}{M-y}\right) = ax + c_1$$</p>
+
+            <p><strong>4) Isolering af y:</strong><br>
+            Nu mangler vi blot at isolere $y$. Først ganges der med $M$ på begge sider, hvorefter vi bruger eksponentialfunktionen til at fjerne logaritmen:</p>
+            <p>$$\ln\left(\frac{y}{M-y}\right) = a\cdot M\cdot x + c_1\cdot M$$</p>
+            <p>$$\frac{y}{M-y} = e^{a\cdot M\cdot x + c_1\cdot M} = e^{c_1\cdot M} \cdot e^{a\cdot M\cdot x}$$</p>
+            <p>Leddet $e^{c_1\cdot M}$ er blot en konstant, så den omdøber vi til $C$.</p>
+            <p>$$\frac{y}{M-y} = C\cdot e^{a\cdot M\cdot x}$$</p>
+            <p>Vi ganger nu nævneren over på højresiden og ganger ind i parentesen:</p>
+            <p>$$y = (M-y) \cdot C\cdot e^{a\cdot M\cdot x}$$</p>
+            <p>$$y = M\cdot C\cdot e^{a\cdot M\cdot x} - y\cdot C\cdot e^{a\cdot M\cdot x}$$</p>
+            <p>Vi samler y'erne på den ene side og sætter $y$ uden for en parentes:</p>
+            <p>$$y + y\cdot C\cdot e^{a\cdot M\cdot x} = M\cdot C\cdot e^{a\cdot M\cdot x}$$</p>
+            <p>$$y(1 + C\cdot e^{a\cdot M\cdot x}) = M\cdot C\cdot e^{a\cdot M\cdot x}$$</p>
+            <p>$$y = \frac{M\cdot C\cdot e^{a\cdot M\cdot x}}{1 + C\cdot e^{a\cdot M\cdot x}}$$</p>
+            <p>For at gøre formlen helt smuk, forkorter vi brøken ved at dividere alle led med $C\cdot e^{a\cdot M\cdot x}$. Dette giver:</p>
+            <p>$$y = \frac{M}{\frac{1}{C\cdot e^{a\cdot M\cdot x}} + 1} = \frac{M}{1 + \frac{1}{C} e^{-a\cdot M\cdot x}}$$</p>
+            <p>Idet $\frac{1}{C}$ bare er endnu en konstant, kalder vi denne for lille $c$. Vi er nu i mål med den endelige logistiske vækstformel:</p>
+            <p>$$y = \frac{M}{1 + c \cdot e^{-a\cdot M\cdot x}}$$</p>
+        </section>
+
+        <section id="bevis-logistisk-max" class="card proof">
+            <h2>Bevis: Den maksimale hældning i logistisk vækst</h2>
+            <p>Den største tangenthældning for en logistisk vækstkurve findes der, hvor populationen er halvdelen af bæreevnen, nemlig når $y=\frac{m}{2}$.</p>
+            
+            
+            
+            <p><strong>Bevis:</strong><br>
+            1) Vi tager udgangspunkt i væksthastigheden $y' = ky(m-y)$. Denne hastighed kalder vi for funktionen $g(y)$, idet vi betragter hældningen som afhængig af $y$. Vi ganger y ind i parentesen:</p>
+            <p>$$g(y) = y' = kmy - ky^2$$</p>
+            
+            <p>2) Funktionen $g(y)$ er et andengradspolynomium, hvis graf danner en parabel, der vender grenene nedad (da leddet med $y^2$ er negativt). Nulpunkterne for denne funktion finder vi ved at kigge på den faktoriserede form $ky(m-y) = 0$. Rødderne er $y=0$ og $y=m$.</p>
+            
+            <p>3) Da en parabel altid er fuldstændig symmetrisk, må dens toppunkt ligge præcis midt imellem de to rødder. Vi finder derfor toppunktets (og dermed den maksimale hældnings) y-koordinat ved:</p>
+            <p>$$y = \frac{0 + m}{2} = \frac{m}{2}$$</p>
         </section>
 
         <section id="bevis-lineaer" class="card proof">
@@ -557,8 +667,6 @@
             <p>Da vi ved at $z(x)=y(x)\cdot e^{A(x)}$, kan vi isolere $y(x)$ ved at multiplicere med $e^{-A(x)}$ på begge sider:</p>
             <p>$$y(x)=\left(\int b(x)\cdot e^{A(x)}dx + c\right)e^{-A(x)}$$</p>
             <p>Ganger vi udtrykket ind i parentesen får vi netop panserformlen. Hermed er beviset fuldført.</p>
-
-            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
         </section>
 
         <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
@@ -574,18 +682,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Funktion til at generere matematisk præcise hældningsfelter
             function generateSlopeFieldData(L, h, xStart, xEnd, yStart, yEnd) {
               const lineData = [];
               for (let x = xStart; x <= xEnd; x += h) {
                 for (let y = yStart; y <= yEnd; y += h) {
-                  // Equation y' = -y + x
                   const m = -y + x;
                   const theta = Math.atan(m);
                   const dx = (L / 2) * Math.cos(theta);
                   const dy = (L / 2) * Math.sin(theta);
                   lineData.push({
-                    fnType: 'points',       // PÅKRÆVET: fortæller function-plot at bruge punktlister
+                    fnType: 'points',
                     graphType: 'polyline',
                     points: [
                       [x - dx, y - dy],
@@ -598,7 +704,7 @@
             }
 
             try {
-                // 1. Graf til Tangent-eksempel (dy/dx=x+y gennem P(1,2))
+                // 1. Graf til Tangent-eksempel (dy/dx=x+y)
                 functionPlot({
                     target: '#graf-tangent',
                     disableZoom: true,
@@ -608,13 +714,13 @@
                     xAxis: { domain: [-1, 3] },
                     yAxis: { domain: [-2, 6] },
                     data: [
-                        { fn: '2.5*exp(x-1) - x - 1', color: '#3498db' }, // Løsningskurven
-                        { fn: '3.5*x - 1.5', color: '#27ae60' }           // Tangenten
+                        { fn: '2.5*exp(x-1) - x - 1', color: '#3498db' },
+                        { fn: '3.5*x - 1.5', color: '#27ae60' }
                     ],
                     annotations: [{ x: 1, text: 'P(1,2)' }]
                 });
 
-                // 2. Graf til Hældningsfelt (y' = -y + x)
+                // 2. Graf til Hældningsfelt
                 const fieldData = generateSlopeFieldData(0.2, 0.5, -4, 4, -4, 4);
                 functionPlot({
                     target: '#graf-haeldningsfelt',
@@ -637,11 +743,10 @@
                     xAxis: { domain: [-2, 12] },
                     yAxis: { domain: [-1, 6] },
                     data: [
-                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' } // M = 5, S-formet
+                        { fn: '5 / (1 + 10 * exp(-1.2 * x))', color: '#9b59b6' }
                     ]
                 });
 
-                // Tilføj rød stiplet linje ved y = 5 (bæreevnen) via D3
                 const yScale = logInstance.meta.yScale;
                 const xScale = logInstance.meta.xScale;
                 const content = d3.select('#graf-logistisk svg .content');
