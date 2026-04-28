@@ -71,7 +71,7 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px; /* Lidt mindre gap, da vi nu bruger padding i elementet */
+            gap: 20px; 
             margin-top: 20px;
             margin-bottom: 20px;
         }
@@ -80,8 +80,8 @@
             min-width: 200px;
             max-width: 30%;
             position: relative;
-            padding-bottom: 30px; /* Fysisk plads til x-aksen */
-            padding-left: 30px;   /* Fysisk plads til y-aksen */
+            padding-bottom: 30px; /* Fysisk plads til x-aksens bogstaver */
+            padding-left: 30px;   /* Fysisk plads til y-aksens bogstaver */
         }
         
         /* USYNLIGT SKJOLD DER BLOKERER AL INTERAKTION */
@@ -96,11 +96,10 @@
             cursor: default;
         }
         
-        /* TVING ALT TIL AT VÆRE SYNLIGT (Fjerner indbyggede SVG-sakse) */
-        .function-plot, .function-plot svg, .function-plot * {
+        /* Tillad tekst at gå ud over selve graf-rammen, uden at ødelægge den interne maske */
+        .function-plot, .function-plot svg {
             pointer-events: none !important;
             overflow: visible !important;
-            clip-path: none !important;
         }
         
         /* Tekst til graferne */
@@ -255,7 +254,7 @@
                     xLabels.forEach(label => {
                         xAxisGroup.append('text')
                             .attr('x', xScale(label.val))
-                            .attr('y', 22) // Lidt tættere på stregen
+                            .attr('y', 22) 
                             .attr('fill', '#000')
                             .attr('font-size', '18px')
                             .attr('font-family', 'serif')
@@ -286,7 +285,7 @@
 
                     yLabels.forEach(label => {
                         yAxisGroup.append('text')
-                            .attr('x', -12) // Lidt tættere på aksen
+                            .attr('x', -12) 
                             .attr('y', yScale(label.val) + 5) 
                             .attr('fill', '#000')
                             .attr('font-size', '18px')
