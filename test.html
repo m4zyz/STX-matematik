@@ -55,7 +55,7 @@
             background: #ffffff;
             border: 1px solid #dde2ea;
             border-radius: 8px;
-            padding: 20px 20px 40px 20px; /* Ekstra padding i bunden for x-akse tekst */
+            padding: 20px 20px 40px 20px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
@@ -71,10 +71,10 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            gap: 35px; /* Øget gap så teksten ikke overlapper nabo-grafen */
+            gap: 35px;
             margin-top: 20px;
             margin-bottom: 20px;
-            padding-left: 20px; /* Giver plads til teksten til venstre på den første graf */
+            padding-left: 20px;
         }
         .graph-item {
             flex: 1;
@@ -83,13 +83,10 @@
             position: relative;
         }
         
-        /* Slå pointer events fra på grafer, men lad overflow være synligt så tekst ikke klippes */
-        .svg-container > div { 
-            pointer-events: none; 
-        }
-        
-        /* Gør at SVG-elementerne ikke klipper teksten der går udenfor akserne */
-        .function-plot svg {
+        /* Gør graferne 100% statiske (ingen klik, ingen hover, intet dobbeltklik) 
+           og sørg for at teksten der går udover akserne ikke klippes */
+        .function-plot, .function-plot svg {
+            pointer-events: none !important;
             overflow: visible !important;
         }
         
@@ -98,7 +95,7 @@
             font-size: 1.05rem;
             line-height: 1.6;
             color: #444;
-            margin-top: 35px; /* Øget margin for at give plads til x-akse teksten */
+            margin-top: 35px;
             text-align: left;
             padding: 0 10px;
             background: #f9f9f9;
@@ -202,8 +199,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // Fælles konfiguration - Uden standard annotations. 
-                // x-aksen er udvidet til 6.5 for at give plads til 'b'
+                // Fælles konfiguration
                 const commonConfig = {
                     disableZoom: true,
                     grid: false,
@@ -213,13 +209,10 @@
 
                 const funcString = '0.12 * x^2 + 1.2';
 
-                // Hjælpefunktion til at gøre akserne mere tydelige og sikre overflodsvisning
+                // Hjælpefunktion til at style akserne
                 function styleAxes(chartId, chartInstance) {
                     const svg = d3.select(chartId + ' svg');
                     const xScale = chartInstance.meta.xScale;
-
-                    // Sikrer at D3 grafen ikke klipper noget af i siderne og bunden
-                    svg.style('overflow', 'visible');
 
                     // 1. Vis kun hele tal på y-aksen, skjul kommatal
                     svg.selectAll('.y.axis .tick text')
@@ -235,14 +228,13 @@
                         { val: 1, text: 'a' },
                         { val: 3, text: 'x₀' },
                         { val: 4.5, text: 'x₀+h' },
-                        { val: 6.0, text: 'b' } // 'b' er rykket fra 5.5 til 6.0 for mere plads
+                        { val: 6.0, text: 'b' } 
                     ];
 
                     xLabels.forEach(label => {
-                        // Tilføj teksten
                         xAxisGroup.append('text')
                             .attr('x', xScale(label.val))
-                            .attr('y', 24) // Skubbet lidt længere ned for sikkerheds skyld
+                            .attr('y', 24)
                             .attr('fill', '#000')
                             .attr('font-size', '18px')
                             .attr('font-family', 'serif')
@@ -250,7 +242,6 @@
                             .attr('text-anchor', 'middle')
                             .text(label.text);
 
-                        // Tilføj en lille markør-streg på aksen for præcision
                         xAxisGroup.append('line')
                             .attr('x1', xScale(label.val))
                             .attr('x2', xScale(label.val))
@@ -261,7 +252,7 @@
                     });
                 }
 
-                // Hjælpefunktion til at tilføje f(x0) og f(x0+h) på y-aksen til graf 3
+                // Hjælpefunktion til graf 3
                 function addYLabelsTo604c(chartInstance) {
                     const svg = d3.select('#graf-604c svg');
                     const yScale = chartInstance.meta.yScale;
@@ -274,8 +265,8 @@
 
                     yLabels.forEach(label => {
                         yAxisGroup.append('text')
-                            .attr('x', -10) // Givet mere plads væk fra selve aksen
-                            .attr('y', yScale(label.val) + 5) // Centrer vertikalt mere præcist
+                            .attr('x', -10) 
+                            .attr('y', yScale(label.val) + 5) 
                             .attr('fill', '#000')
                             .attr('font-size', '18px')
                             .attr('font-family', 'serif')
@@ -283,7 +274,6 @@
                             .attr('text-anchor', 'end')
                             .text(label.text);
 
-                        // Tilføj en lille markør-streg ind mod aksen
                         yAxisGroup.append('line')
                             .attr('x1', -6)
                             .attr('x2', 0)
@@ -294,7 +284,7 @@
                     });
                 }
 
-                // Tegn Figur 604a (Rød)
+                // Tegn Figur 604a
                 const chartA = functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604a',
                     width: document.getElementById('graf-604a').clientWidth,
@@ -306,7 +296,7 @@
                 }));
                 styleAxes('#graf-604a', chartA);
 
-                // Tegn Figur 604b (Grøn)
+                // Tegn Figur 604b
                 const chartB = functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604b',
                     width: document.getElementById('graf-604b').clientWidth,
@@ -318,7 +308,7 @@
                 }));
                 styleAxes('#graf-604b', chartB);
 
-                // Tegn Figur 604c (Gul + Rektangler)
+                // Tegn Figur 604c
                 const chartC = functionPlot(Object.assign({}, commonConfig, {
                     target: '#graf-604c',
                     width: document.getElementById('graf-604c').clientWidth,
@@ -327,16 +317,13 @@
                         { fn: funcString, color: '#444' }, 
                         { fn: funcString, range: [3, 4.5], closed: true, color: '#f4cc3d' }, 
                         
-                        // Tegning af stregerne for det LILLE rektangel
                         { points: [[3, 2.28], [4.5, 2.28]], fnType: 'points', graphType: 'polyline', color: '#000' },
-                        
-                        // Tegning af stregerne for det STORE rektangel
                         { points: [[3, 3.63], [4.5, 3.63]], fnType: 'points', graphType: 'polyline', color: '#000' },
                         { points: [[3, 2.28], [3, 3.63]], fnType: 'points', graphType: 'polyline', color: '#000' }
                     ]
                 }));
                 styleAxes('#graf-604c', chartC);
-                addYLabelsTo604c(chartC); // Tilføjer f(x0) og f(x0+h) på y-aksen
+                addYLabelsTo604c(chartC); 
 
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
         });
