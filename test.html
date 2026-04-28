@@ -55,7 +55,7 @@
             background: #ffffff;
             border: 1px solid #dde2ea;
             border-radius: 8px;
-            padding: 20px;
+            padding: 20px 20px 40px 20px; /* Ekstra padding i bunden for x-akse tekst */
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
@@ -71,8 +71,10 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 35px; /* Øget gap så teksten ikke overlapper nabo-grafen */
             margin-top: 20px;
+            margin-bottom: 20px;
+            padding-left: 20px; /* Giver plads til teksten til venstre på den første graf */
         }
         .graph-item {
             flex: 1;
@@ -81,9 +83,14 @@
             position: relative;
         }
         
-        /* Slå pointer events fra på grafer */
+        /* Slå pointer events fra på grafer, men lad overflow være synligt så tekst ikke klippes */
         .svg-container > div { 
             pointer-events: none; 
+        }
+        
+        /* Gør at SVG-elementerne ikke klipper teksten der går udenfor akserne */
+        .function-plot svg {
+            overflow: visible !important;
         }
         
         /* Tekst til graferne */
@@ -91,7 +98,7 @@
             font-size: 1.05rem;
             line-height: 1.6;
             color: #444;
-            margin-top: 25px;
+            margin-top: 35px; /* Øget margin for at give plads til x-akse teksten */
             text-align: left;
             padding: 0 10px;
             background: #f9f9f9;
@@ -101,7 +108,8 @@
 
         @media (max-width: 600px) {
             .toc-list { columns: 1; }
-            .graph-item { max-width: 100%; margin-bottom: 20px; }
+            .graph-item { max-width: 100%; margin-bottom: 40px; }
+            .graphs-wrapper { padding-left: 10px; gap: 40px; }
         }
     </style>
 </head>
@@ -194,7 +202,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             try {
-                // Fælles konfiguration - Uden standard annotations der laver lodrette streger
+                // Fælles konfiguration - Uden standard annotations
                 const commonConfig = {
                     disableZoom: true,
                     grid: false,
@@ -204,12 +212,15 @@
 
                 const funcString = '0.12 * x^2 + 1.2';
 
-                // Hjælpefunktion til at gøre akserne mere tydelige og fjerne overflødige tal
+                // Hjælpefunktion til at gøre akserne mere tydelige og sikre overflodsvisning
                 function styleAxes(chartId, chartInstance) {
                     const svg = d3.select(chartId + ' svg');
                     const xScale = chartInstance.meta.xScale;
 
-                    // 1. Vis kun hele tal på y-aksen, skjul kommatal for overskuelighed
+                    // Sikrer at D3 grafen ikke klipper noget af i siderne og bunden
+                    svg.style('overflow', 'visible');
+
+                    // 1. Vis kun hele tal på y-aksen, skjul kommatal
                     svg.selectAll('.y.axis .tick text')
                         .text(d => Number.isInteger(d) ? d : '')
                         .style('font-size', '13px');
@@ -230,7 +241,7 @@
                         // Tilføj teksten
                         xAxisGroup.append('text')
                             .attr('x', xScale(label.val))
-                            .attr('y', 20) // Skub teksten lidt ned fra aksen
+                            .attr('y', 24) // Skubbet lidt længere ned for sikkerheds skyld
                             .attr('fill', '#000')
                             .attr('font-size', '18px')
                             .attr('font-family', 'serif')
@@ -262,8 +273,8 @@
 
                     yLabels.forEach(label => {
                         yAxisGroup.append('text')
-                            .attr('x', -8) // Skub teksten til venstre for aksen
-                            .attr('y', yScale(label.val) + 6) // Centrer vertikalt
+                            .attr('x', -10) // Givet mere plads væk fra selve aksen
+                            .attr('y', yScale(label.val) + 5) // Centrer vertikalt mere præcist
                             .attr('fill', '#000')
                             .attr('font-size', '18px')
                             .attr('font-family', 'serif')
@@ -271,7 +282,7 @@
                             .attr('text-anchor', 'end')
                             .text(label.text);
 
-                        // Tilføj en lille markør-streg
+                        // Tilføj en lille markør-streg ind mod aksen
                         yAxisGroup.append('line')
                             .attr('x1', -6)
                             .attr('x2', 0)
