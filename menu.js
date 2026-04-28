@@ -17,7 +17,8 @@ const stxMenuData = {
     ],
     "B-Niveau": [
         { title: "Differentialregning", path: "emner/B/differentialregning.html" },
-        { title: "Integralregning", path: "emner/B/integralregning.html" }
+        { title: "Integralregning", path: "emner/B/integralregning.html" },
+        { title: "Sandsynlighedsregning og statistik", path: "emner/B/Sandsynlighedsregningstatistik.html" }
     ],
     "C-Niveau": [
         { title: "Funktioner C", path: "emner/C/Funktioner.html" },

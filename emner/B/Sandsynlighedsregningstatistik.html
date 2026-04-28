@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandsynlighedsregning og statistik - STX Matematik B</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        /* Tabeller */
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
+        
+        /* Billed- og graf-container */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Gør selve graferne helt statiske for musen */
+        .svg-container > div { 
+            pointer-events: none; 
+        }
+
+        /* Billed-pladsholder */
+        .img-placeholder {
+            background: #ecf0f1;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            border: 2px dashed #bdc3c7;
+            color: #7f8c8d;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .proof { margin-bottom: 30px; }
+        
+        /* Tilbage til toppen link */
+        .back-to-top { display: inline-block; font-size: 0.85rem; color: #bdc3c7; text-decoration: none; margin-top: 8px; }
+        .back-to-top:hover { color: var(--primary-color); text-decoration: underline; }
+
+        @media (max-width: 600px) {
+            .toc-list { columns: 1; }
+            .data-table { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Sandsynlighedsregning og statistik</h1>
+            <p class="subtitle">B-Niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#indledning"><span class="toc-num">1.</span>Hvad er sandsynlighed?</a></li>
+                <li><a href="#model"><span class="toc-num">2.</span>Sandsynlighedsmodeller</a></li>
+                <li><a href="#kombinatorik"><span class="toc-num">3.</span>Kombinatorik og sandsynligheder</a></li>
+                <li><a href="#binomial"><span class="toc-num">4.</span>Binomialfordelinger</a></li>
+                <li><a href="#opinionsundersogelser"><span class="toc-num">5.</span>Opinionsundersøgelser og hypotesetest</a></li>
+                <li><a href="#beviser"><span class="toc-num">6.</span>Beviser</a></li>
+            </ul>
+        </section>
+
+        <div id="indledning" class="section-divider">
+            <h2>1. Hvad er sandsynlighed?</h2>
+            <p>Frekventiel og deduktiv bestemmelse af sandsynligheder</p>
+        </div>
+
+        <section class="card">
+            <h2>Frekvens vs. Teori</h2>
+            <p>Sandsynligheder møder man overalt i hverdagen. De fleste ved, at sandsynligheden for at få plat ved et kast med en symmetrisk mønt er $1/2$, og at sandsynligheden for at slå en sekser med en terning er $1/6$. Men hvad betyder det i virkeligheden?</p>
+            <p>At sandsynligheden er 50% vil sige, at <em>frekvensen</em> af plat ved et stadigt større antal kast med mønten vil nærme sig netop 50%. Sandsynligheden udtaler sig altså om de statistiske muligheder, når man udfører et eksperiment et stort antal gange. Dette kaldes den <strong>frekventielle sandsynlighed</strong>.</p>
+            
+            
+
+            <p>I mange tilfælde kan man dog bestemme en værdi for sandsynligheden ved logiske argumenter helt uden at udføre et eksperiment. Dette kaldes a priori eller <strong>deduktive sandsynligheder</strong>.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Eksempel: To symmetriske mønter</strong>
+                <p>Kaster vi to mønter, er der fire mulige udfald: (krone, krone), (krone, plat), (plat, krone) og (plat, plat). Hvis mønterne er helt symmetriske, må hvert udfald have præcis 25% sandsynlighed. Derfor gælder:</p>
+                <ul>
+                    <li>$P(0 \text{ plat}) = P(\text{krone, krone}) = 25\%$</li>
+                    <li>$P(1 \text{ plat}) = P(\text{krone, plat}) + P(\text{plat, krone}) = 50\%$</li>
+                    <li>$P(2 \text{ plat}) = P(\text{plat, plat}) = 25\%$</li>
+                </ul>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="model" class="section-divider">
+            <h2>2. Sandsynlighedsmodeller</h2>
+            <p>Udfaldsrum, hændelser og symmetriske felter</p>
+        </div>
+
+        <section class="card">
+            <h2>Udfaldsrum og Hændelser</h2>
+            <p>I sandsynlighedsregning opstiller man modeller for eksperimenter, der udføres på tilfældig måde. Et eksperiment resulterer i et <em>udfald</em>. Mængden af alle de mulige udfald ved eksperimentet udgør <strong>udfaldsrummet</strong>, ofte betegnet med $U$. En delmængde $H$ af udfaldsrummet kaldes en <strong>hændelse</strong>.</p>
+            
+            <p>Sandsynligheden for en hændelse er summen af sandsynlighederne for alle udfaldene i hændelsen. For en hændelse $H = \{u_1, u_2, \ldots, u_h\}$ gælder det, at:</p>
+            <p>$$ P(H) = P(u_1) + P(u_2) + \ldots + P(u_h) $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Sandsynlighedsfelt</strong>
+                <p>Et sandsynlighedsfelt består af et udfaldsrum $U = \{u_1, u_2, \ldots, u_n\}$ og sandsynlighederne for samtlige udfald. Sandsynligheden for et udfald $u$ betegnes med $P(u)$, hvor $0 \leq P(u) \leq 1$.</p>
+                <p>Summen af samtlige sandsynligheder skal altid være 1:</p>
+                <p>$$ P(u_1) + P(u_2) + \ldots + P(u_n) = 1 $$</p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Symmetriske sandsynlighedsfelter</h2>
+            <p>Når vi slår med en symmetrisk terning, har alle sider lige stor sandsynlighed for at vise sig. Dette er et klassisk eksempel på et symmetrisk felt.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Symmetrisk sandsynlighedsfelt</strong>
+                <p>En sandsynlighedsmodel, hvor alle udfald har samme sandsynlighed, kaldes et symmetrisk sandsynlighedsfelt. Man beregner sandsynligheden for en hændelse $H$ i en sådan model ved:</p>
+                <p>$$ P(H) = \frac{\text{antal gunstige udfald}}{\text{antal mulige udfald}} $$</p>
+            </div>
+
+            <p>Sandsynlighedstabellen for et fuldstændig symmetrisk felt med $n$ mulige udfald ser således ud:</p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Udfald $u$</th>
+                        <th>$u_1$</th>
+                        <th>$u_2$</th>
+                        <th>...</th>
+                        <th>$u_n$</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sandsynlighed $P(u)$</strong></td>
+                        <td>$1/n$</td>
+                        <td>$1/n$</td>
+                        <td>...</td>
+                        <td>$1/n$</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+        <div id="kombinatorik" class="section-divider">
+            <h2>3. Kombinatorik og sandsynligheder</h2>
+            <p>Optællingsprincipper, permutationer og kombinationer</p>
+        </div>
+
+        <section class="card">
+            <h2>Additions- og Multiplikationsprincippet</h2>
+            <p>For at kunne beregne "antal gunstige udfald", er det afgørende at kunne tælle dem systematisk. Her bruger man to grundlæggende principper:</p>
+
+            <ul>
+                <li><strong>Multiplikationsprincippet (Både-og):</strong> Ved en valgproces, der består af at foretage to (eller flere) uafhængige valg <em>samtidigt</em>, fås det samlede antal muligheder ved at gange valgmulighederne. $n = n_1 \cdot n_2$.</li>
+                <li><strong>Additionsprincippet (Enten-eller):</strong> Ved en valgproces, hvor man skal vælge <em>enten</em> én vej eller en anden (som udelukker hinanden), fås det samlede antal muligheder ved at lægge valgmulighederne sammen. $n = n_1 + n_2$.</li>
+            </ul>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 4.3: Sandsynlighed for sammensatte hændelser</strong>
+                <p>Disse principper gælder direkte for sandsynligheder:</p>
+                <ul>
+                    <li>$P(\text{både } A \text{ og } B) = P(A) \cdot P(B)$, når $A$ og $B$ er <strong>uafhængige</strong>.</li>
+                    <li>$P(A \text{ eller } B) = P(A) + P(B)$, når $A$ og $B$ <strong>ikke har nogen fælles udfald</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Fakultet, Permutationer og Kombinationer</h2>
+            <p>En udregning af typen $5 \cdot 4 \cdot 3 \cdot 2 \cdot 1$ forekommer utrolig ofte i sandsynlighedsregningen. For at gøre dette lettere, har man indført et særligt symbol, $n!$, som læses "$n$ fakultet".</p>
+            <p>$$ n! = n \cdot (n - 1) \cdot \ldots \cdot 2 \cdot 1 $$</p>
+
+            <p>Når man skal trække et bestemt antal elementer $r$ ud af en samlet mængde på $n$ elementer, skelner vi benhårdt mellem, om rækkefølgen betyder noget eller ej.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 4.4: Permutationer (Rækkefølgen betyder noget)</strong>
+                <p>Antallet af permutationer af $r$ elementer blandt $n$ elementer er givet ved:</p>
+                <p>$$ P(n, r) = \frac{n!}{(n - r)!} $$</p>
+
+                <strong>Sætning 4.5: Kombinationer (Rækkefølgen er ligegyldig)</strong>
+                <p>Antallet af kombinationer af $r$ elementer blandt $n$ elementer er givet ved:</p>
+                <p>$$ K(n, r) = \frac{n!}{r!(n - r)!} $$</p>
+            </div>
+            
+            
+            
+            <p>Tallene $K(n, r)$ kaldes også for binomialkoefficienter og kan aflæses direkte i Pascals trekant.</p>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+
+        <div id="binomial" class="section-divider">
+            <h2>4. Binomialfordelinger</h2>
+            <p>Modellering af succes og fiasko</p>
+        </div>
+
+        <section class="card">
+            <h2>Basiseksperimentet</h2>
+            <p>Udgangspunktet for en binomialfordeling er et eksperiment, som udføres en række gange uafhængigt af hinanden. Dette kaldes et <em>basiseksperiment</em>. Dette eksperiment må udelukkende have to mulige udfald: Det vi kalder "succes", og det vi kalder "fiasko".</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 4.6: Binomialfordelingen</strong>
+                <p>En stokastisk variabel $X$, der tæller antallet af succeser, kaldes binomialfordelt og skrives som $X \sim b(n,p)$.</p>
+                <p>Her er $n$ antallet af gentagelser (antalsparameteren), og $p$ er sandsynligheden for succes i det enkelte eksperiment (sandsynlighedsparameteren).</p>
+                <p>Sandsynligheden for at opnå netop $r$ succeser er givet ved formlen:</p>
+                <p>$$ P(X = r) = K(n, r) \cdot p^r \cdot (1 - p)^{n - r} $$</p>
+                <p>hvor $r = 0, 1, 2, \ldots, n$.</p>
+            </div>
+            
+            
+        </section>
+
+        <section class="card example">
+            <h2>Eksempel: 3 seksere i 10 terningkast</h2>
+            <p><strong>Opgave:</strong> En symmetrisk terning kastes på tilfældig måde 10 gange. Hvad er sandsynligheden for at få præcis 3 seksere?</p>
+            <p><strong>Løsning:</strong></p>
+            <p>Her er "succes" at slå en sekser, så $p = 1/6$. Antallet af kast er $n = 10$. Vi ønsker at finde $P(X = 3)$.</p>
+            <p>$$ P(X = 3) = K(10, 3) \cdot \left(\frac{1}{6}\right)^3 \cdot \left(\frac{5}{6}\right)^7 $$</p>
+            <p>Konklusionen er, at sandsynligheden for netop 3 seksere er cirka 0,155 (altså 15,5%).</p>
+        </section>
+
+        <section class="card">
+            <h2>Middelværdi og Spredning</h2>
+            <p>Middelværdien $\mu$ fortæller noget vigtigt om sandsynlighedsfordelingen, nemlig hvor tyngdepunktet ligger, mens spredningen $\sigma$ er et mål for, hvor spredt værdierne ligger i forhold til middelværdien.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 4.7: Middelværdi og spredning for binomialfordelinger</strong>
+                <p>For en variabel $X \sim b(n, p)$ gælder der to simple formler:</p>
+                <p>$$ \mu = n \cdot p $$</p>
+                <p>$$ \sigma = \sqrt{n \cdot p \cdot (1 - p)} $$</p>
+            </div>
+
+            <p>For store værdier af $n$ vil fordelingen opføre sig meget systematisk. Hvis et udfald ligger inden for 2 spredninger fra middelværdien (cirka 95% af tiden), kaldes det et <strong>normalt udfald</strong>. Hvis det ligger uden for 3 spredninger, kaldes det et <strong>exceptionelt udfald</strong>.</p>
+            
+            <div class="svg-container">
+                <div id="graf-1"></div>
+                <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">En typisk klokkeform (normalfordelings-approksimation), som binomialfordelingen nærmer sig ved store $n$. Figuren viser, hvordan data samler sig om middelværdien.</p>
+            </div>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+
+        <div id="opinionsundersogelser" class="section-divider">
+            <h2>5. Opinionsundersøgelser og hypotesetest</h2>
+            <p>Konfidensintervaller og binomialtest</p>
+        </div>
+
+        <section class="card">
+            <h2>Konfidensintervaller</h2>
+            <p>Når man laver en stikprøve i befolkningen (f.eks. for at finde tilslutningen til et bestemt parti), vil stikprøveandelen $\widehat{p}$ sjældent være fuldstændig lig med den sande populationsfrekvens $p$. Der vil altid være en statistisk usikkerhed.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 4.8: 95% Konfidensinterval</strong>
+                <p>For sandsynlighedsparameteren $p$ er et 95%-konfidensinterval baseret på stikprøveandelen $\widehat{p}$ i en stikprøve på $n$ elementer bestemt ved:</p>
+                <p>$$ \left[ \widehat{p} - 2 \cdot \sqrt{\frac{\widehat{p} \cdot (1 - \widehat{p})}{n}}; \, \widehat{p} + 2 \cdot \sqrt{\frac{\widehat{p} \cdot (1 - \widehat{p})}{n}} \right] $$</p>
+            </div>
+            <p>Det beløb, vi trækker fra og lægger til $\widehat{p}$, kaldes undersøgelsens <strong>fejlmargen</strong> eller usikkerhed.</p>
+        </section>
+
+        <section class="card">
+            <h2>Hypotesetest: Binomialtest</h2>
+            <p>En statistisk test starter altid med, at man opstiller en nulhypotese, $H_0$. Det er den påstand, vi går ud fra er sand, indtil stikprøven eventuelt modbeviser den. Vi opstiller også et alternativ, $H_1$.</p>
+            
+            <p>Vi vælger et <strong>signifikansniveau</strong> (typisk 5%). Dette er et kriterium for, hvornår resultatet er så usandsynligt under nulhypotesen, at vi nægter at tro på det længere og dermed forkaster $H_0$. De resultater, der fører til en forkastelse, samles i det vi kalder den <strong>kritiske mængde</strong>.</p>
+            
+            
+
+            <ul>
+                <li><strong>Højresidet test:</strong> Hvis unormalt <em>store</em> stikprøveresultater fører til forkastelse. Den kritiske mængde ligger i højre hale.</li>
+                <li><strong>Venstresidet test:</strong> Hvis unormalt <em>små</em> resultater fører til forkastelse. Den kritiske mængde ligger i venstre hale.</li>
+                <li><strong>Dobbeltsidet test:</strong> Hvis både meget store og meget små resultater er i strid med hypotesen. Mængden er delt i to haler.</li>
+            </ul>
+            <a href="#top" class="back-to-top">Tilbage til toppen</a>
+        </section>
+
+
+        <div id="beviser" class="section-divider">
+            <h2>6. Beviser</h2>
+            <p>Samlet oversigt over matematiske beviser i dette emne</p>
+        </div>
+
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis-1">Bevis for Sætning 4.4: Antal permutationer</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis-1" class="card proof">
+            <h2>Bevis for Sætning 4.4: Antal permutationer</h2>
+            <p>Vi vil bevise sætningen gennem et logisk talsystems-argument baseret på eksempel 413, hvor vi beregnede $P(5,3) = 5 \cdot 4 \cdot 3$.</p>
+            
+            <p><strong>1) Trin 1: Omskrivning ved hjælp af multiplikation</strong><br>
+            Vi ved fra multiplikationsprincippet, at når vi skal vælge 3 elementer i rækkefølge fra 5 elementer, er der 5 muligheder for første valg, 4 muligheder for næste, og 3 muligheder for sidste valg. Altså:</p>
+            <p>$$ P(5,3) = 5 \cdot 4 \cdot 3 $$</p>
+            
+            <p><strong>2) Trin 2: Udvidelse med en brøk</strong><br>
+            Vi omskriver udregningen ved at gange og dividere med de resterende tal helt ned til 1 (altså tallet $2 \cdot 1$). Vi har ikke ændret værdien, da vi ganger og dividerer med det samme tal:</p>
+            <p>$$ P(5,3) = \frac{5 \cdot 4 \cdot 3 \cdot (2 \cdot 1)}{(2 \cdot 1)} $$</p>
+            
+            <p><strong>3) Trin 3: Omskrivning til fakultet</strong><br>
+            Hele tælleren kan nu skrives som 5!, og nævneren kan skrives som 2!.</p>
+            <p>$$ P(5,3) = \frac{5!}{2!} $$</p>
+
+            <p><strong>4) Trin 4: Generel formel</strong><br>
+            Da $2 = 5 - 3$, kan nævneren i det specifikke eksempel skrives som $(5 - 3)!$. Dette generaliserer vi for et vilkårligt antal $n$ og $r$:</p>
+            <p>$$ P(n,r) = \frac{n!}{(n - r)!} $$</p>
+            
+            <p>Dermed er sætningen bevist og stemmer overens med formlen i sætning 4.4.</p>
+
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+            <a href="#beviser" class="back-to-top">Tilbage til bevis-oversigt</a>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Et simpelt setup, der illustrerer kurven for en normalfordelings-approksimation 
+                // af en binomialfordeling, e^(-x^2) for at visualisere spredning og klokkeform.
+                functionPlot({
+                    target: '#graf-1',
+                    disableZoom: true,
+                    width: document.getElementById('graf-1').parentElement.clientWidth - 40,
+                    height: 350,
+                    grid: true,
+                    xAxis: { domain: [-4, 4] },
+                    yAxis: { domain: [0, 1.2] },
+                    data: [
+                        { fn: 'exp(-x^2)', color: '#3498db' }
+                    ]
+                });
+
+            } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+        });
+    </script>
+
+</body>
+</html>
