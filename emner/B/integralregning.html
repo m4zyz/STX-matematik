@@ -78,6 +78,55 @@
             .toc-list { columns: 1; }
             .data-table { font-size: 0.85rem; }
         }
+
+        /* Arealfunktion-graferne */
+        .graphs-wrapper {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .graph-item {
+            flex: 1;
+            min-width: 200px;
+            max-width: 30%;
+            position: relative;
+            padding-bottom: 30px;
+            padding-left: 30px;
+        }
+        .glass-pane {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 999;
+            background: transparent;
+            cursor: default;
+        }
+        .function-plot, .function-plot svg {
+            pointer-events: none !important;
+            overflow: visible !important;
+        }
+        .graph-caption {
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #444;
+            margin-top: 15px;
+            background: #f9f9f9;
+            border-left: 4px solid #f4cc3d;
+            padding: 12px 15px;
+        }
+        @media (max-width: 700px) {
+            .graph-item { max-width: 100%; }
+        }
+
+        /* Bevis-trin tabel */
+        .proof-steps { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .proof-steps td { padding: 7px 10px; vertical-align: top; border-bottom: 1px solid #f0f0f0; }
+        .proof-steps td:first-child { width: 28px; font-weight: bold; color: #2c3e50; text-align: center; }
+        .proof-steps td:last-child { font-size: 0.88rem; color: #7f8c8d; font-style: italic; padding-left: 15px; }
+        .proof-steps tr:last-child td { border-bottom: none; }
     </style>
 </head>
 <body>
@@ -150,8 +199,6 @@
         <section class="card">
             <h2>Areal under en graf</h2>
             <p>Vi ser på funktioner, hvis graf er sammenhængende (kontinuert) i et interval $[a; b]$ og ikke kommer under x-aksen i dette interval ($f(x) \geq 0$). Vi vil beregne arealet af området begrænset af grafen, x-aksen og de to lodrette linjer $x = a$ og $x = b$.</p>
-            
-            
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Definition: Det bestemte integral</strong>
@@ -171,8 +218,6 @@
                 <div id="graf-areal"></div>
                 <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Arealet under grafen for $f(x) = x^2$ i intervallet $[0; 2]$. Arealet udregnes til $\int_0^2 x^2\text{d}x = \frac{8}{3}$.</p>
             </div>
-            
-          
         </section>
 
         <div id="regneregler" class="section-divider">
@@ -232,7 +277,6 @@
                 </tbody>
             </table>
             <p><em>Beviserne for disse regneregler er givet som sætning 6.11 og 6.12 i <a href="#beviser">bevis-sektionen</a>.</em></p>
-           
         </section>
 
         <div id="arealer-grafer" class="section-divider">
@@ -243,8 +287,6 @@
         <section class="card">
             <h2>Areal mellem to funktioner</h2>
             <p>Vi kan udvide konceptet om areal under en kurve til også at beregne arealet af området <em>mellem</em> to kurver.</p>
-            
-            
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Sætning 2.7: Areal mellem to grafer</strong>
@@ -257,8 +299,6 @@
                 <p>Når $g(x) \leq 0$ for alle $x$ i intervallet $[a; b]$, er arealet $A$ af området $M$ mellem x-aksen og grafen givet ved at indsætte $f(x) = 0$ i sætning 2.7:</p>
                 <p>$$ A = - \int_a^b g(x)\text{d}x $$</p>
             </div>
-            
-          
         </section>
 
         <div id="substitution" class="section-divider">
@@ -316,7 +356,6 @@
             <p>
             $$ \int 2x \cdot \text{e}^{x^2} \text{d}x = \text{e}^{x^2} + k $$
             </p>
-          
         </section>
 
         <div id="anvendelser" class="section-divider">
@@ -327,16 +366,20 @@
         <section class="card">
             <h2>Omdrejningslegemer (Rumfang)</h2>
             <p>Når man drejer grafen for en funktion <strong>360°</strong> om x-aksen, fremkommer der et rumligt legeme, som kaldes et omdrejningslegeme. To simple eksempler på dette er en kugle (halvcirkel drejet) og en kegle (linjestykke drejet).</p>
-            
-            
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Sætning 2.10: Rumfang af omdrejningslegeme</strong>
+                <strong>Sætning 2.10: Rumfang af omdrejningslegeme om x-aksen</strong>
                 <p>Når det område, der er begrænset af grafen for $f(x)$ og x-aksen i intervallet $[a; b]$, drejes <strong>360°</strong> om x-aksen, er rumfanget $V$ af omdrejningslegemet givet ved:</p>
-                <p>$$ V = \pi \int_a^b (f(x))^2 \text{d}x $$</p>
+                <p>$$ V_x = \pi \int_a^b (f(x))^2 \text{d}x $$</p>
             </div>
 
-            <p>Hvis området er begrænset mellem to funktioner $f(x)$ og $g(x)$ (hvor $g(x) \leq f(x)$), kan man ifølge sætning 2.11 bruge formlen:</p>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.11: Rumfang af omdrejningslegeme om y-aksen</strong>
+                <p>Når det område, der er begrænset af grafen for $f(x)$ og x-aksen i intervallet $[a; b]$, drejes <strong>360°</strong> om y-aksen, er rumfanget givet ved:</p>
+                <p>$$ V_y = 2\pi \int_a^b x \cdot f(x) \text{d}x $$</p>
+            </div>
+
+            <p>Hvis området er begrænset mellem to funktioner $f(x)$ og $g(x)$ (hvor $g(x) \leq f(x)$) ved drejning om x-aksen, bruges:</p>
             <p>$$ V = \pi \int_a^b (f(x))^2 \text{d}x - \pi \int_a^b (g(x))^2 \text{d}x $$</p>
         </section>
 
@@ -350,12 +393,14 @@
             <p>Ønsker man at finde den præcise længde $s$ af en kurve tegnet af funktionen $f(x)$ fra $x = a$ til $x = b$, benyttes (Sætning 2.12):</p>
             <p>$$ s = \int_a^b \sqrt{1+(f'(x))^2} \text{d}x $$</p>
 
+            <h3>Overfladeareal</h3>
+            <p>Overfladearealet af omdrejningslegemet ved drejning om x-aksen og y-aksen er givet ved henholdsvis:</p>
+            <p>$$ O_x = 2\pi \int_a^b f(x)\sqrt{1+(f'(x))^2}\,\text{d}x \qquad O_y = 2\pi \int_a^b x\sqrt{1+(f'(x))^2}\,\text{d}x $$</p>
+
             <h3>Middelværdi (gennemsnit)</h3>
             <p>I en række situationer kan man bestemme et gennemsnit af en kontinuerlig funktion (f.eks. strålingsdosis eller temperatur) over et interval $[a; b]$:</p>
             <p>$$ \langle f(x) \rangle = \frac{1}{b - a} \int_a^b f(x) \text{d}x $$</p>
             <p>Dette svarer til at finde højden på et rektangel med bredden $(b-a)$, som har præcis samme areal som området under grafen for $f(x)$.</p>
-
-        
         </section>
 
         <div id="beviser" class="section-divider">
@@ -367,13 +412,30 @@
             <h2>Oversigt over beviser</h2>
             <ul class="toc-list" style="columns: 1;">
                 <li><a href="#bevis-konstant">Bevis for Sætning 2.1 og 2.2: Stamfunktioner afviger med en konstant</a></li>
+                <li><a href="#bevis-areal-under">Bevis for Sætning 2.4: Areal under en kurve (Riemannsummer)</a></li>
                 <li><a href="#bevis-areal-mellem">Bevis for Sætning 2.7: Areal mellem to grafer</a></li>
                 <li><a href="#bevis-sub">Bevis for Sætning 2.9: Integration ved substitution</a></li>
+                <li><a href="#bevis-partiel">Bevis for Sætning: Partiel integration</a></li>
+                <li><a href="#bevis-indskud">Bevis for Indskudsreglen</a></li>
                 <li><a href="#bevis-regler-ubestemt">Bevis for Sætning 6.11: Regneregler for ubestemt integral</a></li>
                 <li><a href="#bevis-regler-bestemt">Bevis for Sætning 6.12: Regneregler for bestemt integral</a></li>
                 <li><a href="#bevis-arealfunktion">Bevis for Sætning 6.13 og 6.14: Arealfunktionen er en stamfunktion</a></li>
+                <li><a href="#bevis-potens">Bevis for Stamfunktionen til en potensfunktion</a></li>
+                <li><a href="#bevis-exp-e">Bevis for Stamfunktionen til $e^x$</a></li>
+                <li><a href="#bevis-exp-a">Bevis for Stamfunktionen til $a^x$</a></li>
+                <li><a href="#bevis-ln">Bevis for Stamfunktionen til $\ln x$</a></li>
+                <li><a href="#bevis-sin">Bevis for Stamfunktionen til $\sin x$</a></li>
+                <li><a href="#bevis-cos">Bevis for Stamfunktionen til $\cos x$</a></li>
+                <li><a href="#bevis-tan">Bevis for Stamfunktionen til $\tan x$</a></li>
+                <li><a href="#bevis-kurvelaengde">Bevis for Kurvelængde</a></li>
+                <li><a href="#bevis-vol-x">Bevis for Rumfang af omdrejningslegeme om x-aksen</a></li>
+                <li><a href="#bevis-vol-y">Bevis for Rumfang af omdrejningslegeme om y-aksen</a></li>
+                <li><a href="#bevis-overflade-x">Bevis for Overfladeareal ved drejning om x-aksen</a></li>
+                <li><a href="#bevis-overflade-y">Bevis for Overfladeareal ved drejning om y-aksen</a></li>
             </ul>
         </section>
+
+        <!-- ===================== EKSISTERENDE BEVISER ===================== -->
 
         <section id="bevis-konstant" class="card proof">
             <h2>Bevis for Sætning 2.1 og 2.2: Stamfunktioner afviger med en konstant</h2>
@@ -386,9 +448,32 @@
             <p>Det vil sige at $F'(x) - F_1'(x) = 0$. Ved brug af differensreglen for differentiation fås:</p>
             <p>$$ (F(x) - F_1(x))' = 0 $$</p>
             <p>Hvis en funktion differentieret giver $0$ overalt, må den være en konstant. Altså er $F(x) - F_1(x) = k$, hvilket betyder $F(x) = F_1(x) + k$.</p>
-
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-          
+        </section>
+
+        <section id="bevis-areal-under" class="card proof">
+            <h2>Bevis for Sætning 2.4: Areal under en kurve (Riemannsummer)</h2>
+            <p>Vi vil vise, at arealet $A$ under en kontinuert funktion $f(x)$ i intervallet $[a;b]$ er givet ved det bestemte integral $\int_a^b f(x)\,\text{d}x$.</p>
+            <p>Arealet under kurven opdeles i $n$ rektangler med bredden $\Delta x$ og højden $f(x_i)$, hvor $x_i$ er den midterste $x$-værdi i hvert rektangel.</p>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$A_i = f(x_i) \cdot \Delta x$</td>
+                    <td>Arealet af det $i$'te rektangel.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$A \approx \displaystyle\sum_{i=1}^n f(x_i) \cdot \Delta x$</td>
+                    <td>Alle $n$ rektangler lægges sammen til et estimat. Jo større $n$, jo bedre estimat.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$A = \displaystyle\lim_{\Delta x \to 0}\sum_{i=1}^n f(x_i)\cdot\Delta x = \int_a^b f(x)\,\text{d}x$</td>
+                    <td>Grænseværdien er det korrekte areal. Når $\Delta x \to 0$ går $n \to \infty$, og summen skrives med integraltegnet, da et integral netop er en sum af infinitesimale størrelser.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
         </section>
 
         <section id="bevis-areal-mellem" class="card proof">
@@ -411,9 +496,7 @@
             $$
             </p>
             <p>Sætningen er dermed bevist.</p>
-
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
         </section>
 
         <section id="bevis-sub" class="card proof">
@@ -424,9 +507,74 @@
             <p>Da $F$ er en stamfunktion til $f$, er $F' = f$, så:</p>
             <p>$$ = f(g(x)) \cdot g'(x) $$</p>
             <p>Dette er netop integranden på venstresiden, og dermed er sætningen bevist.</p>
-
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
+        </section>
+
+        <section id="bevis-partiel" class="card proof">
+            <h2>Bevis for Partiel integration</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning: Partiel integration</strong>
+                <p>$$ \int f(x)\cdot g(x)\,\text{d}x = F(x)\cdot g(x) - \int F(x)\cdot g'(x)\,\text{d}x $$</p>
+                <p>hvor $F(x)$ er en stamfunktion til $f(x)$.</p>
+            </div>
+            <p>Vi postulerer at formlen gælder og beviser den ved at differentiere begge sider.</p>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int f(x)\cdot g(x)\,\text{d}x = F(x)\cdot g(x) - \int F(x)\cdot g'(x)\,\text{d}x$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int f(x)\cdot g(x)\,\text{d}x\right)' = \left(F(x)\cdot g(x) - \int F(x)\cdot g'(x)\,\text{d}x\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$f(x)\cdot g(x) = \left(F(x)\cdot g(x)\right)' - \left(\int F(x)\cdot g'(x)\,\text{d}x\right)'$</td>
+                    <td>Differentiation ophæver integraltegnet på venstresiden. Højresiden differentieres led for led.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$f(x)\cdot g(x) = F'(x)\cdot g(x) + F(x)\cdot g'(x) - F(x)\cdot g'(x)$</td>
+                    <td>Produktreglen anvendes på første led. Differentiation ophæver integraltegnet på sidste led.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>$f(x)\cdot g(x) = f(x)\cdot g(x)$</td>
+                    <td>De to identiske led går ud, og $F'(x) = f(x)$. Venstresiden er lig højresiden.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-indskud" class="card proof">
+            <h2>Bevis for Indskudsreglen</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning: Indskudsreglen</strong>
+                <p>$$ \int_a^b f(x)\,\text{d}x = \int_a^k f(x)\,\text{d}x + \int_k^b f(x)\,\text{d}x $$</p>
+            </div>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$A = A_1 + A_2$</td>
+                    <td>Arealet fra $a$ til $b$ opdeles i to delarealer ved $x = k$.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$A = \int_a^b f(x)\,\text{d}x, \quad A_1 = \int_a^k f(x)\,\text{d}x, \quad A_2 = \int_k^b f(x)\,\text{d}x$</td>
+                    <td>Hvert delareal beregnes ved det bestemte integral.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$\int_a^b f(x)\,\text{d}x = \int_a^k f(x)\,\text{d}x + \int_k^b f(x)\,\text{d}x$</td>
+                    <td>De to delarealer lægges sammen.</td>
+                </tr>
+            </table>
+            <p><em>Bemærk: Reglen gælder også hvis $k$ ligger uden for intervallet $[a;b]$; man trækker blot det lille areal fra det store.</em></p>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
         </section>
 
         <section id="bevis-regler-ubestemt" class="card proof">
@@ -442,9 +590,7 @@
             Vi differentierer højre side:</p>
             <p>$$ \left(c \cdot \int f(x)\text{d}x\right)' = c \cdot \left(\int f(x)\text{d}x\right)' = c \cdot f(x) $$</p>
             <p>Dermed er reglen bevist.</p>
-
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
         </section>
 
         <section id="bevis-regler-bestemt" class="card proof">
@@ -464,16 +610,34 @@
             $$
             </p>
             <p>De øvrige bevises tilsvarende ved hjælp af egenskaberne fra algebraen.</p>
-
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-          
         </section>
 
         <section id="bevis-arealfunktion" class="card proof">
             <h2>Bevis for Sætning 6.13 og 6.14: Arealfunktionen er en stamfunktion</h2>
             <p>Vi lader $A(x)$ være <strong>arealfunktionen</strong> for funktionen $f(x)$, som angiver arealet under kurven fra startpunktet $a$ frem til en variabel grænse $x$.</p>
-            
-            
+
+            <div class="svg-container">
+                <div class="graphs-wrapper">
+                    <div class="graph-item">
+                        <div id="graf-604a"></div>
+                        <div class="glass-pane"></div>
+                    </div>
+                    <div class="graph-item">
+                        <div id="graf-604b"></div>
+                        <div class="glass-pane"></div>
+                    </div>
+                    <div class="graph-item">
+                        <div id="graf-604c"></div>
+                        <div class="glass-pane"></div>
+                    </div>
+                </div>
+                <div class="graph-caption">
+                    <strong>Figur 604a (venstre):</strong> Arealet af det røde område er $A(x_0)$.<br>
+                    <strong>Figur 604b (midt):</strong> Arealet af det grønne område er $A(x_0 + h)$.<br>
+                    <strong>Figur 604c (højre):</strong> Arealet af det gule område er $A(x_0 + h) - A(x_0)$. Her er også indtegnet de to afgørende rektangler til beviset. Det mindste rektangel har højden $f(x_0)$, og det største rektangel har højden $f(x_0 + h)$.
+                </div>
+            </div>
 
             <p><strong>Sætning 6.13:</strong><br>
             Vi antager, at $f(x)$ er voksende. Vi tilføjer en lille tilvækst $h > 0$ på x-aksen. Det tilkomne areal $A(x_0+h) - A(x_0)$ er et lille "bånd" af bredde $h$.</p>
@@ -491,9 +655,464 @@
             <p>Da arealet fra startpunkt $a$ til sig selv $a$ er 0, er $A(a) = 0$. Vi står tilbage med:</p>
             <p>$$ \int_a^b f(x)\text{d}x = A(b) $$</p>
             <p>Da $A(b)$ er defineret som arealet under funktionen fra $a$ til $b$, har vi bevist, at det bestemte integral beregner dette areal.</p>
-
             <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
-         
+        </section>
+
+        <!-- ===================== NYE BEVISER ===================== -->
+
+        <section id="bevis-potens" class="card proof">
+            <h2>Bevis for Stamfunktionen til en potensfunktion</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ \int x^n\,\text{d}x = \frac{1}{n+1}x^{n+1} + k, \quad n \neq -1 $$</p>
+                <p>$$ \int x^{-1}\,\text{d}x = \int \frac{1}{x}\,\text{d}x = \ln|x| + k $$</p>
+            </div>
+
+            <p><strong>Del 1: $n \neq -1$</strong></p>
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int x^n\,\text{d}x = \dfrac{1}{n+1}x^{n+1} + k$</td>
+                    <td>Postulat. For $n = -1$ er nævneren nul, og formlen er ikke defineret.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int x^n\,\text{d}x\right)' = \left(\dfrac{1}{n+1}x^{n+1}+k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$x^n = \dfrac{1}{n+1}(n+1)x^{n+1-1} + 0$</td>
+                    <td>Potensreglen for differentiation anvendes. Differentiation ophæver integraltegnet.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$x^n = x^n$</td>
+                    <td>Venstresiden er lig højresiden. Første del er bevist.</td>
+                </tr>
+            </table>
+
+            <p><strong>Del 2: $n = -1$</strong></p>
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int \dfrac{1}{x}\,\text{d}x = \ln|x| + k$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int \dfrac{1}{x}\,\text{d}x\right)' = \left(\ln|x| + k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$\dfrac{1}{x} = \dfrac{1}{|x|} \cdot \dfrac{|x|}{x} + 0$</td>
+                    <td>Kædereglen og $\left(|x|\right)' = \dfrac{|x|}{x}$ anvendes på $\ln|x|$.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$\dfrac{1}{x} = \dfrac{1}{x}$</td>
+                    <td>Højresiden reduceres, og venstresiden er lig højresiden.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-exp-e" class="card proof">
+            <h2>Bevis for Stamfunktionen til $e^x$</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ \int e^x\,\text{d}x = e^x + k $$</p>
+            </div>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int e^x\,\text{d}x = e^x + k$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int e^x\,\text{d}x\right)' = \left(e^x + k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$e^x = e^x + 0$</td>
+                    <td>Differentiationsreglen for $e^x$ anvendes. Differentiation ophæver integraltegnet.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$e^x = e^x$</td>
+                    <td>Venstresiden er lig højresiden.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-exp-a" class="card proof">
+            <h2>Bevis for Stamfunktionen til $a^x$</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ \int a^x\,\text{d}x = \frac{a^x}{\ln a} + k $$</p>
+            </div>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int a^x\,\text{d}x = \dfrac{a^x}{\ln a} + k$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int a^x\,\text{d}x\right)' = \left(\dfrac{a^x}{\ln a} + k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$a^x = \dfrac{a^x \cdot \ln a}{\ln a} + 0$</td>
+                    <td>Differentiationsreglen for $a^x$ anvendes: $(a^x)' = a^x \ln a$.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$a^x = a^x$</td>
+                    <td>$\ln a$ forkortes, og venstresiden er lig højresiden.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-ln" class="card proof">
+            <h2>Bevis for Stamfunktionen til $\ln x$</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ \int \ln x\,\text{d}x = x \cdot \ln x - x + k $$</p>
+            </div>
+
+            <p><strong>Bevis ved integrationsprøven:</strong></p>
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int \ln x\,\text{d}x = x \cdot \ln x - x + k$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int \ln x\,\text{d}x\right)' = \left(x \cdot \ln x - x + k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$\ln x = 1 \cdot \ln x + x \cdot \dfrac{1}{x} - 1 + 0$</td>
+                    <td>Produktreglen og differentiationsreglen for $\ln x$ anvendes.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$\ln x = \ln x + 1 - 1 = \ln x$</td>
+                    <td>Venstresiden er lig højresiden.</td>
+                </tr>
+            </table>
+
+            <p><strong>Alternativt bevis ved partiel integration:</strong></p>
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int \ln x\,\text{d}x = \int 1 \cdot \ln x\,\text{d}x$</td>
+                    <td>Der ganges med 1, for at gøre formlen for partiel integration anvendelig.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$= x \cdot \ln x - \int x \cdot \dfrac{1}{x}\,\text{d}x$</td>
+                    <td>Partiel integration anvendes med $f(x)=1$ (stamfunktion $F(x)=x$) og $g(x)=\ln x$.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$= x \cdot \ln x - \int 1\,\text{d}x$</td>
+                    <td>Integralet reduceres ved at forkorte $x \cdot \frac{1}{x} = 1$.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$\int \ln x\,\text{d}x = x \cdot \ln x - x + k$</td>
+                    <td>Det simple integral udføres.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-sin" class="card proof">
+            <h2>Bevis for Stamfunktionen til $\sin x$</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ \int \sin x\,\text{d}x = -\cos x + k $$</p>
+            </div>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int \sin x\,\text{d}x = -\cos x + k$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int \sin x\,\text{d}x\right)' = \left(-\cos x + k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$\sin x = \sin x + 0$</td>
+                    <td>Differentiationsreglen $(-\cos x)' = \sin x$ anvendes.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$\sin x = \sin x$</td>
+                    <td>Venstresiden er lig højresiden.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-cos" class="card proof">
+            <h2>Bevis for Stamfunktionen til $\cos x$</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ \int \cos x\,\text{d}x = \sin x + k $$</p>
+            </div>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int \cos x\,\text{d}x = \sin x + k$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int \cos x\,\text{d}x\right)' = \left(\sin x + k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$\cos x = \cos x + 0$</td>
+                    <td>Differentiationsreglen $(\sin x)' = \cos x$ anvendes.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$\cos x = \cos x$</td>
+                    <td>Venstresiden er lig højresiden.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-tan" class="card proof">
+            <h2>Bevis for Stamfunktionen til $\tan x$</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ \int \tan x\,\text{d}x = -\ln|\cos x| + k $$</p>
+            </div>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\int \tan x\,\text{d}x = -\ln|\cos x| + k$</td>
+                    <td>Postulat.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\left(\int \tan x\,\text{d}x\right)' = \left(-\ln|\cos x| + k\right)'$</td>
+                    <td>Begge sider differentieres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$\tan x = \dfrac{-1}{|\cos x|} \cdot \dfrac{|\cos x|}{\cos x} \cdot (-\sin x) + 0$</td>
+                    <td>Kædereglen, $(\ln|u|)' = \frac{1}{|u|}$ og $(|x|)' = \frac{|x|}{x}$ samt $(\cos x)' = -\sin x$ anvendes.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$\tan x = \dfrac{\sin x}{\cos x} = \tan x$</td>
+                    <td>Højresiden reduceres og genkendes som $\tan x$.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-kurvelaengde" class="card proof">
+            <h2>Bevis for Kurvelængde</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.12:</strong>
+                <p>$$ L = \int_a^b \sqrt{1 + (f'(x))^2}\,\text{d}x $$</p>
+            </div>
+            <p>Ideen er at tilnærme kurven med $n$ linjestykker af længde $\Delta s_i$, svarende til hypotenusen i retvinklede trekanter med vandret katete $\Delta x$ og lodret katete $\Delta y_i$.</p>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$\Delta s_i = \sqrt{(\Delta x)^2 + (\Delta y_i)^2}$</td>
+                    <td>Hypotenusen beregnes med Pythagoras.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$\Delta y_i = f'(x_i) \cdot \Delta x$</td>
+                    <td>Hældningskoefficienten er $\frac{\Delta y}{\Delta x}$, så $\Delta y_i = f'(x_i)\cdot\Delta x$.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$\Delta s_i = \sqrt{(\Delta x)^2 + (f'(x_i))^2 \cdot (\Delta x)^2}$</td>
+                    <td>$\Delta y_i$ indsættes.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$\Delta s_i = \sqrt{\left(1 + (f'(x_i))^2\right) \cdot (\Delta x)^2}$</td>
+                    <td>$(\Delta x)^2$ sættes uden for parentesen.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>$\Delta s_i = \sqrt{1+(f'(x_i))^2} \cdot \Delta x$</td>
+                    <td>Regnereglen $\sqrt{a \cdot b} = \sqrt{a}\cdot\sqrt{b}$ anvendes.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>$L \approx \displaystyle\sum_{i=1}^n \sqrt{1+(f'(x_i))^2}\cdot\Delta x$</td>
+                    <td>Alle $n$ linjestykker summeres.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>$L = \displaystyle\lim_{\Delta x \to 0}\sum_{i=1}^n \sqrt{1+(f'(x_i))^2}\cdot\Delta x = \int_a^b \sqrt{1+(f'(x))^2}\,\text{d}x$</td>
+                    <td>Grænseværdien giver den præcise kurvelængde.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-vol-x" class="card proof">
+            <h2>Bevis for Rumfang af omdrejningslegeme om x-aksen</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.10:</strong>
+                <p>$$ V_x = \pi \int_a^b (f(x))^2\,\text{d}x $$</p>
+            </div>
+            <p>Omdrejningslegemet opdeles i $n$ cirkulære skiver med bredden $\Delta x$ og radius $f(x_i)$, hvor $x_i$ er den midterste $x$-værdi i skiven.</p>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$V_i = \pi \cdot (f(x_i))^2 \cdot \Delta x$</td>
+                    <td>Rumfanget af den $i$'te skive (cylinder med radius $f(x_i)$ og højde $\Delta x$).</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$V_x \approx \displaystyle\sum_{i=1}^n \pi \cdot (f(x_i))^2 \cdot \Delta x$</td>
+                    <td>Alle $n$ skiver summeres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$V_x = \displaystyle\lim_{\Delta x \to 0}\sum_{i=1}^n \pi \cdot (f(x_i))^2 \cdot \Delta x = \pi\int_a^b (f(x))^2\,\text{d}x$</td>
+                    <td>Grænseværdien giver det korrekte rumfang.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-vol-y" class="card proof">
+            <h2>Bevis for Rumfang af omdrejningslegeme om y-aksen</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning 2.11:</strong>
+                <p>$$ V_y = 2\pi \int_a^b x \cdot f(x)\,\text{d}x $$</p>
+            </div>
+            <p>Ved drejning om y-aksen opdeles legemet i $n$ cylinderringe (skal) med bredden $\Delta x$, radius $x_i$ og højde $f(x_i)$.</p>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$V_i = 2\pi \cdot x_i \cdot f(x_i) \cdot \Delta x$</td>
+                    <td>Rumfanget af den $i$'te cylinderring: areal af cirkelring gange højden.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$V_y \approx \displaystyle\sum_{i=1}^n 2\pi \cdot x_i \cdot f(x_i) \cdot \Delta x$</td>
+                    <td>Alle $n$ cylinderringe summeres.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$V_y = \displaystyle\lim_{\Delta x \to 0}\sum_{i=1}^n 2\pi \cdot x_i \cdot f(x_i) \cdot \Delta x = 2\pi\int_a^b x \cdot f(x)\,\text{d}x$</td>
+                    <td>Grænseværdien giver det korrekte rumfang.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-overflade-x" class="card proof">
+            <h2>Bevis for Overfladeareal ved drejning om x-aksen</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ O_x = 2\pi \int_a^b f(x)\sqrt{1+(f'(x))^2}\,\text{d}x $$</p>
+            </div>
+            <p>Overfladen opdeles i $n$ skiver, der hver svarer til overfladen af en keglestub med skrå side $s_i$ og middelradius $f(x_i)$.</p>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1</td>
+                    <td>$A_{\text{stub}} = \pi \cdot s \cdot (R + r)$</td>
+                    <td>Overfladearealet af en keglestub med radier $R$ og $r$ og skrå side $s$.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>$r_m = \dfrac{R+r}{2}$, så $A_{\text{stub}} = 2\pi \cdot s \cdot r_m$</td>
+                    <td>Middelradius defineres, og formlen omskrives.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>$s_i = \sqrt{1+(f'(x_i))^2} \cdot \Delta x$</td>
+                    <td>Den skrå side $s_i$ findes som ved kurvelængdebeviset.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$O_i = 2\pi \cdot f(x_i) \cdot \sqrt{1+(f'(x_i))^2} \cdot \Delta x$</td>
+                    <td>$f(x_i)$ er middelradius og $s_i$ indsættes.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>$O_x \approx \displaystyle\sum_{i=1}^n 2\pi \cdot f(x_i)\sqrt{1+(f'(x_i))^2} \cdot \Delta x$</td>
+                    <td>Alle $n$ keglestubs-overflader summeres.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>$O_x = 2\pi\displaystyle\int_a^b f(x)\sqrt{1+(f'(x))^2}\,\text{d}x$</td>
+                    <td>Grænseværdien giver det korrekte overfladeareal.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
+        </section>
+
+        <section id="bevis-overflade-y" class="card proof">
+            <h2>Bevis for Overfladeareal ved drejning om y-aksen</h2>
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning:</strong>
+                <p>$$ O_y = 2\pi \int_a^b x\sqrt{1+(f'(x))^2}\,\text{d}x $$</p>
+            </div>
+            <p>Beviset følger præcis samme struktur som for $O_x$, men her er middelradius lig med $x_i$ (afstanden fra y-aksen) i stedet for $f(x_i)$.</p>
+
+            <table class="proof-steps">
+                <tr>
+                    <td>1–3</td>
+                    <td>Identisk med beviset for $O_x$ (keglestub, middelradius, skrå side $s_i$).</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>$O_i = 2\pi \cdot x_i \cdot \sqrt{1+(f'(x_i))^2} \cdot \Delta x$</td>
+                    <td>Her er middelradius $x_i$ (ikke $f(x_i)$), da vi drejer om y-aksen.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>$O_y \approx \displaystyle\sum_{i=1}^n 2\pi \cdot x_i\sqrt{1+(f'(x_i))^2} \cdot \Delta x$</td>
+                    <td>Alle $n$ led summeres.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>$O_y = 2\pi\displaystyle\int_a^b x\sqrt{1+(f'(x))^2}\,\text{d}x$</td>
+                    <td>Grænseværdien giver det korrekte overfladeareal.</td>
+                </tr>
+            </table>
+            <p style="text-align: right; margin-top: -10px; font-size: 1.5rem;">&#9632;</p>
         </section>
 
         <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
@@ -509,8 +1128,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
             try {
-                // Graf til illustration af arealet under x^2 mellem 0 og 2
                 functionPlot({
                     target: '#graf-areal',
                     disableZoom: true,
@@ -522,15 +1141,95 @@
                     data: [{
                         fn: 'x^2',
                         color: '#2980b9',
-                        closed: true, // Skyggelægger arealet under grafen
-                        range: [0, 2] // Integrationsgrænserne
+                        closed: true,
+                        range: [0, 2]
                     }, {
-                        fn: 'x^2', // Tegner den fulde linje for at få et pænt look
+                        fn: 'x^2',
                         color: '#2c3e50'
                     }]
                 });
-
             } catch(e) { console.log('Fejl i indlæsning af grafer', e); }
+            // ── Arealfunktions-graferne (604a/b/c) ──
+            try {
+                const commonCfg = {
+                    disableZoom: true,
+                    grid: false,
+                    xAxis: { domain: [0, 6.5], label: 'x' },
+                    yAxis: { domain: [0, 5],   label: 'y' }
+                };
+                const fn604 = '0.12 * x^2 + 1.2';
+
+                function styleAxes604(targetId, chartInst) {
+                    const svg    = d3.select(targetId + ' svg');
+                    const xScale = chartInst.meta.xScale;
+                    svg.selectAll('.y.axis .tick text')
+                        .text(d => Number.isInteger(d) ? d : '')
+                        .style('font-size', '13px');
+                    svg.selectAll('.x.axis .tick text').style('display', 'none');
+                    const xAxisG = svg.select('.x.axis');
+                    [{ val: 1, text: 'a' }, { val: 3, text: 'x₀' },
+                     { val: 4.5, text: 'x₀+h' }, { val: 6.0, text: 'b' }]
+                    .forEach(l => {
+                        xAxisG.append('text')
+                            .attr('x', xScale(l.val)).attr('y', 22)
+                            .attr('fill','#000').attr('font-size','16px')
+                            .attr('font-family','serif').attr('font-style','italic')
+                            .attr('text-anchor','middle').text(l.text);
+                        xAxisG.append('line')
+                            .attr('x1', xScale(l.val)).attr('x2', xScale(l.val))
+                            .attr('y1', 0).attr('y2', 6)
+                            .attr('stroke','#000').attr('stroke-width', 1.5);
+                    });
+                }
+
+                const w604 = Math.max(120, Math.floor((document.getElementById('graf-604a').closest('.svg-container').clientWidth - 80) / 3));
+
+                const cA = functionPlot(Object.assign({}, commonCfg, {
+                    target: '#graf-604a', width: w604, height: 220,
+                    data: [
+                        { fn: fn604, color: '#444' },
+                        { fn: fn604, range: [1, 3], closed: true, color: '#da322a' }
+                    ]
+                }));
+                styleAxes604('#graf-604a', cA);
+
+                const cB = functionPlot(Object.assign({}, commonCfg, {
+                    target: '#graf-604b', width: w604, height: 220,
+                    data: [
+                        { fn: fn604, color: '#444' },
+                        { fn: fn604, range: [1, 4.5], closed: true, color: '#469c46' }
+                    ]
+                }));
+                styleAxes604('#graf-604b', cB);
+
+                const cC = functionPlot(Object.assign({}, commonCfg, {
+                    target: '#graf-604c', width: w604, height: 220,
+                    data: [
+                        { fn: fn604, color: '#444' },
+                        { fn: fn604, range: [3, 4.5], closed: true, color: '#f4cc3d' },
+                        { points: [[3,2.28],[4.5,2.28]], fnType:'points', graphType:'polyline', color:'#000' },
+                        { points: [[3,3.63],[4.5,3.63]], fnType:'points', graphType:'polyline', color:'#000' },
+                        { points: [[3,2.28],[3,3.63]],   fnType:'points', graphType:'polyline', color:'#000' }
+                    ]
+                }));
+                styleAxes604('#graf-604c', cC);
+
+                // y-akse labels på 604c
+                const svg604c  = d3.select('#graf-604c svg');
+                const yScale604 = cC.meta.yScale;
+                const yAxisG604 = svg604c.select('.y.axis');
+                [{ val: 2.28, text: 'f(x₀)' }, { val: 3.63, text: 'f(x₀+h)' }].forEach(l => {
+                    yAxisG604.append('text')
+                        .attr('x', -10).attr('y', yScale604(l.val) + 5)
+                        .attr('fill','#000').attr('font-size','14px')
+                        .attr('font-family','serif').attr('font-style','italic')
+                        .attr('text-anchor','end').text(l.text);
+                    yAxisG604.append('line')
+                        .attr('x1',-5).attr('x2',0)
+                        .attr('y1', yScale604(l.val)).attr('y2', yScale604(l.val))
+                        .attr('stroke','#000').attr('stroke-width',1.5);
+                });
+            } catch(e) { console.log('Fejl i 604-graferne', e); }
         });
     </script>
 
