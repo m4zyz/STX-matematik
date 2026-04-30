@@ -17,17 +17,16 @@
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             margin-top: 20px;
-            position: relative; /* Anchor for overlay */
+            position: relative;
         }
 
-        /* --- NYT: Overlay Styles --- */
         .quiz-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.95); /* Semi-transparent hvid */
+            background-color: rgba(255, 255, 255, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -42,7 +41,7 @@
         .quiz-overlay.hidden {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none; /* Make overlay un-clickable when hidden */
+            pointer-events: none;
         }
 
         .overlay-title {
@@ -65,7 +64,6 @@
             font-weight: bold;
         }
 
-        /* Reuse print-btn style for the overlay start button, and ensure it can handle centered button text */
         .start-btn {
             background: none;
             border: 2px solid #3498db;
@@ -88,7 +86,6 @@
         .start-btn:active {
             transform: scale(0.97);
         }
-        /* --- End Overlay Styles --- */
 
         .score-board {
             font-size: 1.2rem;
@@ -232,13 +229,19 @@
         
         let currentIndex = 0; 
         let mistakes = 0;
-        const maxMistakes = 3; // For tydelighed
+        const maxMistakes = 3; 
         
         // Game DOM elements
         const display = document.getElementById('e-digits');
         const input = document.getElementById('digit-input');
         const scoreDisplay = document.getElementById('score');
         const mistakesDisplay = document.getElementById('mistakes-count');
+
+        // Overlay DOM elements (Disse manglede!)
+        const overlay = document.getElementById('quiz-overlay');
+        const overlayTitle = document.getElementById('overlay-title');
+        const overlayMessage = document.getElementById('overlay-message');
+        const overlayBtn = document.getElementById('overlay-btn');
 
         // Funktion der nulstiller spillet intern
         function resetGameInternal() {
@@ -253,16 +256,16 @@
         // Funktioner til at styre overlay
         function showOverlay(title, message, buttonText) {
             overlayTitle.textContent = title;
-            overlayMessage.innerHTML = message; // Bruger innerHTML så vi kan indsætte linjeskift
+            overlayMessage.innerHTML = message; 
             overlayBtn.textContent = buttonText;
             overlay.classList.remove('hidden');
-            input.disabled = true; // Deaktiver input så man ikke kan skrive med overlay åbent
+            input.disabled = true; 
         }
 
         function hideOverlay() {
             overlay.classList.add('hidden');
             input.disabled = false;
-            input.focus(); // Sæt fokus på input feltet med det samme
+            input.focus(); 
         }
 
         // Startspil knap-klik logik
@@ -304,10 +307,8 @@
                 }, 10);
 
                 if (mistakes >= maxMistakes) {
-                    // Vi venter lige lidt længere, så man når at se den sidste røde shake
                     setTimeout(() => {
                         const finalScore = currentIndex;
-                        // Vis overlay med score når man taber
                         showOverlay("Spillet er slut!", "Du ramte forkert 3 gange.<br><br>Du nåede at huske <span class='overlay-score'>" + finalScore + "</span> rigtige decimaler!<br><br>Giv det et forsøg mere.", "Prøv igen");
                     }, 500); 
                 }
