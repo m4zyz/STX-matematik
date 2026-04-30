@@ -414,11 +414,14 @@
             <ul class="toc-list" style="columns: 1;">
                 <li><a href="#bevis-separation">Bevis for Sætning 2.4: Separation af variable</a></li>
                 <li><a href="#bevis-eksponentiel">Bevis for Sætning 8.1: $y'=k\cdot y$ (Metode: Separation)</a></li>
+                <li><a href="#bevis-eksponentiel-hjaelpe">Bevis for Sætning 8.1: $y'=k\cdot y$ (Metode: Hjælpefunktion)</a></li>
                 <li><a href="#bevis-forskudt">Bevis for Sætning 8.2: $y'=b-a\cdot y$ (Metode: Separation)</a></li>
+                <li><a href="#bevis-forskudt-hjaelpe">Bevis for Sætning 8.2: $y'=b-a\cdot y$ (Metode: Hjælpefunktion)</a></li>
                 <li><a href="#bevis-ydobbelt-h">Bevis: Løsning til $y''=h(x)$</a></li>
                 <li><a href="#bevis-ydobbelt-k">Bevis: Løsning til $y''=k$</a></li>
                 <li><a href="#bevis-logistisk1">Bevis for Sætning 8.3a: Logistisk vækst 1 (Metode: Substitution $z=1/y$)</a></li>
                 <li><a href="#bevis-logistisk-separation">Bevis for Sætning 8.3b: Logistisk vækst 2 (Metode: Separation og Partialbrøker)</a></li>
+                <li><a href="#bevis-logistisk-genbrug">Bevis for Sætning 8.3b: Logistisk vækst 2 (Metode: Udledning fra 8.3a)</a></li>
                 <li><a href="#bevis-logistisk-max">Bevis: Den maksimale hældning i logistisk vækst</a></li>
                 <li><a href="#bevis-lineaer">Bevis for Sætning 8.4: Lineær differentialligning (Panserformlen)</a></li>
             </ul>
@@ -482,6 +485,31 @@
             <p>$$y = c \cdot e^{ax}$$</p>
         </section>
 
+        <section id="bevis-eksponentiel-hjaelpe" class="card proof">
+            <h2>Bevis for Sætning 8.1: $y'=k\cdot y$ (Metode: Hjælpefunktion)</h2>
+            <p>Vi vil bevise, at en vilkårlig løsning $y(t)$ til $y' = k \cdot y$ kan skrives på formen $y(t) = c \cdot e^{kt}$. (Ved at gøre prøve kan man let vise, at denne funktion faktisk er en løsning).</p>
+            
+            <p><strong>1)</strong> Vi antager, at funktionen $y = y(t)$ er en løsning, dvs. $y' = k \cdot y$. Vi indfører en hjælpefunktion $z(t) = y(t) \cdot e^{-kt}$, og vi finder differentialkvotienten for denne funktion ved hjælp af produktreglen:</p>
+            <p>
+            $$
+            \begin{aligned}
+            z' &= y' \cdot e^{-kt} + y \cdot (-k \cdot e^{-kt}) \\
+               &= y' \cdot e^{-kt} - k \cdot y \cdot e^{-kt}
+            \end{aligned}
+            $$
+            </p>
+            
+            <p><strong>2)</strong> Da vi ved, at $y$ er en løsning, kan vi erstatte $y'$ med $k \cdot y$:</p>
+            <p>$$z' = k \cdot y \cdot e^{-kt} - k \cdot y \cdot e^{-kt} = 0$$</p>
+            
+            <p><strong>3)</strong> Da $z'(t) = 0$, må $z(t)$ være en konstant funktion. Vi kalder denne konstant for $c$:</p>
+            <p>$$z(t) = c \quad \Leftrightarrow \quad y(t) \cdot e^{-kt} = c$$</p>
+            
+            <p><strong>4)</strong> Vi isolerer til sidst $y(t)$ ved at gange med $e^{kt}$ på begge sider:</p>
+            <p>$$y(t) = c \cdot e^{kt}$$</p>
+            <p>Dermed er sætningen bevist.</p>
+        </section>
+
         <section id="bevis-forskudt" class="card proof">
             <h2>Bevis for Sætning 8.2: Løsning af differentialligningen $y'=b-a\cdot y$ (Separation)</h2>
             <p>Vi vil bevise, at ligningen $y'=b-ay$ (hvor $a \ne 0$) har den fuldstændige løsning $y=\frac{b}{a}+c\cdot e^{-ax}$.</p>
@@ -513,6 +541,35 @@
             
             <p><strong>7)</strong> Brøken $\frac{-b}{-a}$ reduceres til $\frac{b}{a}$. Leddet $\pm \frac{e^k}{-a}$ er samlet set blot en stor grim konstant, så den omdøber vi til $c$. Dermed får vi den færdige løsning:</p>
             <p>$$y = \frac{b}{a} + c \cdot e^{-ax}$$</p>
+        </section>
+
+        <section id="bevis-forskudt-hjaelpe" class="card proof">
+            <h2>Bevis for Sætning 8.2: $y'=b-a\cdot y$ (Metode: Hjælpefunktion)</h2>
+            <p>Vi vil vise, at en løsning til $y' = b - a\cdot y$ kan skrives på formen $y(t) = \frac{b}{a} + c \cdot e^{-at}$.</p>
+            
+            <p><strong>1)</strong> Vi antager, at funktionen $y = y(t)$ er en løsning. Vi indfører en hjælpefunktion $z(t) = b - a \cdot y(t)$, og vi finder differentialkvotienten for denne funktion:</p>
+            <p>$$z' = -a \cdot y'$$</p>
+            
+            <p><strong>2)</strong> Da vi ved, at $y(t)$ er en løsning til differentialligningen, kan vi erstatte $y'$ med $b - a \cdot y$ i udtrykket:</p>
+            <p>$$z' = -a \cdot (b - a \cdot y)$$</p>
+            <p>Eftersom parentesen $(b - a \cdot y)$ netop er vores definition på $z$, kan vi skrive:</p>
+            <p>$$z' = -a \cdot z$$</p>
+            
+            <p><strong>3)</strong> Det fremgår nu, at $z(t)$ er en løsning til differentialligningen $z' = -a \cdot z$. Ifølge Sætning 8.1 (som vi beviste ovenfor) har denne typen af ligning løsningen:</p>
+            <p>$$z(t) = c_1 \cdot e^{-at}$$</p>
+            
+            <p><strong>4)</strong> Vi udskifter nu $z(t)$ med vores oprindelige udtryk og isolerer $y(t)$:</p>
+            <p>
+            $$
+            \begin{aligned}
+            b - a \cdot y(t) &= c_1 \cdot e^{-at} \\
+            -a \cdot y(t) &= -b + c_1 \cdot e^{-at} \\
+            y(t) &= \frac{-b}{-a} + \frac{c_1}{-a} \cdot e^{-at} \\
+            y(t) &= \frac{b}{a} + c \cdot e^{-at}
+            \end{aligned}
+            $$
+            </p>
+            <p>hvor $c$ blot er en ny betegnelse for konstanten $-\frac{c_1}{a}$. Dermed er sætningen bevist.</p>
         </section>
 
         <section id="bevis-ydobbelt-h" class="card proof">
@@ -626,6 +683,28 @@
             <p>$$y = \frac{M}{\frac{1}{C\cdot e^{a\cdot M\cdot x}} + 1} = \frac{M}{1 + \frac{1}{C} e^{-a\cdot M\cdot x}}$$</p>
             <p>Idet $\frac{1}{C}$ bare er endnu en konstant, kalder vi denne for lille $c$. Vi er nu i mål med den endelige logistiske vækstformel:</p>
             <p>$$y = \frac{M}{1 + c \cdot e^{-a\cdot M\cdot x}}$$</p>
+        </section>
+
+        <section id="bevis-logistisk-genbrug" class="card proof">
+            <h2>Bevis for Sætning 8.3b: Logistisk vækst 2 (Metode: Udledning fra 8.3a)</h2>
+            <p>Den logistiske differentialligning på formen $y' = a \cdot y \cdot (M - y)$ kan løses direkte ved hjælp af Sætning 8.3a.</p>
+            
+            <p><strong>1)</strong> Sætning 8.3a beskriver løsningen til ligningen $y' = y \cdot (\tilde{b} - \tilde{a} \cdot y)$. (Vi markerer konstanterne med tilde for ikke at forveksle dem med $a$ i vores nuværende ligning).</p>
+            <p>Løsningen herpå er $y(t) = \frac{\frac{\tilde{b}}{\tilde{a}}}{1 + c \cdot e^{-\tilde{b}t}}$.</p>
+            
+            <p><strong>2)</strong> Vi omskriver nu vores aktuelle ligning $y' = a \cdot y \cdot (M - y)$ ved at gange $a$ ind i parentesen:</p>
+            <p>$$y' = y \cdot (a \cdot M - a \cdot y)$$</p>
+            
+            <p><strong>3)</strong> Ved at sammenligne dette med ligningen fra Sætning 8.3a, kan vi identificere konstanterne. Vi ser, at:</p>
+            <p>$\tilde{b} = a \cdot M$</p>
+            <p>$\tilde{a} = a$</p>
+            
+            <p><strong>4)</strong> Vi indsætter nu disse udtryk direkte i løsningsformlen fra 8.3a:</p>
+            <p>
+            $$y(t) = \frac{\frac{a \cdot M}{a}}{1 + c \cdot e^{-(a \cdot M)t}}$$
+            $$y(t) = \frac{M}{1 + c \cdot e^{-aMt}}$$
+            </p>
+            <p>Sætningen følger hermed direkte af Sætning 8.3a.</p>
         </section>
 
         <section id="bevis-logistisk-max" class="card proof">
