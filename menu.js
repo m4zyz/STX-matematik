@@ -29,7 +29,6 @@ const stxMenuData = {
         { title: "differentialregning", path: "emner/C/differentialregning.html" },
         { title: "vektor i 2d", path: "emner/C/c-vektor2d.html" },
         { title: "Statistik", path: "emner/C/Statistik.html" },
-
     ],
     "Formelsamlinger": [
         { title: "A-niveau", path: "formelsamling/A/formelsamlingA.html" },
@@ -38,6 +37,7 @@ const stxMenuData = {
     ],
     "Spil": [
         { title: "Pi quiz", path: "spil/piquiz.html" },
+        { title: "Euler's tal quiz", path: "spil/equiz.html" },
     ]
 };
 
