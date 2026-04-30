@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keglesnit - STX Matematik A</title>
+    
+    <link rel="stylesheet" href="../../style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+    <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+    <script>
+        window.basePath = "../../"; 
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p { margin: 0; font-size: 0.9rem; color: #7f8c8d; white-space: normal; }
+
+        /* Tabeller */
+        .data-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #f4f7f6; color: #2c3e50; }
+        
+        /* Billed- og graf-container */
+        .svg-container {
+            text-align: center;
+            margin: 25px 0;
+            background: #ffffff;
+            border: 1px solid #dde2ea;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .svg-container > div { 
+            pointer-events: none; 
+        }
+
+        .proof { margin-bottom: 30px; }
+
+        @media (max-width: 600px) {
+            .toc-list { columns: 1; }
+            .data-table { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <header>
+            <h1 id="top">Keglesnit</h1>
+            <p class="subtitle">A - niveau</p>
+        </header>
+
+        <section class="card">
+            <h2>Indholdsfortegnelse</h2>
+            <ul class="toc-list">
+                <li><a href="#geometrisk"><span class="toc-num">1.</span>Geometriske steder</a></li>
+                <li><a href="#parablen"><span class="toc-num">2.</span>Parablen</a></li>
+                <li><a href="#ellipsen"><span class="toc-num">3.</span>Ellipsen</a></li>
+                <li><a href="#hyperblen"><span class="toc-num">4.</span>Hyperblen</a></li>
+                <li><a href="#beviser"><span class="toc-num">5.</span>Beviser</a></li>
+            </ul>
+        </section>
+
+        <div id="geometrisk" class="section-divider">
+            <h2>1. Geometriske steder</h2>
+            <p>Fra figurer i planen til ligninger i et koordinatsystem</p>
+        </div>
+
+        <section class="card">
+            <h2>Hvad er et geometrisk sted?</h2>
+            <p>I planen er et <em>geometrisk sted</em> en mængde af netop de punkter, der har en bestemt karakteristisk egenskab. Keglesnittene (parablen, ellipsen og hyperblen) kan alle defineres præcist ud fra simple afstandsregler.</p>
+            <p>For eksempel kender vi allerede to klassiske geometriske steder:</p>
+            <ul>
+                <li><strong>Cirklen:</strong> Det geometriske sted for de punkter, der har samme faste afstand $r$ til et givet centrum.</li>
+                <li><strong>Midtnormalen:</strong> Det geometriske sted for de punkter, der har samme afstand til to endepunkter $A$ og $B$.</li>
+            </ul>
+            <p>I de næste afsnit vil vi udlede ligninger for keglesnittene ved at anbringe dem i et passende koordinatsystem og bruge afstandsformlen på deres geometriske steder.</p>
+        </section>
+
+        <div id="parablen" class="section-divider">
+            <h2>2. Parablen</h2>
+            <p>Lige langt fra brændpunkt og ledelinje</p>
+        </div>
+
+        <section class="card">
+            <h2>Parablens definition</h2>
+            <p>Parablen kendes oftest som grafen for et andengradspolynomium, men geometrisk set er den defineret udelukkende ud fra afstande.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Parablen som geometrisk sted</strong>
+                <p>Parablen er det geometriske sted for de punkter $P$, der har samme afstand til et givet punkt $F$ (brændpunktet) og en given ret linje $m$ (ledelinjen).</p>
+                <p>$$ |PF| = \text{dist}(P,m) $$</p>
+            </div>
+
+            
+            <p>Vi kalder afstanden gennem $F$ vinkelret på $x$-aksen over til parablen for parablens parameter $p$. For at gøre ligningen så simpel som mulig, anbringes brændpunktet på x-aksen i $F(\frac{1}{4}p, 0)$, mens ledelinjen sættes til den lodrette linje $x = -\frac{1}{4}p$. Dette giver parablen sit toppunkt i origo $(0,0)$.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning: Parablens ligning</strong>
+                <p>Parablen med brændpunkt i $F(\frac{1}{4}p, 0)$ og ledelinje $x = -\frac{1}{4}p$ har toppunkt i $(0,0)$ og ligningen:</p>
+                <p>$$ y^2 = px $$</p>
+            </div>
+
+            <p>Denne form for ligningen beskriver en liggende parabel (symmetrisk om x-aksen). Bytter vi om på x og y, får vi den klassiske stående parabel $y = \frac{1}{p}x^2$, som svarer til den velkendte $y = ax^2$, hvor $a = \frac{1}{p}$.</p>
+        </section>
+
+        <div id="ellipsen" class="section-divider">
+            <h2>3. Ellipsen</h2>
+            <p>Konstant sum af afstande</p>
+        </div>
+
+        <section class="card">
+            <h2>Ellipsens definition</h2>
+            <p>En ellipse fremkommer, når vi fastgør en snor af længde $2a$ mellem to tegnestifter og kører en blyant stramt rundt i snoren. Dette skaber en fladtrykt cirkel.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Ellipsen som geometrisk sted</strong>
+                <p>Ellipsen er det geometriske sted for de punkter $P$, hvis afstande til to faste punkter $F_1$ og $F_2$ har en konstant sum $2a$.</p>
+                <p>$$ |PF_1| + |PF_2| = 2a $$</p>
+            </div>
+
+            
+            <p>Forholdet mellem afstanden mellem brændpunkterne og længden af storaksen kaldes ellipsens excentricitet $e$. Den er givet ved $e = \frac{|F_1F_2|}{2a}$. Jo tættere $e$ er ved 1, desto mere fladtrykt er ellipsen. Når $e$ nærmer sig 0, bliver den mere cirkulær.</p>
+            <p>Placerer vi ellipsens centrum i $(0,0)$, får brændpunkterne koordinaterne $F_1(-ae, 0)$ og $F_2(ae, 0)$.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning: Ellipsens ligning</strong>
+                <p>Ellipsen med centrum i $(0,0)$ og halvakser $a$ og $b$ har ligningen:</p>
+                <p>$$ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 $$</p>
+                <p>Hvor $b^2 = a^2(1-e^2)$. Hvis $a=b$, fremkommer ligningen for en cirkel med radius $a$.</p>
+            </div>
+        </section>
+
+        <div id="hyperblen" class="section-divider">
+            <h2>4. Hyperblen</h2>
+            <p>Forholdet mellem afstand til brændpunkt og ledelinje</p>
+        </div>
+
+        <section class="card">
+            <h2>Hyperblens definition</h2>
+            <p>En hyperbel har to adskilte grene og to skrå asymptoter. Geometrisk defineres den ud fra afstanden til en ledelinje og et brændpunkt, med et forhold $e$ (excentriciteten), der er større end 1.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Definition: Hyperblen som geometrisk sted</strong>
+                <p>Hyperblen er det geometriske sted for de punkter $P$, hvor forholdet mellem afstanden til et brændpunkt $F$ og afstanden til en ledelinje $l$ er konstant $e$, hvor $e > 1$.</p>
+                <p>$$ \frac{|PF|}{\text{dist}(P, l)} = e $$</p>
+            </div>
+
+            
+            <p>Vi anbringer hyperblen, så centrum ligger i origo, brændpunktet ligger på den positive x-akse i $F(c, 0)$, og ledelinjen er $x=d$. Konstanten $a$ betegner den halve førsteakse.</p>
+            <p>Ud fra geometrien gælder sammenhængene $c = e \cdot a$ og $a = e \cdot d$, hvilket betyder at $c = e^2 \cdot d$.</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
+                <strong>Sætning: Hyperblens ligning</strong>
+                <p>Hyperblen med centrum i $(0,0)$ har ligningen:</p>
+                <p>$$ \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1 $$</p>
+                <p>Hvor $b^2 = c^2 - a^2$. Konstanterne $a$ og $b$ skal begge være positive tal.</p>
+            </div>
+        </section>
+
+        <div id="beviser" class="section-divider">
+            <h2>5. Beviser</h2>
+            <p>Matematiske udledninger af keglesnittenes ligninger</p>
+        </div>
+
+        <section class="card">
+            <h2>Oversigt over beviser</h2>
+            <ul class="toc-list" style="columns: 1;">
+                <li><a href="#bevis-parabel">Bevis: Udledning af parablens ligning</a></li>
+                <li><a href="#bevis-ellipse">Bevis: Udledning af ellipsens ligning</a></li>
+                <li><a href="#bevis-hyperbel">Bevis: Udledning af hyperblens ligning</a></li>
+            </ul>
+        </section>
+
+        <section id="bevis-parabel" class="card proof">
+            <h2>Bevis: Udledning af parablens ligning</h2>
+            <p>Vi vil bevise, at det geometriske sted for parablen medfører ligningen $y^2 = px$.</p>
+            
+            <p><strong>1) Trin 1: Opstilling af koordinater</strong><br>
+            Vi anbringer parablen i et koordinatsystem, så brændpunktet $F$ ligger på den positive x-akse, og y-aksen fungerer som midtnormal mellem $F$ og ledelinjen $m$. Brændpunktet har koordinaterne $F(\frac{1}{4}p, 0)$ og ledelinjen har ligningen $x = -\frac{1}{4}p$. Et vilkårligt punkt på parablen kaldes $P(x,y)$.</p>
+
+            <p><strong>2) Trin 2: Afstande opstilles</strong><br>
+            Efter definitionen for parablen skal afstanden fra $P$ til $F$ være lig med afstanden fra $P$ til $m$ ($|PF| = \text{dist}(P,m)$).<br>
+            Ved brug af afstandsformlen for punkter har vi:</p>
+            <p>$$ |PF|^2 = \left(x - \frac{1}{4}p\right)^2 + y^2 $$</p>
+            <p>Afstanden fra $P(x,y)$ til den lodrette ledelinje $x = -\frac{1}{4}p$ er afstanden målt direkte ud ad x-aksen. Derfor gælder:</p>
+            <p>$$ \text{dist}(P,m)^2 = \left(x + \frac{1}{4}p\right)^2 $$</p>
+
+            <p><strong>3) Trin 3: Ligningen løses</strong><br>
+            Vi sætter de to udtryk lig med hinanden, da deres afstande er ens:</p>
+            <p>$$ \left(x - \frac{1}{4}p\right)^2 + y^2 = \left(x + \frac{1}{4}p\right)^2 $$</p>
+            <p>Parenteserne ganges ud vha. kvadratsætningerne:</p>
+            <p>$$ x^2 + \frac{1}{16}p^2 - \frac{1}{2}px + y^2 = x^2 + \frac{1}{16}p^2 + \frac{1}{2}px $$</p>
+            <p>Vi trækker $x^2$ og $\frac{1}{16}p^2$ fra på begge sider, hvilket lader dem gå ud med hinanden. Til sidst lægger vi $\frac{1}{2}px$ til på højresiden for at isolere $y^2$:</p>
+            <p>$$ y^2 = px $$</p>
+            <p>Dermed er parablens ligning udledt.</p>
+        </section>
+
+        <section id="bevis-ellipse" class="card proof">
+            <h2>Bevis: Udledning af ellipsens ligning</h2>
+            <p>Vi vil bevise ligningen $\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$ for en ellipse ud fra det geometriske sted.</p>
+
+            <p><strong>1) Trin 1: Opstilling i koordinatsystem</strong><br>
+            Vi anbringer ellipsen med centrum i $(0,0)$. Brændpunkterne er $F_1(-ae, 0)$ og $F_2(ae, 0)$. Et punkt på ellipsen hedder $P(x,y)$. Efter definitionen gælder at summen af afstandene er $|PF_1| + |PF_2| = 2a$.</p>
+
+            <p><strong>2) Trin 2: Afstandsformlen anvendes</strong><br>
+            Ved brug af afstandsformlen for punkter har vi:</p>
+            <p>$$ \sqrt{(x+ae)^2 + y^2} + \sqrt{(x-ae)^2 + y^2} = 2a $$</p>
+            <p>Vi flytter den ene kvadratrod over på højresiden og kvadrerer derefter hele ligningen på begge sider:</p>
+            <p>$$ (x+ae)^2 + y^2 = 4a^2 + (x-ae)^2 + y^2 - 4a\sqrt{(x-ae)^2 + y^2} $$</p>
+
+            <p><strong>3) Trin 3: Reduktion af leddene</strong><br>
+            Vi ganger ind i parenteserne $(x+ae)^2$ og $(x-ae)^2$. Leddene $x^2$, $a^2e^2$ og $y^2$ går ud på begge sider. Efter at have samlet alt, reduceres ligningen til:</p>
+            <p>$$ 4a\sqrt{(x-ae)^2 + y^2} = 4a^2 - 4aex $$</p>
+            <p>Vi dividerer nu med $4a$ på alle led:</p>
+            <p>$$ \sqrt{(x-ae)^2 + y^2} = a - ex $$</p>
+
+            <p><strong>4) Trin 4: Ligningen kvadreres igen</strong><br>
+            Vi sætter udtrykket i anden igen for at fjerne den sidste kvadratrod:</p>
+            <p>$$ (x-ae)^2 + y^2 = (a - ex)^2 $$</p>
+            <p>$$ x^2 + a^2e^2 - 2aex + y^2 = a^2 + e^2x^2 - 2aex $$</p>
+            <p>Leddet $-2aex$ elimineres, og x'erne samles på venstre side, mens $a^2$ samles på højre side:</p>
+            <p>$$ x^2 - e^2x^2 + y^2 = a^2 - a^2e^2 $$</p>
+            <p>$$ x^2(1-e^2) + y^2 = a^2(1-e^2) $$</p>
+
+            <p><strong>5) Trin 5: Indførelse af hjælpestørrelsen b</strong><br>
+            Vi kender formlen for b, nemlig $b^2 = a^2(1-e^2)$. Desuden ved vi at $(1-e^2) = \frac{b^2}{a^2}$. Vi indsætter dette i vores udtryk:</p>
+            <p>$$ x^2 \cdot \frac{b^2}{a^2} + y^2 = b^2 $$</p>
+            <p>Divideres der nu med $b^2$ på alle tre led, fremkommer den færdige ellipseformel:</p>
+            <p>$$ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 $$</p>
+        </section>
+
+        <section id="bevis-hyperbel" class="card proof">
+            <h2>Bevis: Udledning af hyperblens ligning</h2>
+            <p>Vi udleder ligningen for en hyperbel med udgangspunkt i definitionen $\frac{|P_1F|}{\text{dist}(P_1, l)} = e$.</p>
+
+            <p><strong>1) Trin 1: Fastlæggelse af koordinater</strong><br>
+            Centrum anbringes i $(0,0)$. Brændpunktet ligger på x-aksen i $F(c, 0)$, og ledelinjen står lodret i $x = d$. Definitionen kan omskrives til:</p>
+            <p>$$ \sqrt{(x-c)^2 + y^2} = e \cdot (x-d) $$</p>
+
+            <p><strong>2) Trin 2: Kvadrering og indsættelse af konstanter</strong><br>
+            Begge sider kvadreres for at slippe for kvadratroden:</p>
+            <p>$$ (x-c)^2 + y^2 = e^2 \cdot (x-d)^2 $$</p>
+            <p>Fra hyperblens generelle geometri kender vi to vigtige sammenhænge: $c = e \cdot a$ og $a = e \cdot d$. Ved at kombinere disse har vi ligeledes $c = e^2 \cdot d$.</p>
+
+            <p><strong>3) Trin 3: Omskrivning ved 2. kvadratsætning</strong><br>
+            Vi ganger parenteserne ud og erstatter $2cx$ med $2e^2dx$, idet $c = e^2d$:</p>
+            <p>$$ x^2 + c^2 - 2e^2dx + y^2 = e^2x^2 + e^2d^2 - 2e^2dx $$</p>
+            <p>Vi eliminerer leddet $-2e^2dx$ og samler resten:</p>
+            <p>$$ x^2 + c^2 + y^2 = e^2x^2 + e^2d^2 $$</p>
+            <p>Vi isolerer nu x og y på venstresiden, og trækker konstanterne over på højresiden:</p>
+            <p>$$ (1-e^2)x^2 + y^2 = e^2d^2 - c^2 $$</p>
+
+            <p><strong>4) Trin 4: Isolering til standardligning</strong><br>
+            Vi dividerer igennem på begge sider med udtrykket $(e^2d^2 - c^2)$ for at tvinge højresiden til at blive $1$. Yderligere algebraiske omskrivninger med hjælpestørrelsen $b^2 = c^2 - a^2$ fører det komplekse brøkudtryk i havn som:</p>
+            <p>$$ \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1 $$</p>
+            <p>Og beviset for hyperblens ligning er fuldført.</p>
+        </section>
+
+        <button class="print-btn" onclick="window.print()" style="margin-top: 20px;">Download emnet som PDF</button>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const yearEl = document.getElementById('currentYear');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+        });
+    </script>
+
+</body>
+</html>
