@@ -13,7 +13,9 @@ const stxMenuData = {
         { title: "Vektorfunktioner og parameterkurver", path: "emner/A/VektorfunktionerParameterkurver.html" },
         { title: "Funktioner af to variable", path: "emner/A/Funktionertovariable.html" },
         { title: "Sandsynlighedsregning", path: "emner/A/Sandsynlighedsregning.html" },
-        { title: "Tal", path: "emner/A/Tal.html" }
+        { title: "Tal", path: "emner/A/Tal.html" },
+        { title: "Keglesnit", path: "emner/A/Keglesnit.html" },
+        { title: "Polære funktioner", path: "emner/A/Polærefunktioner.html" }
     ],
     "B-Niveau": [
         { title: "Differentialregning", path: "emner/B/differentialregning.html" },

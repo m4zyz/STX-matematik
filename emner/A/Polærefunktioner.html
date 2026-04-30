@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polære Funktioner - STX Matematik A</title>
+
+    <link rel="stylesheet" href="../../style.css">
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://unpkg.com/d3@5/dist/d3.min.js"></script>
+
+    <script>
+        window.basePath = "../../";
+    </script>
+    <script src="../../menu.js" defer></script>
+
+    <style>
+        /* Indholdsfortegnelse */
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        .toc-list li { margin-bottom: 8px; break-inside: avoid; }
+        .toc-list a { color: var(--primary-color); text-decoration: none; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+        .toc-list .toc-num { color: #bdc3c7; font-size: 0.85rem; margin-right: 5px; }
+
+        /* Sektionsskillelinjer */
+        .section-divider {
+            margin: 40px 0 18px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #bdc3c7;
+        }
+        .section-divider h2 { margin: 0 0 3px 0; font-size: 1.3rem; color: #2c3e50; }
+        .section-divider p  { margin: 0; font-size: 0.9rem; color: #7f8c8d; }
+
+        /* Definitionsbokse */
+        .def-box  { background:#f9f9f9; padding:15px; border-left:5px solid #2c3e50; margin:15px 0; }
+        .thm-box  { background:#fff8f0; padding:15px; border-left:5px solid #e67e22; margin:15px 0; }
+        .ex-box   { background:#f0f7ff; padding:15px; border-left:5px solid #2980b9; margin:15px 0; }
+        .ins-box  { background:#f0fff4; padding:15px; border-left:5px solid #27ae60; margin:15px 0; }
+
+        /* Tabeller */
+        .data-table { width:100%; border-collapse:collapse; margin:15px 0; }
+        .data-table th, .data-table td { border:1px solid #ddd; padding:8px; text-align:center; }
+        .data-table th { background:#f4f7f6; color:#2c3e50; }
+
+        /* Grafcontainer */
+        .svg-container {
+            text-align:center;
+            margin:25px 0;
+            background:#ffffff;
+            border:1px solid #dde2ea;
+            border-radius:8px;
+            padding:20px;
+            box-shadow:0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        /* Polær graf canvas */
+        #polar-canvas { width:100%; max-width:520px; }
+
+        /* Bevis-trin tabel */
+        .proof { margin-bottom:30px; }
+        .proof-steps { width:100%; border-collapse:collapse; margin:10px 0; }
+        .proof-steps td { padding:7px 10px; vertical-align:top; border-bottom:1px solid #f0f0f0; }
+        .proof-steps td:first-child { width:32px; font-weight:bold; color:#2c3e50; text-align:center; }
+        .proof-steps td:last-child  { font-size:0.88rem; color:#7f8c8d; font-style:italic; padding-left:15px; }
+        .proof-steps tr:last-child td { border-bottom:none; }
+
+        /* Formelkort */
+        .formula-grid {
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap:14px;
+            margin:18px 0;
+        }
+        .formula-card {
+            background:#f9f9f9;
+            border:1px solid #e0e4ea;
+            border-radius:8px;
+            padding:14px 16px;
+        }
+        .formula-card .label { font-size:0.8rem; font-weight:700; color:#7f8c8d; text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px; }
+
+        /* Afslutning */
+        .back-to-top { display:inline-block; font-size:0.85rem; color:#bdc3c7; text-decoration:none; margin-top:8px; }
+        .back-to-top:hover { color:var(--primary-color); text-decoration:underline; }
+
+        @media (max-width:600px) {
+            .toc-list { columns:1; }
+            .formula-grid { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav id="sidebar-menu" class="sidebar"></nav>
+
+<main class="content">
+    <header>
+        <h1 id="top">Polære Funktioner</h1>
+        <p class="subtitle">A - niveau · Forberedelsesmateriale januar 2026</p>
+    </header>
+
+    <!-- ═══════════════════════ INDHOLDSFORTEGNELSE ═══════════════════════ -->
+    <section class="card">
+        <h2>Indholdsfortegnelse</h2>
+        <ul class="toc-list">
+            <li><a href="#polkoord"><span class="toc-num">1.</span>Polære koordinater</a></li>
+            <li><a href="#omskrivning"><span class="toc-num">2.</span>Omskrivning til rektangulære koordinater</a></li>
+            <li><a href="#polfunk"><span class="toc-num">3.</span>Polære funktioner og grafer</a></li>
+            <li><a href="#afstand"><span class="toc-num">4.</span>Afstand til origo</a></li>
+            <li><a href="#skæring"><span class="toc-num">5.</span>Skæringspunkter mellem polære grafer</a></li>
+            <li><a href="#areal"><span class="toc-num">6.</span>Areal og polære funktioner</a></li>
+            <li><a href="#kurvelaengde"><span class="toc-num">7.</span>Kurvelængde af polær graf</a></li>
+            <li><a href="#formler"><span class="toc-num">8.</span>Formeloversigt (indstiksark)</a></li>
+            <li><a href="#beviser"><span class="toc-num">9.</span>Beviser</a></li>
+        </ul>
+    </section>
+
+    <!-- ═══════════════════════ 1. POLÆRE KOORDINATER ═══════════════════════ -->
+    <div id="polkoord" class="section-divider">
+        <h2>1. Polære koordinater</h2>
+        <p>En alternativ måde at beskrive et punkts placering i planen</p>
+    </div>
+
+    <section class="card">
+        <h2>Fra rektangulære til polære koordinater</h2>
+        <p>I et koordinatsystem beskrives et punkts placering normalt ved de rektangulære koordinater $(x,y)$. En alternativ beskrivelse er det <strong>polære koordinatsæt</strong>, der angiver:</p>
+        <ol>
+            <li><strong>Afstanden $r$</strong> fra origo $O(0,0)$ til punktet.</li>
+            <li><strong>Vinklen $\theta$</strong> (i radianer) mellem 1.-aksens positive retning og linjestykket fra origo til punktet.</li>
+        </ol>
+
+        <div class="def-box">
+            <strong>Definition 1: Det polære koordinatsæt</strong>
+            <p>Det <em>polære koordinatsæt</em> til et punkt $P$ skrives $(r,\theta)$, hvor $r = |OP|$ er afstanden fra origo $O(0,0)$ til punktet $P$, og $\theta$ er vinklen mellem 1.-aksen (i positiv retning) og linjestykket $OP$.</p>
+        </div>
+
+        <p>Bemærk at vinkler angives i <strong>radianer</strong> — ikke grader — i overensstemmelse med eksamensopgavernes konvention. Omregning sker ved formlen $v = \frac{\theta}{\pi} \cdot 180°$.</p>
+
+        <div class="svg-container">
+            <svg id="polar-canvas" viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg">
+                <!-- Akser -->
+                <defs>
+                    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#2c3e50"/>
+                    </marker>
+                </defs>
+                <!-- Grid-cirkler -->
+                <circle cx="200" cy="180" r="50"  fill="none" stroke="#e8eaed" stroke-width="1"/>
+                <circle cx="200" cy="180" r="100" fill="none" stroke="#e8eaed" stroke-width="1"/>
+                <circle cx="200" cy="180" r="150" fill="none" stroke="#e8eaed" stroke-width="1"/>
+                <!-- Akser -->
+                <line x1="30" y1="180" x2="380" y2="180" stroke="#2c3e50" stroke-width="1.5" marker-end="url(#arr)"/>
+                <line x1="200" y1="330" x2="200" y2="20"  stroke="#2c3e50" stroke-width="1.5" marker-end="url(#arr)"/>
+                <!-- Aksemærker -->
+                <text x="384" y="184" font-size="13" fill="#2c3e50" font-style="italic">(1)</text>
+                <text x="204" y="16"  font-size="13" fill="#2c3e50" font-style="italic">(2)</text>
+                <text x="192" y="194" font-size="12" fill="#7f8c8d">O</text>
+                <!-- r-linje til punktet P (θ ≈ 0.8 rad, r = 120) -->
+                <line x1="200" y1="180" x2="307" y2="94" stroke="#e67e22" stroke-width="2" stroke-dasharray="5,3"/>
+                <!-- Punkt P -->
+                <circle cx="307" cy="94" r="5" fill="#e67e22"/>
+                <text x="314" y="90" font-size="14" fill="#e67e22" font-weight="bold">P(r, θ)</text>
+                <!-- Vinkelsbue -->
+                <path d="M 240 180 A 40 40 0 0 0 231 149" fill="none" stroke="#2980b9" stroke-width="1.5"/>
+                <text x="243" y="162" font-size="13" fill="#2980b9" font-style="italic">θ</text>
+                <!-- r-label -->
+                <text x="242" y="128" font-size="13" fill="#e67e22" font-style="italic">r</text>
+                <!-- x og y stiplede linjer -->
+                <line x1="307" y1="94" x2="307" y2="180" stroke="#bdc3c7" stroke-width="1" stroke-dasharray="3,3"/>
+                <line x1="200" y1="94" x2="307" y2="94"  stroke="#bdc3c7" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="303" y="196" font-size="11" fill="#7f8c8d">x</text>
+                <text x="186" y="98"  font-size="11" fill="#7f8c8d">y</text>
+                <!-- Enhedsmarkeringer -->
+                <text x="248" y="196" font-size="10" fill="#bdc3c7">50</text>
+                <text x="296" y="196" font-size="10" fill="#bdc3c7">100</text>
+            </svg>
+            <p style="font-size:0.85rem;color:#7f8c8d;margin-top:8px;">Punktet $P$ med polært koordinatsæt $(r,\theta)$. Afstanden $r$ til origo og vinklen $\theta$ fra 1.-aksen bestemmer entydigt punktets placering.</p>
+        </div>
+
+        <div class="ex-box">
+            <strong>Eksempel:</strong> Et punkt $P$ har det polære koordinatsæt $(r,\theta) = (4, 1)$, dvs. det ligger i afstanden 4 fra origo, og linjestykket $OP$ danner en vinkel på 1 radian med 1.-aksen. Det svarer til $v = \frac{1}{\pi}\cdot 180° \approx 57{,}3°$.
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 2. OMSKRIVNING ═══════════════════════ -->
+    <div id="omskrivning" class="section-divider">
+        <h2>2. Omskrivning til rektangulære koordinater</h2>
+        <p>Sammenhæng mellem de to koordinatsystemer</p>
+    </div>
+
+    <section class="card">
+        <h2>Sætning 1: Omregningsformler</h2>
+        <p>Ud fra enhedscirklen kan man via ensvinklede trekanter vise, at der gælder følgende sammenhæng (se bevis-sektionen):</p>
+
+        <div class="thm-box">
+            <strong>Sætning 1: Fra polære til rektangulære koordinater</strong>
+            <p>Sammenhængen mellem et punkts rektangulære koordinatsæt $(x,y)$ og punktets polære koordinatsæt $(r,\theta)$ er givet ved:</p>
+            <p>$$ x = r\cdot\cos(\theta) \qquad \text{og} \qquad y = r\cdot\sin(\theta) $$</p>
+        </div>
+
+        <div class="ex-box">
+            <strong>Eksempel 3:</strong> Et punkt $E$ har det polære koordinatsæt $(r,\theta) = (5, 4)$.
+            <p>Vi bestemmer det rektangulære koordinatsæt:</p>
+            <p>$$ x = 5\cdot\cos(4) \approx -3{,}27 \qquad y = 5\cdot\sin(4) \approx -3{,}78 $$</p>
+            <p>Det rektangulære koordinatsæt til punktet $E$ er $(x,y) \approx (-3{,}27\,,\, -3{,}78)$.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 3. POLÆRE FUNKTIONER ═══════════════════════ -->
+    <div id="polfunk" class="section-divider">
+        <h2>3. Polære funktioner og polære grafer</h2>
+        <p>Hvad er en polær funktion, og hvordan ser dens graf ud?</p>
+    </div>
+
+    <section class="card">
+        <h2>Definition og egenskaber</h2>
+
+        <div class="def-box">
+            <strong>Definition 2: Polær funktion</strong>
+            <p>En <em>polær funktion</em> $r$ er en funktion, der til enhver vinkel $\theta$ i definitionsmængden knytter en værdi $r = r(\theta)$. Grafen for en polær funktion kaldes en <em>polær graf</em>.</p>
+            <p>I dette materiale vil vi udelukkende arbejde med polære funktioner, hvor $r(\theta) \geq 0$ for alle vinkler $\theta$ i definitionsmængden.</p>
+        </div>
+
+        <p>Selvom $r(\theta)$ ligner en "normal" funktion, er dens graf i et koordinatsystem meget anderledes end grafen for en sædvanlig funktion, fordi $r$ angiver <em>afstanden til origo</em> i retningen $\theta$.</p>
+
+        <h3>Tre klassiske eksempler</h3>
+
+        <div class="formula-grid">
+            <div class="formula-card">
+                <div class="label">Eksempel 5 — Cirkel</div>
+                <p>$r(\theta) = 3, \quad 0 \leq \theta \leq 2\pi$</p>
+                <p>Grafen er en <strong>cirkel</strong> med radius 3 og centrum i $(0,0)$.</p>
+            </div>
+            <div class="formula-card">
+                <div class="label">Eksempel 6 — Blomst</div>
+                <p>$r(\theta) = \cos(5\theta)\cdot\sin(5\theta)+1, \quad 0 \leq \theta \leq 2\pi$</p>
+                <p>Grafen ligner en <strong>blomst</strong> med et antal "arme" bestemt af konstanterne.</p>
+            </div>
+            <div class="formula-card">
+                <div class="label">Eksempel 7 — Spiral</div>
+                <p>$r(\theta) = 4\cdot e^{\frac{\sin(6\theta)}{6}}, \quad 0 \leq \theta \leq 2\pi$</p>
+                <p>En <strong>eksponentiel spiral</strong>-agtig form med svingende "arme".</p>
+            </div>
+        </div>
+
+        <div class="ex-box">
+            <strong>Eksempel 4:</strong> En polær funktion $r$ er givet ved $r(\theta) = 2\theta + 1,\quad 0 \leq \theta \leq 2\pi$.
+            <p>Da $r(1) = 2\cdot1+1 = 3$, ligger punktet med det polære koordinatsæt $(r,\theta)=(3,1)$ på grafen for $r$.</p>
+            <table class="data-table" style="margin-top:10px;">
+                <thead><tr><th>$\theta$</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>
+                <tbody><tr><td>$r$</td><td>3</td><td>5</td><td>7</td><td>9</td><td>11</td><td>13</td></tr></tbody>
+            </table>
+            <p>Selvom funktionen er en ret linje som funktion af $\theta$, ser den polære graf meget anderledes ud — den svinger rundt om origo med voksende afstand.</p>
+        </div>
+
+        <div class="ins-box">
+            <strong>Fremgangsmåde: Undersøg om et punkt ligger på grafen for $r$</strong>
+            <p>Punktet $P(r,\theta) = P(57, 4)$ ligger på grafen for $r(\theta) = \theta^3 - \sqrt{3\theta^2+1}$, hvis $r(4) = 57$.</p>
+            <p>$r(4) = 4^3 - \sqrt{3\cdot 4^2+1} = 64 - \sqrt{49} = 64 - 7 = 57$ ✓</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 4. AFSTAND TIL ORIGO ═══════════════════════ -->
+    <div id="afstand" class="section-divider">
+        <h2>4. Afstand til origo</h2>
+        <p>Find punkter med en bestemt afstand, eller bestem min/maks-afstand</p>
+    </div>
+
+    <section class="card">
+        <h2>Brug af $r(\theta)$ direkte</h2>
+        <p>En stor fordel ved polære funktioner er, at <strong>afstanden fra et punkt på grafen til origo er direkte givet ved $r(\theta)$</strong>. Vil man finde $\theta$-værdien svarende til en bestemt afstand, løses blot ligningen $r(\theta) = $ (den ønskede afstand).</p>
+        <p>For at finde punktet med størst eller mindst afstand til origo foretages en sædvanlig monotoniundersøgelse af $r(\theta)$.</p>
+
+        <div class="ex-box">
+            <strong>Eksempel 8:</strong> $r(\theta) = 2\theta + 5,\quad 0 \leq \theta \leq 2\pi$. Bestem $\theta$-værdien, hvor afstanden til origo er 11.
+            <p>Vi løser $r(\theta) = 11$:</p>
+            <p>$$ 2\theta + 5 = 11 \implies \theta = 3 $$</p>
+        </div>
+
+        <div class="ex-box">
+            <strong>Eksempel 9:</strong> $r(\theta) = 4\ln(\theta) - 2\theta + 3,\quad 1 \leq \theta \leq 4$. Bestem $\theta$-værdien, hvor afstanden til origo er størst.
+            <p>Den afledede funktion er $r'(\theta) = \frac{4}{\theta} - 2$. Vi løser $r'(\theta) = 0$:</p>
+            <p>$$ \frac{4}{\theta} - 2 = 0 \implies \theta = 2 $$</p>
+            <p>Da $r'\!\left(\tfrac{3}{2}\right) = \tfrac{2}{3} > 0$ og $r'(3) = -\tfrac{2}{3} < 0$, er $\theta = 2$ et maksimum. Afstanden til origo er altså størst ved $\theta = 2$.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 5. SKÆRINGSPUNKTER ═══════════════════════ -->
+    <div id="skæring" class="section-divider">
+        <h2>5. Skæringspunkter mellem polære grafer</h2>
+        <p>Find fælles punkter for to polære funktioner</p>
+    </div>
+
+    <section class="card">
+        <h2>Fremgangsmåde</h2>
+        <p>For to polære funktioner $r(\theta)$ og $s(\theta)$ finder man skæringspunkterne ved at løse ligningen $r(\theta) = s(\theta)$ og derefter indsætte de fundne $\theta$-værdier i én af funktionerne for at finde den tilhørende $r$-værdi.</p>
+
+        <div class="ins-box">
+            <strong>Vigtigt:</strong> Hvis $O(0,0)$ er et fælles punkt, gælder $r = 0$ og $s = 0$, men <em>ikke</em> nødvendigvis for samme $\theta$-værdi. Ovenstående fremgangsmåde kan ikke bruges til at bestemme dette fælles punkt. Til den skriftlige eksamen vil der ikke forekomme opgaver, hvor et skæringspunkt ligger i origo.
+        </div>
+
+        <div class="ex-box">
+            <strong>Eksempel 10:</strong> To polære funktioner $r$ og $s$ er for $0 \leq \theta \leq \pi$ givet ved
+            $$ r(\theta) = \theta^2 - 2\theta + 3 \qquad s(\theta) = 2\theta $$
+            Vi løser $r(\theta) = s(\theta)$ i intervallet $[0;\pi]$:
+            $$ \theta^2 - 2\theta + 3 = 2\theta \implies \theta^2 - 4\theta + 3 = 0 \implies (\theta-1)(\theta-3)=0 $$
+            <p>Løsningerne er $\theta = 1$ og $\theta = 3$.</p>
+            <p>Da $s(1) = 2\cdot1 = 2$ og $s(3) = 2\cdot3 = 6$, er de polære koordinatsæt for skæringspunkterne $(r,\theta) = (2,1)$ og $(r,\theta) = (6,3)$.</p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 6. AREAL ═══════════════════════ -->
+    <div id="areal" class="section-divider">
+        <h2>6. Areal og polære funktioner</h2>
+        <p>Beregning af arealet udspændt af en polær graf</p>
+    </div>
+
+    <section class="card">
+        <h2>Sætning 2 og 3: Areal af polært område</h2>
+        <p>Ligesom det bestemte integral giver arealet under en sædvanlig funktionsgraf, giver en tilsvarende formel arealet af det område, som grafen for en polær funktion udspænder.</p>
+
+        <div class="thm-box">
+            <strong>Sætning 2: Areal udspændt af én polær funktion</strong>
+            <p>Grafen for en kontinuert og ikke-negativ polær funktion $r(\theta)$, hvor $0 \leq \theta \leq 2\pi$, udspænder i intervallet $\theta \in [\alpha;\beta]$ et område $M$. Arealet $A$ af $M$ er givet ved:</p>
+            <p>$$ A = \frac{1}{2}\int_\alpha^\beta r(\theta)^2 \, d\theta $$</p>
+        </div>
+
+        <div class="thm-box">
+            <strong>Sætning 3: Areal mellem to polære funktioner</strong>
+            <p>De kontinuerte og ikke-negative polære funktioner $r(\theta)$ og $s(\theta)$, hvor $0 \leq \theta \leq 2\pi$ og $r(\theta) \geq s(\theta)$, udspænder i intervallet $\theta \in [\alpha;\beta]$ et område $M$. Arealet $A$ af $M$ er givet ved:</p>
+            <p>$$ A = \frac{1}{2}\int_\alpha^\beta \left(r(\theta)^2 - s(\theta)^2\right) d\theta $$</p>
+        </div>
+
+        <p>Arealet af et <strong>cirkeludsnit</strong> med radius $r$ og vinkel $\Delta\theta$ er $\frac{1}{2}r^2\cdot\Delta\theta$. Sætning 2 er i princippet en sum af uendeligt mange sådanne udsnit, svarende til at $\Delta\theta \to 0$ (se beviset i øvelse 2 fra forberedelsesmaterialet og bevis-sektionen).</p>
+
+        <div class="ex-box">
+            <strong>Eksempel 11:</strong> $r(\theta) = \sqrt{3\theta^2 - 2\theta},\quad 0 \leq \theta \leq 4$. Bestem arealet af området $M$ udspændt i $\theta \in [2;3]$.
+            $$
+            A = \frac{1}{2}\int_2^3 \!\left(\sqrt{3\theta^2-2\theta}\right)^2 d\theta
+              = \frac{1}{2}\int_2^3 (3\theta^2-2\theta)\,d\theta
+              = \frac{1}{2}\left[\theta^3 - \theta^2\right]_2^3
+            $$
+            $$
+            = \frac{1}{2}\left((27-9)-(8-4)\right) = \frac{1}{2}\cdot 14 = 7
+            $$
+            <p>Dvs. arealet af $M$ er $7$.</p>
+        </div>
+
+        <div class="ex-box">
+            <strong>Eksempel 13:</strong> To polære funktioner $r(\theta) = \sqrt{\theta+8}$ og $s(\theta) = 3\theta$ er for $0 \leq \theta \leq 2\pi$ givet. Bestem arealet af $M$ afgrænset i $[0;1]$.
+            $$
+            A = \frac{1}{2}\int_0^1\!\left((\sqrt{\theta+8})^2-(3\theta)^2\right)d\theta
+              = \frac{1}{2}\int_0^1(\theta+8-9\theta^2)\,d\theta
+            $$
+            $$
+            = \frac{1}{2}\left[\frac{1}{2}\theta^2+8\theta-3\theta^3\right]_0^1
+            = \frac{1}{2}\left(\frac{1}{2}+8-3\right) = \frac{1}{2}\cdot\frac{11}{2} = \frac{11}{4}
+            $$
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 7. KURVELÆNGDE ═══════════════════════ -->
+    <div id="kurvelaengde" class="section-divider">
+        <h2>7. Kurvelængde af polær graf</h2>
+        <p>Beregning af buelængden for en polær funktion</p>
+    </div>
+
+    <section class="card">
+        <h2>Sætning 4: Kurvelængde</h2>
+
+        <div class="thm-box">
+            <strong>Sætning 4: Kurvelængden af en polær graf</strong>
+            <p>Kurvelængden $L$ af den polære graf for en differentiabel, polær funktion $r(\theta)$ i intervallet $\theta \in [\alpha;\beta]$ er givet ved:</p>
+            <p>$$ L = \int_\alpha^\beta \sqrt{r'(\theta)^2 + r(\theta)^2}\,d\theta $$</p>
+        </div>
+
+        <p>Bemærk sammenhængen med den sædvanlige kurvelængdeformel $\int_a^b\sqrt{1+(f'(x))^2}\,dx$ for rektangulære koordinater — formlen for polære koordinater tager højde for, at kurven bevæger sig <em>rundt om origo</em>.</p>
+
+        <div class="ex-box">
+            <strong>Eksempel 15:</strong> $r(\theta) = \sqrt{\theta},\quad \frac{\pi}{2} \leq \theta \leq 2\pi$. Bestem kurvelængden.
+            <p>Den afledede er $r'(\theta) = \frac{1}{2\sqrt{\theta}}$. Dermed fås:</p>
+            $$
+            L = \int_{\pi/2}^{2\pi}\sqrt{\left(\frac{1}{2\sqrt{\theta}}\right)^2 + \left(\sqrt{\theta}\right)^2}\,d\theta
+              = \int_{\pi/2}^{2\pi}\sqrt{\frac{1}{4\theta}+\theta}\,d\theta \approx 9{,}286
+            $$
+            <p>(regnet med CAS). Dvs. kurvelængden er ca. $9{,}286$.</p>
+        </div>
+
+        <div class="ins-box">
+            <strong>Praktisk tip:</strong> Kurvelængdeintegraler for polære funktioner er sjældent analytisk beregnelige — brug CAS til delprøve 2.
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 8. FORMELOVERSIGT ═══════════════════════ -->
+    <div id="formler" class="section-divider">
+        <h2>8. Formeloversigt — Indstiksark</h2>
+        <p>De fire centrale formler fra forberedelsesmaterialet</p>
+    </div>
+
+    <section class="card">
+        <h2>Samlet oversigt over sætninger</h2>
+        <div class="formula-grid">
+            <div class="formula-card">
+                <div class="label">F(1) — Omregning</div>
+                <p><strong>Sætning 1</strong></p>
+                <p>$x = r\cos(\theta)$</p>
+                <p>$y = r\sin(\theta)$</p>
+            </div>
+            <div class="formula-card">
+                <div class="label">F(2) — Areal, én funktion</div>
+                <p><strong>Sætning 2</strong></p>
+                <p>$$ A = \frac{1}{2}\int_\alpha^\beta r(\theta)^2\,d\theta $$</p>
+            </div>
+            <div class="formula-card">
+                <div class="label">F(3) — Areal, to funktioner</div>
+                <p><strong>Sætning 3</strong> ($r \geq s$)</p>
+                <p>$$ A = \frac{1}{2}\int_\alpha^\beta \!\left(r(\theta)^2 - s(\theta)^2\right)d\theta $$</p>
+            </div>
+            <div class="formula-card">
+                <div class="label">F(4) — Kurvelængde</div>
+                <p><strong>Sætning 4</strong></p>
+                <p>$$ L = \int_\alpha^\beta \!\sqrt{r'(\theta)^2 + r(\theta)^2}\,d\theta $$</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════ 9. BEVISER ═══════════════════════ -->
+    <div id="beviser" class="section-divider">
+        <h2>9. Beviser</h2>
+        <p>Samlet oversigt over matematiske beviser i dette emne</p>
+    </div>
+
+    <section class="card">
+        <h2>Oversigt over beviser</h2>
+        <ul class="toc-list" style="columns:1;">
+            <li><a href="#bevis-omskrivning">Bevis for Sætning 1: Omregning fra polære til rektangulære koordinater</a></li>
+            <li><a href="#bevis-areal">Bevis for Sætning 2: Areal udspændt af én polær funktion</a></li>
+            <li><a href="#bevis-areal2">Bevis for Sætning 3: Areal mellem to polære funktioner</a></li>
+            <li><a href="#bevis-kurve">Bevis for Sætning 4: Kurvelængde af polær graf</a></li>
+        </ul>
+    </section>
+
+    <!-- BEVIS 1 -->
+    <section id="bevis-omskrivning" class="card proof">
+        <h2>Bevis for Sætning 1: Omregning fra polære til rektangulære koordinater</h2>
+        <p>Vi betragter enhedscirklen (radius 1) og en cirkel med centrum i $(0,0)$ og radius $r$. Det grå punkt på enhedscirklen har det polære koordinatsæt $(1,\theta)$, og det røde punkt på cirklen med radius $r$ har det polære koordinatsæt $(r,\theta)$.</p>
+
+        <p>Af definitionen på cosinus og sinus på enhedscirklen har det grå punkt de rektangulære koordinater $(\cos(\theta),\sin(\theta))$. Da de to trekanter dannet af linjestykket fra origo til hvert punkt er ensvinklede (begge med vinkel $\theta$ ved origo og en ret vinkel), er forholdet mellem kateterne det samme:</p>
+
+        <table class="proof-steps">
+            <tr>
+                <td>1</td>
+                <td>Grå punkt på enhedscirklen: koordinater $(\cos\theta,\sin\theta)$</td>
+                <td>Definition på sinus og cosinus via enhedscirklen.</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>De to retvinklede trekanter er ensvinklede med skaleringsforhold $r$</td>
+                <td>Begge trekanter har en ret vinkel og vinklen $\theta$ ved origo.</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>$x = r\cdot\cos(\theta)$</td>
+                <td>x-koordinaten skaleres med $r$ fra enhedscirklen.</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>$y = r\cdot\sin(\theta)$</td>
+                <td>y-koordinaten skaleres med $r$ fra enhedscirklen.</td>
+            </tr>
+        </table>
+        <p style="text-align:right;font-size:1.5rem;">&#9632;</p>
+    </section>
+
+    <!-- BEVIS 2 -->
+    <section id="bevis-areal" class="card proof">
+        <h2>Bevis for Sætning 2: Areal udspændt af én polær funktion</h2>
+        <p>Vi betragter en kontinuert og positiv <em>voksende</em> polær funktion $r(\theta)$ i intervallet $\theta \in [\alpha;\beta]$. Vi indfører en <strong>arealfunktion</strong> $A(\theta)$, der angiver arealet af det område, som grafen udspænder fra vinklen $\alpha$ frem til vinklen $\theta$.</p>
+        <p>Lad en given vinkel $\theta$ vokse til $\theta + \Delta\theta$. Tilvæksten i arealet er $\Delta A = A(\theta+\Delta\theta) - A(\theta)$, svarende til et tyndt "vifteformet" område.</p>
+
+        <table class="proof-steps">
+            <tr>
+                <td>a</td>
+                <td>Arealet af et cirkeludsnit med vinkel $\Delta\theta$ og radius $r$ er $\pi r^2 \cdot \frac{\Delta\theta}{2\pi} = \frac{1}{2}r^2\cdot\Delta\theta$</td>
+                <td>Andelen $\frac{\Delta\theta}{2\pi}$ af en fuld cirkel med areal $\pi r^2$.</td>
+            </tr>
+            <tr>
+                <td>b</td>
+                <td>Nedre grænse: $\frac{1}{2}r(\theta)^2\cdot\Delta\theta \leq \Delta A$</td>
+                <td>Det mindste cirkelstykke (med radius $r(\theta)$) er indeholdt i det vifteformede område.</td>
+            </tr>
+            <tr>
+                <td>c</td>
+                <td>Øvre grænse: $\Delta A \leq \frac{1}{2}r(\theta+\Delta\theta)^2\cdot\Delta\theta$</td>
+                <td>Det største cirkelstykke (med radius $r(\theta+\Delta\theta)$) indeholder det vifteformede område.</td>
+            </tr>
+            <tr>
+                <td>d</td>
+                <td>$\frac{1}{2}r(\theta)^2\cdot\Delta\theta \leq \Delta A \leq \frac{1}{2}r(\theta+\Delta\theta)^2\cdot\Delta\theta$</td>
+                <td>Tilvæksten i arealet er afgrænset af de to cirkelstykker.</td>
+            </tr>
+            <tr>
+                <td>e</td>
+                <td>$\frac{1}{2}r(\theta)^2 \leq \frac{\Delta A}{\Delta\theta} \leq \frac{1}{2}r(\theta+\Delta\theta)^2$</td>
+                <td>Dividér med $\Delta\theta > 0$ (ændrer ikke ulighedstegnene).</td>
+            </tr>
+            <tr>
+                <td>f</td>
+                <td>$\lim_{\Delta\theta\to 0}\frac{\Delta A}{\Delta\theta} = \frac{dA}{d\theta} = \frac{1}{2}r(\theta)^2$</td>
+                <td>Når $\Delta\theta\to 0$ er $r(\theta+\Delta\theta)\to r(\theta)$ (kontinuitet), og sekanthældningen "klemes" til $\frac{1}{2}r(\theta)^2$.</td>
+            </tr>
+            <tr>
+                <td>g</td>
+                <td>$A(\theta) = \int\frac{1}{2}r(\theta)^2\,d\theta + k$, og dermed $A = \frac{1}{2}\displaystyle\int_\alpha^\beta r(\theta)^2\,d\theta$</td>
+                <td>$A(\alpha) = 0$ bestemmer integrationskonstanten, og $A(\beta)$ er det ønskede areal.</td>
+            </tr>
+        </table>
+        <p>Man kan vise, at resultatet er det samme, selvom $r(\theta)$ ikke er voksende.</p>
+        <p style="text-align:right;font-size:1.5rem;">&#9632;</p>
+    </section>
+
+    <!-- BEVIS 3 -->
+    <section id="bevis-areal2" class="card proof">
+        <h2>Bevis for Sætning 3: Areal mellem to polære funktioner</h2>
+        <p>Vi skal finde arealet $A$ af området $M$ afgrænset af graferne for $r(\theta)$ og $s(\theta)$, hvor $r(\theta) \geq s(\theta) \geq 0$ i $[\alpha;\beta]$.</p>
+
+        <table class="proof-steps">
+            <tr>
+                <td>1</td>
+                <td>$A_r = \frac{1}{2}\int_\alpha^\beta r(\theta)^2\,d\theta$</td>
+                <td>Arealet af det område udspændt af den ydre funktion $r$ (Sætning 2).</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>$A_s = \frac{1}{2}\int_\alpha^\beta s(\theta)^2\,d\theta$</td>
+                <td>Arealet af det område udspændt af den indre funktion $s$ (Sætning 2).</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>$A = A_r - A_s = \frac{1}{2}\int_\alpha^\beta r(\theta)^2\,d\theta - \frac{1}{2}\int_\alpha^\beta s(\theta)^2\,d\theta$</td>
+                <td>Arealet af $M$ er arealet under $r$ minus arealet under $s$.</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>$A = \frac{1}{2}\int_\alpha^\beta \left(r(\theta)^2 - s(\theta)^2\right)d\theta$</td>
+                <td>Differensreglen for integraler slår de to integraler sammen.</td>
+            </tr>
+        </table>
+        <p style="text-align:right;font-size:1.5rem;">&#9632;</p>
+    </section>
+
+    <!-- BEVIS 4 -->
+    <section id="bevis-kurve" class="card proof">
+        <h2>Bevis for Sætning 4: Kurvelængde af polær graf</h2>
+        <p>Vi tilnærmer kurven med $n$ linjestykker. Et enkelt linjestykke fra $(\theta, r(\theta))$ til $(\theta+\Delta\theta, r(\theta+\Delta\theta))$ er hypotenusen i en (meget lille) trekant i planet.</p>
+        <p>Vi omskriver de polære koordinater til rektangulære koordinater via $x(\theta) = r(\theta)\cos(\theta)$ og $y(\theta) = r(\theta)\sin(\theta)$, og bruger derefter den sædvanlige kurvelængdeformel.</p>
+
+        <table class="proof-steps">
+            <tr>
+                <td>1</td>
+                <td>$x(\theta) = r(\theta)\cos\theta,\quad y(\theta) = r(\theta)\sin\theta$</td>
+                <td>Omskrivning til rektangulære koordinater (Sætning 1).</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>$x'(\theta) = r'(\theta)\cos\theta - r(\theta)\sin\theta$</td>
+                <td>Produktreglen for differentiation af $x(\theta)$.</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>$y'(\theta) = r'(\theta)\sin\theta + r(\theta)\cos\theta$</td>
+                <td>Produktreglen for differentiation af $y(\theta)$.</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>$(x'(\theta))^2 + (y'(\theta))^2$<br>$= r'(\theta)^2\cos^2\theta - 2r'r\cos\theta\sin\theta + r(\theta)^2\sin^2\theta$<br>$\quad + r'(\theta)^2\sin^2\theta + 2r'r\sin\theta\cos\theta + r(\theta)^2\cos^2\theta$</td>
+                <td>Kvadrér og læg de to led sammen.</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>$= r'(\theta)^2(\cos^2\theta+\sin^2\theta) + r(\theta)^2(\sin^2\theta+\cos^2\theta) = r'(\theta)^2 + r(\theta)^2$</td>
+                <td>Brug $\cos^2\theta + \sin^2\theta = 1$. De krydsled går ud.</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>$L = \displaystyle\int_\alpha^\beta\sqrt{(x'(\theta))^2+(y'(\theta))^2}\,d\theta = \int_\alpha^\beta\sqrt{r'(\theta)^2+r(\theta)^2}\,d\theta$</td>
+                <td>Den sædvanlige kurvelængdeformel for parameterfremstillingen $(x(\theta),y(\theta))$, kombineret med resultatet fra trin 5.</td>
+            </tr>
+        </table>
+        <p style="text-align:right;font-size:1.5rem;">&#9632;</p>
+    </section>
+
+    <button class="print-btn" onclick="window.print()" style="margin-top:20px;">Download emnet som PDF</button>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; <span id="currentYear"></span> STX Matematik Noter. Alle rettigheder forbeholdes.</p>
+            <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme.</p>
+        </div>
+    </footer>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+});
+</script>
+
+</body>
+</html>
