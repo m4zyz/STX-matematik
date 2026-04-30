@@ -15,7 +15,7 @@ const stxMenuData = {
         { title: "Sandsynlighedsregning", path: "emner/A/Sandsynlighedsregning.html" },
         { title: "Tal", path: "emner/A/Tal.html" },
         { title: "Keglesnit", path: "emner/A/Keglesnit.html" },
-        { title: "Polære funktioner", path: "emner/A/Polærefunktioner.html" }
+        { title: "Polære funktioner", path: "emner/A/polaere_funktioner.html" }
     ],
     "B-Niveau": [
         { title: "Differentialregning", path: "emner/B/differentialregning.html" },
