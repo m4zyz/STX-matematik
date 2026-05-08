@@ -153,16 +153,12 @@
             color: #2ecc71;
         }
 
-        @keyframes popInGreen {
-    0% { opacity: 0; transform: translateY(15px) scale(0.5); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
-}
+        @keyframes popIn {
+            0% { opacity: 0; transform: translateY(15px) scale(0.5); color: #2ecc71; }
+            50% { color: #2ecc71; }
+            100% { opacity: 1; transform: translateY(0) scale(1); color: #333; }
+        }
 
-.train-typed-correct {
-    display: inline-block;
-    animation: popInGreen 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-    color: #2ecc71;
-}
         .input-area {
             margin-top: 20px;
         }
@@ -475,11 +471,11 @@
         }
 
         function trainCorrectDigit(char) {
-    const span = document.createElement('span');
-    span.className = 'train-typed-correct new-digit'; // ← tilføj new-digit her
-    span.textContent = char;
-    display.appendChild(span);
-    // ...
+            // Tilføj korrekt ciffer grønt til display
+            const span = document.createElement('span');
+            span.className = 'train-typed-correct';
+            span.textContent = char;
+            display.appendChild(span);
 
             trainTypedIndex++;
 
