@@ -471,36 +471,36 @@
         }
 
         function trainCorrectDigit(char) {
-            // Tilføj korrekt ciffer grønt til display
-            const span = document.createElement('span');
-            span.className = 'train-typed-correct';
-            span.textContent = char;
-            display.appendChild(span);
+    // Tilføj korrekt ciffer grønt til display med popIn animation
+    const span = document.createElement('span');
+    span.className = 'train-typed-correct new-digit'; // <-- Her er ændringen
+    span.textContent = char;
+    display.appendChild(span);
 
-            trainTypedIndex++;
+    trainTypedIndex++;
 
-            if (trainTypedIndex >= trainTarget) {
-                // Runden klaret!
-                if (trainTarget > trainBest) {
-                    trainBest = trainTarget;
-                    document.getElementById('train-best').textContent = trainBest;
-                }
-                trainTarget++;
-                document.getElementById('train-level').textContent = trainTarget;
-
-                input.disabled = true;
-                instructionText.textContent = '';
-                trainStatus.innerHTML = '<span style="color:#2ecc71">✓ Godt klaret!</span> Næste runde: ' + trainTarget + ' cifre';
-                trainCountdown.textContent = '';
-
-                // Kort pause, vis så næste runde
-                setTimeout(() => {
-                    showTrainDigits();
-                }, 1200);
-            } else {
-                instructionText.textContent = 'Skriv ciffer ' + (trainTypedIndex + 1) + ' af ' + trainTarget;
-            }
+    if (trainTypedIndex >= trainTarget) {
+        // Runden klaret!
+        if (trainTarget > trainBest) {
+            trainBest = trainTarget;
+            document.getElementById('train-best').textContent = trainBest;
         }
+        trainTarget++;
+        document.getElementById('train-level').textContent = trainTarget;
+
+        input.disabled = true;
+        instructionText.textContent = '';
+        trainStatus.innerHTML = '<span style="color:#2ecc71">✓ Godt klaret!</span> Næste runde: ' + trainTarget + ' cifre';
+        trainCountdown.textContent = '';
+
+        // Kort pause, vis så næste runde
+        setTimeout(() => {
+            showTrainDigits();
+        }, 1200);
+    } else {
+        instructionText.textContent = 'Skriv ciffer ' + (trainTypedIndex + 1) + ' af ' + trainTarget;
+    }
+}
 
         function trainWrongDigit() {
             input.classList.remove('error-shake');
