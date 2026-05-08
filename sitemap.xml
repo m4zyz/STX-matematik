@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://stxmatematik.dk/</loc>
+    <lastmod>2024-03-20</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://stxmatematik.dk/om.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://stxmatematik.dk/kontakt.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://stxmatematik.dk/kilder.html</loc>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://stxmatematik.dk/stoet.html</loc>
+    <priority>0.3</priority>
+  </url>
+</urlset>
