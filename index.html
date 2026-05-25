@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 1. Optimeret Titel Tag (Mellem prioritet på din liste) -->
     <title>STX Matematik – Noter, Beviser og Eksamensforberedelse</title>
 
-    <!-- 2. Meta Beskrivelse (Høj prioritet på din liste) -->
     <meta name="description" content="Få styr på STX matematik med vores digitale kartotek. Find noter til afleveringer, beviser til mundtlig eksamen og download emner som PDF til offline brug.">
     <link rel="stylesheet" href="style.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -19,7 +17,6 @@
 
     <link rel="canonical" href="https://stxmatematik.dk/" />
 
-    <!-- Schema Markup (Mellem prioritet) -->
     <script type="application/ld+json">
         {
           "@context": "https://schema.org",
@@ -30,14 +27,12 @@
         }
         </script>
 
-        <!-- Facebook Open Graph -->
-<meta property="og:type" content="website">
+        <meta property="og:type" content="website">
 <meta property="og:url" content="https://stxmatematik.dk/">
 <meta property="og:title" content="STX Matematik – Noter og Beviser">
 <meta property="og:description" content="Digitalt kartotek med alt hvad du skal bruge til matematik på STX.">
 <meta property="og:image" content="https://stxmatematik.dk/dele-billede.png">
 
-<!-- X (tidligere Twitter) Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="STX Matematik">
 <meta name="twitter:description" content="Find dine matematiknoter og beviser her.">
@@ -51,9 +46,18 @@
         
         <section id="forside" class="card">
             <h1>Velkommen til STX Matematik</h1>
-            Denne side er bygget op som et digitalt kartotek til dig, der har matematik på STX. Uanset om du laver daglige afleveringer, forbereder dig til den skriftlige eksamen, eller læser op på beviser til den mundtlige eksamen, kan du finde materialet her.
+            <p>Denne side er bygget op som et digitalt kartotek til dig, der har matematik på STX. Uanset om du laver daglige afleveringer, forbereder dig til den skriftlige eksamen, eller læser op på beviser til den mundtlige eksamen, kan du finde materialet her.</p>
 
-            Brug menuen til venstre (eller hamburger-menuen på mobil) for at folde niveauerne ud og finde det specifikke emne, du søger.
+            <p>Brug menuen til venstre (eller hamburger-menuen på mobil) for at folde niveauerne ud og finde det specifikke emne, du søger.</p>
+
+            <div class="download-section" style="margin: 25px 0; padding: 20px; background-color: #f8f9fa; border-left: 4px solid #3498db; border-radius: 5px;">
+                <h3 style="margin-top: 0;">Træn til eksamen</h3>
+                <p>Her er 9 gamle matematik eksamensopgaver, du kan bruge til din forberedelse:</p>
+                <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+                    <a href="sti/til/opgaver.mw" download class="print-btn" style="text-decoration: none; text-align: center;">Download Maple-fil</a>
+                    <a href="sti/til/opgaver.pdf" download class="print-btn" style="text-decoration: none; text-align: center; background-color: #e74c3c;">Download PDF</a>
+                </div>
+            </div>
 
             <div class="pdf-info">
                 <h3>Vigtigt: Tag noterne med til eksamen!</h3>
@@ -85,10 +89,6 @@
         // 1. Sæt årstal i footeren
         const yearEl = document.getElementById('currentYear');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
-    
- 
     </script>
-
-
 </body>
 </html>
