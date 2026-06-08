@@ -118,13 +118,18 @@ function aktiverMenuFunktioner() {
         });
     });
 
-    const currentFile = window.location.pathname.split('/').pop(); 
-    document.querySelectorAll('.submenu a').forEach(link => {
-        const linkFile = link.getAttribute('href').split('/').pop(); 
-        if (linkFile === currentFile && currentFile !== '') {
-            link.classList.add('current-page');
-        }
-    });
+    // --- UDSKIFT DENNE DEL I aktiverMenuFunktioner() ---
+    
+const currentPath = window.location.pathname; 
+document.querySelectorAll('.submenu a').forEach(link => {
+    // link.pathname trækker automatisk den fulde sti ud (inkl. mapper, f.eks. /emner/B/...)
+    // På den måde adskiller den automatisk B-niveau og C-niveau filer med samme navn
+    if (link.pathname === currentPath && currentPath !== '/' && currentPath !== '') {
+        link.classList.add('current-page');
+    }
+});
+
+// ----------------------------------------------------
 
     const yearEl = document.getElementById('currentYear');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
