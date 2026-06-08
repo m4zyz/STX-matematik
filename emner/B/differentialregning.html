@@ -83,15 +83,14 @@
             <p>Når det er muligt at bestemme hældningen i et punkt, siges $f(x)$ at være <strong>differentiabel</strong> i $x_0$. I definitionen benytter vi, at en sekant er en ret linje, der går gennem to punkter $(x_0, f(x_0))$ og $(x, f(x))$ på grafen.</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
-                <strong>Definition 1: Differentiabilitet</strong>
-                <p>At en funktion $f(x)$ er differentiabel i $x_0$, betyder, at sekanthældningen</p>
-                <p>$$ \frac{f(x)-f(x_0)}{x-x_0} $$</p>
-                <p>går mod et bestemt tal $a$, når $x$ går mod $x_0$.</p>
-                <p>I så fald kaldes dette tal $a$ for differentialkvotienten af $f(x)$ i $x_0$, og det betegnes $f'(x_0)$.</p>
+                <strong>Definition 411 (Differentiabilitet og differentialkvotient i punkt)</strong>
+                <p>En funktion $f$ er differentiabel i $x$ med differentialkvotient $f'(x)$, hvis differenskvotienterne $\frac{f(x+\Delta x)-f(x)}{\Delta x}$ har en grænseværdi for $\Delta x\rightarrow 0$.</p>
+                <p>Grænseværdien er differentialkvotienten $f'(x)$ i $x$, dvs.</p>
+                <p>$$\frac{f(x+\Delta x)-f(x)}{\Delta x}\rightarrow f'(x) \quad\text{for}\quad \Delta x\rightarrow 0$$</p>
             </div>
 
             <p>Hvis det oplyses, at en funktion $f(x)$ er differentiabel i $x_0$, betyder det således, at:</p>
-            <p>$$ \frac{f(x)-f(x_0)}{x-x_0} \to f'(x_0) \quad \text{når} \quad x \to x_0 $$</p>
+            <p>$$\frac{f(x)-f(x_0)}{x-x_0} \to f'(x_0) \quad \text{når} \quad x \to x_0$$</p>
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Definition: Tangent</strong>
@@ -103,9 +102,10 @@
 
             <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #2c3e50; margin: 15px 0;">
                 <strong>Definition 2: Differentiabilitet (h-reglen)</strong>
-                <p>I stedet for at bruge $x$, kan afstanden mellem x-værdierne betegnes $h$, så punktet er $(x_0+h, f(x_0+h))$. Differentiabilitet betyder her, at sekanthældningen:</p>
-                <p>$$ \frac{f(x_0+h)- f(x_0)}{h} $$</p>
-                <p>går mod et bestemt tal $a$, når $h$ går mod $0$. Dette tal er differentialkvotienten $f'(x_0)$.</p>
+                <p>I stedet for at bruge $\Delta x$, kan afstanden mellem x-værdierne betegnes $h$, så punktet er $(x_0+h, f(x_0+h))$. Differentiabilitet betyder her, at sekanthældningen:</p>
+                <p>$$\frac{f(x_0+h)- f(x_0)}{h}$$</p>
+                <p>har en grænseværdi, når $h$ går mod $0$. Denne grænseværdi er differentialkvotienten $f'(x_0)$, dvs.</p>
+                <p>$$\frac{f(x_0+h)- f(x_0)}{h} \to f'(x_0) \quad \text{når} \quad h \to 0$$</p>
             </div>
             
         </section>

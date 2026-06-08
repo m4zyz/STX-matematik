@@ -18,7 +18,7 @@ const stxMenuData = {
         { title: "Polære funktioner", path: "emner/A/polaere_funktioner.html" }
     ],
     "B-Niveau": [
-        { title: "Differentialregning", path: "emner/B/differentialregning.html" },
+        { title: "Differentialregning - B", path: "emner/B/differentialregning.html" },
         { title: "Integralregning", path: "emner/B/integralregning.html" },
         { title: "Sandsynlighedsregning og statistik", path: "emner/B/Sandsynlighedsregningstatistik.html" },
         { title: "Vektorer i 2D", path: "emner/B/Vektorer2D.html" }
@@ -26,7 +26,7 @@ const stxMenuData = {
     "C-Niveau": [
         { title: "Funktioner C", path: "emner/C/Funktioner.html" },
         { title: "polynomier", path: "emner/C/polynomier.html" },
-        { title: "differentialregning", path: "emner/C/differentialregning.html" },
+        { title: "Differentialregning - C", path: "emner/C/differentialregning.html" },
         { title: "vektor i 2d", path: "emner/C/c-vektor2d.html" },
         { title: "Statistik", path: "emner/C/Statistik.html" },
     ],
