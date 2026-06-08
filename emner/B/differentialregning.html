@@ -62,6 +62,7 @@
             <h2>Indholdsfortegnelse</h2>
             <ul class="toc-list">
                 <li><a href="#definition"><span class="toc-num">1.</span>Definition af differentialkvotient</a></li>
+                <li><a href="#forstaa-h"><span class="toc-num">1.1</span>Hvad betyder 'h' egentlig?</a></li>
                 <li><a href="#optimering"><span class="toc-num">2.</span>Optimering</a></li>
                 <li><a href="#regneregler"><span class="toc-num">3.</span>Regneregler for differentiation</a></li>
                 <li><a href="#funktioner"><span class="toc-num">4.</span>Eksponential-, logaritme- og potensfunktioner</a></li>
@@ -109,6 +110,122 @@
                 <p>$$\frac{f(x_0+h)- f(x_0)}{h} \to f'(x_0) \quad \text{når} \quad h \to 0$$</p>
             </div>
             
+        </section>
+
+        <div id="forstaa-h" class="section-divider">
+            <h2>Hvad betyder 'h' egentlig?</h2>
+            <p>En visuel og intuitiv forståelse af afstanden mellem punkterne</p>
+        </div>
+
+        <section class="card">
+            <h2>Forståelsen af h i sekanthældningen</h2>
+            <p>Når vi snakker om differentialregning og bruger den såkaldte <strong>h-regel</strong> (Definition 2), støder vi på variablen $h$. Men hvad repræsenterer $h$ i virkeligheden?</p>
+
+            <p>Helt simpelt er $h$ <strong>afstanden på x-aksen</strong> mellem de to punkter, vi bruger til at tegne vores sekant (en ret linje gennem to punkter på grafen).</p>
+
+            <div style="background: #ffffff; padding: 20px; border: 1px solid #ddd; border-radius: 8px; margin: 25px 0; text-align: center;">
+                <svg viewBox="0 0 500 370" style="width: 100%; max-width: 550px; height: auto;">
+                    <defs>
+                        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#7f8c8d" />
+                        </marker>
+                    </defs>
+
+                    <line x1="60" y1="300" x2="460" y2="300" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowhead)" />
+                    <line x1="80" y1="320" x2="80" y2="40" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowhead)" />
+
+                    <line x1="230" y1="300" x2="230" y2="232.5" stroke="#bdc3c7" stroke-dasharray="4,4" />
+                    <line x1="80" y1="232.5" x2="230" y2="232.5" stroke="#bdc3c7" stroke-dasharray="4,4" />
+                    
+                    <line stroke="#bdc3c7" stroke-dasharray="4,4">
+                        <animate attributeName="x1" values="330; 310; 290; 270; 250; 230; 250; 270; 290; 310; 330" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="x2" values="330; 310; 290; 270; 250; 230; 250; 270; 290; 310; 330" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="y1" values="300; 300; 300; 300; 300; 300; 300; 300; 300; 300; 300" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="y2" values="112.5; 141.3; 167.7; 191.7; 213.3; 232.5; 213.3; 191.7; 167.7; 141.3; 112.5" dur="6s" repeatCount="indefinite" />
+                    </line>
+                    <line stroke="#bdc3c7" stroke-dasharray="4,4">
+                        <animate attributeName="x1" values="80; 80; 80; 80; 80; 80; 80; 80; 80; 80; 80" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="x2" values="330; 310; 290; 270; 250; 230; 250; 270; 290; 310; 330" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="y1" values="112.5; 141.3; 167.7; 191.7; 213.3; 232.5; 213.3; 191.7; 167.7; 141.3; 112.5" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="y2" values="112.5; 141.3; 167.7; 191.7; 213.3; 232.5; 213.3; 191.7; 167.7; 141.3; 112.5" dur="6s" repeatCount="indefinite" />
+                    </line>
+
+                    <path d="M 80 300 Q 255 300 430 -67.5" fill="none" stroke="#2c3e50" stroke-width="3" />
+
+                    <line x1="130" y1="322.5" x2="380" y2="97.5" stroke="#3498db" stroke-width="2" stroke-dasharray="6,4" />
+
+                    <line x1="130" x2="380" stroke="#e74c3c" stroke-width="2">
+                        <animate attributeName="y1" values="352.5; 346.5; 340.5; 334.5; 328.5; 322.5; 328.5; 334.5; 340.5; 346.5; 352.5" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="y2" values="52.5; 61.5; 70.5; 79.5; 88.5; 97.5; 88.5; 79.5; 70.5; 61.5; 52.5" dur="6s" repeatCount="indefinite" />
+                    </line>
+
+                    <circle cx="230" cy="232.5" r="5" fill="#2c3e50" />
+                    <circle r="5" fill="#e74c3c">
+                        <animate attributeName="cx" values="330; 310; 290; 270; 250; 230; 250; 270; 290; 310; 330" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="cy" values="112.5; 141.3; 167.7; 191.7; 213.3; 232.5; 213.3; 191.7; 167.7; 141.3; 112.5" dur="6s" repeatCount="indefinite" />
+                    </circle>
+
+                    <path fill="none" stroke="#2c3e50" stroke-width="1.5">
+                        <animate attributeName="d" values="
+                            M 230 315 L 230 320 L 330 320 L 330 315; 
+                            M 230 315 L 230 320 L 310 320 L 310 315; 
+                            M 230 315 L 230 320 L 290 320 L 290 315; 
+                            M 230 315 L 230 320 L 270 320 L 270 315; 
+                            M 230 315 L 230 320 L 250 320 L 250 315; 
+                            M 230 315 L 230 320 L 230 320 L 230 315; 
+                            M 230 315 L 230 320 L 250 320 L 250 315; 
+                            M 230 315 L 230 320 L 270 320 L 270 315; 
+                            M 230 315 L 230 320 L 290 320 L 290 315; 
+                            M 230 315 L 230 320 L 310 320 L 310 315; 
+                            M 230 315 L 230 320 L 330 320 L 330 315" dur="6s" repeatCount="indefinite" />
+                    </path>
+                    <text y="335" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2c3e50">
+                        <animate attributeName="x" values="280; 270; 260; 250; 240; 230; 240; 250; 260; 270; 280" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="1; 1; 1; 1; 0.2; 0; 0.2; 1; 1; 1; 1" dur="6s" repeatCount="indefinite" />
+                        h
+                    </text>
+
+                    <text x="440" y="318" font-family="Arial, sans-serif" font-size="14" font-style="italic" fill="#7f8c8d">x</text>
+                    <text x="60" y="50" font-family="Arial, sans-serif" font-size="14" font-style="italic" fill="#7f8c8d">y</text>
+
+                    <text x="220" y="290" font-family="Arial, sans-serif" font-size="14" font-style="italic" fill="#2c3e50">x<tspan dy="4" font-size="0.75em">0</tspan></text>
+                    <text y="290" font-family="Arial, sans-serif" font-size="14" font-style="italic" fill="#e74c3c">
+                        <animate attributeName="x" values="315; 295; 275; 255; 235; 215; 235; 255; 275; 295; 315" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="1; 1; 1; 1; 0.2; 0; 0.2; 1; 1; 1; 1" dur="6s" repeatCount="indefinite" />
+                        x<tspan dy="4" font-size="0.75em">0</tspan><tspan dy="-4"> + h</tspan>
+                    </text>
+
+                    <text x="35" y="237" font-family="Arial, sans-serif" font-size="14" font-style="italic" fill="#2c3e50">f(x<tspan dy="4" font-size="0.75em">0</tspan><tspan dy="-4">)</tspan></text>
+                    <text x="10" font-family="Arial, sans-serif" font-size="14" font-style="italic" fill="#e74c3c">
+                        <animate attributeName="y" values="117; 145.8; 172.2; 196.2; 217.8; 237; 217.8; 196.2; 172.2; 145.8; 117" dur="6s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="1; 1; 1; 1; 0.2; 0; 0.2; 1; 1; 1; 1" dur="6s" repeatCount="indefinite" />
+                        f(x<tspan dy="4" font-size="0.75em">0</tspan><tspan dy="-4"> + h)</tspan>
+                    </text>
+                </svg>
+                <div style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">
+                    <strong>Rød linje:</strong> Sekanten mellem de to punkter. <strong>Blå stiplet linje:</strong> Tangenten i startpunktet. <br>
+                    <em style="color: #2c3e50;">Bemærk, hvordan sekanten forvandler sig til tangenten, efterhånden som afstanden h krymper mod 0.</em>
+                </div>
+            </div>
+            <ul>
+                <li>Vores udgangspunkt er et fast punkt på grafen: $(x_0, f(x_0))$.</li>
+                <li>Vi vælger et andet punkt et stykke længere henne (eller tilbage) på grafen. Vi kalder denne vandrette afstand for $h$.</li>
+                <li>X-koordinaten for det nye punkt bliver derfor $x_0 + h$, og y-koordinaten bliver $f(x_0 + h)$.</li>
+            </ul>
+
+            <p>Hældningen ($a$) for en ret linje mellem to punkter $(x_1, y_1)$ og $(x_2, y_2)$ er normalt givet ved formlen $a = \frac{y_2 - y_1}{x_2 - x_1}$. Sætter vi vores punkter ind i denne formel, får vi sekanthældningen:</p>
+
+            <p>$$ a_{sekant} = \frac{f(x_0+h) - f(x_0)}{(x_0+h) - x_0} $$</p>
+
+            <p>I nævneren går $x_0$ ud med hinanden ($x_0 - x_0 = 0$), og tilbage har vi præcis den brøk, der kendetegner h-reglen:</p>
+
+            <p>$$ a_{sekant} = \frac{f(x_0+h) - f(x_0)}{h} $$</p>
+
+            <div style="background: #f9f9f9; padding: 15px; border-left: 5px solid #3498db; margin: 15px 0;">
+                <strong>Når h går mod 0 ($h \to 0$):</strong>
+                <p>Hele magien i differentialregning opstår, når vi lader afstanden $h$ blive uendeligt lille. Når $h$ skrumper ind mod 0, rykker punktet $(x_0 + h, f(x_0 + h))$ tættere og tættere på vores startpunkt $(x_0, f(x_0))$.</p>
+                <p>Til sidst ligger de to punkter i praksis oven i hinanden, og den røde sekant forvandler sig til den <strong>blå tangent</strong>. Tangentens hældning er det, vi kalder for differentialkvotienten, $f'(x_0)$.</p>
+            </div>
         </section>
 
         <div id="optimering" class="section-divider">
