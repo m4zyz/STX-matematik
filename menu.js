@@ -5,39 +5,39 @@ faviconLink.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' v
 document.head.appendChild(faviconLink);
 // -----------------------------------------------------------
 
-// --- 1. DIT KARTOTEK OVER EMNER ---
+// --- 1. DIT KARTOTEK OVER EMNER (Nu med nøgleord!) ---
 const stxMenuData = {
     "A-Niveau": [
-        { title: "Funktioner A", path: "emner/A/funktionerA.html" },
-        { title: "Differentialligninger", path: "emner/A/Differentialligninger.html" },
-        { title: "Vektorfunktioner og parameterkurver", path: "emner/A/VektorfunktionerParameterkurver.html" },
-        { title: "Funktioner af to variable", path: "emner/A/Funktionertovariable.html" },
-        { title: "Sandsynlighedsregning", path: "emner/A/Sandsynlighedsregning.html" },
-        { title: "Tal", path: "emner/A/Tal.html" },
-        { title: "Keglesnit", path: "emner/A/Keglesnit.html" },
-        { title: "Polære funktioner", path: "emner/A/polaere_funktioner.html" }
+        { title: "Funktioner A", path: "emner/A/funktionerA.html", keywords: "definitionsmængde værdimængde nulpunkter ekstrema" },
+        { title: "Differentialligninger", path: "emner/A/Differentialligninger.html", keywords: "separation af de variable panserformlen vækstmodeller logistisk vækst" },
+        { title: "Vektorfunktioner og parameterkurver", path: "emner/A/VektorfunktionerParameterkurver.html", keywords: "hastighedsvektor accelerationsvektor banekurve" },
+        { title: "Funktioner af to variable", path: "emner/A/Funktionertovariable.html", keywords: "niveaukurver partielt afledede sadelpunkt gradient" },
+        { title: "Sandsynlighedsregning", path: "emner/A/Sandsynlighedsregning.html", keywords: "binomialfordeling normalfordeling middelværdi varians" },
+        { title: "Tal", path: "emner/A/Tal.html", keywords: "komplekse tal reelle tal" },
+        { title: "Keglesnit", path: "emner/A/Keglesnit.html", keywords: "cirkel ellipse parabel hyperbel brændpunkt" }, // <-- Se her! Nu virker søgning på hyperbel.
+        { title: "Polære funktioner", path: "emner/A/polaere_funktioner.html", keywords: "polære koordinater vinkel radius" }
     ],
     "B-Niveau": [
-        { title: "Differentialregning - B", path: "emner/B/differentialregning.html" },
-        { title: "Integralregning", path: "emner/B/integralregning.html" },
-        { title: "Sandsynlighedsregning og statistik", path: "emner/B/Sandsynlighedsregningstatistik.html" },
-        { title: "Vektorer i 2D", path: "emner/B/Vektorer2D.html" }
+        { title: "Differentialregning - B", path: "emner/B/differentialregning.html", keywords: "tretrinsreglen h-reglen tangentligning sekant produktreglen" },
+        { title: "Integralregning", path: "emner/B/integralregning.html", keywords: "arealet under kurven stamfunktion substitution" },
+        { title: "Sandsynlighedsregning og statistik", path: "emner/B/Sandsynlighedsregningstatistik.html", keywords: "chi-i-anden test p-værdi boksplot" },
+        { title: "Vektorer i 2D", path: "emner/B/Vektorer2D.html", keywords: "prikprodukt skalarprodukt determinant tværvektor" }
     ],
     "C-Niveau": [
-        { title: "Funktioner C", path: "emner/C/Funktioner.html" },
-        { title: "polynomier", path: "emner/C/polynomier.html" },
-        { title: "Differentialregning - C", path: "emner/C/differentialregning.html" },
-        { title: "vektor i 2d", path: "emner/C/c-vektor2d.html" },
-        { title: "Statistik", path: "emner/C/Statistik.html" },
+        { title: "Funktioner C", path: "emner/C/Funktioner.html", keywords: "lineær eksponentiel potens fordoblingskonstant" },
+        { title: "Polynomier", path: "emner/C/polynomier.html", keywords: "andengradsligning diskriminant toppunkt" },
+        { title: "Differentialregning - C", path: "emner/C/differentialregning.html", keywords: "hældning væksthastighed" },
+        { title: "Vektor i 2D", path: "emner/C/c-vektor2d.html", keywords: "længde koordinater addition" },
+        { title: "Statistik", path: "emner/C/Statistik.html", keywords: "middeltal median typetal kvartilsæt" }
     ],
     "Formelsamlinger": [
-        { title: "A-niveau", path: "formelsamling/A/formelsamlingA.html" },
-        { title: "B-niveau", path: "formelsamling/B/formelsamlingB.html" },
-        { title: "C-niveau", path: "formelsamling/C/formelsamlingC.html" }
+        { title: "A-niveau", path: "formelsamling/A/formelsamlingA.html", keywords: "formler overblik" },
+        { title: "B-niveau", path: "formelsamling/B/formelsamlingB.html", keywords: "formler overblik" },
+        { title: "C-niveau", path: "formelsamling/C/formelsamlingC.html", keywords: "formler overblik" }
     ],
     "Spil": [
-        { title: "Pi quiz", path: "spil/piquiz.html" },
-        { title: "Euler's tal quiz", path: "spil/equiz.html" },
+        { title: "Pi quiz", path: "spil/piquiz.html", keywords: "konkurrence spil sjov" },
+        { title: "Euler's tal quiz", path: "spil/equiz.html", keywords: "konkurrence spil sjov" }
     ]
 };
 
@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
 </h2>`;
 
-    // Tilføj det indbyggede søgefelt her
+    // Indbygget søgefelt
     html += `
     <div style="padding: 0 15px 15px 15px; position: relative;">
-        <input type="text" id="menuSearch" placeholder="Søg i noter..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; outline: none;">
+        <input type="text" id="menuSearch" placeholder="Søg i noter (fx 'hyperbel')..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; outline: none;">
         <ul id="menuSearchResults" style="list-style: none; padding: 0; margin: 5px 0 0 0; background: white; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: absolute; z-index: 1000; width: calc(100% - 30px); max-height: 250px; overflow-y: auto; display: none;"></ul>
     </div>
     `;
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 3. AKTIVER HUKOMMELSE, FARVER OG SØGNING ---
     aktiverMenuFunktioner();
-    aktiverSoegefunktion(); // Ny funktion kaldes her
+    aktiverSoegefunktion();
 
     // --- 4. HAMBURGER MENU TIL MOBIL ---
     const hamburger = document.createElement('button');
@@ -135,16 +135,21 @@ function aktiverMenuFunktioner() {
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 }
 
-// --- NY FUNKTION: Håndterer søgefeltet ---
+// --- NY FUNKTION: Håndterer søgefeltet med nøgleord ---
 function aktiverSoegefunktion() {
     const searchInput = document.getElementById('menuSearch');
     const searchResults = document.getElementById('menuSearchResults');
     
-    // Samler alle sider fra menuen i én lang liste, så den er let at søge i
+    // Samler alle sider fra menuen, nu inklusiv nøgleordene (hvis de findes)
     let allPages = [];
     for (const [niveau, emner] of Object.entries(stxMenuData)) {
         emner.forEach(emne => {
-            allPages.push({ title: emne.title, path: emne.path, niveau: niveau });
+            allPages.push({ 
+                title: emne.title, 
+                path: emne.path, 
+                niveau: niveau,
+                keywords: emne.keywords ? emne.keywords.toLowerCase() : "" 
+            });
         });
     }
 
@@ -157,8 +162,10 @@ function aktiverSoegefunktion() {
             return;
         }
 
-        // Filtrer siderne baseret på det indtastede
-        const filtered = allPages.filter(p => p.title.toLowerCase().includes(query));
+        // Filtrer siderne: Findes teksten enten i titlen ELLER i nøgleordene?
+        const filtered = allPages.filter(p => {
+            return p.title.toLowerCase().includes(query) || p.keywords.includes(query);
+        });
         
         if (filtered.length > 0) {
             searchResults.style.display = 'block';
@@ -166,7 +173,6 @@ function aktiverSoegefunktion() {
                 const li = document.createElement('li');
                 li.style.borderBottom = '1px solid #ecf0f1';
                 
-                // Tilføj hover-effekt via JavaScript for at holde det samlet her
                 li.addEventListener('mouseenter', () => li.style.backgroundColor = '#f4f7f6');
                 li.addEventListener('mouseleave', () => li.style.backgroundColor = 'transparent');
 
