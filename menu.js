@@ -53,6 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
     </a>
 </h2>`;
 
+    // Tilføj det indbyggede søgefelt her
+    html += `
+    <div style="padding: 0 15px 15px 15px; position: relative;">
+        <input type="text" id="menuSearch" placeholder="Søg i noter..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; outline: none;">
+        <ul id="menuSearchResults" style="list-style: none; padding: 0; margin: 5px 0 0 0; background: white; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: absolute; z-index: 1000; width: calc(100% - 30px); max-height: 250px; overflow-y: auto; display: none;"></ul>
+    </div>
+    `;
+
     for (const [niveau, emner] of Object.entries(stxMenuData)) {
         const menuId = "menu-" + niveau.replace(/\s+/g, ''); 
 
@@ -80,21 +88,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nav.innerHTML = html;
 
-    // --- 3. AKTIVER HUKOMMELSE OG FARVER ---
+    // --- 3. AKTIVER HUKOMMELSE, FARVER OG SØGNING ---
     aktiverMenuFunktioner();
+    aktiverSoegefunktion(); // Ny funktion kaldes her
 
     // --- 4. HAMBURGER MENU TIL MOBIL ---
-    // Skaber knappen og lægger den ind på siden
     const hamburger = document.createElement('button');
     hamburger.className = 'hamburger-btn';
-    hamburger.innerHTML = '☰'; // Starter som en hamburger
+    hamburger.innerHTML = '☰'; 
     document.body.appendChild(hamburger);
 
-    // Lytter efter klik på knappen
     hamburger.addEventListener('click', () => {
-        nav.classList.toggle('mobile-open'); // Åbner/lukker menuen i CSS
+        nav.classList.toggle('mobile-open'); 
         
-        // Skifter ikon mellem hamburger og kryds
         if (nav.classList.contains('mobile-open')) {
             hamburger.innerHTML = '✖'; 
         } else {
@@ -117,22 +123,73 @@ function aktiverMenuFunktioner() {
             sessionStorage.setItem(menuId, isActive ? 'aaben' : 'lukket');
         });
     });
-
-    // --- UDSKIFT DENNE DEL I aktiverMenuFunktioner() ---
     
-const currentPath = window.location.pathname; 
-document.querySelectorAll('.submenu a').forEach(link => {
-    // link.pathname trækker automatisk den fulde sti ud (inkl. mapper, f.eks. /emner/B/...)
-    // På den måde adskiller den automatisk B-niveau og C-niveau filer med samme navn
-    if (link.pathname === currentPath && currentPath !== '/' && currentPath !== '') {
-        link.classList.add('current-page');
-    }
-});
-
-// ----------------------------------------------------
+    const currentPath = window.location.pathname; 
+    document.querySelectorAll('.submenu a').forEach(link => {
+        if (link.pathname === currentPath && currentPath !== '/' && currentPath !== '') {
+            link.classList.add('current-page');
+        }
+    });
 
     const yearEl = document.getElementById('currentYear');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
+}
+
+// --- NY FUNKTION: Håndterer søgefeltet ---
+function aktiverSoegefunktion() {
+    const searchInput = document.getElementById('menuSearch');
+    const searchResults = document.getElementById('menuSearchResults');
+    
+    // Samler alle sider fra menuen i én lang liste, så den er let at søge i
+    let allPages = [];
+    for (const [niveau, emner] of Object.entries(stxMenuData)) {
+        emner.forEach(emne => {
+            allPages.push({ title: emne.title, path: emne.path, niveau: niveau });
+        });
+    }
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        searchResults.innerHTML = '';
+        
+        if (query.length === 0) {
+            searchResults.style.display = 'none';
+            return;
+        }
+
+        // Filtrer siderne baseret på det indtastede
+        const filtered = allPages.filter(p => p.title.toLowerCase().includes(query));
+        
+        if (filtered.length > 0) {
+            searchResults.style.display = 'block';
+            filtered.forEach(p => {
+                const li = document.createElement('li');
+                li.style.borderBottom = '1px solid #ecf0f1';
+                
+                // Tilføj hover-effekt via JavaScript for at holde det samlet her
+                li.addEventListener('mouseenter', () => li.style.backgroundColor = '#f4f7f6');
+                li.addEventListener('mouseleave', () => li.style.backgroundColor = 'transparent');
+
+                li.innerHTML = `
+                    <a href="${window.basePath}${p.path}" style="text-decoration: none; color: #2c3e50; font-size: 0.9em; display: block; padding: 10px; transition: background 0.2s;">
+                        <strong>${p.title}</strong><br>
+                        <span style="font-size:0.75em; color:#7f8c8d; text-transform: uppercase;">${p.niveau}</span>
+                    </a>
+                `;
+                searchResults.appendChild(li);
+            });
+        } else {
+            searchResults.style.display = 'block';
+            searchResults.innerHTML = '<li style="padding: 10px; color: #7f8c8d; font-size: 0.9em; text-align: center;">Ingen resultater fundet</li>';
+        }
+    });
+
+    // Skjul resultater, hvis man klikker et andet sted på skærmen
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+            searchResults.style.display = 'none';
+        }
+    });
 }
 
 window.lukAlleMenuer = function() {
