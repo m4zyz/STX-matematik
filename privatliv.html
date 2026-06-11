@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privatliv & Data - STX Matematik</title>
+    <link rel="stylesheet" href="style.css">
+    <script>window.basePath = "";</script>
+    <script src="menu.js" defer></script>
+</head>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar"></nav>
+
+    <main class="content">
+        <section class="card">
+            <h2>Privatliv og statistik</h2>
+            <p>På denne side bruger jeg <strong>GoatCounter</strong> til at indsamle statistik over, hvordan siden bliver brugt. Formålet er udelukkende at kunne se, hvilke matematiske emner og beviser der er mest populære, så jeg ved, hvad jeg skal prioritere at gøre endnu mere overskueligt.</p>
+
+            <h3>Hvad indsamler GoatCounter?</h3>
+            <p>GoatCounter adskiller sig fra de fleste andre analyseværktøjer ved at være fokuseret på privatliv:</p>
+            <ul>
+                <li><strong>Ingen cookies:</strong> Siden placerer ingen cookies på din computer.</li>
+                <li><strong>Ingen personlig sporing:</strong> Jeg indsamler ikke dit navn, din IP-adresse (den bliver anonymiseret med det samme) eller andre oplysninger, der kan identificere dig som person.</li>
+                <li><strong>Ingen tracking på tværs af sider:</strong> GoatCounter tracker kun besøg på stxmatematik.dk og følger dig ikke rundt på andre hjemmesider.</li>
+            </ul>
+
+            <h3>Hvad ser jeg som ejer af siden?</h3>
+            <p>Jeg kan kun se overordnede tal, såsom:</p>
+            <ul>
+                <li>Hvor mange besøgende der har været på siden.</li>
+                <li>Hvilke sider (noter) der er mest besøgt.</li>
+                <li>Hvilken type enhed (mobil eller computer) der bliver brugt.</li>
+                <li>Hvilket land de besøgende kommer fra (på landeniveau).</li>
+            </ul>
+            <p>Data er anonyme og kan ikke føres tilbage til dig. Ved at bruge siden accepterer du, at denne statistik indsamles, hvilket hjælper mig med at gøre matematikken bedre for alle.</p>
+
+            <br>
+            <a href="index.html" class="print-btn" style="text-decoration: none; display: inline-block;">Gå tilbage til forsiden</a>
+        </section>
+        
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
+                <p class="disclaimer">Bemærk: Disse noter er vejledende og tænkt som et supplement til undervisningen. Fejl kan forekomme. Denne side benytter anonymiseret statistik uden cookies.</p>
+                <ul class="footer-links">
+                    <li><a href="om.html">Om Siden</a></li>
+                    <li><a href="kontakt.html">Kontakt</a></li>
+                    <li><a href="privatliv.html">Privatliv & Data</a></li>
+                    <li><a href="stoet.html">Støt mig</a></li>
+                </ul>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const yearEl = document.getElementById('currentYear');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
