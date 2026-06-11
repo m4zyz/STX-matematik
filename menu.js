@@ -5,6 +5,14 @@ faviconLink.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' v
 document.head.appendChild(faviconLink);
 // -----------------------------------------------------------
 
+// --- Indsæt GoatCounter Analytics (Cookie-fri) ---
+const gcScript = document.createElement('script');
+gcScript.dataset.goatcounter = 'https://stxmatematik.goatcounter.com/count';
+gcScript.async = true;
+gcScript.src = '//gc.zgo.at/count.js';
+document.head.appendChild(gcScript);
+// -------------------------------------------------
+
 // --- 1. KARTOTEK OVER EMNER ---
 const stxMenuData = {
     "A-Niveau": [
