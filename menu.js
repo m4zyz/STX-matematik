@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     html += `
     <div style="padding: 0 15px 15px 15px; position: relative;">
-        <input type="text" id="menuSearch" placeholder="Søg i noter " style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; outline: none;">
+        <input type="text" id="menuSearch" placeholder="Søg i noter ..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; outline: none;">
         <ul id="menuSearchResults" style="list-style: none; padding: 0; margin: 5px 0 0 0; background: white; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: absolute; z-index: 1000; width: calc(100% - 30px); max-height: 350px; overflow-y: auto; display: none;"></ul>
     </div>
     `;
@@ -423,11 +423,26 @@ function aktiverMenuFunktioner() {
     });
 
     const currentPath = window.location.pathname;
+    const activePage = sessionStorage.getItem('activePage');
+
     document.querySelectorAll('.submenu a').forEach(link => {
-        if (link.pathname === currentPath && currentPath !== '/' && currentPath !== '') {
+        const matchesPath = link.pathname === currentPath && currentPath !== '/' && currentPath !== '';
+        // Highlight hvis stien matcher ELLER hvis titlen matcher det gemte søgeresultat
+        const matchesSearch = activePage && link.textContent.trim() === activePage;
+
+        if (matchesPath || matchesSearch) {
             link.classList.add('current-page');
+            // Sørg for at forældremenuen er åben og synlig
+            const parentContainer = link.closest('.level-container');
+            if (parentContainer) {
+                parentContainer.classList.add('active');
+                sessionStorage.setItem(parentContainer.id, 'aaben');
+            }
         }
     });
+
+    // Ryd activePage efter brug så det ikke hænger fast ved næste manuel navigation
+    sessionStorage.removeItem('activePage');
 
     const yearEl = document.getElementById('currentYear');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
@@ -442,6 +457,7 @@ function aktiverSoegefunktion() {
     let searchIndex = [];
 
     for (const [niveau, emner] of Object.entries(stxMenuData)) {
+        const menuId = "menu-" + niveau.replace(/\s+/g, '');
         emner.forEach(emne => {
             // Tilføj selve hovedsiden
             searchIndex.push({
@@ -449,7 +465,9 @@ function aktiverSoegefunktion() {
                 subtitle: niveau,
                 badge: null,
                 url: emne.path,
-                keywords: emne.keywords ? emne.keywords.toLowerCase() : ""
+                keywords: emne.keywords ? emne.keywords.toLowerCase() : "",
+                menuId: menuId,
+                pageTitle: emne.title
             });
 
             // Tilføj individuelle sektioner (teori-afsnit)
@@ -461,7 +479,9 @@ function aktiverSoegefunktion() {
                         badge: "Teori",
                         badgeColor: "#2980b9",
                         url: emne.path + sec.anchor,
-                        keywords: (sec.keywords || "").toLowerCase()
+                        keywords: (sec.keywords || "").toLowerCase(),
+                        menuId: menuId,
+                        pageTitle: emne.title
                     });
                 });
             }
@@ -475,7 +495,9 @@ function aktiverSoegefunktion() {
                         badge: "Bevis",
                         badgeColor: "#27ae60",
                         url: emne.path + proof.anchor,
-                        keywords: (proof.keywords || "").toLowerCase()
+                        keywords: (proof.keywords || "").toLowerCase(),
+                        menuId: menuId,
+                        pageTitle: emne.title
                     });
                 });
             }
@@ -510,14 +532,26 @@ function aktiverSoegefunktion() {
                     ? `<span style="display:inline-block; font-size:0.7em; padding:1px 6px; border-radius:3px; background:${item.badgeColor}; color:white; margin-left:5px; vertical-align:middle;">${item.badge}</span>`
                     : '';
 
-                li.innerHTML = `
-                    <a href="${window.basePath}${item.url}" style="text-decoration:none; color:#2c3e50; font-size:0.9em; display:block; padding:9px 10px;">
-                        <div style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">
-                            <strong>${item.title}</strong>${badgeHtml}
-                        </div>
-                        <div style="font-size:0.78em; color:#7f8c8d; margin-top:2px;">${item.subtitle}</div>
-                    </a>
+                const a = document.createElement('a');
+                a.href = `${window.basePath}${item.url}`;
+                a.style.cssText = 'text-decoration:none; color:#2c3e50; font-size:0.9em; display:block; padding:9px 10px;';
+                a.innerHTML = `
+                    <div style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">
+                        <strong>${item.title}</strong>${badgeHtml}
+                    </div>
+                    <div style="font-size:0.78em; color:#7f8c8d; margin-top:2px;">${item.subtitle}</div>
                 `;
+                // Når man klikker: gem hvilket niveau og emne der skal være åbent
+                a.addEventListener('click', () => {
+                    // Luk alle menugrupper og åbn kun den relevante
+                    for (const key of Object.keys(sessionStorage)) {
+                        if (key.startsWith('menu-')) sessionStorage.setItem(key, 'lukket');
+                    }
+                    sessionStorage.setItem(item.menuId, 'aaben');
+                    // Gem også stien til det emne der skal highlightes
+                    sessionStorage.setItem('activePage', item.pageTitle);
+                });
+                li.appendChild(a);
                 searchResults.appendChild(li);
             });
         } else {
