@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     html += `
     <div style="padding: 0 15px 15px 15px; position: relative;">
-        <input type="text" id="menuSearch" placeholder="Søg i noter (fx 'hyperbel')..." style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; outline: none;">
+        <input type="text" id="menuSearch" placeholder="Søg i noter " style="width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #bdc3c7; box-sizing: border-box; font-family: inherit; font-size: 0.9rem; outline: none;">
         <ul id="menuSearchResults" style="list-style: none; padding: 0; margin: 5px 0 0 0; background: white; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: absolute; z-index: 1000; width: calc(100% - 30px); max-height: 350px; overflow-y: auto; display: none;"></ul>
     </div>
     `;
