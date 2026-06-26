@@ -1,7 +1,7 @@
 // --- Indsæt Favicon (Fane-logo) automatisk på alle sider ---
 const faviconLink = document.createElement('link');
 faviconLink.rel = 'icon';
-faviconLink.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.82em' font-size='110' font-family='Georgia, serif' fill='%233498db'>π</text></svg>";
+faviconLink.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.82em' font-size='110' font-family='Georgia, serif' fill='%233498db'>Π</text></svg>";
 document.head.appendChild(faviconLink);
 // -----------------------------------------------------------
 
@@ -371,8 +371,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!nav) return;
 
     let html = `<h2>
-    <a href="${window.basePath}index.html" onclick="lukAlleMenuer()" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center; gap: 10px;">
-        <span style="font-family: 'Georgia', serif; font-size: 2.2em; color: #3498db; font-weight: normal; line-height: 0.8; position: relative; top: -5px;">π</span> 
+    <a href="${window.basePath}index.html" onclick="lukAlleMenuer()" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <span style="font-family: 'Georgia', serif; font-size: 2.2em; font-weight: normal; line-height: 0.8; position: relative; top: -5px; color: #3498db;">π</span>
         STX Matematik
     </a>
 </h2>`;
@@ -410,10 +410,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.createElement('button');
     hamburger.className = 'hamburger-btn';
     hamburger.innerHTML = '☰';
+    hamburger.setAttribute('aria-label', 'Åbn/luk menu');
     document.body.appendChild(hamburger);
     hamburger.addEventListener('click', () => {
         nav.classList.toggle('mobile-open');
-        hamburger.innerHTML = nav.classList.contains('mobile-open') ? '✖' : '☰';
+        const isOpen = nav.classList.contains('mobile-open');
+        hamburger.innerHTML = isOpen ? '✖' : '☰';
+        // Toggle overlay if it exists
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) overlay.classList.toggle('active', isOpen);
     });
 });
 
@@ -523,8 +528,8 @@ function aktiverSoegefunktion() {
 
         const filtered = searchIndex.filter(item => {
             return item.title.toLowerCase().includes(query) ||
-                   item.subtitle.toLowerCase().includes(query) ||
-                   item.keywords.includes(query);
+                item.subtitle.toLowerCase().includes(query) ||
+                item.keywords.includes(query);
         });
 
         if (filtered.length > 0) {
@@ -583,7 +588,7 @@ function aktiverSoegefunktion() {
     });
 }
 
-window.lukAlleMenuer = function() {
+window.lukAlleMenuer = function () {
     document.querySelectorAll('#sidebar-menu .active').forEach(el => el.classList.remove('active'));
     sessionStorage.clear();
 };

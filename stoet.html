@@ -47,6 +47,7 @@
 <body>
 
     <nav id="sidebar-menu" class="sidebar"></nav>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <main class="content">
         <section class="card">
@@ -97,9 +98,16 @@
         </footer>
     </main>
 
+    <button id="backToTop" aria-label="Gå til toppen" title="Gå til toppen">↑</button>
     <script>
         const yearEl = document.getElementById('currentYear');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
+        const btt = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => { btt.classList.toggle('visible', window.scrollY > 320); }, { passive: true });
+        btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        const overlay = document.getElementById('sidebarOverlay');
+        const sidebar = document.getElementById('sidebar-menu');
+        if (overlay && sidebar) overlay.addEventListener('click', () => { sidebar.classList.remove('mobile-open'); overlay.classList.remove('active'); const btn = document.querySelector('.hamburger-btn'); if (btn) btn.innerHTML = '☰'; });
     </script>
 </body>
 </html>

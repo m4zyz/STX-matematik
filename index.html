@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STX Matematik – Noter, Beviser og Eksamensforberedelse</title>
 
-    
-
     <meta name="description" content="Få styr på STX matematik med vores digitale kartotek. Find noter til afleveringer, beviser til mundtlig eksamen og download emner som PDF til offline brug.">
     <link rel="stylesheet" href="style.css">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -40,10 +38,14 @@
     <meta name="twitter:image" content="https://stxmatematik.dk/dele-billede.png">
 </head>
 <body>
+    <!-- Sidebar -->
     <nav id="sidebar-menu" class="sidebar"></nav>
+    <!-- Mobile overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <main class="content">
-        
+
+        <!-- ── Welcome / Hero Card ────────────────────────────── -->
         <section id="forside" class="card">
             <h1>Velkommen til STX Matematik</h1>
             <p>Denne side er bygget op som et digitalt kartotek til dig, der har matematik på STX. Uanset om du laver daglige afleveringer, forbereder dig til den skriftlige eksamen, eller læser op på beviser til den mundtlige eksamen, kan du finde materialet her.</p>
@@ -72,6 +74,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="pdf-info">
                 <h3>Vigtigt: Tag noterne med til eksamen!</h3>
                 <p>Da du ofte ikke har adgang til internettet under eksamen, er denne side bygget til, at du nemt kan downloade alle emner som PDF-filer.</p>
@@ -83,7 +86,78 @@
                 </p>
             </div>
         </section>
-        
+
+
+        <!-- ── FAQ Section ────────────────────────────────────── -->
+        <section class="faq-section card" id="faq" aria-label="Ofte stillede spørgsmål">
+            <div class="section-header">
+                <h2>Ofte stillede spørgsmål</h2>
+                <p>Svar på de mest almindelige spørgsmål om siden og materialet</p>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false" id="faq-q1" aria-controls="faq-a1">
+                    Kan jeg bruge noterne til eksamen?
+                    <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-a1" role="region" aria-labelledby="faq-q1">
+                    <div class="faq-answer-inner">
+                        Ja, det er netop formålet! Du kan downloade alle sider som PDF via knappen på hvert emne eller <code>Ctrl+P</code> / <code>Cmd+P</code>. Husk dog altid at tjekke de gældende eksamensregler på din skole, da reglerne for medbragte hjælpemidler kan variere.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false" id="faq-q2" aria-controls="faq-a2">
+                    Dækker siden alle emner på STX matematikpensum?
+                    <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-a2" role="region" aria-labelledby="faq-q2">
+                    <div class="faq-answer-inner">
+                        Siden dækker de primære emner på A-, B- og C-niveau med noter, beviser og formelsamlinger. Pensum opdateres løbende. Har du et emne, der mangler, er du meget velkommen til at skrive på kontaktsiden.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false" id="faq-q3" aria-controls="faq-a3">
+                    Er indholdet gratis?
+                    <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-a3" role="region" aria-labelledby="faq-q3">
+                    <div class="faq-answer-inner">
+                        Ja, alt indhold på siden er 100% gratis. Siden drives uden reklamer og finansieres udelukkende af frivillige bidrag via MobilePay og Buy Me a Coffee. Vil du støtte projektet, kan du gøre det på <a href="stoet.html">støttesiden</a>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false" id="faq-q4" aria-controls="faq-a4">
+                    Hvad er formelsamlingerne, og hvordan bruger jeg dem?
+                    <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-a4" role="region" aria-labelledby="faq-q4">
+                    <div class="faq-answer-inner">
+                        Formelsamlingerne er kompakte oversigter over de vigtigste formler på hvert niveau. De er ideelle som hurtig reference, både i hverdagen og til eksamen. Find dem i menuen under "Formelsamlinger".
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" aria-expanded="false" id="faq-q5" aria-controls="faq-a5">
+                    Hvad gør jeg, hvis jeg finder en fejl?
+                    <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" id="faq-a5" role="region" aria-labelledby="faq-q5">
+                    <div class="faq-answer-inner">
+                        Fejl kan forekomme – matematik er præcist, og selv et enkelt fortegn kan gøre en stor forskel. Send en mail til <a href="mailto:kontakt.stxmatematik@gmail.com">kontakt.stxmatematik@gmail.com</a>, så retter jeg det hurtigst muligt.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ── Footer ─────────────────────────────────────────── -->
         <footer class="site-footer">
             <div class="footer-content">
                 <p>&copy; <span id="currentYear"></span> STX Matematik. Alle rettigheder forbeholdes.</p>
@@ -91,18 +165,91 @@
                 <ul class="footer-links">
                     <li><a href="om.html">Om Siden</a></li>
                     <li><a href="kontakt.html">Kontakt</a></li>
-                    <li><a href="kilder.html">Kilder & Links</a></li>
+                    <li><a href="kilder.html">Kilder &amp; Links</a></li>
                     <li><a href="stoet.html">Støt mig</a></li>
-                    <li><a href="privatliv.html">Privatliv & Data</a></li>
+                    <li><a href="privatliv.html">Privatliv &amp; Data</a></li>
                 </ul>
             </div>
         </footer>
     </main>
 
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Gå til toppen" title="Gå til toppen">↑</button>
+
     <script>
-        // 1. Sæt årstal i footeren
+        // ── 1. Footer year ─────────────────────────────────────
         const yearEl = document.getElementById('currentYear');
         if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+        // ── 2. Mobile sidebar overlay ──────────────────────────
+        const overlay = document.getElementById('sidebarOverlay');
+        const sidebar = document.getElementById('sidebar-menu');
+        if (overlay && sidebar) {
+            overlay.addEventListener('click', () => {
+                sidebar.classList.remove('mobile-open');
+                overlay.classList.remove('active');
+                const btn = document.querySelector('.hamburger-btn');
+                if (btn) btn.innerHTML = '☰';
+            });
+        }
+
+        // Hook hamburger to also toggle overlay
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('hamburger-btn')) {
+                if (overlay) overlay.classList.toggle('active', sidebar.classList.contains('mobile-open'));
+            }
+        });
+
+        // ── 3. Back to Top ─────────────────────────────────────
+        const backToTopBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 320) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        }, { passive: true });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ── 5. FAQ Accordion ───────────────────────────────────
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const isOpen = btn.classList.contains('active');
+                const answerId = btn.getAttribute('aria-controls');
+                const answer = document.getElementById(answerId);
+
+                // Close all
+                document.querySelectorAll('.faq-question').forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-expanded', 'false');
+                });
+                document.querySelectorAll('.faq-answer').forEach(a => {
+                    a.classList.remove('open');
+                });
+
+                // Open clicked (if it was closed)
+                if (!isOpen && answer) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-expanded', 'true');
+                    answer.classList.add('open');
+                }
+            });
+        });
+
+
+        // ── 7. Smooth scroll for sidebar overlay sync ──────────
+        document.addEventListener('DOMContentLoaded', () => {
+            // Watch hamburger clicks to sync overlay
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('hamburger-btn')) {
+                    const isOpen = document.getElementById('sidebar-menu').classList.contains('mobile-open');
+                    if (overlay) overlay.classList.toggle('active', isOpen);
+                }
+            });
+        });
     </script>
 </body>
 </html>

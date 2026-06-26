@@ -1,294 +1,903 @@
+/* ============================================================
+   STX MATEMATIK — Design System
+   Palette: Silver Lining (Charcoal / Grey / Silver / Platinum)
+   Font: Inter via Google Fonts
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Design Tokens ─────────────────────────────────────────── */
 :root {
-    --bg-color: #f4f7f6;
-    --text-color: #333;
-    --sidebar-bg: #2c3e50;
-    --sidebar-text: #ecf0f1;
-    --primary-color: #3498db;
-    --hover-bg: #34495e;
+    --charcoal:  #595959;
+    --grey:      #7F7F7F;
+    --silver:    #A5A5A5;
+    --dust:      #CCCCCC;
+    --platinum:  #F2F2F2;
+    --white:     #FFFFFF;
+
+    /* Sidebar */
+    --sidebar-w: 260px;
+    --sidebar-bg: #1E1E1E;
+    --sidebar-text: #D4D4D4;
+    --sidebar-heading: #FFFFFF;
+    --sidebar-active: #A5A5A5;
+    --sidebar-hover-bg: #2A2A2A;
+    --sidebar-sub-bg: #161616;
+    --sidebar-border: #333333;
+
+    /* Accents */
+    --accent:        #595959;
+    --accent-light:  #7F7F7F;
+    --accent-border: #CCCCCC;
+
+    /* UI */
+    --bg:         #F7F7F7;
+    --card-bg:    #FFFFFF;
+    --text:       #2C2C2C;
+    --text-muted: #7F7F7F;
+    --border:     #E0E0E0;
+    --shadow:     none;
+    --shadow-md:  none;
+    --radius:     0px;
+    --radius-lg:  0px;
+
+    --transition: 180ms ease;
 }
+
+/* ── Reset & Base ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--text);
+    background: var(--bg);
     display: flex;
-    background-color: var(--bg-color);
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Sidebar styling */
+h1, h2, h3, h4 {
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+}
+
+h1 { font-size: 1.7rem; font-weight: 700; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1.05rem; }
+
+a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--charcoal); }
+
+code {
+    background: var(--platinum);
+    border: 1px solid var(--dust);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+    font-family: 'Consolas', 'Fira Code', monospace;
+    color: var(--charcoal);
+}
+
+hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+/* ── Sidebar ────────────────────────────────────────────────── */
 .sidebar {
-    width: 260px;
-    background-color: var(--sidebar-bg);
+    width: var(--sidebar-w);
+    background: var(--sidebar-bg);
     color: var(--sidebar-text);
     height: 100vh;
     position: fixed;
-    padding: 20px 0;
+    top: 0;
+    left: 0;
+    padding: 0;
     overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 900;
+    border-right: 1px solid var(--sidebar-border);
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: #333 transparent;
 }
 
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+
+/* Sidebar heading / logo */
 .sidebar h2 {
-    text-align: center;
-    font-size: 1.2rem;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--hover-bg);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--sidebar-border);
+    color: var(--sidebar-heading);
+    text-transform: uppercase;
+    display: block;
 }
 
-/* Knappen til hvert niveau */
+.sidebar h2 a {
+    color: inherit !important;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar h2 a:hover { opacity: 0.85; }
+
+/* Search inside sidebar */
+.sidebar > div[style*="padding"] {
+    padding: 12px 16px !important;
+    border-bottom: 1px solid var(--sidebar-border);
+    position: relative !important;
+}
+
+#menuSearch {
+    width: 100%;
+    padding: 8px 12px;
+    background: #2A2A2A;
+    border: 1px solid #444;
+    border-radius: 0;
+    color: var(--sidebar-text);
+    font-family: inherit;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color var(--transition);
+    box-sizing: border-box;
+}
+#menuSearch::placeholder { color: #666; }
+#menuSearch:focus { border-color: var(--silver); }
+
+#menuSearchResults {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 0;
+    background: #1A1A1A;
+    border: 1px solid #333;
+    border-radius: 0;
+    box-shadow: none;
+    position: absolute;
+    z-index: 1000;
+    width: calc(100% - 32px);
+    max-height: 320px;
+    overflow-y: auto;
+    display: none;
+}
+
+/* Level buttons */
 .level-btn {
     width: 100%;
-    background: none;
+    background: transparent;
     border: none;
     color: var(--sidebar-text);
     text-align: left;
-    padding: 15px 20px;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 11px 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background 0.3s;
+    transition: background var(--transition), color var(--transition);
 }
 
 .level-btn:hover {
-    background-color: var(--hover-bg);
+    background: var(--sidebar-hover-bg);
+    color: var(--white);
 }
 
 .arrow {
-    font-size: 0.8rem;
-    transition: transform 0.3s;
+    font-size: 0.65rem;
+    opacity: 0.5;
+    transition: transform var(--transition), opacity var(--transition);
 }
 
-/* Submenu - skjult som standard */
+/* Submenu */
 .submenu {
     list-style: none;
-    padding: 0;
+    padding: 4px 0;
     margin: 0;
-    display: none; /* Skjuler emnerne */
-    background-color: #1a252f;
+    display: none;
+    background: var(--sidebar-sub-bg);
+    border-top: 1px solid var(--sidebar-border);
+    border-bottom: 1px solid var(--sidebar-border);
 }
 
 .submenu li a {
     display: block;
-    padding: 10px 35px;
-    color: #bdc3c7;
+    padding: 8px 20px 8px 32px;
+    color: #9A9A9A;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.83rem;
+    transition: color var(--transition), background var(--transition), padding var(--transition);
 }
 
 .submenu li a:hover {
-    color: var(--primary-color);
-    background-color: #243342;
+    color: var(--white);
+    background: #242424;
 }
 
-/* Når menuen er aktiv/åben */
-.level-container.active .submenu {
+/* Active level */
+.level-container.active .submenu { display: block; }
+.level-container.active .arrow { transform: rotate(90deg); opacity: 0.9; }
+
+/* Active/current page highlight */
+.submenu li a.current-page {
+    color: var(--silver);
+    background: #242424;
+    font-weight: 500;
+    border-left: 2px solid var(--silver);
+    padding-left: 30px;
+}
+
+/* Sidebar footer link */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 16px;
+    border-top: 1px solid var(--sidebar-border);
+}
+
+.home-link {
     display: block;
-}
-
-.level-container.active .arrow {
-    transform: rotate(90deg); /* Drejer pilen når den er åben */
-}
-
-/* Indhold styling */
-.content {
-    margin-left: 260px;
-    padding: 40px;
-    width: calc(100% - 260px);
-    max-width: 900px;
-    box-sizing: border-box; /* Sikrer at indholdet ikke flyder over skærmen */
-}
-
-.card {
-    background: white;
-    padding: 25px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    border-left: 5px solid #bdc3c7;
-}
-
-.subtitle { color: #7f8c8d; margin-bottom: 30px; }
-
-/* Footer Styling */
-.site-footer {
-    margin-top: 60px; /* Giver god luft ned til footeren fra sidste note */
-    padding-top: 30px;
-    border-top: 1px solid #bdc3c7;
-    color: #7f8c8d;
     text-align: center;
+    background: var(--charcoal);
+    color: var(--white) !important;
+    padding: 9px 16px;
+    border-radius: 0;
+    text-decoration: none !important;
+    font-size: 0.83rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background var(--transition), transform var(--transition);
+}
+
+.home-link:hover {
+    background: var(--grey);
+    transform: translateY(-1px);
+}
+
+/* ── Main Content Area ──────────────────────────────────────── */
+.content {
+    margin-left: var(--sidebar-w);
+    padding: 40px 48px;
+    width: calc(100% - var(--sidebar-w));
+    max-width: 960px;
+    box-sizing: border-box;
+}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card {
+    background: var(--card-bg);
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+}
+
+.card h2 {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+}
+
+.card h3 {
+    margin: 20px 0 10px;
+    color: var(--charcoal);
+}
+
+.card p { margin-bottom: 12px; color: var(--text); }
+.card p:last-child { margin-bottom: 0; }
+
+/* ── Download Section ───────────────────────────────────────── */
+.download-section {
+    margin: 28px 0 !important;
+    padding: 24px 28px !important;
+    background: var(--platinum) !important;
+    border-left: 4px solid var(--charcoal) !important;
+    border-radius: var(--radius) !important;
+}
+
+.download-section h3 {
+    margin-top: 0 !important;
+    font-size: 1rem;
+    color: var(--text) !important;
+    font-weight: 600;
+}
+
+.download-section h4 {
+    margin-top: 0 !important;
+    margin-bottom: 12px !important;
+    color: var(--charcoal) !important;
     font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
-.site-footer p {
-    margin: 5px 0;
-}
-
-/* Gør forbeholdet (disclaimer) lidt mere diskret */
-.site-footer .disclaimer {
-    font-style: italic;
-    font-size: 0.85rem;
-    color: #95a5a6;
-    margin-bottom: 15px;
-}
-
-/* Links i bunden */
-.footer-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    gap: 25px; /* Skaber mellemrum mellem links */
-}
-
-.footer-links a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-links a:hover {
-    color: var(--sidebar-bg);
-    text-decoration: underline;
-}
-
+/* ── PDF Info Box ───────────────────────────────────────────── */
 .pdf-info {
-    background-color: #e8f4fd;
-    border-left: 5px solid var(--primary-color);
-    padding: 20px;
-    margin-top: 30px;
-    border-radius: 5px;
+    background: var(--platinum);
+    border-left: 4px solid var(--charcoal);
+    padding: 22px 26px;
+    margin-top: 28px;
+    border-radius: var(--radius);
 }
 
 .pdf-info h3 {
     margin-top: 0;
-    color: #2980b9;
+    color: var(--charcoal);
     border-bottom: none;
+    font-size: 1rem;
 }
 
+/* ── Buttons ────────────────────────────────────────────────── */
 .print-btn {
-    background-color: var(--primary-color);
-    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--charcoal);
+    color: var(--white);
     border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 5px;
+    padding: 10px 22px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    border-radius: var(--radius);
     cursor: pointer;
-    margin-top: 15px;
-    transition: background-color 0.3s;
+    margin-top: 14px;
+    letter-spacing: 0.02em;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    text-decoration: none;
+    text-align: center;
 }
 
 .print-btn:hover {
-    background-color: #2980b9;
+    background: var(--grey);
+    transform: translateY(-1px);
+    box-shadow: none;
+    color: var(--white);
 }
 
-/* Gør "Tilbage til forsiden" til en flot knap */
-.home-link {
-    display: block;
-    text-align: center;
-    background-color: #34495e; /* Mørk baggrundsfarve */
-    color: white !important;
-    padding: 12px;
-    margin: 20px;
-    border-radius: 5px;
-    text-decoration: none !important;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.1s;
+.print-btn:active { transform: translateY(0); }
+
+/* PDF red variant */
+.print-btn[style*="background-color: #e74c3c"],
+.print-btn[style*="background-color:#e74c3c"] {
+    background: #B03020 !important;
+}
+.print-btn[style*="background-color: #e74c3c"]:hover,
+.print-btn[style*="background-color:#e74c3c"]:hover {
+    background: #8B251A !important;
 }
 
-.home-link:hover {
-    background-color: var(--primary-color); /* Bliver lyseblå når musen holdes over */
-    transform: scale(1.02); /* Bliver en lille smule større */
+/* Coffee yellow button */
+.print-btn[style*="background-color: #FFDD00"],
+.print-btn[style*="background-color:#FFDD00"] {
+    background: #F5C800 !important;
+    color: #1A1A1A !important;
 }
 
-
-/* --- Fremhæv den aktive side i menuen --- */
-.submenu li a.current-page {
-    color: var(--primary-color);
-    background-color: #243342;
-    font-weight: bold;
-    border-left: 3px solid var(--primary-color);
-    /* Vi trækker 3px fra den originale padding (35px), så teksten ikke rykker sig pga. borderen */
-    padding-left: 32px; 
+/* ── Subtitle ───────────────────────────────────────────────── */
+.subtitle {
+    color: var(--grey);
+    margin-bottom: 28px;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
 }
 
-/* --- Hamburger Knap (Skjult på desktop) --- */
+/* ── Footer ─────────────────────────────────────────────────── */
+.site-footer {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.site-footer p { margin: 4px 0; }
+
+.site-footer .disclaimer {
+    font-style: italic;
+    font-size: 0.78rem;
+    color: var(--silver);
+    margin-bottom: 14px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+}
+
+.footer-links a {
+    color: var(--grey);
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.footer-links a:hover { color: var(--charcoal); }
+
+/* ── Hamburger ──────────────────────────────────────────────── */
 .hamburger-btn {
-    display: none; /* Skjult som standard */
+    display: none;
     position: fixed;
-    top: 15px;
-    right: 20px;
-    z-index: 1000; /* Sørger for den altid ligger øverst */
-    background-color: var(--primary-color);
-    color: white;
+    top: 14px;
+    right: 18px;
+    z-index: 1000;
+    background: var(--charcoal);
+    color: var(--white);
     border: none;
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 1.8rem;
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    font-size: 1.4rem;
     cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: background-color 0.3s;
+    box-shadow: none;
+    transition: background var(--transition);
+    line-height: 1;
 }
 
-.hamburger-btn:hover {
-    background-color: #2980b9;
+.hamburger-btn:hover { background: var(--grey); }
+
+/* ── Overlay (mobile) ───────────────────────────────────────── */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 899;
+    backdrop-filter: blur(2px);
 }
 
-/* =========================================
-   RESPONSIVT DESIGN (Mobil & Tablet)
-   ========================================= */
+.sidebar-overlay.active { display: block; }
+
+/* ── Back to Top ────────────────────────────────────────────── */
+#backToTop {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 42px;
+    height: 42px;
+    background: var(--charcoal);
+    color: var(--white);
+    border: none;
+    border-radius: 0;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 250ms ease, visibility 250ms ease, background var(--transition), transform var(--transition);
+    z-index: 800;
+}
+
+#backToTop.visible { opacity: 1; visibility: visible; }
+#backToTop:hover { background: var(--grey); transform: translateY(-2px); }
+
+/* ── Stats Counter Section ──────────────────────────────────── */
+.stats-section {
+    background: var(--charcoal);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    box-shadow: var(--shadow-md);
+}
+
+.stat-item {
+    text-align: center;
+    padding: 16px 8px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-number {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.stat-suffix {
+    color: var(--silver);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.stat-label {
+    display: block;
+    color: var(--dust);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 6px;
+}
+
+/* ── FAQ Section ────────────────────────────────────────────── */
+.faq-section { margin-bottom: 20px; }
+
+.faq-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    overflow: hidden;
+    transition: box-shadow var(--transition);
+}
+
+.faq-item:hover { box-shadow: var(--shadow); }
+
+.faq-question {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 16px 20px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background var(--transition);
+}
+
+.faq-question:hover { background: var(--platinum); }
+.faq-question.active { background: var(--platinum); color: var(--charcoal); }
+
+.faq-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--dust);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    transition: background var(--transition), transform var(--transition);
+}
+
+.faq-question.active .faq-icon {
+    background: var(--charcoal);
+    color: var(--white);
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 300ms ease, padding 300ms ease;
+}
+
+.faq-answer.open { max-height: 400px; }
+
+.faq-answer-inner {
+    padding: 0 20px 16px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+}
+
+/* ── Contact Form ────────────────────────────────────────────── */
+.contact-form {
+    display: grid;
+    gap: 14px;
+}
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--grey);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    background: var(--platinum);
+    border: 1px solid var(--dust);
+    border-radius: 0;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--charcoal);
+    box-shadow: 0 0 0 3px rgba(89,89,89,0.12);
+    background: var(--white);
+}
+
+.form-group input.error,
+.form-group textarea.error {
+    border-color: #C0392B;
+    box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+}
+
+.form-group .field-error {
+    font-size: 0.75rem;
+    color: #C0392B;
+    display: none;
+}
+
+.form-group .field-error.visible { display: block; }
+
+.form-success {
+    display: none;
+    background: var(--platinum);
+    border: 1px solid var(--dust);
+    border-left: 4px solid var(--charcoal);
+    border-radius: 0;
+    padding: 16px 20px;
+    color: var(--charcoal);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-success.visible { display: block; }
+
+/* ── Section Headers ────────────────────────────────────────── */
+.section-header {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+}
+
+.section-header h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+}
+
+.section-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ── Table Styling ──────────────────────────────────────────── */
+table, .data-table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.data-table th, .data-table td { border: 1px solid var(--border); padding: 9px 12px; text-align: left; }
+.data-table th { background: var(--platinum); color: var(--charcoal); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.data-table tr:hover td { background: var(--platinum); }
+
+/* ── Section Divider (content pages) ───────────────────────── */
+.section-divider {
+    margin: 40px 0 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+}
+
+.section-divider h2 { margin: 0 0 3px; font-size: 1.25rem; color: var(--charcoal); }
+.section-divider p { margin: 0; font-size: 0.87rem; color: var(--text-muted); }
+
+/* ── TOC List ───────────────────────────────────────────────── */
+.toc-list { list-style: none; padding: 0; margin: 10px 0 0; columns: 2; column-gap: 30px; }
+.toc-list li { margin-bottom: 8px; break-inside: avoid; }
+.toc-list a { color: var(--charcoal); text-decoration: none; font-size: 0.92rem; }
+.toc-list a:hover { text-decoration: underline; color: var(--accent-light); }
+.toc-list .toc-num { color: var(--dust); font-size: 0.82rem; margin-right: 5px; }
+
+/* ── SVG / Graph Container ──────────────────────────────────── */
+.svg-container {
+    text-align: center;
+    margin: 24px 0;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.svg-container > div { pointer-events: none; }
+
+/* ── Image Placeholder ──────────────────────────────────────── */
+.img-placeholder {
+    background: var(--platinum);
+    padding: 40px;
+    text-align: center;
+    border-radius: 0;
+    border: 2px dashed var(--dust);
+    color: var(--grey);
+    margin: 20px 0;
+    font-style: italic;
+}
+
+/* ── Proof Block ────────────────────────────────────────────── */
+.proof { margin-bottom: 30px; }
+
+/* ── Back-to-top inline link ────────────────────────────────── */
+.back-to-top {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--dust);
+    text-decoration: none;
+    margin-top: 10px;
+    transition: color var(--transition);
+}
+.back-to-top:hover { color: var(--charcoal); text-decoration: underline; }
+
+/* ── Support page ───────────────────────────────────────────── */
+.support-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 20px;
+}
+
+.support-info { flex: 1; }
+.support-qr { flex-shrink: 0; }
+
+.support-qr img {
+    border-radius: 0;
+    box-shadow: var(--shadow-md);
+    display: block;
+}
+
+/* ── Math (MathJax) ─────────────────────────────────────────── */
+mjx-container[display="true"] {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    padding-bottom: 5px;
+}
+
+/* ── SVG ────────────────────────────────────────────────────── */
+svg { max-width: 100% !important; height: auto !important; }
+
+/* ── Stats Counter Section ───────────────────────────────────── */
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px 24px;
+    margin: 28px 0;
+    gap: 20px;
+    text-align: center;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-right: 1px solid var(--border);
+}
+
+.stat-item:last-child {
+    border-right: none;
+}
+
+.stat-number {
+    font-family: 'Georgia', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    line-height: 1.2;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   RESPONSIVE — Tablet & Mobile
+   ============================================================ */
+@media (max-width: 900px) {
+    .stats-section { grid-template-columns: repeat(2, 1fr); }
+    .stat-item:nth-child(2) { border-right: none; }
+    .stat-item:nth-child(3) { border-top: 1px solid rgba(255,255,255,0.1); }
+}
+
 @media (max-width: 800px) {
-    body {
-        flex-direction: column;
-        overflow-x: hidden; /* Forhindrer at skærmen kan rykkes til siden */
-    }
+    body { flex-direction: column; }
 
-    .hamburger-btn {
-        display: block; /* Vis hamburgerknappen på små skærme */
-    }
+    .hamburger-btn { display: flex; align-items: center; justify-content: center; }
 
     .sidebar {
-        width: 260px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: -260px; /* Skubbet helt ud af skærmen til venstre */
-        z-index: 999;
-        transition: left 0.3s ease; /* Blød slide-effekt når den åbnes */
-        box-shadow: 2px 0 15px rgba(0,0,0,0.5); /* Skygge så den træder frem */
+        left: calc(-1 * var(--sidebar-w));
+        transition: left 280ms cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: none;
     }
 
-    /* Denne klasse tilføjes via JavaScript, når man trykker på knappen */
     .sidebar.mobile-open {
-        left: 0; /* Trækker menuen ind på skærmen */
+        left: 0;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.35);
     }
 
     .content {
         margin-left: 0;
         width: 100%;
-        /* Ekstra plads i toppen (70px), så hamburgerknappen ikke skygger for din overskrift */
-        padding: 70px 15px 20px 15px; 
-        box-sizing: border-box;
+        padding: 72px 18px 28px;
     }
 
-    .card {
-        padding: 20px 15px;
-    }
+    .card { padding: 20px 18px; }
 
-    .footer-links {
-        flex-wrap: wrap;
-        gap: 15px;
-    }
+    .form-row { grid-template-columns: 1fr; }
+
+    .footer-links { gap: 6px 16px; }
+
+    .toc-list { columns: 1; }
+
+    #backToTop { bottom: 20px; right: 18px; }
 }
 
-/* --- MAGIEN TIL PDF-DOWNLOAD --- */
-/* Disse regler gælder KUN når siden printes eller gemmes som PDF */
+@media (max-width: 600px) {
+    .stats-section { grid-template-columns: repeat(2, 1fr); }
+    .support-row { flex-direction: column; align-items: flex-start; }
+    .support-qr { align-self: center; margin-top: 15px; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .stat-item:last-child { border-bottom: none; }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 1.4rem; }
+    .stats-section { grid-template-columns: 1fr 1fr; gap: 12px; padding: 24px 18px; }
+    .stat-number { font-size: 1.7rem; }
+}
+
+/* ============================================================
+   PRINT
+   ============================================================ */
 @media print {
-    /* Skjul sidemenuen, knapper og hamburgerknap i PDF'en */
-    .sidebar, .print-btn, .level-btn, .home-link, .hamburger-btn {
-        display: none !important;
-    }
+    .sidebar, .print-btn, .level-btn, .home-link,
+    .hamburger-btn, #backToTop, .stats-section,
+    .faq-section, .contact-form { display: none !important; }
 
     .content {
         margin-left: 0 !important;
@@ -297,49 +906,12 @@ body {
         max-width: none !important;
     }
 
-    body {
-        background-color: white !important;
-        display: block !important;
-    }
+    body { background: white !important; display: block !important; }
 
     .card {
         page-break-inside: avoid;
-        border: 1px solid #ccc; 
-        box-shadow: none; 
-        margin-bottom: 30px;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        margin-bottom: 24px;
     }
-}
-
-        /* Responsiv matematik - tillader horisontal scroll på små skærme */
-        mjx-container[display="true"] {
-            overflow-x: auto;
-            overflow-y: hidden;
-            max-width: 100%;
-            padding-bottom: 5px; /* Giver lidt plads, så en evt. scrollbar ikke dækker formlen */
-        }
-
-        /* ========================================= */
-/* RESPONSIVT DESIGN TIL SMÅ SKÆRME (MOBIL/TABLET) */
-/* ========================================= */
-
-/* 1. Responsiv matematik (tillader vandret scroll på lange formler) */
-mjx-container[display="true"] {
-    overflow-x: auto;
-    overflow-y: hidden;
-    max-width: 100%;
-    padding-bottom: 5px; /* Forhindrer scrollbaren i at dække bunden af formlen */
-}
-
-/* 2. Responsive tabeller (tillader vandret scroll på brede skemaer) */
-table, .data-table {
-    display: block;
-    overflow-x: auto;
-    max-width: 100%;
-    -webkit-overflow-scrolling: touch; /* Giver en lækker og glidende scroll på iPhones/iPads */
-}
-
-/* 3. Responsive grafer (tvinger SVG-grafer til at holde sig inden for skærmen) */
-svg {
-    max-width: 100% !important;
-    height: auto !important;
 }
